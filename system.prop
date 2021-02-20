@@ -1,0 +1,13 @@
+# One-handed mode and swipe for notifications gesture
+ro.support_one_handed_mode=true
+
+# Feature flag: settings_silky_home
+persist.sys.fflag.override.settings_silky_home=true
+sys.fflag.settings_silky_home=true
+sys.fflag.override.settings_silky_home=true
+
+# Monet
+persist.sysui.monet=true
+
+# Disable RescueParty for safety
+persist.sys.disable_rescue=true
