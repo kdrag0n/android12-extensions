@@ -40,7 +40,7 @@ while true
 do
     set_flags
 
-    if ps -Ao | grep -q ndroid.systemui; then
+    if ps -Ao CMD | grep -q ndroid.systemui; then
         break
     fi
 
