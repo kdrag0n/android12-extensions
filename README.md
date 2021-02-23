@@ -5,12 +5,12 @@ This is a Magisk module that enables hidden features on Android 12 Developer Pre
 ## Features
 
 - Scrolling screenshots
-- Wallpaper-based theming (Monet) in light and dark modes
+- Wallpaper-based theming in light and dark modes
 - One-handed mode
 - New lock screen clock and layout
 - New notification shade UI
 - New brightness slider
-- New Settings UI (silky home)
+- New Settings UI
 - Swipe for notifications gesture
 - Camera and microphone toggles (QS tiles)
 - Machine-learning back gesture
