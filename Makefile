@@ -9,7 +9,7 @@ all: $(ZIP)
 zip: $(ZIP)
 
 %.zip: clean
-	zip -r0 $(ZIP) . -x $(MODNAME)-*.zip LICENSE /.git* Makefile *.DS_Store* *placeholder /overlays*
+	zip -r9 $(ZIP) . -x $(MODNAME)-*.zip LICENSE /.git* Makefile *.DS_Store* *placeholder /overlays*
 
 install: $(ZIP)
 	adb push $(ZIP) /sdcard/
