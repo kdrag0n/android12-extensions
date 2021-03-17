@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="30" android:compileSdkVersionCodename="S" package="dev.kdrag0n.android.systemui.flags" platformBuildVersionCode="30" platformBuildVersionName="S">
+<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="30" android:compileSdkVersionCodename="S" package="dev.kdrag0n.android12.systemui.flags" platformBuildVersionCode="30" platformBuildVersionName="S">
     <overlay android:priority="1" android:isStatic="true" android:targetPackage="com.android.systemui"/>
     <application android:extractNativeLibs="false" android:hasCode="false" />
 </manifest>
