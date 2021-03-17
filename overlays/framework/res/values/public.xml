@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <public type="string" name="config_deviceConfiguratorPackageName" id="0x7f04000c" />
+</resources>

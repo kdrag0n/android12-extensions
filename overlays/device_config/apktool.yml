@@ -1,0 +1,22 @@
+!!brut.androlib.meta.MetaInfo
+apkFileName: DeviceConfigFlags.apk
+compressionType: false
+doNotCompress:
+- resources.arsc
+isFrameworkApk: false
+packageInfo:
+  forcedPackageId: '127'
+  renameManifestPackage: null
+sdkInfo:
+  minSdkVersion: S
+  targetSdkVersion: S
+sharedLibrary: false
+sparseResources: false
+usesFramework:
+  ids:
+  - 1
+  tag: a12-dp1
+version: 2.5.0
+versionInfo:
+  versionCode: '1'
+  versionName: '1.0'
