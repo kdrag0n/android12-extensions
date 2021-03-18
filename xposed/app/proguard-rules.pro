@@ -20,4 +20,4 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep dev.kdrag0n.xposed.android12ext.XposedHook
+-keep class dev.kdrag0n.xposed.android12ext.XposedHook
