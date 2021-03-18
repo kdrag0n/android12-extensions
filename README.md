@@ -1,28 +1,34 @@
 # Android 12 Extensions
 
-This is a Magisk module that enables hidden features on Android 12 Developer Preview 1.
+This is a Magisk module that enables hidden features on Android 12 Developer Preview releases.
 
 ## Features
 
-- Scrolling screenshots (DP1 only)
+All versions:
+
 - Wallpaper-based theming in light and dark modes (fully dynamic on DP2)
-- One-handed mode
-- New lock screen clock and layout
-- New notification shade UI
-- New brightness slider
-- New Settings UI
-- Swipe for notifications gesture
-- Camera and microphone toggles (QS tiles)
+- New Settings, lock screen, and notification shade UIs
 - Machine-learning back gesture
-- Picture-in-picture pinch-to-resize and stashing
-- Automatic notification ranking (DP1 only)
-- Remove partial notification swipe actions
 - Privacy dashboard
 - Restore quick wallet from Android 11
-- New toast UI (DP2 and newer)
-- New lock screen animations (DP2 and newer)
-- People Space widgets (DP2 and newer)
-- Game dashboard (DP2 and newer)
+- Remove partial notification swipe actions
+
+DP1 only:
+
+- Scrolling screenshots
+- Automatic notification ranking
+- One-handed mode (enabled by default on DP2)
+- Swipe for notifications gesture (enabled by default on DP2)
+- Picture-in-picture pinch-to-resize and stashing (enabled by default on DP2)
+- Camera and microphone toggles (QS tiles)
+
+DP2 and newer:
+
+- [Fully dynamic wallpaper-based theming](https://twitter.com/kdrag0n/status/1372438937390641156)
+- New toast UI
+- New lock screen animations
+- People Space widgets
+- Game dashboard
 
 ## Support
 
