@@ -11,9 +11,10 @@ class XposedHook : IXposedHookLoadPackage {
 
     private val gameDashHook = object : XC_MethodHook() {
         override fun beforeHookedMethod(param: MethodHookParam) {
-            val field = param.thisObject.javaClass.getDeclaredField("DISABLED")
-            field.isAccessible = true
-            field.set(null, java.lang.Boolean.FALSE)
+            param.thisObject.javaClass.getDeclaredField("DISABLED").let {
+                it.isAccessible = true
+                it.set(null, java.lang.Boolean.FALSE)
+            }
 
             param.thisObject.javaClass.getDeclaredField("mShouldShow").let {
                 it.isAccessible = true
