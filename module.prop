@@ -1,7 +1,7 @@
 id=android12-extensions
 name=Android 12 Extensions
-version=v1.1.0
-versionCode=10100
+version=v1.1.1
+versionCode=10101
 author=kdrag0n
 description=Enable hidden features on Android 12 Developer Preview releases.
 support=https://t.me/proton_projects
