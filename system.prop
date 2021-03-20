@@ -11,3 +11,6 @@ persist.sysui.monet=true
 
 # Disable RescueParty for safety
 persist.sys.disable_rescue=true
+
+# Rounded screenshots
+#debug.screenshot_rounded_corners=true
