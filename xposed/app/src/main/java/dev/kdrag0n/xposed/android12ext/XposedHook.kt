@@ -32,6 +32,15 @@ class XposedHook : IXposedHookLoadPackage {
         }
     }
 
+    private val roundedScreenshotHook = object : XC_MethodHook() {
+        override fun beforeHookedMethod(param: MethodHookParam) {
+            param.thisObject.javaClass.getDeclaredField("DEBUG_COLOR").let {
+                it.isAccessible = true
+                it.setBoolean(null, false)
+            }
+        }
+    }
+
     private val privacyHook = object : XC_MethodHook() {
         override fun afterHookedMethod(param: MethodHookParam) {
             XposedHelpers.setBooleanField(param.thisObject, "allIndicatorsAvailable", true)
@@ -69,6 +78,9 @@ class XposedHook : IXposedHookLoadPackage {
 
         // Enable game dashboard
         hookMethod(lpparam, GAME_ENTRY_CLASS, gameDashHook, "setButtonState", Boolean::class.java, Boolean::class.java)
+
+        // Hide red background in rounded screenshots
+        hookMethod(lpparam, "com.android.systemui.ScreenDecorations", roundedScreenshotHook, "updateColorInversion", Int::class.java)
     }
 
     private fun hookRipple(lpparam: XC_LoadPackage.LoadPackageParam) {
