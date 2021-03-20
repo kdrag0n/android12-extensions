@@ -32,6 +32,14 @@ class XposedHook : IXposedHookLoadPackage {
         }
     }
 
+    private val privacyHook = object : XC_MethodHook() {
+        override fun afterHookedMethod(param: MethodHookParam) {
+            XposedHelpers.setBooleanField(param.thisObject, "allIndicatorsAvailable", true)
+            XposedHelpers.setBooleanField(param.thisObject, "micCameraAvailable", true)
+            XposedHelpers.setBooleanField(param.thisObject, "locationAvailable", true)
+        }
+    }
+
     private val edgeEffectHook = object : XC_MethodHook() {
         override fun afterHookedMethod(param: MethodHookParam) {
             XposedHelpers.setIntField(param.thisObject, "mEdgeEffectType", 1)
@@ -44,6 +52,20 @@ class XposedHook : IXposedHookLoadPackage {
             Log.i(TAG, "Hooking feature flag: $it")
             hookMethod(lpparam, FEATURE_FLAGS_CLASS, featureFlagHook, it)
         }
+
+        // Enable privacy indicators
+        XposedHelpers.findAndHookConstructor(
+            "com.android.systemui.privacy.PrivacyItemController",
+            lpparam.classLoader,
+            XposedHelpers.findClass("com.android.systemui.appops.AppOpsController", lpparam.classLoader),
+            XposedHelpers.findClass("com.android.systemui.util.concurrency.DelayableExecutor", lpparam.classLoader),
+            XposedHelpers.findClass("com.android.systemui.util.concurrency.DelayableExecutor", lpparam.classLoader),
+            XposedHelpers.findClass("com.android.systemui.util.DeviceConfigProxy", lpparam.classLoader),
+            XposedHelpers.findClass("com.android.systemui.settings.UserTracker", lpparam.classLoader),
+            XposedHelpers.findClass("com.android.systemui.privacy.logging.PrivacyLogger", lpparam.classLoader),
+            XposedHelpers.findClass("com.android.systemui.dump.DumpManager", lpparam.classLoader),
+            privacyHook,
+        )
 
         // Enable game dashboard
         hookMethod(lpparam, GAME_ENTRY_CLASS, gameDashHook, "setButtonState", Boolean::class.java, Boolean::class.java)
