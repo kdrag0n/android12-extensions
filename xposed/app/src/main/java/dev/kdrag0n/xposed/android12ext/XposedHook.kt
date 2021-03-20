@@ -7,6 +7,8 @@ import android.util.AttributeSet
 import android.util.Log
 import de.robv.android.xposed.*
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import kotlin.math.cos
+import kotlin.math.sin
 
 class XposedHook : IXposedHookLoadPackage {
     private val featureFlagHook = object : XC_MethodReplacement() {
@@ -52,6 +54,19 @@ class XposedHook : IXposedHookLoadPackage {
     private val edgeEffectHook = object : XC_MethodHook() {
         override fun afterHookedMethod(param: MethodHookParam) {
             XposedHelpers.setIntField(param.thisObject, "mEdgeEffectType", 1)
+
+            param.thisObject.javaClass.getDeclaredField("ANGLE").let {
+                it.isAccessible = true
+                it.setDouble(null, EDGE_FRICTION_ANGLE)
+            }
+            param.thisObject.javaClass.getDeclaredField("SIN").let {
+                it.isAccessible = true
+                it.setFloat(null, sin(EDGE_FRICTION_ANGLE).toFloat())
+            }
+            param.thisObject.javaClass.getDeclaredField("COS").let {
+                it.isAccessible = true
+                it.setFloat(null, cos(EDGE_FRICTION_ANGLE).toFloat())
+            }
         }
     }
 
@@ -139,6 +154,8 @@ class XposedHook : IXposedHookLoadPackage {
         const val RIPPLE_CLASS = "android.graphics.drawable.RippleDrawable"
         const val RIPPLE_STATE_CLASS = "android.graphics.drawable.RippleDrawable\$RippleState"
         const val EDGE_CLASS = "android.widget.EdgeEffect"
+
+        const val EDGE_FRICTION_ANGLE = Math.PI / 2
 
         val FEATURE_FLAGS = listOf(
             "isKeyguardLayoutEnabled",
