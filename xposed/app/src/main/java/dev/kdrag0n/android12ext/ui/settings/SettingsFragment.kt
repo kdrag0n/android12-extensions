@@ -22,11 +22,23 @@ class SettingsFragment : BaseFragment() {
             savedInstanceState: Bundle?
     ): View {
         setHasOptionsMenu(true)
+        return inflater.inflate(R.layout.fragment_settings, container, false)
+    }
 
-        viewModel.requestReload.observe(viewLifecycleOwner) { reload ->
-            if (reload) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<RecyclerView>(R.id.preferences_view).apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = viewModel.prefAdapter
+
+            viewModel.prefAdapter.restoreAndObserveScrollPosition(this)
+        }
+
+        viewModel.requestReload.observe(viewLifecycleOwner) { shouldReload ->
+            if (shouldReload) {
                 reloadSnackbar = Snackbar.make(
-                    requireView(),
+                    view,
                     R.string.applying_changes,
                     // We take care of showing and dismissing it
                     BaseTransientBottomBar.LENGTH_INDEFINITE
@@ -41,19 +53,6 @@ class SettingsFragment : BaseFragment() {
                 reloadSnackbar?.dismiss()
                 reloadSnackbar = null
             }
-        }
-
-        return inflater.inflate(R.layout.fragment_settings, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        view.findViewById<RecyclerView>(R.id.preferences_view).apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = viewModel.prefAdapter
-
-            viewModel.prefAdapter.restoreAndObserveScrollPosition(this)
         }
     }
 
