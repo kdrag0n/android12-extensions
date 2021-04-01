@@ -1,7 +1,5 @@
 package dev.kdrag0n.android12ext.ui.settings
 
-import android.content.ComponentName
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -13,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import dev.chrisbanes.insetter.applyInsetter
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.ui.BaseFragment
 import dev.kdrag0n.android12ext.ui.NoSwipeBehavior
@@ -38,8 +37,13 @@ class SettingsFragment : BaseFragment() {
         view.findViewById<RecyclerView>(R.id.preferences_view).apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = viewModel.prefAdapter
-
             viewModel.prefAdapter.restoreAndObserveScrollPosition(this)
+
+            applyInsetter {
+                type(navigationBars = true) {
+                    padding()
+                }
+            }
         }
 
         viewModel.showReloadWarning.observe(viewLifecycleOwner) { shouldReload ->
