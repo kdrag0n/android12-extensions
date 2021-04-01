@@ -112,28 +112,28 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
     private val prefChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
         // Debounce restarts to mitigate excessive disruption
         viewModelScope.launch {
-            reloadWarning.value = false
+            showReloadWarning.value = false
 
             val startCount = ++prefChangeCount
             delay(RELOAD_DEBOUNCE_DELAY)
 
             // First debounce: show warning
             if (prefChangeCount == startCount) {
-                reloadWarning.value = true
+                showReloadWarning.value = true
                 delay(RELOAD_WARNING_DURATION.toLong())
 
                 // Second debounce: make sure warning is still shown *and* no pref changes were made
-                if (prefChangeCount == startCount && reloadWarning.value == true) {
+                if (prefChangeCount == startCount && showReloadWarning.value == true) {
                     app.sendReloadBroadcast()
 
                     // Give time for SystemUI to restart
                     delay(RELOAD_RESTART_DELAY)
-                    reloadWarning.value = false
+                    showReloadWarning.value = false
                 }
             }
         }
     }
-    val reloadWarning = MutableLiveData(false)
+    val showReloadWarning = MutableLiveData(false)
 
     fun broadcastReload() {
         app.sendReloadBroadcast()

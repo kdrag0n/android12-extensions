@@ -42,7 +42,7 @@ class SettingsFragment : BaseFragment() {
             viewModel.prefAdapter.restoreAndObserveScrollPosition(this)
         }
 
-        viewModel.reloadWarning.observe(viewLifecycleOwner) { shouldReload ->
+        viewModel.showReloadWarning.observe(viewLifecycleOwner) { shouldReload ->
             if (shouldReload) {
                 reloadSnackbar = Snackbar.make(
                     view,
@@ -51,7 +51,7 @@ class SettingsFragment : BaseFragment() {
                     BaseTransientBottomBar.LENGTH_INDEFINITE
                 ).apply {
                     setAction(R.string.cancel) {
-                        viewModel.reloadWarning.value = false
+                        viewModel.showReloadWarning.value = false
                     }
                     behavior = NoSwipeBehavior()
                     show()
