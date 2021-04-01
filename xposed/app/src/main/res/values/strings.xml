@@ -5,6 +5,7 @@
     <string name="action_force_reload">Force reload</string>
     <string name="applying_changes">Applying changes</string>
     <string name="cancel">Cancel</string>
+    <string name="enable">Enable</string>
 
     <string name="enabled">Enable features</string>
     <string name="enabled_desc">Quickly toggle all features for testing</string>
@@ -30,4 +31,8 @@
     <string name="tweak_patterned_ripple_desc">New touch ripple design with patterned noise and gradient</string>
     <string name="tweak_overscroll_bounce">Bouncy overscroll</string>
     <string name="tweak_overscroll_bounce_desc">Bounce when scrolling past the ends of lists</string>
+
+    <string name="error_xposed_module_missing">Xposed module is not loaded</string>
+    <string name="error_xposed_module_missing_desc">In order for this app to work, you need to enable the included Xposed module for the “System UI” app in LSPosed Manager and then restart your device.</string>
+    <string name="error_xposed_manager_not_installed">LSPosed Manager is not installed</string>
 </resources>

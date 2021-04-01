@@ -9,11 +9,9 @@ import androidx.preference.PreferenceManager
 import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.PreferencesAdapter
 import de.Maxr1998.modernpreferences.helpers.*
+import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
-import dev.kdrag0n.android12ext.core.RELOAD_DEBOUNCE_DELAY
-import dev.kdrag0n.android12ext.core.RELOAD_RESTART_DELAY
-import dev.kdrag0n.android12ext.core.RELOAD_WARNING_DURATION
-import dev.kdrag0n.android12ext.core.sendReloadBroadcast
+import dev.kdrag0n.android12ext.core.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -135,6 +133,8 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
     fun broadcastReload() {
         app.sendReloadBroadcast()
     }
+
+    val isXposedHooked = BuildConfig.DEBUG || "com.android.systemui" in XposedPreferenceProvider.clientsSeen
 
     init {
         prefs.registerOnSharedPreferenceChangeListener(prefChangeListener)
