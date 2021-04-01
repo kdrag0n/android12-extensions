@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Android 12 Extensions</string>
 
+    <string name="about">About</string>
+
     <string name="enabled">Enable features</string>
     <string name="enabled_desc">Quickly toggle all features for testing</string>
 

@@ -1,10 +1,9 @@
 package dev.kdrag0n.android12ext.ui.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.kdrag0n.android12ext.R
@@ -17,6 +16,7 @@ class SettingsFragment : BaseFragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
@@ -28,6 +28,20 @@ class SettingsFragment : BaseFragment() {
             adapter = viewModel.prefAdapter
 
             viewModel.prefAdapter.restoreAndObserveScrollPosition(this)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_settings, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return super.onOptionsItemSelected(item) || when (item.itemId) {
+            R.id.action_about -> {
+                findNavController().navigate(R.id.action_settings_to_about)
+                true
+            }
+            else -> false
         }
     }
 }

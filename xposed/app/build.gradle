@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'com.mikepenz.aboutlibraries.plugin'
 }
 
 android {
@@ -57,6 +58,7 @@ dependencies {
     implementation 'com.microsoft.design:fluent-system-icons:1.1.115'
     implementation 'dev.chrisbanes.insetter:insetter:0.5.0'
     implementation 'com.crossbowffs.remotepreferences:remotepreferences:0.8'
+    implementation 'com.mikepenz:aboutlibraries:8.8.4'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
