@@ -12,7 +12,7 @@
     <string name="feature_lockscreen">New lock screen</string>
     <string name="feature_lockscreen_desc">New clock and unlock designs on lock screen</string>
     <string name="feature_notification_shade">New notification shade</string>
-    <string name="feature_notification_shade_desc">New notification shade and brightness slider designs</string>
+    <string name="feature_notification_shade_desc">Opaque notification shade, redesigned brightness slider, and screen on/off animation</string>
     <string name="feature_toast">New toast design</string>
     <string name="feature_toast_desc">App icon in toast with opaque background</string>
     <string name="feature_game_dashboard">Game dashboard</string>
