@@ -16,7 +16,7 @@
     <string name="feature_toast">New toast design</string>
     <string name="feature_toast_desc">App icon in toast with opaque background</string>
     <string name="feature_game_dashboard">Game dashboard</string>
-    <string name="feature_game_dashboard_desc">Quick access to screenshots, recording, do not disturb, and live streaming in games</string>
+    <string name="feature_game_dashboard_desc">Quick access to screenshots, do not disturb, and live streaming in games</string>
     <string name="feature_privacy_indicators">Privacy indicators</string>
     <string name="feature_privacy_indicators_desc">Visual indication when camera, microphone, or location are in use</string>
 
