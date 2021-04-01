@@ -132,15 +132,15 @@ class XposedHook : IXposedHookLoadPackage {
     }
 
     companion object {
-        const val TAG = "A12Ext"
+        private const val TAG = "A12Ext"
 
-        const val FEATURE_FLAGS_CLASS = "com.android.systemui.statusbar.FeatureFlags"
-        const val GAME_ENTRY_CLASS = "com.google.android.systemui.gamedashboard.EntryPointController"
-        const val RIPPLE_CLASS = "android.graphics.drawable.RippleDrawable"
-        const val RIPPLE_STATE_CLASS = "android.graphics.drawable.RippleDrawable\$RippleState"
-        const val EDGE_CLASS = "android.widget.EdgeEffect"
+        private const val FEATURE_FLAGS_CLASS = "com.android.systemui.statusbar.FeatureFlags"
+        private const val GAME_ENTRY_CLASS = "com.google.android.systemui.gamedashboard.EntryPointController"
+        private const val RIPPLE_CLASS = "android.graphics.drawable.RippleDrawable"
+        private const val RIPPLE_STATE_CLASS = "android.graphics.drawable.RippleDrawable\$RippleState"
+        private const val EDGE_CLASS = "android.widget.EdgeEffect"
 
-        val FEATURE_FLAGS = listOf(
+        private val FEATURE_FLAGS = listOf(
             "isKeyguardLayoutEnabled",
             "isMonetEnabled",
             //"isNewNotifPipelineRenderingEnabled", // breaks notifications
