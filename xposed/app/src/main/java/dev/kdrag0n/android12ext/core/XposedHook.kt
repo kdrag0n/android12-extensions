@@ -1,4 +1,4 @@
-package dev.kdrag0n.xposed.android12ext
+package dev.kdrag0n.android12ext.core
 
 import android.content.Context
 import android.content.res.Resources
