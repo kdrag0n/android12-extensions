@@ -10,6 +10,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.ui.BaseFragment
+import dev.kdrag0n.android12ext.ui.NoSwipeBehavior
 
 class SettingsFragment : BaseFragment() {
     private val viewModel: SettingsViewModel by viewModels()
@@ -33,6 +34,7 @@ class SettingsFragment : BaseFragment() {
                     setAction(R.string.cancel) {
                         viewModel.requestReload.value = false
                     }
+                    behavior = NoSwipeBehavior()
                     show()
                 }
             } else {
