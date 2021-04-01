@@ -31,6 +31,7 @@
     <string name="tweak_patterned_ripple_desc">New touch ripple design with patterned noise and gradient</string>
     <string name="tweak_overscroll_bounce">Bouncy overscroll</string>
     <string name="tweak_overscroll_bounce_desc">Bounce when scrolling past the ends of lists</string>
+    <string name="tweaks_info">The Xposed module needs to be enabled for every app that you want tweaks to apply to.</string>
 
     <string name="error_xposed_module_missing">Xposed module is not loaded</string>
     <string name="error_xposed_module_missing_desc">In order for this app to work, you need to enable the included Xposed module for the “System UI” app in LSPosed Manager and then restart your device.</string>

@@ -95,6 +95,11 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
             defaultValue = true
             dependency = "global_enabled"
         }
+        pref("tweaks_info") {
+            iconRes = R.drawable.ic_fluent_info_24_regular
+            summaryRes = R.string.tweaks_info
+            enabled = false
+        }
 
         buildWithPrefs(prefs)
     }
