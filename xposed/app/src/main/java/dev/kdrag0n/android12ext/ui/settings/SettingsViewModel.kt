@@ -8,7 +8,7 @@ import dev.kdrag0n.android12ext.R
 
 class SettingsViewModel(app: Application) : AndroidViewModel(app) {
     val prefAdapter = PreferencesAdapter(screen(app) {
-        switch("effects_enabled") {
+        switch("global_enabled") {
             titleRes = R.string.enabled
             summaryRes = R.string.enabled_desc
             iconRes = R.drawable.ic_fluent_checkmark_circle_24_regular
