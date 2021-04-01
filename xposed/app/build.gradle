@@ -52,11 +52,11 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'androidx.preference:preference-ktx:1.1.1'
-    implementation 'com.crossbowffs.remotepreferences:remotepreferences:0.8'
 
     implementation 'de.maxr1998:modernandroidpreferences:2.0'
     implementation 'com.microsoft.design:fluent-system-icons:1.1.115'
     implementation 'dev.chrisbanes.insetter:insetter:0.5.0'
+    implementation 'com.crossbowffs.remotepreferences:remotepreferences:0.8'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
