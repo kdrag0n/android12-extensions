@@ -1,14 +1,50 @@
 package dev.kdrag0n.android12ext.core
 
+import android.app.Instrumentation
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Resources
 import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.util.Log
+import com.crossbowffs.remotepreferences.RemotePreferences
 import de.robv.android.xposed.*
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import kotlinx.coroutines.*
+import java.util.concurrent.Executors
+import kotlin.system.exitProcess
+
+private const val TAG = "A12Ext"
+
+private const val FEATURE_FLAGS_CLASS = "com.android.systemui.statusbar.FeatureFlags"
+private const val GAME_ENTRY_CLASS = "com.google.android.systemui.gamedashboard.EntryPointController"
+private const val RIPPLE_CLASS = "android.graphics.drawable.RippleDrawable"
+private const val RIPPLE_STATE_CLASS = "android.graphics.drawable.RippleDrawable\$RippleState"
+private const val EDGE_CLASS = "android.widget.EdgeEffect"
+
+private val FEATURE_FLAGS = mapOf(
+    "isKeyguardLayoutEnabled" to "lockscreen",
+    "isMonetEnabled" to "monet",
+    //"isNewNotifPipelineRenderingEnabled" to "notification_shade", // breaks notifications
+    "isPeopleTileEnabled" to "people",
+    //"isQSLabelsEnabled" to "notification_shade", // causes crash
+    "isShadeOpaque" to "notification_shade",
+    "isToastStyleEnabled" to "toast",
+    "useNewBrightnessSlider" to "notification_shade",
+    "useNewLockscreenAnimations" to "lockscreen",
+)
 
 class XposedHook : IXposedHookLoadPackage {
+    private lateinit var prefs: SharedPreferences
+
+    private val job = SupervisorJob()
+    // Use custom single-thread dispatcher to avoid interfering with apps that also use Kotlin coroutines
+    private val coroDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+    private val scope = CoroutineScope(coroDispatcher + job)
+
+    // This doesn't need to be atomic because the dispatcher is single-threaded
+    private var prefChangeCount = 0
+
     private val featureFlagHook = object : XC_MethodReplacement() {
         override fun replaceHookedMethod(param: MethodHookParam) = true
     }
@@ -55,14 +91,11 @@ class XposedHook : IXposedHookLoadPackage {
         }
     }
 
-    private fun hookSysui(lpparam: XC_LoadPackage.LoadPackageParam) {
-        // Enable feature flags
-        FEATURE_FLAGS.forEach {
-            Log.i(TAG, "Hooking feature flag: $it")
-            hookMethod(lpparam, FEATURE_FLAGS_CLASS, featureFlagHook, it)
-        }
+    private fun isFeatureEnabled(feature: String): Boolean {
+        return prefs.getBoolean("${feature}_enabled", true)
+    }
 
-        // Enable privacy indicators
+    private fun hookPrivacyIndicators(lpparam: XC_LoadPackage.LoadPackageParam) {
         XposedHelpers.findAndHookConstructor(
             "com.android.systemui.privacy.PrivacyItemController",
             lpparam.classLoader,
@@ -75,12 +108,42 @@ class XposedHook : IXposedHookLoadPackage {
             XposedHelpers.findClass("com.android.systemui.dump.DumpManager", lpparam.classLoader),
             privacyHook,
         )
+    }
+
+    private fun hookSysui(lpparam: XC_LoadPackage.LoadPackageParam) {
+        // Enable feature flags
+        FEATURE_FLAGS.forEach { (method, prefKey) ->
+            if (isFeatureEnabled(prefKey)) {
+                Log.i(TAG, "Hooking feature flag: $method")
+                hookMethod(lpparam, FEATURE_FLAGS_CLASS, featureFlagHook, method)
+            }
+        }
+
+        // Enable privacy indicators
+        if (isFeatureEnabled("privacy_indicators")) {
+            hookPrivacyIndicators(lpparam)
+        }
 
         // Enable game dashboard
-        hookMethod(lpparam, GAME_ENTRY_CLASS, gameDashHook, "setButtonState", Boolean::class.java, Boolean::class.java)
+        if (isFeatureEnabled("game_dashboard")) {
+            hookMethod(
+                lpparam,
+                GAME_ENTRY_CLASS,
+                gameDashHook,
+                "setButtonState",
+                Boolean::class.java,
+                Boolean::class.java
+            )
+        }
 
         // Hide red background in rounded screenshots
-        hookMethod(lpparam, "com.android.systemui.ScreenDecorations", roundedScreenshotHook, "updateColorInversion", Int::class.java)
+        hookMethod(
+            lpparam,
+            "com.android.systemui.ScreenDecorations",
+            roundedScreenshotHook,
+            "updateColorInversion",
+            Int::class.java
+        )
     }
 
     private fun hookRipple(lpparam: XC_LoadPackage.LoadPackageParam) {
@@ -122,34 +185,64 @@ class XposedHook : IXposedHookLoadPackage {
                 }
     }
 
-    override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
+    private fun initHooks(lpparam: XC_LoadPackage.LoadPackageParam) {
+        if (!isFeatureEnabled("global")) {
+            return
+        }
+
         if (lpparam.packageName == "com.android.systemui") {
             hookSysui(lpparam)
         }
 
-        hookRipple(lpparam)
-        hookEdge(lpparam)
+        if (isFeatureEnabled("patterned_ripple")) {
+            hookRipple(lpparam)
+        }
+
+        if (isFeatureEnabled("overscroll_bounce")) {
+            hookEdge(lpparam)
+        }
     }
 
-    companion object {
-        private const val TAG = "A12Ext"
+    // This needs to be separate from registerOnSharedPreferenceChangeListener to hold a strong reference
+    private val prefChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
+        // Debounce restarts to mitigate excessive disruption
+        scope.launch {
+            val startCount = ++prefChangeCount
+            delay(1000)
+            if (prefChangeCount == startCount) {
+                exitProcess(0)
+            }
+        }
+    }
 
-        private const val FEATURE_FLAGS_CLASS = "com.android.systemui.statusbar.FeatureFlags"
-        private const val GAME_ENTRY_CLASS = "com.google.android.systemui.gamedashboard.EntryPointController"
-        private const val RIPPLE_CLASS = "android.graphics.drawable.RippleDrawable"
-        private const val RIPPLE_STATE_CLASS = "android.graphics.drawable.RippleDrawable\$RippleState"
-        private const val EDGE_CLASS = "android.widget.EdgeEffect"
+    override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
+        val contextHook = object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                // Make sure we don't initialize twice
+                if (::prefs.isInitialized) {
+                    return
+                }
 
-        private val FEATURE_FLAGS = listOf(
-            "isKeyguardLayoutEnabled",
-            "isMonetEnabled",
-            //"isNewNotifPipelineRenderingEnabled", // breaks notifications
-            "isPeopleTileEnabled",
-            //"isQSLabelsEnabled", // causes crash
-            "isShadeOpaque",
-            "isToastStyleEnabled",
-            "useNewBrightnessSlider",
-            "useNewLockscreenAnimations",
+                val context = param.result as Context
+                prefs = RemotePreferences(
+                    context,
+                    XposedPreferenceProvider.AUTHORITY,
+                    XposedPreferenceProvider.DEFAULT_PREFS,
+                    true
+                )
+
+                // For reloads
+                prefs.registerOnSharedPreferenceChangeListener(prefChangeListener)
+
+                initHooks(lpparam)
+            }
+        }
+
+        // Wait to get a Context reference before initializing other hooks
+        XposedBridge.hookAllMethods(
+            Instrumentation::class.java,
+            "newApplication",
+            contextHook,
         )
     }
 }
