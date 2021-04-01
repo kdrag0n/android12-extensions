@@ -9,6 +9,7 @@ import android.util.Log
 import com.crossbowffs.remotepreferences.RemotePreferences
 import de.robv.android.xposed.*
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import dev.kdrag0n.android12ext.BuildConfig
 import kotlin.system.exitProcess
 
 private const val TAG = "A12Ext"
@@ -175,12 +176,18 @@ class XposedHook : IXposedHookLoadPackage {
     }
 
     private fun initHooks(lpparam: XC_LoadPackage.LoadPackageParam) {
+        // Global kill-switch
         if (!isFeatureEnabled("global")) {
             return
         }
 
         if (lpparam.packageName == "com.android.systemui") {
             hookSysui(lpparam)
+        }
+
+        // Never hook our own app in case something goes wrong
+        if (lpparam.packageName == BuildConfig.APPLICATION_ID) {
+            return
         }
 
         if (isFeatureEnabled("patterned_ripple")) {
