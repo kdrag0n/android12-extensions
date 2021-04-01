@@ -10,9 +10,9 @@
     <string name="feature_people">People Space widget</string>
     <string name="feature_people_desc"><![CDATA[Contact & conversation widgets on home screen]]></string>
     <string name="feature_lockscreen">New lock screen</string>
-    <string name="feature_lockscreen_desc">New clock and unlock designs on lock screen</string>
+    <string name="feature_lockscreen_desc">New lock screen clock, unlock UI, and screen on/off animations</string>
     <string name="feature_notification_shade">New notification shade</string>
-    <string name="feature_notification_shade_desc">Opaque notification shade, redesigned brightness slider, and screen on/off animation</string>
+    <string name="feature_notification_shade_desc">Opaque notification shade and redesigned brightness slider</string>
     <string name="feature_toast">New toast design</string>
     <string name="feature_toast_desc">App icon in toast with opaque background</string>
     <string name="feature_game_dashboard">Game dashboard</string>
