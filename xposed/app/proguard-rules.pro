@@ -20,4 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+# Alter access modifiers for more optimization
+-allowaccessmodification
+
 -keep class dev.kdrag0n.android12ext.core.XposedHook
