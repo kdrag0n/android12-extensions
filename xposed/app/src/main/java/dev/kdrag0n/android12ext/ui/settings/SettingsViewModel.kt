@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
+import de.Maxr1998.modernpreferences.Preference
 import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.PreferencesAdapter
 import de.Maxr1998.modernpreferences.helpers.*
@@ -13,12 +14,15 @@ import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.*
 import dev.kdrag0n.android12ext.ui.buildWithPrefs
+import dev.kdrag0n.android12ext.ui.setInteractive
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
     private val prefs = PreferenceManager.getDefaultSharedPreferences(app.createDeviceProtectedStorageContext())
     private val prefScreen = PreferenceScreen.Builder(app).run {
+        Preference.Config.summaryMaxLines = 5
+
         switch("global_enabled") {
             titleRes = R.string.enabled
             summaryRes = R.string.enabled_desc
@@ -99,7 +103,8 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
         pref("tweaks_info") {
             iconRes = R.drawable.ic_fluent_info_24_regular
             summaryRes = R.string.tweaks_info
-            enabled = false
+            // Disabling the view makes the text contrast too low, so use our extension instead
+            setInteractive(false)
         }
 
         buildWithPrefs(prefs)
