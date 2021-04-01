@@ -6,6 +6,7 @@ import com.mikepenz.aboutlibraries.ui.LibsSupportFragment
 import dev.kdrag0n.android12ext.ui.applyTransitions
 import dev.kdrag0n.android12ext.ui.applyTransitionsViewCreated
 
+// This subclass exists solely to apply the same transitions we use in BaseFragment
 class AboutFragment : LibsSupportFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

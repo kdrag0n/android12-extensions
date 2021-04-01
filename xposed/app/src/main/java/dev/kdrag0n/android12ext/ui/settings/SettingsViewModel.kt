@@ -112,33 +112,34 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
     private val prefChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
         // Debounce restarts to mitigate excessive disruption
         viewModelScope.launch {
-            requestReload.value = false
+            reloadWarning.value = false
 
             val startCount = ++prefChangeCount
             delay(RELOAD_DEBOUNCE_DELAY)
 
             // First debounce: show warning
             if (prefChangeCount == startCount) {
-                requestReload.value = true
+                reloadWarning.value = true
                 delay(RELOAD_WARNING_DURATION.toLong())
 
                 // Second debounce: make sure warning is still shown *and* no pref changes were made
-                if (prefChangeCount == startCount && requestReload.value == true) {
+                if (prefChangeCount == startCount && reloadWarning.value == true) {
                     app.sendReloadBroadcast()
 
                     // Give time for SystemUI to restart
                     delay(RELOAD_RESTART_DELAY)
-                    requestReload.value = false
+                    reloadWarning.value = false
                 }
             }
         }
     }
-    val requestReload = MutableLiveData(false)
+    val reloadWarning = MutableLiveData(false)
 
     fun broadcastReload() {
         app.sendReloadBroadcast()
     }
 
+    // Bypass Xposed module check in debug builds
     val isXposedHooked = BuildConfig.DEBUG || "com.android.systemui" in XposedPreferenceProvider.clientsSeen
 
     init {
@@ -146,6 +147,7 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
     }
 }
 
+// We need this in order to use device-encrypted preferences with ModernAndroidPreferences
 fun PreferenceScreen.Builder.buildWithPrefs(prefs: SharedPreferences): PreferenceScreen {
     javaClass.getDeclaredField("prefs").let { field ->
         field.isAccessible = true

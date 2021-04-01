@@ -18,6 +18,7 @@
         android:id="@+id/about_libraries"
         android:label="@string/about"
         android:name="dev.kdrag0n.android12ext.ui.about.AboutFragment">
+        <!-- From @navigation/aboutlibs_navigation -->
         <argument
             android:name="data"
             app:argType="java.io.Serializable"
