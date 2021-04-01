@@ -3,15 +3,22 @@ package dev.kdrag0n.android12ext.ui.settings
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.PreferencesAdapter
 import de.Maxr1998.modernpreferences.helpers.*
 import dev.kdrag0n.android12ext.R
+import dev.kdrag0n.android12ext.core.RELOAD_DEBOUNCE_DELAY
+import dev.kdrag0n.android12ext.core.RELOAD_RESTART_DELAY
+import dev.kdrag0n.android12ext.core.RELOAD_WARNING_DURATION
+import dev.kdrag0n.android12ext.core.sendReloadBroadcast
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class SettingsViewModel(app: Application) : AndroidViewModel(app) {
+class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
     private val prefs = PreferenceManager.getDefaultSharedPreferences(app.createDeviceProtectedStorageContext())
-
     private val prefScreen = PreferenceScreen.Builder(app).run {
         switch("global_enabled") {
             titleRes = R.string.enabled
@@ -93,8 +100,45 @@ class SettingsViewModel(app: Application) : AndroidViewModel(app) {
 
         buildWithPrefs(prefs)
     }
-
     val prefAdapter = PreferencesAdapter(prefScreen)
+
+    // Doesn't need to be atomic because the viewModelScope dispatcher is single-threaded
+    private var prefChangeCount = 0
+
+    // Needs to be separate from registerOnSharedPreferenceChangeListener in order to hold a strong reference
+    private val prefChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
+        // Debounce restarts to mitigate excessive disruption
+        viewModelScope.launch {
+            requestReload.value = false
+
+            val startCount = ++prefChangeCount
+            delay(RELOAD_DEBOUNCE_DELAY)
+
+            // First debounce: show warning
+            if (prefChangeCount == startCount) {
+                requestReload.value = true
+                delay(RELOAD_WARNING_DURATION.toLong())
+
+                // Second debounce: make sure warning is still shown *and* no pref changes were made
+                if (prefChangeCount == startCount && requestReload.value == true) {
+                    app.sendReloadBroadcast()
+
+                    // Give time for SystemUI to restart
+                    delay(RELOAD_RESTART_DELAY)
+                    requestReload.value = false
+                }
+            }
+        }
+    }
+    val requestReload = MutableLiveData(false)
+
+    fun broadcastReload() {
+        app.sendReloadBroadcast()
+    }
+
+    init {
+        prefs.registerOnSharedPreferenceChangeListener(prefChangeListener)
+    }
 }
 
 fun PreferenceScreen.Builder.buildWithPrefs(prefs: SharedPreferences): PreferenceScreen {

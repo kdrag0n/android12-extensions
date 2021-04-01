@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="dev.kdrag0n.android12ext">
 
+    <permission android:name="dev.kdrag0n.android12ext.BROADCAST_PERMISSION"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="dev.kdrag0n.android12ext.BROADCAST_PERMISSION" />
+
     <application
         android:allowBackup="true"
         android:label="@string/app_name"

@@ -2,6 +2,9 @@
     <string name="app_name">Android 12 Extensions</string>
 
     <string name="about">About</string>
+    <string name="action_force_reload">Force reload</string>
+    <string name="applying_changes">Applying changes</string>
+    <string name="cancel">Cancel</string>
 
     <string name="enabled">Enable features</string>
     <string name="enabled_desc">Quickly toggle all features for testing</string>

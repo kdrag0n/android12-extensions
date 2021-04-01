@@ -1,8 +1,7 @@
 package dev.kdrag0n.android12ext.core
 
 import android.app.Instrumentation
-import android.content.Context
-import android.content.SharedPreferences
+import android.content.*
 import android.content.res.Resources
 import android.content.res.TypedArray
 import android.util.AttributeSet
@@ -10,8 +9,6 @@ import android.util.Log
 import com.crossbowffs.remotepreferences.RemotePreferences
 import de.robv.android.xposed.*
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import kotlinx.coroutines.*
-import java.util.concurrent.Executors
 import kotlin.system.exitProcess
 
 private const val TAG = "A12Ext"
@@ -36,14 +33,6 @@ private val FEATURE_FLAGS = mapOf(
 
 class XposedHook : IXposedHookLoadPackage {
     private lateinit var prefs: SharedPreferences
-
-    private val job = SupervisorJob()
-    // Use custom single-thread dispatcher to avoid interfering with apps that also use Kotlin coroutines
-    private val coroDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
-    private val scope = CoroutineScope(coroDispatcher + job)
-
-    // This doesn't need to be atomic because the dispatcher is single-threaded
-    private var prefChangeCount = 0
 
     private val featureFlagHook = object : XC_MethodReplacement() {
         override fun replaceHookedMethod(param: MethodHookParam) = true
@@ -203,15 +192,9 @@ class XposedHook : IXposedHookLoadPackage {
         }
     }
 
-    // This needs to be separate from registerOnSharedPreferenceChangeListener to hold a strong reference
-    private val prefChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
-        // Debounce restarts to mitigate excessive disruption
-        scope.launch {
-            val startCount = ++prefChangeCount
-            delay(1000)
-            if (prefChangeCount == startCount) {
-                exitProcess(0)
-            }
+    private val reloadReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            exitProcess(0)
         }
     }
 
@@ -231,10 +214,14 @@ class XposedHook : IXposedHookLoadPackage {
                     true
                 )
 
-                // For reloads
-                prefs.registerOnSharedPreferenceChangeListener(prefChangeListener)
-
                 initHooks(lpparam)
+
+                context.registerReceiver(
+                    reloadReceiver,
+                    IntentFilter(RELOAD_BROADCAST_ACTION),
+                    BROADCAST_PERMISSION,
+                    null
+                )
             }
         }
 

@@ -4,6 +4,11 @@
     tools:context="dev.kdrag0n.audiofx.ui.MainActivity">
 
     <item
+        android:id="@+id/action_force_reload"
+        android:title="@string/action_force_reload"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_about"
         android:title="@string/about"
         app:showAsAction="never" />
