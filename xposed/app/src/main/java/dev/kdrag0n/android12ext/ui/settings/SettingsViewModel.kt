@@ -146,4 +146,8 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
     init {
         prefs.registerOnSharedPreferenceChangeListener(prefChangeListener)
     }
+
+    override fun onCleared() {
+        prefs.unregisterOnSharedPreferenceChangeListener(prefChangeListener)
+    }
 }
