@@ -26,6 +26,4 @@
         <item name="colorOnPrimary">@color/black</item>
         <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
     </style>
-
-    <style name="Theme.A12Ext.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
