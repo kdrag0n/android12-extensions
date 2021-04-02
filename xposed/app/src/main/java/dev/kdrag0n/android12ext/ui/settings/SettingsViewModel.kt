@@ -1,11 +1,11 @@
 package dev.kdrag0n.android12ext.ui.settings
 
 import android.app.Application
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.preference.PreferenceManager
 import de.Maxr1998.modernpreferences.Preference
 import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.PreferencesAdapter
@@ -19,7 +19,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
-    private val prefs = PreferenceManager.getDefaultSharedPreferences(app.createDeviceProtectedStorageContext())
+    private val prefs = app.createDeviceProtectedStorageContext()
+        .getSharedPreferences(XposedPreferenceProvider.DEFAULT_PREFS, Context.MODE_PRIVATE)
+
     private val prefScreen = PreferenceScreen.Builder(app).run {
         Preference.Config.summaryMaxLines = 5
 
