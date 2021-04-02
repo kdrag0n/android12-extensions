@@ -1,15 +1,18 @@
 <resources>
     <string name="app_name">Android 12 Extensions</string>
 
+    <!-- General -->
     <string name="about">About</string>
     <string name="action_force_reload">Force reload</string>
     <string name="applying_changes">Applying changes</string>
     <string name="cancel">Cancel</string>
     <string name="enable">Enable</string>
 
+    <!-- Settings -->
     <string name="enabled">Enable features</string>
     <string name="enabled_desc">Quickly toggle all features for testing</string>
 
+    <!-- Features -->
     <string name="features">Features</string>
     <string name="feature_monet">Monet</string>
     <string name="feature_monet_desc">Colorful wallpaper-based theming</string>
@@ -26,6 +29,7 @@
     <string name="feature_privacy_indicators">Privacy indicators</string>
     <string name="feature_privacy_indicators_desc">Camera, microphone, and location</string>
 
+    <!-- Tweaks -->
     <string name="tweaks">Tweaks</string>
     <string name="tweak_patterned_ripple">Patterned ripple effects</string>
     <string name="tweak_patterned_ripple_desc">Touch ripple with noise and gradient</string>
@@ -33,7 +37,21 @@
     <string name="tweak_overscroll_bounce_desc">Bounce when scrolling past edges</string>
     <string name="tweaks_info">Tweaks are per-app user interface changes that won’t become default behavior. The Xposed module needs to be enabled for every app you want to tweak.</string>
 
-    <string name="error_xposed_module_missing">Xposed module is not loaded</string>
-    <string name="error_xposed_module_missing_desc">In order for this app to work, you need to enable the included Xposed module for the “System UI” app in LSPosed Manager and then restart your device.</string>
+    <!-- Errors -->
+    <string name="error_xposed_module_missing">Xposed module is not enabled</string>
+    <string name="error_xposed_module_missing_desc">In order for this app to work, you need to enable the included Xposed module for the “System UI” app in LSPosed Manager and restart your device.</string>
     <string name="error_xposed_manager_not_installed">LSPosed Manager is not installed</string>
+
+    <!-- About -->
+    <string name="donate">Donate</string>
+    <string name="contact">Contact</string>
+    <string name="source_code">Source code</string>
+    <string name="about_app_description"><![CDATA[
+        Enable and customize hidden features on preview versions of Android 12.
+        <br />
+        <br />
+        Made with ❤️ by <a href="https://kdrag0n.dev/">kdrag0n</a>. Please consider donating to support development if you found this helpful!
+    ]]></string>
+    <string name="about_uri_donate">https://kdrag0n.dev/donate/</string>
+    <string name="about_uri_source_code">https://github.com/kdrag0n/android12-extensions</string>
 </resources>
