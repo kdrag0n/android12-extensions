@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.ui
+package dev.kdrag0n.android12ext.ui.utils
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences

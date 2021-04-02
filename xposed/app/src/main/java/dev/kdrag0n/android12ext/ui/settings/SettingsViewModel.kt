@@ -13,8 +13,8 @@ import de.Maxr1998.modernpreferences.helpers.*
 import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.*
-import dev.kdrag0n.android12ext.ui.buildWithPrefs
-import dev.kdrag0n.android12ext.ui.setInteractive
+import dev.kdrag0n.android12ext.ui.utils.buildWithPrefs
+import dev.kdrag0n.android12ext.ui.utils.setInteractive
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

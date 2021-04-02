@@ -14,7 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import dev.chrisbanes.insetter.applyInsetter
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.ui.BaseFragment
-import dev.kdrag0n.android12ext.ui.NoSwipeBehavior
+import dev.kdrag0n.android12ext.ui.utils.NoSwipeBehavior
 
 private const val XPOSED_MANAGER_PACKAGE = "org.lsposed.manager"
 
