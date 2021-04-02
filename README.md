@@ -1,11 +1,12 @@
 # Android 12 Extensions
 
-This is a Magisk module that enables hidden features on Android 12 Developer Preview releases.
+This is a Magisk module that enables hidden features on preview versions of Android 12. It also includes a clean settings interface for customizing the list of features to enable and applying changes live, without rebooting.
 
 ## Features
 
 All versions:
 
+- **Settings interface to toggle every feature and apply changes without rebooting**
 - Wallpaper-based theming in light and dark modes (fully dynamic on DP2)
 - New Settings, lock screen, and notification shade UIs
 - Machine-learning back gesture
