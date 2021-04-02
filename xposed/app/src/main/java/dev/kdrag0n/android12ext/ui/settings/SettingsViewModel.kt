@@ -78,7 +78,7 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
         switch("privacy_indicators_enabled") {
             titleRes = R.string.feature_privacy_indicators
             summaryRes = R.string.feature_privacy_indicators_desc
-            iconRes = R.drawable.ic_fluent_inprivate_account_24_regular
+            iconRes = R.drawable.ic_fluent_incognito_24_regular
             defaultValue = true
             dependency = "global_enabled"
         }
