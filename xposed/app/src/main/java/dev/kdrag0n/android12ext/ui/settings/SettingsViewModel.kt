@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import de.Maxr1998.modernpreferences.Preference
 import de.Maxr1998.modernpreferences.PreferenceScreen
@@ -147,14 +148,20 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
         app.sendReloadBroadcast()
     }
 
-    // Bypass Xposed module check in debug builds
-    val isXposedHooked = BuildConfig.DEBUG || "com.android.systemui" in XposedPreferenceProvider.clientsSeen
+    // Set initial state to true to avoid a dialog flash
+    val isXposedHooked = MutableLiveData(true)
+    private val clientsObserver = Observer<Set<String>> { clientsSeen ->
+        // Bypass Xposed module check in debug builds
+        isXposedHooked.value = BuildConfig.DEBUG || "com.android.systemui" in clientsSeen
+    }
 
     init {
         prefs.registerOnSharedPreferenceChangeListener(prefChangeListener)
+        XposedPreferenceProvider.clientsSeen.observeForever(clientsObserver)
     }
 
     override fun onCleared() {
         prefs.unregisterOnSharedPreferenceChangeListener(prefChangeListener)
+        XposedPreferenceProvider.clientsSeen.removeObserver(clientsObserver)
     }
 }

@@ -22,6 +22,7 @@ class SettingsFragment : BaseFragment() {
     private val viewModel: SettingsViewModel by viewModels()
 
     private var reloadSnackbar: Snackbar? = null
+    private var xposedDialog: AlertDialog? = null
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -66,23 +67,28 @@ class SettingsFragment : BaseFragment() {
             }
         }
 
-        if (!viewModel.isXposedHooked) {
-            MaterialAlertDialogBuilder(requireContext()).run {
-                setTitle(R.string.error_xposed_module_missing)
-                setMessage(R.string.error_xposed_module_missing_desc)
-                setCancelable(false)
-                // Empty callback because we override it later
-                setPositiveButton(R.string.enable) { _, _ -> }
-                show()
-            }.apply {
-                // Override button callback to stop it from dismissing the dialog
-                getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                    val intent = requireContext().packageManager.getLaunchIntentForPackage(XPOSED_MANAGER_PACKAGE)
-                    if (intent == null) {
-                        Toast.makeText(requireContext(), R.string.error_xposed_manager_not_installed, Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        startActivity(intent)
+        viewModel.isXposedHooked.observe(viewLifecycleOwner) { isHooked ->
+            if (isHooked) {
+                xposedDialog?.dismiss()
+                xposedDialog = null
+            } else {
+                xposedDialog = MaterialAlertDialogBuilder(requireContext()).run {
+                    setTitle(R.string.error_xposed_module_missing)
+                    setMessage(R.string.error_xposed_module_missing_desc)
+                    setCancelable(false)
+                    // Empty callback because we override it later
+                    setPositiveButton(R.string.enable) { _, _ -> }
+                    show()
+                }.apply {
+                    // Override button callback to stop it from dismissing the dialog
+                    getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                        val intent = requireContext().packageManager.getLaunchIntentForPackage(XPOSED_MANAGER_PACKAGE)
+                        if (intent == null) {
+                            Toast.makeText(requireContext(), R.string.error_xposed_manager_not_installed, Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            startActivity(intent)
+                        }
                     }
                 }
             }
