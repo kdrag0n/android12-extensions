@@ -60,7 +60,7 @@ dependencies {
     implementation 'com.crossbowffs.remotepreferences:remotepreferences:0.8'
     implementation 'com.mikepenz:aboutlibraries:8.8.4'
 
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
