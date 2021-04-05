@@ -10,6 +10,8 @@ import com.crossbowffs.remotepreferences.RemotePreferences
 import de.robv.android.xposed.*
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.BuildConfig
+import dev.kdrag0n.android12ext.core.hooks.FrameworkHooks
+import dev.kdrag0n.android12ext.core.hooks.SystemUIHooks
 import kotlin.system.exitProcess
 
 private const val TAG = "A12Ext"
@@ -35,52 +37,6 @@ private val FEATURE_FLAGS = mapOf(
 class XposedHook : IXposedHookLoadPackage {
     private lateinit var prefs: SharedPreferences
 
-    private val featureFlagHook = object : XC_MethodReplacement() {
-        override fun replaceHookedMethod(param: MethodHookParam) = true
-    }
-
-    private val gameDashHook = object : XC_MethodHook() {
-        override fun beforeHookedMethod(param: MethodHookParam) {
-            param.thisObject.javaClass.getDeclaredField("DISABLED").let {
-                it.isAccessible = true
-                it.set(null, java.lang.Boolean.FALSE)
-            }
-
-            XposedHelpers.setBooleanField(param.thisObject, "mShouldShow", true)
-        }
-    }
-
-    private val rippleHook = object : XC_MethodHook() {
-        override fun afterHookedMethod(param: MethodHookParam) {
-            XposedHelpers.getObjectField(param.thisObject, "mState").let { state ->
-                XposedHelpers.setIntField(state, "mRippleStyle", 1)
-            }
-        }
-    }
-
-    private val roundedScreenshotHook = object : XC_MethodHook() {
-        override fun beforeHookedMethod(param: MethodHookParam) {
-            param.thisObject.javaClass.getDeclaredField("DEBUG_COLOR").let {
-                it.isAccessible = true
-                it.setBoolean(null, false)
-            }
-        }
-    }
-
-    private val privacyHook = object : XC_MethodHook() {
-        override fun afterHookedMethod(param: MethodHookParam) {
-            XposedHelpers.setBooleanField(param.thisObject, "allIndicatorsAvailable", true)
-            XposedHelpers.setBooleanField(param.thisObject, "micCameraAvailable", true)
-            XposedHelpers.setBooleanField(param.thisObject, "locationAvailable", true)
-        }
-    }
-
-    private val edgeEffectHook = object : XC_MethodHook() {
-        override fun afterHookedMethod(param: MethodHookParam) {
-            XposedHelpers.setIntField(param.thisObject, "mEdgeEffectType", 1)
-        }
-    }
-
     private fun isFeatureEnabled(feature: String): Boolean {
         return prefs.getBoolean("${feature}_enabled", true)
     }
@@ -96,7 +52,7 @@ class XposedHook : IXposedHookLoadPackage {
             XposedHelpers.findClass("com.android.systemui.settings.UserTracker", lpparam.classLoader),
             XposedHelpers.findClass("com.android.systemui.privacy.logging.PrivacyLogger", lpparam.classLoader),
             XposedHelpers.findClass("com.android.systemui.dump.DumpManager", lpparam.classLoader),
-            privacyHook,
+            SystemUIHooks.privacyIndicators,
         )
     }
 
@@ -105,7 +61,7 @@ class XposedHook : IXposedHookLoadPackage {
         FEATURE_FLAGS.forEach { (method, prefKey) ->
             if (isFeatureEnabled(prefKey)) {
                 Log.i(TAG, "Hooking feature flag: $method")
-                hookMethod(lpparam, FEATURE_FLAGS_CLASS, featureFlagHook, method)
+                hookMethod(lpparam, FEATURE_FLAGS_CLASS, SystemUIHooks.featureFlag, method)
             }
         }
 
@@ -119,7 +75,7 @@ class XposedHook : IXposedHookLoadPackage {
             hookMethod(
                 lpparam,
                 GAME_ENTRY_CLASS,
-                gameDashHook,
+                SystemUIHooks.gameDashboard,
                 "setButtonState",
                 Boolean::class.java,
                 Boolean::class.java
@@ -130,7 +86,7 @@ class XposedHook : IXposedHookLoadPackage {
         hookMethod(
             lpparam,
             "com.android.systemui.ScreenDecorations",
-            roundedScreenshotHook,
+            SystemUIHooks.roundedScreenshot,
             "updateColorInversion",
             Int::class.java
         )
@@ -142,11 +98,11 @@ class XposedHook : IXposedHookLoadPackage {
             lpparam.classLoader,
             XposedHelpers.findClass(RIPPLE_STATE_CLASS, lpparam.classLoader),
             Resources::class.java,
-            rippleHook,
+            FrameworkHooks.ripple,
         )
 
-        hookMethod(lpparam, RIPPLE_CLASS, rippleHook, "updateStateFromTypedArray", TypedArray::class.java)
-        hookMethod(lpparam, RIPPLE_CLASS, rippleHook, "setRippleStyle", Int::class.java)
+        hookMethod(lpparam, RIPPLE_CLASS, FrameworkHooks.ripple, "updateStateFromTypedArray", TypedArray::class.java)
+        hookMethod(lpparam, RIPPLE_CLASS, FrameworkHooks.ripple, "setRippleStyle", Int::class.java)
     }
 
     private fun hookEdge(lpparam: XC_LoadPackage.LoadPackageParam) {
@@ -155,10 +111,10 @@ class XposedHook : IXposedHookLoadPackage {
             lpparam.classLoader,
             Context::class.java,
             AttributeSet::class.java,
-            edgeEffectHook,
+            FrameworkHooks.edgeEffect,
         )
 
-        hookMethod(lpparam, EDGE_CLASS, edgeEffectHook, "setType", Int::class.java)
+        hookMethod(lpparam, EDGE_CLASS, FrameworkHooks.edgeEffect, "setType", Int::class.java)
     }
 
     private fun hookMethod(
