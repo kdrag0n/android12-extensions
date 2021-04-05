@@ -6,8 +6,7 @@ import com.crossbowffs.remotepreferences.RemotePreferences
 import de.robv.android.xposed.*
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.BuildConfig
-import dev.kdrag0n.android12ext.core.BROADCAST_PERMISSION
-import dev.kdrag0n.android12ext.core.RELOAD_BROADCAST_ACTION
+import dev.kdrag0n.android12ext.core.Broadcasts
 import dev.kdrag0n.android12ext.core.xposed.hooks.FrameworkHooks
 import dev.kdrag0n.android12ext.core.xposed.hooks.SystemUIHooks
 import kotlin.system.exitProcess
@@ -103,8 +102,8 @@ class XposedHook : IXposedHookLoadPackage {
 
                 context.registerReceiver(
                     reloadReceiver,
-                    IntentFilter(RELOAD_BROADCAST_ACTION),
-                    BROADCAST_PERMISSION,
+                    IntentFilter(Broadcasts.RELOAD_ACTION),
+                    Broadcasts.PERMISSION,
                     null
                 )
             }

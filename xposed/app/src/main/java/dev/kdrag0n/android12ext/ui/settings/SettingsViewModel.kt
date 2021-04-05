@@ -125,19 +125,19 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
             showReloadWarning.value = false
 
             val startCount = ++prefChangeCount
-            delay(RELOAD_DEBOUNCE_DELAY)
+            delay(Broadcasts.RELOAD_DEBOUNCE_DELAY)
 
             // First debounce: show warning
             if (prefChangeCount == startCount) {
                 showReloadWarning.value = true
-                delay(RELOAD_WARNING_DURATION.toLong())
+                delay(Broadcasts.RELOAD_WARNING_DURATION.toLong())
 
                 // Second debounce: make sure warning is still shown *and* no pref changes were made
                 if (prefChangeCount == startCount && showReloadWarning.value == true) {
-                    app.sendReloadBroadcast()
+                    app.sendBroadcast(Broadcasts.RELOAD_ACTION)
 
                     // Give time for SystemUI to restart
-                    delay(RELOAD_RESTART_DELAY)
+                    delay(Broadcasts.RELOAD_RESTART_DELAY)
                     showReloadWarning.value = false
                 }
             }
@@ -146,7 +146,7 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
     val showReloadWarning = MutableLiveData(false)
 
     fun broadcastReload() {
-        app.sendReloadBroadcast()
+        app.sendBroadcast(Broadcasts.RELOAD_ACTION)
     }
 
     // Set initial state to true to avoid a dialog flash
@@ -158,11 +158,9 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
 
     init {
         prefs.registerOnSharedPreferenceChangeListener(prefChangeListener)
-        XposedPreferenceProvider.clientsSeen.observeForever(clientsObserver)
     }
 
     override fun onCleared() {
         prefs.unregisterOnSharedPreferenceChangeListener(prefChangeListener)
-        XposedPreferenceProvider.clientsSeen.removeObserver(clientsObserver)
     }
 }
