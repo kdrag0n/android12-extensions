@@ -34,7 +34,7 @@
         <!-- Access controls are implemented in the provider -->
         <provider
             android:authorities="dev.kdrag0n.android12ext.xposedpreferences"
-            android:name=".core.XposedPreferenceProvider"
+            android:name=".core.xposed.XposedPreferenceProvider"
             android:exported="true"
             android:directBootAware="true"
             tools:ignore="ExportedContentProvider" />

@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.core
+package dev.kdrag0n.android12ext.core.xposed
 
 import androidx.lifecycle.MutableLiveData
 import com.crossbowffs.remotepreferences.RemotePreferenceFile
