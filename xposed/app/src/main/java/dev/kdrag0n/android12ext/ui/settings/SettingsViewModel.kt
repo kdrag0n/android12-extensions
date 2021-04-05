@@ -2,16 +2,15 @@ package dev.kdrag0n.android12ext.ui.settings
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import de.Maxr1998.modernpreferences.Preference
 import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.PreferencesAdapter
 import de.Maxr1998.modernpreferences.helpers.*
-import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.*
 import dev.kdrag0n.android12ext.core.xposed.XposedPreferenceProvider
@@ -134,7 +133,7 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
 
                 // Second debounce: make sure warning is still shown *and* no pref changes were made
                 if (prefChangeCount == startCount && showReloadWarning.value == true) {
-                    app.sendBroadcast(Broadcasts.RELOAD_ACTION)
+                    broadcastReload()
 
                     // Give time for SystemUI to restart
                     delay(Broadcasts.RELOAD_RESTART_DELAY)
@@ -146,14 +145,15 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
     val showReloadWarning = MutableLiveData(false)
 
     fun broadcastReload() {
-        app.sendBroadcast(Broadcasts.RELOAD_ACTION)
+        app.sendBroadcast(Intent(Broadcasts.RELOAD_ACTION))
     }
 
     // Set initial state to true to avoid a dialog flash
     val isXposedHooked = MutableLiveData(true)
-    private val clientsObserver = Observer<Set<String>> { clientsSeen ->
-        // Bypass Xposed module check in debug builds
-        isXposedHooked.value = BuildConfig.DEBUG || "com.android.systemui" in clientsSeen
+    fun updateHookState() {
+        viewModelScope.launch {
+            isXposedHooked.value = Broadcasts.pingSysUi(app)
+        }
     }
 
     init {

@@ -26,6 +26,7 @@ private val FEATURE_FLAGS = mapOf(
 
 class XposedHook : IXposedHookLoadPackage {
     private lateinit var prefs: SharedPreferences
+    private lateinit var context: Context
 
     init {
         CustomApplication.commonInit()
@@ -36,6 +37,8 @@ class XposedHook : IXposedHookLoadPackage {
     }
 
     private fun applySysUi(lpparam: XC_LoadPackage.LoadPackageParam) {
+        Broadcasts.listenForPings(context)
+
         // Enable feature flags
         FEATURE_FLAGS.forEach { (flag, prefKey) ->
             if (isFeatureEnabled(prefKey)) {
@@ -95,7 +98,7 @@ class XposedHook : IXposedHookLoadPackage {
                     return
                 }
 
-                val context = param.result as Context
+                context = param.result as Context
                 prefs = RemotePreferences(
                     context,
                     XposedPreferenceProvider.AUTHORITY,
@@ -105,10 +108,11 @@ class XposedHook : IXposedHookLoadPackage {
 
                 applyAll(lpparam)
 
+                // Only listen for reload requests after loading
                 context.registerReceiver(
                     reloadReceiver,
                     IntentFilter(Broadcasts.RELOAD_ACTION),
-                    Broadcasts.PERMISSION,
+                    Broadcasts.MANAGER_PERMISSION,
                     null
                 )
             }

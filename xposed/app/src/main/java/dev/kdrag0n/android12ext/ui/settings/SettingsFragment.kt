@@ -48,12 +48,15 @@ class SettingsFragment : BaseFragment() {
         }
 
         viewModel.showReloadWarning.observe(viewLifecycleOwner) { shouldReload ->
+            reloadSnackbar?.dismiss()
+            reloadSnackbar = null
+
             if (shouldReload) {
                 reloadSnackbar = Snackbar.make(
-                    view,
-                    R.string.applying_changes,
-                    // We take care of showing and dismissing it
-                    BaseTransientBottomBar.LENGTH_INDEFINITE
+                        view,
+                        R.string.applying_changes,
+                        // We take care of showing and dismissing it
+                        BaseTransientBottomBar.LENGTH_INDEFINITE
                 ).apply {
                     setAction(R.string.cancel) {
                         viewModel.showReloadWarning.value = false
@@ -61,17 +64,14 @@ class SettingsFragment : BaseFragment() {
                     behavior = NoSwipeBehavior()
                     show()
                 }
-            } else {
-                reloadSnackbar?.dismiss()
-                reloadSnackbar = null
             }
         }
 
         viewModel.isXposedHooked.observe(viewLifecycleOwner) { isHooked ->
-            if (isHooked) {
-                xposedDialog?.dismiss()
-                xposedDialog = null
-            } else {
+            xposedDialog?.dismiss()
+            xposedDialog = null
+
+            if (!isHooked) {
                 xposedDialog = MaterialAlertDialogBuilder(requireContext()).run {
                     setTitle(R.string.error_xposed_module_missing)
                     setMessage(R.string.error_xposed_module_missing_desc)
@@ -111,5 +111,10 @@ class SettingsFragment : BaseFragment() {
             }
             else -> false
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateHookState()
     }
 }
