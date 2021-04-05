@@ -6,6 +6,7 @@ import com.crossbowffs.remotepreferences.RemotePreferences
 import de.robv.android.xposed.*
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.BuildConfig
+import dev.kdrag0n.android12ext.CustomApplication
 import dev.kdrag0n.android12ext.core.Broadcasts
 import dev.kdrag0n.android12ext.core.xposed.hooks.FrameworkHooks
 import dev.kdrag0n.android12ext.core.xposed.hooks.SystemUIHooks
@@ -25,6 +26,10 @@ private val FEATURE_FLAGS = mapOf(
 
 class XposedHook : IXposedHookLoadPackage {
     private lateinit var prefs: SharedPreferences
+
+    init {
+        CustomApplication.commonInit()
+    }
 
     private fun isFeatureEnabled(feature: String): Boolean {
         return prefs.getBoolean("${feature}_enabled", true)

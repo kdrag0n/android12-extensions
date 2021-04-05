@@ -58,4 +58,5 @@ dependencies {
     implementation 'dev.chrisbanes.insetter:insetter:0.5.0'
     implementation 'com.crossbowffs.remotepreferences:remotepreferences:0.8'
     implementation 'com.mikepenz:aboutlibraries:8.8.4'
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }
