@@ -1,6 +1,6 @@
 # Android 12 Extensions
 
-This is a Magisk module that enables hidden features on preview versions of Android 12. It also includes a clean settings interface for customizing the list of features to enable and applying changes live, without rebooting.
+This is a Magisk module that enables hidden features on preview versions of Android 12. It also includes a clean settings app for customizing the list of features to enable and applying changes live, without rebooting.
 
 <img src="https://user-images.githubusercontent.com/7930239/113441957-ff78ef00-93a3-11eb-862e-ba9187d73363.png" alt="Screenshot of configuration app with changes pending" width="288" height="608"> <img src="https://user-images.githubusercontent.com/7930239/113441959-00118580-93a4-11eb-9abd-313613972f16.png" alt="Screenshot of more configuration options, with dark mode enabled" width="288" height="608">
 
@@ -8,7 +8,7 @@ This is a Magisk module that enables hidden features on preview versions of Andr
 
 All versions:
 
-- **Settings interface to toggle every feature and apply changes without rebooting**
+- **Settings app to toggle features and apply changes without rebooting**
 - Wallpaper-based theming in light and dark modes (fully dynamic on DP2)
 - New Settings, lock screen, and notification shade UIs
 - Machine-learning back gesture
@@ -35,6 +35,6 @@ DP2 and newer:
 
 ## Support
 
-If you found this module helpful, please consider supporting development with a **[recurring donation](https://liberapay.com/kdrag0n)**, or alternatively [buy me a coffee](https://paypal.me/kdrag0ndonate). All support is appreciated.
+If you found this module helpful, please consider supporting development with a **[recurring donation](https://patreon.com/kdrag0n)** on Patreon for benefits such as exclusive behind-the-scenes development news, early access to updates, and priority support. Alternatively, you can also [buy me a coffee](https://paypal.me/kdrag0ndonate). All support is appreciated.
 
 Need help? Join the [Telegram support group](https://t.me/proton_projects).
