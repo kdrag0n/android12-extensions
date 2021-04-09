@@ -41,6 +41,7 @@
     <string name="error_xposed_module_missing">Xposed module is not enabled</string>
     <string name="error_xposed_module_missing_desc">In order for this app to work, you need to enable the included Xposed module for the “System UI” app in LSPosed Manager and restart your device.</string>
     <string name="error_xposed_manager_not_installed">LSPosed Manager is not installed</string>
+    <string name="error_xposed_manager_not_installed_desc">To enable all features:\n\t1. Install the “Riru” module from Magisk Manager\n\t2. Install the “Riru - LSPosed” module from Magisk Manager\n\t3. Restart your device\n\t4. Open this app for more instructions</string>
 
     <!-- About -->
     <string name="donate">Donate</string>

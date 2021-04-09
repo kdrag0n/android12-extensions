@@ -72,22 +72,26 @@ class SettingsFragment : BaseFragment() {
             xposedDialog = null
 
             if (!isHooked) {
-                xposedDialog = MaterialAlertDialogBuilder(requireContext()).run {
-                    setTitle(R.string.error_xposed_module_missing)
-                    setMessage(R.string.error_xposed_module_missing_desc)
-                    setCancelable(false)
-                    // Empty callback because we override it later
-                    setPositiveButton(R.string.enable) { _, _ -> }
-                    show()
-                }.apply {
-                    // Override button callback to stop it from dismissing the dialog
-                    getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                        val intent = requireContext().packageManager.getLaunchIntentForPackage(XPOSED_MANAGER_PACKAGE)
-                        if (intent == null) {
-                            Toast.makeText(requireContext(), R.string.error_xposed_manager_not_installed, Toast.LENGTH_SHORT)
-                                .show()
-                        } else {
-                            startActivity(intent)
+                val managerIntent = requireContext().packageManager.getLaunchIntentForPackage(XPOSED_MANAGER_PACKAGE)
+                if (managerIntent == null) {
+                    xposedDialog = MaterialAlertDialogBuilder(requireContext()).run {
+                        setTitle(R.string.error_xposed_manager_not_installed)
+                        setMessage(R.string.error_xposed_manager_not_installed_desc)
+                        setCancelable(false)
+                        show()
+                    }
+                } else {
+                    xposedDialog = MaterialAlertDialogBuilder(requireContext()).run {
+                        setTitle(R.string.error_xposed_module_missing)
+                        setMessage(R.string.error_xposed_module_missing_desc)
+                        setCancelable(false)
+                        // Empty callback because we override it later
+                        setPositiveButton(R.string.enable) { _, _ -> }
+                        show()
+                    }.apply {
+                        // Override button callback to stop it from dismissing the dialog
+                        getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                            startActivity(managerIntent)
                         }
                     }
                 }
