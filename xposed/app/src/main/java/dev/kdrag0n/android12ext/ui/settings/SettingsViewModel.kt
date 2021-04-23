@@ -96,13 +96,6 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
             defaultValue = true
             dependency = "global_enabled"
         }
-        switch("overscroll_bounce_enabled") {
-            titleRes = R.string.tweak_overscroll_bounce
-            summaryRes = R.string.tweak_overscroll_bounce_desc
-            iconRes = R.drawable.ic_fluent_phone_vertical_scroll_24_regular
-            defaultValue = true
-            dependency = "global_enabled"
-        }
         pref("tweaks_info") {
             iconRes = R.drawable.ic_fluent_info_24_regular
             summaryRes = R.string.tweaks_info

@@ -88,10 +88,6 @@ class XposedHook : IXposedHookLoadPackage {
         if (isFeatureEnabled("patterned_ripple")) {
             FrameworkHooks.applyRipple(lpparam)
         }
-
-        if (isFeatureEnabled("overscroll_bounce")) {
-            FrameworkHooks.applyEdge(lpparam)
-        }
     }
 
     private val reloadReceiver = object : BroadcastReceiver() {
