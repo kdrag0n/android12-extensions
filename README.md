@@ -1,37 +1,21 @@
 # Android 12 Extensions
 
-This is a Magisk module that enables hidden features on preview versions of Android 12. It also includes a clean settings app for customizing the list of features to enable and applying changes live, without rebooting.
+This is a Magisk module that enables hidden features on Android 12 Developer Preview 3. It also includes a clean settings app for customizing the list of features to enable and applying changes live, without rebooting.
 
-<img src="https://user-images.githubusercontent.com/7930239/113441957-ff78ef00-93a3-11eb-862e-ba9187d73363.png" alt="Screenshot of configuration app with changes pending" width="288" height="608"> <img src="https://user-images.githubusercontent.com/7930239/113441959-00118580-93a4-11eb-9abd-313613972f16.png" alt="Screenshot of more configuration options, with dark mode enabled" width="288" height="608">
+<img src="https://user-images.githubusercontent.com/7930239/115818045-c46d4880-a3b0-11eb-9c99-2e7c93244b78.png" alt="Screenshot of configuration app with changes pending" width="288" height="608"> <img src="https://user-images.githubusercontent.com/7930239/115818047-c505df00-a3b0-11eb-897b-478d358c0883.png" alt="Screenshot of more configuration options, with dark mode enabled" width="288" height="608">
 
 ## Features
 
-All versions:
-
 - **Settings app to toggle features and apply changes without rebooting**
-- Wallpaper-based theming in light and dark modes (fully dynamic on DP2)
-- New Settings, lock screen, and notification shade UIs
-- Machine-learning back gesture
-- Privacy dashboard
-- Restore quick wallet from Android 11
-- Remove partial notification swipe actions
-
-DP1 only:
-
-- Scrolling screenshots
-- Automatic notification ranking
-- One-handed mode (enabled by default on DP2)
-- Swipe for notifications gesture (enabled by default on DP2)
-- Picture-in-picture pinch-to-resize and stashing (enabled by default on DP2)
-- Camera and microphone toggles (QS tiles)
-
-DP2 and newer:
-
-- [Fully dynamic wallpaper-based theming](https://twitter.com/kdrag0n/status/1372438937390641156)
-- New toast UI
-- New lock screen animations
-- People Space widgets
+- [Dynamic wallpaper-based theming (Monet)](https://twitter.com/kdrag0n/status/1372438937390641156)
+- New lock screen, notification shade, [quick settings](https://twitter.com/kdrag0n/status/1385048665295790081), and toast designs
 - Game dashboard
+- [FPS counter](https://twitter.com/kdrag0n/status/1385029667334230021)
+- [Patterned ripple effects](https://twitter.com/kdrag0n/status/1385004640689811457)
+- [Charging ripple animation](https://twitter.com/kdrag0n/status/1385058302199885826)
+- [Quick settings tiles for upcoming alarms and Google Pay](https://twitter.com/kdrag0n/status/1385029676012216320)
+- New screen on/off animations
+- Machine-learning back gesture
 
 ## Support
 
