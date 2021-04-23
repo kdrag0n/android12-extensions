@@ -57,6 +57,13 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
             defaultValue = true
             dependency = "global_enabled"
         }
+        switch("quick_settings_enabled") {
+            titleRes = R.string.feature_quick_settings
+            summaryRes = R.string.feature_quick_settings_desc
+            iconRes = R.drawable.ic_fluent_table_settings_24_regular
+            defaultValue = true
+            dependency = "global_enabled"
+        }
         switch("toast_enabled") {
             titleRes = R.string.feature_toast
             summaryRes = R.string.feature_toast_desc

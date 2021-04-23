@@ -20,6 +20,8 @@
     <string name="feature_lockscreen_desc">Clock, screen lock, and screen on/off animations</string>
     <string name="feature_notification_shade">Notification shade design</string>
     <string name="feature_notification_shade_desc">Solid background and brightness slider</string>
+    <string name="feature_quick_settings">Quick settings design</string>
+    <string name="feature_quick_settings_desc">Fullscreen panel with large, rounded rectangle tiles</string>
     <string name="feature_toast">Toast design</string>
     <string name="feature_toast_desc">App icon and solid background</string>
     <string name="feature_game_dashboard">Game dashboard</string>

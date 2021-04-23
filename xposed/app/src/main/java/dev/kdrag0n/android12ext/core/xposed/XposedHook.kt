@@ -24,13 +24,13 @@ private val FEATURE_FLAGS = mapOf(
     "useNewLockscreenAnimations" to "lockscreen",
 
     // DP3
-    "isQSLabelsEnabled" to "global", // crashes on DP2
-    "isAlarmTileAvailable" to "global",
-    "isChargingRippleEnabled" to "global",
-    "isNavigationBarOverlayEnabled" to "global", // for game dashboard?
-    "isPMLiteEnabled" to "global", // doesn't work
-    "isQuickAccessWalletEnabled" to "global",
-    "isTwoColumnNotificationShadeEnabled" to "global", // landscape tablets only
+    "isQSLabelsEnabled" to "quick_settings", // crashes on DP2
+    "isAlarmTileAvailable" to "global", // optional QS tile, no reason to keep disabled
+    "isChargingRippleEnabled" to "lockscreen", // only affects keyguard, so assign to lock screen
+    "isNavigationBarOverlayEnabled" to "global", // for game dashboard, does nothing otherwise
+    "isPMLiteEnabled" to "quick_settings", // doesn't work
+    "isQuickAccessWalletEnabled" to "global", // optional QS tile, no reason to keep disabled
+    "isTwoColumnNotificationShadeEnabled" to "notification_shade", // landscape tablets only
 )
 
 class XposedHook : IXposedHookLoadPackage {
