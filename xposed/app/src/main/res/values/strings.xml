@@ -28,6 +28,8 @@
     <string name="feature_game_dashboard_desc">Quick screenshots and Do Not Disturb</string>
     <string name="feature_privacy_indicators">Privacy indicators</string>
     <string name="feature_privacy_indicators_desc">Camera, microphone, and location</string>
+    <string name="feature_charging_ripple">Charging ripple animation</string>
+    <string name="feature_charging_ripple_desc">Play ripple animation when starting to charge (lock screen only)</string>
 
     <!-- Tweaks -->
     <string name="tweaks">Tweaks</string>

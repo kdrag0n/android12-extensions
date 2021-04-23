@@ -85,6 +85,13 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
             defaultValue = true
             dependency = "global_enabled"
         }
+        switch("charging_ripple_enabled") {
+            titleRes = R.string.feature_charging_ripple
+            summaryRes = R.string.feature_charging_ripple_desc
+            iconRes = R.drawable.ic_fluent_battery_charge_24_regular
+            defaultValue = true
+            dependency = "global_enabled"
+        }
 
         categoryHeader("tweaks") {
             titleRes = R.string.tweaks

@@ -26,7 +26,7 @@ private val FEATURE_FLAGS = mapOf(
     // DP3
     "isQSLabelsEnabled" to "quick_settings", // crashes on DP2
     "isAlarmTileAvailable" to "global", // optional QS tile, no reason to keep disabled
-    "isChargingRippleEnabled" to "lockscreen", // only affects keyguard, so assign to lock screen
+    "isChargingRippleEnabled" to "charging_ripple", // only affects keyguard, so assign to lock screen
     "isNavigationBarOverlayEnabled" to "global", // for game dashboard, does nothing otherwise
     "isPMLiteEnabled" to "quick_settings", // doesn't work
     "isQuickAccessWalletEnabled" to "global", // optional QS tile, no reason to keep disabled
