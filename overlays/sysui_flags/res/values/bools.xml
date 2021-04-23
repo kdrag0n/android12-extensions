@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <bool name="flag_shade_is_opaque">true</bool>
-    <bool name="flag_brightness_slider">true</bool>
-    <bool name="flag_qs_labels">true</bool>
-    <bool name="flag_keyguard_layout">true</bool>
-</resources>

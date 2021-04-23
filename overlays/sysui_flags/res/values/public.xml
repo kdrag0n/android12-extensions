@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <public type="bool" name="flag_shade_is_opaque" id="0x7f050000" />
-    <public type="bool" name="flag_brightness_slider" id="0x7f050001" />
-    <public type="bool" name="flag_qs_labels" id="0x7f050002" />
-    <public type="bool" name="flag_keyguard_layout" id="0x7f050003" />
-</resources>
