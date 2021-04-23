@@ -43,13 +43,6 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
             defaultValue = true
             dependency = "global_enabled"
         }
-        switch("people_enabled") {
-            titleRes = R.string.feature_people
-            summaryRes = R.string.feature_people_desc
-            iconRes = R.drawable.ic_fluent_people_24_regular
-            defaultValue = true
-            dependency = "global_enabled"
-        }
         switch("lockscreen_enabled") {
             titleRes = R.string.feature_lockscreen
             summaryRes = R.string.feature_lockscreen_desc

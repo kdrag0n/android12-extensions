@@ -18,7 +18,6 @@ private val FEATURE_FLAGS = mapOf(
     "isMonetEnabled" to "monet",
     //"isNewNotifPipelineEnabled" to "notification_shade", // crashes on DP2, does nothing on DP3
     //"isNewNotifPipelineRenderingEnabled" to "notification_shade", // breaks notifications
-    "isPeopleTileEnabled" to "people",
     "isShadeOpaque" to "notification_shade",
     "isToastStyleEnabled" to "toast",
     "useNewBrightnessSlider" to "notification_shade",

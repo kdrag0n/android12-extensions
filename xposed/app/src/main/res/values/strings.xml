@@ -16,8 +16,6 @@
     <string name="features">Features</string>
     <string name="feature_monet">Monet</string>
     <string name="feature_monet_desc">Colorful wallpaper-based theming</string>
-    <string name="feature_people">People Space widget</string>
-    <string name="feature_people_desc">Conversation widgets on home screen</string>
     <string name="feature_lockscreen">Lock screen design</string>
     <string name="feature_lockscreen_desc">Clock, screen lock, and screen on/off animations</string>
     <string name="feature_notification_shade">Notification shade design</string>
