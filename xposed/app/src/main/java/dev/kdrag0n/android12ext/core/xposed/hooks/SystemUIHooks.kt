@@ -85,13 +85,4 @@ object SystemUIHooks {
                 privacyIndicators,
         )
     }
-
-    fun applyOneHandedBouncer(lpparam: XC_LoadPackage.LoadPackageParam) {
-        lpparam.hookMethod(
-            "com.android.keyguard.KeyguardSecurityContainer",
-            featureFlag,
-            "canUseOneHandedBouncer",
-        )
-    }
-
 }
