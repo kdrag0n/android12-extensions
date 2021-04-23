@@ -5,6 +5,7 @@ import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.core.xposed.hookMethod
+import timber.log.Timber
 
 object SystemUIHooks {
     private const val FEATURE_FLAGS_CLASS = "com.android.systemui.statusbar.FeatureFlags"
@@ -44,7 +45,11 @@ object SystemUIHooks {
     }
 
     fun applyFeatureFlag(lpparam: XC_LoadPackage.LoadPackageParam, flag: String) {
-        lpparam.hookMethod(FEATURE_FLAGS_CLASS, featureFlag, flag)
+        try {
+            lpparam.hookMethod(FEATURE_FLAGS_CLASS, featureFlag, flag)
+        } catch (e: NoSuchMethodException) {
+            Timber.w("Feature flag does not exist: $flag")
+        }
     }
 
     fun applyGameDashboard(lpparam: XC_LoadPackage.LoadPackageParam) {
