@@ -21,7 +21,7 @@ object Broadcasts {
 
     private const val PING_ACTION = "${BuildConfig.APPLICATION_ID}.REMOTE_PING"
     private const val PONG_ACTION = "${BuildConfig.APPLICATION_ID}.REMOTE_PONG"
-    private const val PING_TIMEOUT = 50L
+    private const val PING_TIMEOUT = 150L
     private val pingLock = Mutex()
 
     suspend fun pingSysUi(context: Context): Boolean {
