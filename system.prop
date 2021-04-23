@@ -14,3 +14,6 @@ persist.sys.disable_rescue=true
 
 # Rounded screenshots
 #debug.screenshot_rounded_corners=true
+
+# Patterned ripple
+#persist.material.patternedripple=true
