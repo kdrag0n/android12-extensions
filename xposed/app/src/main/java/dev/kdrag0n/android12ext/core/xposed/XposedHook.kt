@@ -13,15 +13,25 @@ import dev.kdrag0n.android12ext.core.xposed.hooks.SystemUIHooks
 import kotlin.system.exitProcess
 
 private val FEATURE_FLAGS = mapOf(
+    // DP2
     "isKeyguardLayoutEnabled" to "lockscreen",
     "isMonetEnabled" to "monet",
+    //"isNewNotifPipelineEnabled" to "notification_shade", // crashes on DP2, does nothing on DP3
     //"isNewNotifPipelineRenderingEnabled" to "notification_shade", // breaks notifications
     "isPeopleTileEnabled" to "people",
-    //"isQSLabelsEnabled" to "notification_shade", // causes crash
     "isShadeOpaque" to "notification_shade",
     "isToastStyleEnabled" to "toast",
     "useNewBrightnessSlider" to "notification_shade",
     "useNewLockscreenAnimations" to "lockscreen",
+
+    // DP3
+    "isQSLabelsEnabled" to "global", // crashes on DP2
+    "isAlarmTileAvailable" to "global",
+    "isChargingRippleEnabled" to "global",
+    "isNavigationBarOverlayEnabled" to "global", // for game dashboard?
+    "isPMLiteEnabled" to "global", // doesn't work
+    "isQuickAccessWalletEnabled" to "global",
+    "isTwoColumnNotificationShadeEnabled" to "global", // landscape tablets only
 )
 
 class XposedHook : IXposedHookLoadPackage {
