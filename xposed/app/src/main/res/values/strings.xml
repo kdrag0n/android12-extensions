@@ -33,7 +33,7 @@
     <string name="tweaks">Tweaks</string>
     <string name="tweak_patterned_ripple">Patterned ripple effects</string>
     <string name="tweak_patterned_ripple_desc">Touch ripple with noise and gradient</string>
-    <string name="tweaks_info">Tweaks are per-app user interface changes that won’t become default behavior. The Xposed module needs to be enabled for every app you want to tweak.</string>
+    <string name="tweaks_info">Tweaks are per-app interface changes. The Xposed module needs to be enabled for every app you want to tweak.</string>
 
     <!-- Errors -->
     <string name="error_xposed_module_missing">Xposed module is not enabled</string>
