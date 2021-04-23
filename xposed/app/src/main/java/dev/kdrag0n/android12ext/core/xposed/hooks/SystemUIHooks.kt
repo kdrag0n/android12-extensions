@@ -38,7 +38,6 @@ object SystemUIHooks {
 
     private val privacyIndicators = object : XC_MethodHook() {
         override fun afterHookedMethod(param: MethodHookParam) {
-            XposedHelpers.setBooleanField(param.thisObject, "allIndicatorsAvailable", true)
             XposedHelpers.setBooleanField(param.thisObject, "micCameraAvailable", true)
             XposedHelpers.setBooleanField(param.thisObject, "locationAvailable", true)
         }
