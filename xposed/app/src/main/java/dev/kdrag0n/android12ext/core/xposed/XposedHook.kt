@@ -56,6 +56,8 @@ class XposedHook : IXposedHookLoadPackage {
             SystemUIHooks.applyGameDashboard(lpparam)
         }
 
+        SystemUIHooks.applyOneHandedBouncer(lpparam)
+
         // Hide red background in rounded screenshots
         SystemUIHooks.applyRoundedScreenshotBg(lpparam)
     }
