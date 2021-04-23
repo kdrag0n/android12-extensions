@@ -148,14 +148,6 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
         app.sendBroadcast(Intent(Broadcasts.RELOAD_ACTION))
     }
 
-    // Set initial state to true to avoid a dialog flash
-    val isXposedHooked = MutableLiveData(true)
-    fun updateHookState() {
-        viewModelScope.launch {
-            isXposedHooked.value = Broadcasts.pingSysUi(app)
-        }
-    }
-
     init {
         prefs.registerOnSharedPreferenceChangeListener(prefChangeListener)
     }
