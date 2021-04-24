@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         setupActionBarWithNavController(navController)
 
-
         viewModel.isXposedHooked.observe(this) { isHooked ->
             xposedDialog?.dismiss()
             xposedDialog = null

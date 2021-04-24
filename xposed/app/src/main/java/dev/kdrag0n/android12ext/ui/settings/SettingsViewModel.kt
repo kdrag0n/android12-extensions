@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import de.Maxr1998.modernpreferences.Preference
@@ -14,12 +13,14 @@ import de.Maxr1998.modernpreferences.helpers.*
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.*
 import dev.kdrag0n.android12ext.core.xposed.XposedPreferenceProvider
+import dev.kdrag0n.android12ext.ui.NavViewModel
 import dev.kdrag0n.android12ext.ui.utils.buildWithPrefs
+import dev.kdrag0n.android12ext.ui.utils.navPref
 import dev.kdrag0n.android12ext.ui.utils.setInteractive
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
+class SettingsViewModel(private val app: Application) : NavViewModel(app) {
     private val prefs = app.createDeviceProtectedStorageContext()
         .getSharedPreferences(XposedPreferenceProvider.DEFAULT_PREFS, Context.MODE_PRIVATE)
 
@@ -33,82 +34,33 @@ class SettingsViewModel(private val app: Application) : AndroidViewModel(app) {
             defaultValue = true
         }
 
-        categoryHeader("features") {
-            titleRes = R.string.features
+        categoryHeader("settings") {
+            titleRes = R.string.settings
         }
-        switch("monet_enabled") {
-            titleRes = R.string.feature_monet
-            summaryRes = R.string.feature_monet_desc
-            iconRes = R.drawable.ic_fluent_paint_brush_24_regular
-            defaultValue = true
-            dependency = "global_enabled"
-        }
-        switch("lockscreen_enabled") {
-            titleRes = R.string.feature_lockscreen
-            summaryRes = R.string.feature_lockscreen_desc
-            iconRes = R.drawable.ic_fluent_lock_closed_24_regular
-            defaultValue = true
-            dependency = "global_enabled"
-        }
-        switch("notification_shade_enabled") {
-            titleRes = R.string.feature_notification_shade
-            summaryRes = R.string.feature_notification_shade_desc
-            iconRes = R.drawable.ic_fluent_alert_24_regular
-            defaultValue = true
-            dependency = "global_enabled"
-        }
-        switch("quick_settings_enabled") {
-            titleRes = R.string.feature_quick_settings
-            summaryRes = R.string.feature_quick_settings_desc
-            iconRes = R.drawable.ic_fluent_table_settings_24_regular
-            defaultValue = true
-            dependency = "global_enabled"
-        }
-        switch("toast_enabled") {
-            titleRes = R.string.feature_toast
-            summaryRes = R.string.feature_toast_desc
-            iconRes = R.drawable.ic_fluent_badge_24_regular
-            defaultValue = true
-            dependency = "global_enabled"
-        }
-        switch("game_dashboard_enabled") {
-            titleRes = R.string.feature_game_dashboard
-            summaryRes = R.string.feature_game_dashboard_desc
-            iconRes = R.drawable.ic_fluent_games_24_regular
-            defaultValue = true
-            dependency = "global_enabled"
-        }
-        switch("privacy_indicators_enabled") {
-            titleRes = R.string.feature_privacy_indicators
-            summaryRes = R.string.feature_privacy_indicators_desc
-            iconRes = R.drawable.ic_fluent_incognito_24_regular
-            defaultValue = true
-            dependency = "global_enabled"
-        }
-        switch("charging_ripple_enabled") {
-            titleRes = R.string.feature_charging_ripple
-            summaryRes = R.string.feature_charging_ripple_desc
-            iconRes = R.drawable.ic_fluent_battery_charge_24_regular
-            defaultValue = true
-            dependency = "global_enabled"
-        }
-
-        categoryHeader("tweaks") {
-            titleRes = R.string.tweaks
-        }
-        switch("patterned_ripple_enabled") {
-            titleRes = R.string.tweak_patterned_ripple
-            summaryRes = R.string.tweak_patterned_ripple_desc
-            iconRes = R.drawable.ic_fluent_tap_single_24_regular
-            defaultValue = true
-            dependency = "global_enabled"
-        }
-        pref("tweaks_info") {
-            iconRes = R.drawable.ic_fluent_info_24_regular
-            summaryRes = R.string.tweaks_info
-            // Disabling the view makes the text contrast too low, so use our extension instead
-            setInteractive(false)
-        }
+        navPref(
+            key = "settings_system",
+            title = R.string.settings_system,
+            summary = R.string.settings_system_desc,
+            icon = R.drawable.ic_fluent_phone_24_regular,
+            action = R.id.action_settings_root_to_system,
+            vm = this@SettingsViewModel,
+        )
+        navPref(
+            key = "settings_tweaks",
+            title = R.string.settings_tweaks,
+            summary = R.string.settings_tweaks_desc,
+            icon = R.drawable.ic_fluent_wrench_24_regular,
+            action = R.id.action_settings_root_to_system,
+            vm = this@SettingsViewModel,
+        )
+        navPref(
+            key = "settings_mods",
+            title = R.string.settings_mods,
+            summary = R.string.settings_mods_desc,
+            icon = R.drawable.ic_fluent_layer_24_regular,
+            action = R.id.action_settings_root_to_system,
+            vm = this@SettingsViewModel,
+        )
 
         buildWithPrefs(prefs)
     }

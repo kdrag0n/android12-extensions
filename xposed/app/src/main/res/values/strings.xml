@@ -11,6 +11,13 @@
     <!-- Settings -->
     <string name="enabled">Enable features</string>
     <string name="enabled_desc">Quickly toggle all features for testing</string>
+    <string name="settings">Settings</string>
+    <string name="settings_system">System</string>
+    <string name="settings_system_desc">New system features and changes</string>
+    <string name="settings_tweaks">Tweaks</string>
+    <string name="settings_tweaks_desc">Per-app interface changes</string>
+    <string name="settings_mods">Mods</string>
+    <string name="settings_mods_desc">Unofficial modifications to the system</string>
 
     <!-- Features -->
     <string name="features">Features</string>
@@ -32,7 +39,6 @@
     <string name="feature_charging_ripple_desc">Fullscreen ripple animation when connecting charger (lock screen only)</string>
 
     <!-- Tweaks -->
-    <string name="tweaks">Tweaks</string>
     <string name="tweak_patterned_ripple">Patterned ripple effects</string>
     <string name="tweak_patterned_ripple_desc">Touch ripple with noise and gradient</string>
     <string name="tweaks_info">Tweaks are per-app interface changes. The Xposed module needs to be enabled for every app you want to tweak.</string>

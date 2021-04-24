@@ -1,9 +1,8 @@
-package dev.kdrag0n.android12ext.ui.settings
+package dev.kdrag0n.android12ext.ui.settings.system
 
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,11 +12,9 @@ import dev.chrisbanes.insetter.applyInsetter
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.ui.BaseFragment
 import dev.kdrag0n.android12ext.ui.utils.NoSwipeBehavior
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
-class SettingsFragment : BaseFragment() {
-    private val viewModel: SettingsViewModel by viewModels()
+class SystemSettingsFragment : BaseFragment() {
+    private val viewModel: SystemSettingsViewModel by viewModels()
 
     private var reloadSnackbar: Snackbar? = null
 
@@ -25,7 +22,6 @@ class SettingsFragment : BaseFragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
@@ -62,31 +58,6 @@ class SettingsFragment : BaseFragment() {
                     show()
                 }
             }
-        }
-
-        viewModel.navDest.observe(viewLifecycleOwner) { dest ->
-            if (dest != null) {
-                findNavController().navigate(dest)
-                viewModel.navDest.value = null
-            }
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_settings, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return super.onOptionsItemSelected(item) || when (item.itemId) {
-            R.id.action_force_reload -> {
-                viewModel.broadcastReload()
-                true
-            }
-            R.id.action_about -> {
-                findNavController().navigate(R.id.action_settings_root_to_about)
-                true
-            }
-            else -> false
         }
     }
 }

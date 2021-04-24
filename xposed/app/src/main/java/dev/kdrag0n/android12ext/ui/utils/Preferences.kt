@@ -2,8 +2,17 @@ package dev.kdrag0n.android12ext.ui.utils
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
+import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import de.Maxr1998.modernpreferences.Preference
 import de.Maxr1998.modernpreferences.PreferenceScreen
+import de.Maxr1998.modernpreferences.helpers.onClick
+import de.Maxr1998.modernpreferences.helpers.pref
+import de.Maxr1998.modernpreferences.helpers.switch
+import de.Maxr1998.modernpreferences.preferences.SwitchPreference
+import dev.kdrag0n.android12ext.R
+import dev.kdrag0n.android12ext.ui.NavViewModel
 
 // We need this in order to use device-encrypted preferences with ModernAndroidPreferences
 fun PreferenceScreen.Builder.buildWithPrefs(prefs: SharedPreferences): PreferenceScreen {
@@ -29,6 +38,41 @@ fun Preference.setInteractive(interactive: Boolean) {
             holder.itemView.setOnTouchListener { _, _ ->
                 true
             }
+        }
+    }
+}
+
+fun PreferenceScreen.Appendable.featureSwitch(
+    key: String,
+    @StringRes title: Int,
+    @StringRes summary: Int,
+    @DrawableRes icon: Int,
+) {
+    switch("${key}_enabled") {
+        titleRes = title
+        summaryRes = summary
+        iconRes = icon
+        defaultValue = true
+    }
+}
+
+fun PreferenceScreen.Appendable.navPref(
+    key: String,
+    @StringRes title: Int,
+    @StringRes summary: Int,
+    @DrawableRes icon: Int,
+    @IdRes action: Int,
+    vm: NavViewModel,
+) {
+    pref("nav_${key}_enabled") {
+        titleRes = title
+        summaryRes = summary
+        iconRes = icon
+        persistent = false
+
+        onClick {
+            vm.navDest.value = action
+            false
         }
     }
 }
