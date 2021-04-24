@@ -73,6 +73,11 @@ class XposedHook : IXposedHookLoadPackage {
     private fun applyAll(lpparam: XC_LoadPackage.LoadPackageParam) {
         // Global kill-switch
         if (!isFeatureEnabled("global")) {
+            // Always register broadcast receiver in System UI
+            if (lpparam.packageName == "com.android.systemui") {
+                broadcastManager.listenForPings()
+            }
+
             return
         }
 
