@@ -59,4 +59,5 @@ dependencies {
     implementation 'com.crossbowffs.remotepreferences:remotepreferences:0.8'
     implementation 'com.mikepenz:aboutlibraries:8.8.4'
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'io.insert-koin:koin-android:3.0.1'
 }

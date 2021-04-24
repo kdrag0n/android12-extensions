@@ -2,8 +2,6 @@ package dev.kdrag0n.android12ext.ui.settings
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,12 +10,12 @@ import com.google.android.material.snackbar.Snackbar
 import dev.chrisbanes.insetter.applyInsetter
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.ui.BaseFragment
+import dev.kdrag0n.android12ext.ui.observeNav
 import dev.kdrag0n.android12ext.ui.utils.NoSwipeBehavior
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : BaseFragment() {
-    private val viewModel: SettingsViewModel by viewModels()
+    private val viewModel: SettingsViewModel by viewModel()
 
     private var reloadSnackbar: Snackbar? = null
 
@@ -64,12 +62,7 @@ class SettingsFragment : BaseFragment() {
             }
         }
 
-        viewModel.navDest.observe(viewLifecycleOwner) { dest ->
-            if (dest != null) {
-                findNavController().navigate(dest)
-                viewModel.navDest.value = null
-            }
-        }
+        viewModel.navDest.observeNav(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

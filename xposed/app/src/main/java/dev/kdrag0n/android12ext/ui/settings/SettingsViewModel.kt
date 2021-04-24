@@ -1,7 +1,6 @@
 package dev.kdrag0n.android12ext.ui.settings
 
 import android.app.Application
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
@@ -12,18 +11,17 @@ import de.Maxr1998.modernpreferences.PreferencesAdapter
 import de.Maxr1998.modernpreferences.helpers.*
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.*
-import dev.kdrag0n.android12ext.core.xposed.XposedPreferenceProvider
+import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.ui.NavViewModel
 import dev.kdrag0n.android12ext.ui.utils.buildWithPrefs
 import dev.kdrag0n.android12ext.ui.utils.navPref
-import dev.kdrag0n.android12ext.ui.utils.setInteractive
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SettingsViewModel(private val app: Application) : NavViewModel(app) {
-    private val prefs = app.createDeviceProtectedStorageContext()
-        .getSharedPreferences(XposedPreferenceProvider.DEFAULT_PREFS, Context.MODE_PRIVATE)
-
+class SettingsViewModel(
+    private val app: Application,
+    private val settingsRepo: SettingsRepository,
+) : NavViewModel(app) {
     private val prefScreen = PreferenceScreen.Builder(app).run {
         Preference.Config.summaryMaxLines = 5
 
@@ -62,7 +60,7 @@ class SettingsViewModel(private val app: Application) : NavViewModel(app) {
             vm = this@SettingsViewModel,
         )
 
-        buildWithPrefs(prefs)
+        buildWithPrefs(settingsRepo.prefs)
     }
     val prefAdapter = PreferencesAdapter(prefScreen)
 
@@ -101,10 +99,10 @@ class SettingsViewModel(private val app: Application) : NavViewModel(app) {
     }
 
     init {
-        prefs.registerOnSharedPreferenceChangeListener(prefChangeListener)
+        settingsRepo.prefs.registerOnSharedPreferenceChangeListener(prefChangeListener)
     }
 
     override fun onCleared() {
-        prefs.unregisterOnSharedPreferenceChangeListener(prefChangeListener)
+        settingsRepo.prefs.unregisterOnSharedPreferenceChangeListener(prefChangeListener)
     }
 }

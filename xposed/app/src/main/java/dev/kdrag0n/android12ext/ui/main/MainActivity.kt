@@ -1,7 +1,6 @@
 package dev.kdrag0n.android12ext.ui.main
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -11,11 +10,12 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.chrisbanes.insetter.applyInsetter
 import dev.kdrag0n.android12ext.R
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val XPOSED_MANAGER_PACKAGE = "org.lsposed.manager"
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModel()
 
     private lateinit var navController: NavController
     private var xposedDialog: AlertDialog? = null

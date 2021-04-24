@@ -2,8 +2,6 @@ package dev.kdrag0n.android12ext.ui.settings.system
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -12,9 +10,10 @@ import dev.chrisbanes.insetter.applyInsetter
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.ui.BaseFragment
 import dev.kdrag0n.android12ext.ui.utils.NoSwipeBehavior
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SystemSettingsFragment : BaseFragment() {
-    private val viewModel: SystemSettingsViewModel by viewModels()
+    private val viewModel: SystemSettingsViewModel by viewModel()
 
     private var reloadSnackbar: Snackbar? = null
 
@@ -46,10 +45,10 @@ class SystemSettingsFragment : BaseFragment() {
 
             if (shouldReload) {
                 reloadSnackbar = Snackbar.make(
-                        view,
-                        R.string.applying_changes,
-                        // We take care of showing and dismissing it
-                        BaseTransientBottomBar.LENGTH_INDEFINITE
+                    view,
+                    R.string.applying_changes,
+                    // We take care of showing and dismissing it
+                    BaseTransientBottomBar.LENGTH_INDEFINITE
                 ).apply {
                     setAction(R.string.cancel) {
                         viewModel.showReloadWarning.value = false
