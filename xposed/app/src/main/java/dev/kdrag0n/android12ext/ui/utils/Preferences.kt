@@ -64,12 +64,14 @@ fun PreferenceScreen.Appendable.navPref(
     @DrawableRes icon: Int,
     @IdRes action: Int,
     vm: NavViewModel,
+    dependency: String? = null,
 ) {
     pref("nav_${key}_enabled") {
         titleRes = title
         summaryRes = summary
         iconRes = icon
         persistent = false
+        this.dependency = dependency
 
         onClick {
             vm.navDest.value = action

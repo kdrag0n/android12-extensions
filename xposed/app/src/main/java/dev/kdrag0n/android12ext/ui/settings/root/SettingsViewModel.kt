@@ -37,6 +37,7 @@ class SettingsViewModel(
             icon = R.drawable.ic_fluent_phone_24_regular,
             action = R.id.action_settings_root_to_system,
             vm = this@SettingsViewModel,
+            dependency = "global_enabled",
         )
         navPref(
             key = "settings_tweaks",
@@ -45,6 +46,7 @@ class SettingsViewModel(
             icon = R.drawable.ic_fluent_wrench_24_regular,
             action = R.id.action_settings_root_to_tweaks,
             vm = this@SettingsViewModel,
+            dependency = "global_enabled",
         )
         navPref(
             key = "settings_mods",
@@ -53,6 +55,7 @@ class SettingsViewModel(
             icon = R.drawable.ic_fluent_layer_24_regular,
             action = R.id.action_settings_root_to_mods,
             vm = this@SettingsViewModel,
+            dependency = "global_enabled",
         )
 
         buildWithPrefs(settingsRepo.prefs)
