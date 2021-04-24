@@ -1,22 +1,19 @@
 package dev.kdrag0n.android12ext.ui.settings.system
 
 import android.app.Application
-import android.content.Context
-import androidx.lifecycle.AndroidViewModel
 import de.Maxr1998.modernpreferences.Preference
 import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.PreferencesAdapter
 import dev.kdrag0n.android12ext.R
-import dev.kdrag0n.android12ext.core.xposed.XposedPreferenceProvider
+import dev.kdrag0n.android12ext.core.data.SettingsRepository
+import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.buildWithPrefs
 import dev.kdrag0n.android12ext.ui.utils.featureSwitch
 
 class SystemSettingsViewModel(
-    app: Application
-) : AndroidViewModel(app) {
-    private val prefs = app.createDeviceProtectedStorageContext()
-        .getSharedPreferences(XposedPreferenceProvider.DEFAULT_PREFS, Context.MODE_PRIVATE)
-
+    app: Application,
+    private val settingsRepo: SettingsRepository,
+) : BaseSettingsViewModel(app) {
     private val prefScreen = PreferenceScreen.Builder(app).run {
         Preference.Config.summaryMaxLines = 5
 
@@ -86,7 +83,7 @@ class SystemSettingsViewModel(
             setInteractive(false)
         }
 */
-        buildWithPrefs(prefs)
+        buildWithPrefs(settingsRepo.prefs)
     }
-    val prefAdapter = PreferencesAdapter(prefScreen)
+    override val prefAdapter = PreferencesAdapter(prefScreen)
 }

@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.ui.settings
+package dev.kdrag0n.android12ext.ui.settings.root
 
 import android.app.Application
 import de.Maxr1998.modernpreferences.Preference
@@ -8,7 +8,7 @@ import de.Maxr1998.modernpreferences.helpers.*
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.*
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
-import dev.kdrag0n.android12ext.ui.NavViewModel
+import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.buildWithPrefs
 import dev.kdrag0n.android12ext.ui.utils.navPref
 
@@ -16,7 +16,7 @@ class SettingsViewModel(
     app: Application,
     private val settingsRepo: SettingsRepository,
     private val broadcastManager: BroadcastManager,
-) : NavViewModel(app) {
+) : BaseSettingsViewModel(app) {
     private val prefScreen = PreferenceScreen.Builder(app).run {
         Preference.Config.summaryMaxLines = 5
 
@@ -57,7 +57,7 @@ class SettingsViewModel(
 
         buildWithPrefs(settingsRepo.prefs)
     }
-    val prefAdapter = PreferencesAdapter(prefScreen)
+    override val prefAdapter = PreferencesAdapter(prefScreen)
 
     fun reload() {
         broadcastManager.broadcastReload()

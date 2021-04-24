@@ -4,7 +4,7 @@ import android.app.Application
 import dev.kdrag0n.android12ext.core.BroadcastManager
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.ui.main.MainViewModel
-import dev.kdrag0n.android12ext.ui.settings.SettingsViewModel
+import dev.kdrag0n.android12ext.ui.settings.root.SettingsViewModel
 import dev.kdrag0n.android12ext.ui.settings.system.SystemSettingsViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -26,7 +26,7 @@ class CustomApplication : Application() {
 
             viewModel { MainViewModel(get(), get()) }
             viewModel { SettingsViewModel(get(), get(), get()) }
-            viewModel { SystemSettingsViewModel(get()) }
+            viewModel { SystemSettingsViewModel(get(), get()) }
         }
 
         startKoin {
