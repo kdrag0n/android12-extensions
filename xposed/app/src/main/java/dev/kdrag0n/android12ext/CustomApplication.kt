@@ -5,6 +5,7 @@ import de.Maxr1998.modernpreferences.Preference
 import dev.kdrag0n.android12ext.core.BroadcastManager
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.ui.main.MainViewModel
+import dev.kdrag0n.android12ext.ui.settings.mods.ModsSettingsViewModel
 import dev.kdrag0n.android12ext.ui.settings.root.SettingsViewModel
 import dev.kdrag0n.android12ext.ui.settings.system.SystemSettingsViewModel
 import dev.kdrag0n.android12ext.ui.settings.tweaks.TweakSettingsViewModel
@@ -32,6 +33,7 @@ class CustomApplication : Application() {
             viewModel { SettingsViewModel(get(), get(), get()) }
             viewModel { SystemSettingsViewModel(get(), get()) }
             viewModel { TweakSettingsViewModel(get(), get()) }
+            viewModel { ModsSettingsViewModel(get(), get()) }
         }
 
         startKoin {

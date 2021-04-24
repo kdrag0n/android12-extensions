@@ -47,12 +47,13 @@ fun PreferenceScreen.Appendable.featureSwitch(
     @StringRes title: Int,
     @StringRes summary: Int,
     @DrawableRes icon: Int,
+    default: Boolean = true
 ) {
     switch("${key}_enabled") {
         titleRes = title
         summaryRes = summary
         iconRes = icon
-        defaultValue = true
+        defaultValue = default
     }
 }
 

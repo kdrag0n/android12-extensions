@@ -43,6 +43,11 @@
     <string name="tweak_patterned_ripple_desc">Touch ripple with noise and gradient</string>
     <string name="tweaks_info">Tweaks are per-app interface changes. The Xposed module needs to be enabled for every app you want to tweak.</string>
 
+    <!-- Mods -->
+    <string name="mod_haptic_touch">Vibrate on touch</string>
+    <string name="mod_haptic_touch_desc">Subtle vibration when you touch an interactive element in most apps</string>
+    <string name="mods_info">Mods are unofficial modifications to the system, not part of Android 12 itself.</string>
+
     <!-- Errors -->
     <string name="error_xposed_module_missing">Xposed module is not enabled</string>
     <string name="error_xposed_module_missing_desc">In order for this app to work, you need to enable the included Xposed module for the “System UI” app in LSPosed Manager and restart your device.</string>

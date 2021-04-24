@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.ui.settings.tweaks
+package dev.kdrag0n.android12ext.ui.settings.mods
 
 import android.app.Application
 import de.Maxr1998.modernpreferences.PreferenceScreen
@@ -11,20 +11,21 @@ import dev.kdrag0n.android12ext.ui.utils.buildWithPrefs
 import dev.kdrag0n.android12ext.ui.utils.featureSwitch
 import dev.kdrag0n.android12ext.ui.utils.setInteractive
 
-class TweakSettingsViewModel(
+class ModsSettingsViewModel(
     app: Application,
     private val settingsRepo: SettingsRepository,
 ) : BaseSettingsViewModel(app) {
     private val prefScreen = PreferenceScreen.Builder(app).run {
         featureSwitch(
-            key = "patterned_ripple",
-            title = R.string.tweak_patterned_ripple,
-            summary = R.string.tweak_patterned_ripple_desc,
-            icon = R.drawable.ic_fluent_tap_single_24_regular,
+            key = "haptic_touch",
+            title = R.string.mod_haptic_touch,
+            summary = R.string.mod_haptic_touch_desc,
+            icon = R.drawable.ic_fluent_phone_vibrate_24_regular,
+            default = false,
         )
-        pref("tweaks_info") {
+        pref("mods_info") {
             iconRes = R.drawable.ic_fluent_info_24_regular
-            summaryRes = R.string.tweaks_info
+            summaryRes = R.string.mods_info
             // Disabling the view makes the text contrast too low, so use our extension instead
             setInteractive(false)
         }

@@ -51,7 +51,7 @@ class SettingsViewModel(
             title = R.string.settings_mods,
             summary = R.string.settings_mods_desc,
             icon = R.drawable.ic_fluent_layer_24_regular,
-            action = R.id.action_settings_root_to_tweaks,
+            action = R.id.action_settings_root_to_mods,
             vm = this@SettingsViewModel,
         )
 
