@@ -46,7 +46,7 @@
     <!-- Mods -->
     <string name="mod_haptic_touch">Vibrate on touch</string>
     <string name="mod_haptic_touch_desc">Subtle vibration when you touch an interactive element in most apps</string>
-    <string name="mods_info">Mods are unofficial modifications to the system, not part of Android 12 itself.</string>
+    <string name="mods_info">Mods are unofficial modifications to the system, not part of Android 12 itself. Similar to tweaks, the Xposed module needs to be enabled for every app you want to mod.</string>
 
     <!-- Errors -->
     <string name="error_xposed_module_missing">Xposed module is not enabled</string>
