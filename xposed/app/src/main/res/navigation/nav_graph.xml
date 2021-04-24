@@ -14,12 +14,20 @@
             app:destination="@id/about_libraries" />
         <action android:id="@+id/action_settings_root_to_system"
             app:destination="@id/system_settings" />
+        <action android:id="@+id/action_settings_root_to_tweaks"
+            app:destination="@id/tweaks_settings" />
     </fragment>
 
     <fragment
         android:id="@+id/system_settings"
         android:name="dev.kdrag0n.android12ext.ui.settings.system.SystemSettingsFragment"
         android:label="@string/settings_system"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/tweaks_settings"
+        android:name="dev.kdrag0n.android12ext.ui.settings.tweaks.TweakSettingsFragment"
+        android:label="@string/settings_tweaks"
         tools:layout="@layout/fragment_settings" />
 
     <fragment

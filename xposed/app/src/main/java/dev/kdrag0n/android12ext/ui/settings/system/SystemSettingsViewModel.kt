@@ -1,7 +1,6 @@
 package dev.kdrag0n.android12ext.ui.settings.system
 
 import android.app.Application
-import de.Maxr1998.modernpreferences.Preference
 import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.PreferencesAdapter
 import dev.kdrag0n.android12ext.R
@@ -15,8 +14,6 @@ class SystemSettingsViewModel(
     private val settingsRepo: SettingsRepository,
 ) : BaseSettingsViewModel(app) {
     private val prefScreen = PreferenceScreen.Builder(app).run {
-        Preference.Config.summaryMaxLines = 5
-
         featureSwitch(
             key = "monet",
             title = R.string.feature_monet,
@@ -66,23 +63,6 @@ class SystemSettingsViewModel(
             icon = R.drawable.ic_fluent_battery_charge_24_regular,
         )
 
-        /*
-        categoryHeader("tweaks") {
-            title = R.string.tweaks
-        }
-        featureSwitch(
-            key = "patterned_ripple",
-            title = R.string.tweak_patterned_ripple,
-            summary = R.string.tweak_patterned_ripple_desc,
-            icon = R.drawable.ic_fluent_tap_single_24_regular,
-        )
-        pref("tweaks_info") {
-            icon = R.drawable.ic_fluent_info_24_regular
-            summary = R.string.tweaks_info
-            // Disabling the view makes the text contrast too low, so use our extension instead
-            setInteractive(false)
-        }
-*/
         buildWithPrefs(settingsRepo.prefs)
     }
     override val prefAdapter = PreferencesAdapter(prefScreen)
