@@ -8,17 +8,21 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import dev.chrisbanes.insetter.applyInsetter
 import dev.kdrag0n.android12ext.R
+import dev.kdrag0n.android12ext.ui.utils.NoSwipeBehavior
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val XPOSED_MANAGER_PACKAGE = "org.lsposed.manager"
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModel()
-
     private lateinit var navController: NavController
+
     private var xposedDialog: AlertDialog? = null
+    private var reloadSnackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +71,26 @@ class MainActivity : AppCompatActivity() {
                             startActivity(managerIntent)
                         }
                     }
+                }
+            }
+        }
+
+        viewModel.showReloadWarning.observe(this) { shouldReload ->
+            reloadSnackbar?.dismiss()
+            reloadSnackbar = null
+
+            if (shouldReload) {
+                reloadSnackbar = Snackbar.make(
+                    findViewById(android.R.id.content),
+                    R.string.applying_changes,
+                    // We take care of showing and dismissing it
+                    BaseTransientBottomBar.LENGTH_INDEFINITE
+                ).apply {
+                    setAction(R.string.cancel) {
+                        viewModel.showReloadWarning.value = false
+                    }
+                    behavior = NoSwipeBehavior()
+                    show()
                 }
             }
         }

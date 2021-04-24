@@ -1,6 +1,7 @@
 package dev.kdrag0n.android12ext
 
 import android.app.Application
+import dev.kdrag0n.android12ext.core.BroadcastManager
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.ui.main.MainViewModel
 import dev.kdrag0n.android12ext.ui.settings.SettingsViewModel
@@ -20,9 +21,11 @@ class CustomApplication : Application() {
         commonInit()
 
         val koinModule = module {
+            single { BroadcastManager(get()) }
             single { SettingsRepository(get()) }
-            viewModel { MainViewModel(get()) }
-            viewModel { SettingsViewModel(get(), get()) }
+
+            viewModel { MainViewModel(get(), get()) }
+            viewModel { SettingsViewModel(get(), get(), get()) }
             viewModel { SystemSettingsViewModel(get()) }
         }
 

@@ -17,8 +17,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class SettingsFragment : BaseFragment() {
     private val viewModel: SettingsViewModel by viewModel()
 
-    private var reloadSnackbar: Snackbar? = null
-
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -42,26 +40,6 @@ class SettingsFragment : BaseFragment() {
             }
         }
 
-        viewModel.showReloadWarning.observe(viewLifecycleOwner) { shouldReload ->
-            reloadSnackbar?.dismiss()
-            reloadSnackbar = null
-
-            if (shouldReload) {
-                reloadSnackbar = Snackbar.make(
-                        view,
-                        R.string.applying_changes,
-                        // We take care of showing and dismissing it
-                        BaseTransientBottomBar.LENGTH_INDEFINITE
-                ).apply {
-                    setAction(R.string.cancel) {
-                        viewModel.showReloadWarning.value = false
-                    }
-                    behavior = NoSwipeBehavior()
-                    show()
-                }
-            }
-        }
-
         viewModel.navDest.observeNav(this)
     }
 
@@ -72,7 +50,7 @@ class SettingsFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return super.onOptionsItemSelected(item) || when (item.itemId) {
             R.id.action_force_reload -> {
-                viewModel.broadcastReload()
+                viewModel.reload()
                 true
             }
             R.id.action_about -> {

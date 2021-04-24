@@ -7,7 +7,7 @@ import de.robv.android.xposed.*
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.CustomApplication
-import dev.kdrag0n.android12ext.core.Broadcasts
+import dev.kdrag0n.android12ext.core.BroadcastManager
 import dev.kdrag0n.android12ext.core.xposed.hooks.FrameworkHooks
 import dev.kdrag0n.android12ext.core.xposed.hooks.SystemUIHooks
 import kotlin.system.exitProcess
@@ -36,6 +36,7 @@ private val FEATURE_FLAGS = mapOf(
 class XposedHook : IXposedHookLoadPackage {
     private lateinit var prefs: SharedPreferences
     private lateinit var context: Context
+    private lateinit var broadcastManager: BroadcastManager
 
     init {
         CustomApplication.commonInit()
@@ -46,7 +47,7 @@ class XposedHook : IXposedHookLoadPackage {
     }
 
     private fun applySysUi(lpparam: XC_LoadPackage.LoadPackageParam) {
-        Broadcasts.listenForPings(context)
+        broadcastManager.listenForPings()
 
         // Enable feature flags
         FEATURE_FLAGS.forEach { (flag, prefKey) ->
@@ -104,6 +105,7 @@ class XposedHook : IXposedHookLoadPackage {
                 }
 
                 context = param.result as Context
+                broadcastManager = BroadcastManager(context)
                 prefs = RemotePreferences(
                     context,
                     XposedPreferenceProvider.AUTHORITY,
@@ -116,8 +118,8 @@ class XposedHook : IXposedHookLoadPackage {
                 // Only listen for reload requests after loading
                 context.registerReceiver(
                     reloadReceiver,
-                    IntentFilter(Broadcasts.RELOAD_ACTION),
-                    Broadcasts.MANAGER_PERMISSION,
+                    IntentFilter(BroadcastManager.RELOAD_ACTION),
+                    BroadcastManager.MANAGER_PERMISSION,
                     null
                 )
             }
