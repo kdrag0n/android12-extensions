@@ -42,8 +42,8 @@ class XposedHook : IXposedHookLoadPackage {
         CustomApplication.commonInit()
     }
 
-    private fun isFeatureEnabled(feature: String): Boolean {
-        return prefs.getBoolean("${feature}_enabled", true)
+    private fun isFeatureEnabled(feature: String, default: Boolean = true): Boolean {
+        return prefs.getBoolean("${feature}_enabled", default)
     }
 
     private fun applySysUi(lpparam: XC_LoadPackage.LoadPackageParam) {
@@ -76,17 +76,20 @@ class XposedHook : IXposedHookLoadPackage {
             return
         }
 
-        if (lpparam.packageName == "com.android.systemui") {
-            applySysUi(lpparam)
+        when (lpparam.packageName) {
+            // Never hook our own app in case something goes wrong
+            BuildConfig.APPLICATION_ID -> return
+            // System UI
+            "com.android.systemui" -> applySysUi(lpparam)
         }
 
-        // Never hook our own app in case something goes wrong
-        if (lpparam.packageName == BuildConfig.APPLICATION_ID) {
-            return
-        }
-
+        // All apps
         if (isFeatureEnabled("patterned_ripple")) {
             FrameworkHooks.applyRipple(lpparam)
+        }
+
+        if (isFeatureEnabled("haptic_touch", false)) {
+            FrameworkHooks.applyHapticTouch(lpparam)
         }
     }
 
