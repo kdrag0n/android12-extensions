@@ -30,7 +30,7 @@ private val FEATURE_FLAGS = mapOf(
     "isNavigationBarOverlayEnabled" to "global", // for game dashboard, does nothing otherwise
     "isPMLiteEnabled" to "quick_settings", // doesn't work
     "isQuickAccessWalletEnabled" to "global", // optional QS tile, no reason to keep disabled
-    "isTwoColumnNotificationShadeEnabled" to "notification_shade", // landscape tablets only
+    //"isTwoColumnNotificationShadeEnabled" to "notification_shade", // landscape tablets only
 )
 
 class XposedHook : IXposedHookLoadPackage {
