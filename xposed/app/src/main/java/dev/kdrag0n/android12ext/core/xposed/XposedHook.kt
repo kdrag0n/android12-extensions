@@ -10,6 +10,7 @@ import dev.kdrag0n.android12ext.CustomApplication
 import dev.kdrag0n.android12ext.core.BroadcastManager
 import dev.kdrag0n.android12ext.core.xposed.hooks.FrameworkHooks
 import dev.kdrag0n.android12ext.core.xposed.hooks.SystemUIHooks
+import timber.log.Timber
 import kotlin.system.exitProcess
 
 private val FEATURE_FLAGS = mapOf(
@@ -68,6 +69,20 @@ class XposedHook : IXposedHookLoadPackage {
 
         // Hide red background in rounded screenshots
         SystemUIHooks.applyRoundedScreenshotBg(lpparam)
+
+        // Disable Monet, if necessary
+        if (!isFeatureEnabled("monet")) {
+            disableMonetOverlays(lpparam)
+        }
+    }
+
+    private fun disableMonetOverlays(lpparam: XC_LoadPackage.LoadPackageParam) {
+        try {
+            context.disableOverlay(lpparam, "com.android.systemui:accent")
+            context.disableOverlay(lpparam, "com.android.systemui:neutral")
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to disable Monet overlays")
+        }
     }
 
     private fun applyAll(lpparam: XC_LoadPackage.LoadPackageParam) {

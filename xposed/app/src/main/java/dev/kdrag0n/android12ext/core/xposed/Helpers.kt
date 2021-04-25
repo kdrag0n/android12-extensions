@@ -1,5 +1,8 @@
 package dev.kdrag0n.android12ext.core.xposed
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.os.UserHandle
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -16,4 +19,26 @@ fun XC_LoadPackage.LoadPackageParam.hookMethod(
             .let { method ->
                 XposedBridge.hookMethod(method, hook)
             }
+}
+
+// OverlayManagerService has no public constant
+@SuppressLint("WrongConstant")
+fun Context.disableOverlay(lpparam: XC_LoadPackage.LoadPackageParam, overlay: String) {
+    val classOverlayIdentifier = XposedHelpers.findClass("android.content.om.OverlayIdentifier", lpparam.classLoader)
+    val overlayId = XposedHelpers.callStaticMethod(classOverlayIdentifier, "fromString", overlay)
+
+    val txBuilder = XposedHelpers.newInstance(
+        XposedHelpers.findClass("android.content.om.OverlayManagerTransaction\$Builder", lpparam.classLoader),
+    )
+    XposedHelpers.callMethod(
+        txBuilder,
+        "setEnabled",
+        overlayId,
+        false,
+        0,
+    )
+    val tx = XposedHelpers.callMethod(txBuilder, "build")
+
+    val oms = getSystemService("overlay")
+    XposedHelpers.callMethod(oms, "commit", tx)
 }
