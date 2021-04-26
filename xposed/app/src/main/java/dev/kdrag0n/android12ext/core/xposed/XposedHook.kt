@@ -129,6 +129,14 @@ class XposedHook : IXposedHookLoadPackage {
 
                 context = param.result as Context
                 broadcastManager = BroadcastManager(context)
+
+                context.registerReceiver(
+                    reloadReceiver,
+                    IntentFilter(BroadcastManager.RELOAD_ACTION),
+                    BroadcastManager.MANAGER_PERMISSION,
+                    null
+                )
+
                 prefs = RemotePreferences(
                     context,
                     XposedPreferenceProvider.AUTHORITY,
@@ -137,14 +145,6 @@ class XposedHook : IXposedHookLoadPackage {
                 )
 
                 applyAll(lpparam)
-
-                // Only listen for reload requests after loading
-                context.registerReceiver(
-                    reloadReceiver,
-                    IntentFilter(BroadcastManager.RELOAD_ACTION),
-                    BroadcastManager.MANAGER_PERMISSION,
-                    null
-                )
             }
         }
 
