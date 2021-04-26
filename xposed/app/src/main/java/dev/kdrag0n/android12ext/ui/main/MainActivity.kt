@@ -11,6 +11,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dev.chrisbanes.insetter.applyInsetter
+import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.ui.utils.NoSwipeBehavior
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                     xposedDialog = MaterialAlertDialogBuilder(this).run {
                         setTitle(R.string.error_xposed_module_missing)
                         setMessage(R.string.error_xposed_module_missing_desc)
-                        setCancelable(false)
+                        setCancelable(BuildConfig.DEBUG)
                         // Empty callback because we override it later
                         setPositiveButton(R.string.enable) { _, _ -> }
                         show()
