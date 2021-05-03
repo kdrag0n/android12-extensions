@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/settings_root">
+
+    <fragment
+        android:id="@+id/settings_root"
+        android:name="dev.kdrag0n.android12ext.ui.settings.root.SettingsFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_settings">
+        <action android:id="@+id/action_settings_root_to_about"
+            app:destination="@id/about_libraries" />
+        <action android:id="@+id/action_settings_root_to_system"
+            app:destination="@id/system_settings" />
+        <action android:id="@+id/action_settings_root_to_tweaks"
+            app:destination="@id/tweaks_settings" />
+        <action android:id="@+id/action_settings_root_to_mods"
+            app:destination="@id/mods_settings" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/system_settings"
+        android:name="dev.kdrag0n.android12ext.ui.settings.system.SystemSettingsFragment"
+        android:label="@string/settings_system"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/tweaks_settings"
+        android:name="dev.kdrag0n.android12ext.ui.settings.tweaks.TweakSettingsFragment"
+        android:label="@string/settings_tweaks"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/mods_settings"
+        android:name="dev.kdrag0n.android12ext.ui.settings.mods.ModsSettingsFragment"
+        android:label="@string/settings_mods"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/about_libraries"
+        android:label="@string/about"
+        android:name="dev.kdrag0n.android12ext.ui.about.AboutFragment">
+        <!-- From @navigation/aboutlibs_navigation -->
+        <argument
+            android:name="data"
+            app:argType="java.io.Serializable"
+            app:nullable="true" />
+    </fragment>
+
+</navigation>
