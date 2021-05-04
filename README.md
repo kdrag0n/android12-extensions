@@ -3,7 +3,7 @@
 This is a Magisk module that enables hidden features on Android 12 Developer Preview 3. It also includes a clean settings app for customizing the list of features to enable and applying changes live, without rebooting.
 
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/7930239/116964197-c90ee800-ac5f-11eb-962f-000b00cf9415.png" alt="Settings home page" width="240"> <img src="https://user-images.githubusercontent.com/7930239/116964198-c9a77e80-ac5f-11eb-851c-5720de96dd70.png" alt="System settings with changes pending" width="240"> <img src="https://user-images.githubusercontent.com/7930239/116964198-c9a77e80-ac5f-11eb-851c-5720de96dd70.png" alt="Tweak settings in dark mode, with changes pending" width="240">
+    <img src="https://user-images.githubusercontent.com/7930239/116964197-c90ee800-ac5f-11eb-962f-000b00cf9415.png" alt="Settings home page" width="240"> <img src="https://user-images.githubusercontent.com/7930239/116964198-c9a77e80-ac5f-11eb-851c-5720de96dd70.png" alt="System settings with changes pending" width="240"> <img src="https://user-images.githubusercontent.com/7930239/116964200-c9a77e80-ac5f-11eb-95d1-ecac6aab53e9.png" alt="Tweak settings in dark mode, with changes pending" width="240">
 </p>
 
 ## Features
