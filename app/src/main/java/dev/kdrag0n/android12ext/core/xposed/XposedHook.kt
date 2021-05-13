@@ -9,6 +9,7 @@ import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.CustomApplication
 import dev.kdrag0n.android12ext.core.BroadcastManager
 import dev.kdrag0n.android12ext.core.xposed.hooks.FrameworkHooks
+import dev.kdrag0n.android12ext.core.xposed.hooks.LauncherHooks
 import dev.kdrag0n.android12ext.core.xposed.hooks.SystemUIHooks
 import timber.log.Timber
 import kotlin.system.exitProcess
@@ -101,6 +102,7 @@ class XposedHook : IXposedHookLoadPackage {
             BuildConfig.APPLICATION_ID -> return
             // System UI
             "com.android.systemui" -> applySysUi(lpparam)
+            "com.google.android.apps.nexuslauncher" -> LauncherHooks.applyFeatureFlags(lpparam)
         }
 
         // All apps
