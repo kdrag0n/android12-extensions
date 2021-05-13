@@ -43,7 +43,7 @@ class ModsSettingsViewModel(
             pref("gen_ref") {
                 title = "Generate reference color table"
                 onClick {
-                    refGen.gen()
+                    refGen.generateTable()
                     false
                 }
             }

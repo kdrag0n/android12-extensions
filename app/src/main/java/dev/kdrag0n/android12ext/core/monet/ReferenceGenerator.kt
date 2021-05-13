@@ -14,7 +14,7 @@ class ReferenceGenerator(
         Timber.i("[CODE]$line")
     }
 
-    fun gen() {
+    fun generateTable() {
         emitCodeLine("    object NewColors : TargetColors() {")
 
         colorLists.map { (group, ids) ->
