@@ -24,6 +24,7 @@ data class Oklch(
             return Oklch(
                 L = L,
                 C = sqrt(a.pow(2) + b.pow(2)),
+                // Normalize the angle, as many will be negative
                 h = if (hDeg < 0) hDeg + 360 else hDeg,
             )
         }
