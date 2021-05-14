@@ -75,6 +75,10 @@ class XposedHook : IXposedHookLoadPackage {
         if (!isFeatureEnabled("monet")) {
             disableMonetOverlays(lpparam)
         }
+
+        if (isFeatureEnabled("global")) {
+            SystemUIHooks.applyThemeOverlayController(lpparam)
+        }
     }
 
     private fun disableMonetOverlays(lpparam: XC_LoadPackage.LoadPackageParam) {

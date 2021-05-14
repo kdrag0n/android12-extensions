@@ -4,6 +4,8 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import dev.kdrag0n.android12ext.core.monet.overlay.ThemeOverlayController
+import dev.kdrag0n.android12ext.core.monet.theme.ReferenceColors
 import dev.kdrag0n.android12ext.core.xposed.hookMethod
 import timber.log.Timber
 
@@ -40,6 +42,16 @@ object SystemUIHooks {
         override fun afterHookedMethod(param: MethodHookParam) {
             XposedHelpers.setBooleanField(param.thisObject, "micCameraAvailable", true)
             XposedHelpers.setBooleanField(param.thisObject, "locationAvailable", true)
+        }
+    }
+
+    private val themeOverlayController by lazy(mode = LazyThreadSafetyMode.NONE) {
+        ThemeOverlayController(ReferenceColors.MonetPurple)
+    }
+
+    private val themeGetOverlayHook = object : XC_MethodReplacement() {
+        override fun replaceHookedMethod(param: MethodHookParam): Any {
+            return themeOverlayController.getOverlay(param.args[0] as Int, param.args[1] as Int)
         }
     }
 
@@ -82,6 +94,16 @@ object SystemUIHooks {
                 XposedHelpers.findClass("com.android.systemui.privacy.logging.PrivacyLogger", lpparam.classLoader),
                 XposedHelpers.findClass("com.android.systemui.dump.DumpManager", lpparam.classLoader),
                 privacyIndicators,
+        )
+    }
+
+    fun applyThemeOverlayController(lpparam: XC_LoadPackage.LoadPackageParam) {
+        lpparam.hookMethod(
+                "com.google.android.systemui.theme.ThemeOverlayControllerGoogle",
+                themeGetOverlayHook,
+                "getOverlay",
+                Int::class.java,
+                Int::class.java,
         )
     }
 }
