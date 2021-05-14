@@ -68,17 +68,18 @@ class XposedHook : IXposedHookLoadPackage {
             SystemUIHooks.applyGameDashboard(lpparam)
         }
 
-        // Hide red background in rounded screenshots
-        SystemUIHooks.applyRoundedScreenshotBg(lpparam)
+        // Custom Monet engine
+        if (isFeatureEnabled("custom_monet", false)) {
+            SystemUIHooks.applyThemeOverlayController(lpparam)
+        }
 
         // Disable Monet, if necessary
         if (!isFeatureEnabled("monet")) {
             disableMonetOverlays(lpparam)
         }
 
-        if (isFeatureEnabled("global")) {
-            SystemUIHooks.applyThemeOverlayController(lpparam)
-        }
+        // Hide red background in rounded screenshots
+        SystemUIHooks.applyRoundedScreenshotBg(lpparam)
     }
 
     private fun disableMonetOverlays(lpparam: XC_LoadPackage.LoadPackageParam) {

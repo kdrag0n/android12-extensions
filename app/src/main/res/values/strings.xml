@@ -66,4 +66,6 @@
     ]]></string>
     <string name="about_uri_donate">https://kdrag0n.dev/donate</string>
     <string name="about_uri_source_code">https://github.com/kdrag0n/android12-extensions</string>
+    <string name="mod_custom_monet">Custom Monet engine</string>
+    <string name="mod_custom_monet_desc">Generate wallpaper-based themes with a custom engine</string>
 </resources>
