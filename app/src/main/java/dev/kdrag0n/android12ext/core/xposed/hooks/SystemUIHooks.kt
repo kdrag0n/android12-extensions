@@ -9,12 +9,10 @@ import dev.kdrag0n.android12ext.core.monet.theme.ReferenceColors
 import dev.kdrag0n.android12ext.core.xposed.hookMethod
 import timber.log.Timber
 
-object SystemUIHooks {
-    private const val FEATURE_FLAGS_CLASS = "com.android.systemui.statusbar.FeatureFlags"
-    private const val GAME_ENTRY_CLASS = "com.google.android.systemui.gamedashboard.EntryPointController"
-    private const val PRIVACY_CLASS = "com.android.systemui.privacy.PrivacyItemController"
-
-    fun applyFeatureFlag(lpparam: XC_LoadPackage.LoadPackageParam, flag: String) {
+class SystemUIHooks(
+    private val lpparam: XC_LoadPackage.LoadPackageParam,
+) {
+    fun applyFeatureFlag(flag: String) {
         val hook = object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam) = true
         }
@@ -26,7 +24,7 @@ object SystemUIHooks {
         }
     }
 
-    fun applyGameDashboard(lpparam: XC_LoadPackage.LoadPackageParam) {
+    fun applyGameDashboard() {
         val hook = object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
                 param.thisObject.javaClass.getDeclaredField("DISABLED").let {
@@ -47,7 +45,7 @@ object SystemUIHooks {
         )
     }
 
-    fun applyRoundedScreenshotBg(lpparam: XC_LoadPackage.LoadPackageParam) {
+    fun applyRoundedScreenshotBg() {
         val hook = object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
                 param.thisObject.javaClass.getDeclaredField("DEBUG_COLOR").let {
@@ -65,7 +63,7 @@ object SystemUIHooks {
         )
     }
 
-    fun applyPrivacyIndicators(lpparam: XC_LoadPackage.LoadPackageParam) {
+    fun applyPrivacyIndicators() {
         val hook = object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 XposedHelpers.setBooleanField(param.thisObject, "micCameraAvailable", true)
@@ -87,7 +85,7 @@ object SystemUIHooks {
         )
     }
 
-    fun applyThemeOverlayController(lpparam: XC_LoadPackage.LoadPackageParam) {
+    fun applyThemeOverlayController() {
         val controller = ThemeOverlayController(ReferenceColors.MonetPurple)
         val hook = object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam): Any {
@@ -102,5 +100,11 @@ object SystemUIHooks {
                 Int::class.java,
                 Int::class.java,
         )
+    }
+
+    companion object {
+        private const val FEATURE_FLAGS_CLASS = "com.android.systemui.statusbar.FeatureFlags"
+        private const val GAME_ENTRY_CLASS = "com.google.android.systemui.gamedashboard.EntryPointController"
+        private const val PRIVACY_CLASS = "com.android.systemui.privacy.PrivacyItemController"
     }
 }

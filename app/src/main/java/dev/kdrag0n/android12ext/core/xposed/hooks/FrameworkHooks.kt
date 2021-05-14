@@ -10,11 +10,10 @@ import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.core.xposed.hookMethod
 
-object FrameworkHooks {
-    private const val RIPPLE_CLASS = "android.graphics.drawable.RippleDrawable"
-    private const val RIPPLE_STATE_CLASS = "android.graphics.drawable.RippleDrawable\$RippleState"
-
-    fun applyRipple(lpparam: XC_LoadPackage.LoadPackageParam) {
+class FrameworkHooks(
+    private val lpparam: XC_LoadPackage.LoadPackageParam,
+) {
+    fun applyRipple() {
         val hook = object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 XposedHelpers.getObjectField(param.thisObject, "mState").let { state ->
@@ -35,7 +34,7 @@ object FrameworkHooks {
         lpparam.hookMethod(RIPPLE_CLASS, hook, "setRippleStyle", Int::class.java)
     }
 
-    fun applyHapticTouch(lpparam: XC_LoadPackage.LoadPackageParam) {
+    fun applyHapticTouch() {
         val hook = object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 val view = param.thisObject as View
@@ -49,5 +48,10 @@ object FrameworkHooks {
             "performButtonActionOnTouchDown",
             MotionEvent::class.java,
         )
+    }
+
+    companion object {
+        private const val RIPPLE_CLASS = "android.graphics.drawable.RippleDrawable"
+        private const val RIPPLE_STATE_CLASS = "android.graphics.drawable.RippleDrawable\$RippleState"
     }
 }

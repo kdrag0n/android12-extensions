@@ -5,12 +5,9 @@ import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import timber.log.Timber
 
-object LauncherHooks {
-    // com.android.launcher3.config.FeatureFlags$BooleanFlag
-    private const val BOOLEAN_FLAG_CLASS = "T.a"
-    // BooleanFlag.mCurrentValue
-    private const val CURRENT_VALUE_FIELD = "c"
-
+class LauncherHooks(
+    private val lpparam: XC_LoadPackage.LoadPackageParam,
+) {
     val flagValues = mapOf(
         //"ENABLE_DATABASE_RESTORE" to true,
         //"ENABLE_SMARTSPACE_UNIVERSAL" to true,
@@ -41,7 +38,7 @@ object LauncherHooks {
         "ENABLE_TWO_PANEL_HOME" to true,
     )
 
-    fun applyFeatureFlags(lpparam: XC_LoadPackage.LoadPackageParam) {
+    fun applyFeatureFlags() {
         val hook = object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 val key = param.args[0] as String
@@ -57,5 +54,12 @@ object LauncherHooks {
             Boolean::class.java,
             hook,
         )
+    }
+
+    companion object {
+        // com.android.launcher3.config.FeatureFlags$BooleanFlag
+        private const val BOOLEAN_FLAG_CLASS = "T.a"
+        // BooleanFlag.mCurrentValue
+        private const val CURRENT_VALUE_FIELD = "c"
     }
 }
