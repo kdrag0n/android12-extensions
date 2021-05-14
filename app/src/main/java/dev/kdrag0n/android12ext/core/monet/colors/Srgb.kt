@@ -8,7 +8,7 @@ data class Srgb(
     val b: Double,
 ) {
     // Convenient constructors for quantized values
-    constructor(r: Int, g: Int, b: Int) : this(r.toDouble(), g.toDouble(), b.toDouble())
+    constructor(r: Int, g: Int, b: Int) : this(r.toDouble() / 255.0, g.toDouble() / 255.0, b.toDouble() / 255.0)
     constructor(color: Int) : this(Color.red(color), Color.green(color), Color.blue(color))
 
     fun quantize8(): Int {
@@ -21,6 +21,6 @@ data class Srgb(
 
     companion object {
         // Clamp out-of-bounds values
-        private fun quantize8(n: Double) = n.toInt().coerceIn(0..255)
+        private fun quantize8(n: Double) = (n * 255.0).toInt().coerceIn(0..255)
     }
 }
