@@ -37,6 +37,10 @@ class XposedHook(
     private val prefs: SharedPreferences,
     private val broadcastManager: BroadcastManager,
 ) {
+    private val sysuiHooks = SystemUIHooks(lpparam)
+    private val frameworkHooks = FrameworkHooks(lpparam)
+    private val launcherHooks = LauncherHooks(lpparam)
+
     init {
         CustomApplication.commonInit()
     }
@@ -46,30 +50,28 @@ class XposedHook(
     }
 
     private fun applySysUi() {
-        val hooks = SystemUIHooks(lpparam)
-
         broadcastManager.listenForPings()
 
         // Enable feature flags
         FEATURE_FLAGS.forEach { (flag, prefKey) ->
             if (isFeatureEnabled(prefKey)) {
-                hooks.applyFeatureFlag(flag)
+                sysuiHooks.applyFeatureFlag(flag)
             }
         }
 
         // Enable privacy indicators
         if (isFeatureEnabled("privacy_indicators")) {
-            hooks.applyPrivacyIndicators()
+            sysuiHooks.applyPrivacyIndicators()
         }
 
         // Enable game dashboard
         if (isFeatureEnabled("game_dashboard")) {
-            hooks.applyGameDashboard()
+            sysuiHooks.applyGameDashboard()
         }
 
         // Custom Monet engine
         if (isFeatureEnabled("custom_monet", false)) {
-            hooks.applyThemeOverlayController()
+            sysuiHooks.applyThemeOverlayController()
         }
 
         // Disable Monet, if necessary
@@ -78,7 +80,7 @@ class XposedHook(
         }
 
         // Hide red background in rounded screenshots
-        hooks.applyRoundedScreenshotBg()
+        sysuiHooks.applyRoundedScreenshotBg()
     }
 
     private fun disableMonetOverlays() {
@@ -91,8 +93,7 @@ class XposedHook(
     }
 
     private fun applyLauncher() {
-        val hooks = LauncherHooks(lpparam)
-        hooks.applyFeatureFlags()
+        launcherHooks.applyFeatureFlags()
     }
 
     fun applyAll() {
@@ -111,17 +112,17 @@ class XposedHook(
             BuildConfig.APPLICATION_ID -> return
             // System UI
             "com.android.systemui" -> applySysUi()
+            // Pixel Launcher
             "com.google.android.apps.nexuslauncher" -> applyLauncher()
         }
 
         // All apps
-        val hooks = FrameworkHooks(lpparam)
         if (isFeatureEnabled("patterned_ripple")) {
-            hooks.applyRipple()
+            frameworkHooks.applyRipple()
         }
 
         if (isFeatureEnabled("haptic_touch", false)) {
-            hooks.applyHapticTouch()
+            frameworkHooks.applyHapticTouch()
         }
     }
 }
