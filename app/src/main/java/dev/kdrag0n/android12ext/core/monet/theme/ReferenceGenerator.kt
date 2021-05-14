@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.core.monet
+package dev.kdrag0n.android12ext.core.monet.theme
 
 import android.content.Context
 import dev.kdrag0n.android12ext.core.monet.colors.LinearSrgb.Companion.toLinearSrgb
