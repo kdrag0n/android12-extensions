@@ -1,9 +1,6 @@
 package dev.kdrag0n.android12ext.core.xposed
 
-import android.app.Instrumentation
 import android.content.*
-import com.crossbowffs.remotepreferences.RemotePreferences
-import de.robv.android.xposed.*
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.CustomApplication
@@ -12,7 +9,6 @@ import dev.kdrag0n.android12ext.core.xposed.hooks.FrameworkHooks
 import dev.kdrag0n.android12ext.core.xposed.hooks.LauncherHooks
 import dev.kdrag0n.android12ext.core.xposed.hooks.SystemUIHooks
 import timber.log.Timber
-import kotlin.system.exitProcess
 
 private val FEATURE_FLAGS = mapOf(
     // DP2
@@ -35,11 +31,12 @@ private val FEATURE_FLAGS = mapOf(
     //"isTwoColumnNotificationShadeEnabled" to "notification_shade", // landscape tablets only
 )
 
-class XposedHook : IXposedHookLoadPackage {
-    private lateinit var prefs: SharedPreferences
-    private lateinit var context: Context
-    private lateinit var broadcastManager: BroadcastManager
-
+class XposedHook(
+    private val context: Context,
+    private val lpparam: XC_LoadPackage.LoadPackageParam,
+    private val prefs: SharedPreferences,
+    private val broadcastManager: BroadcastManager,
+) {
     init {
         CustomApplication.commonInit()
     }
@@ -48,7 +45,7 @@ class XposedHook : IXposedHookLoadPackage {
         return prefs.getBoolean("${feature}_enabled", default)
     }
 
-    private fun applySysUi(lpparam: XC_LoadPackage.LoadPackageParam) {
+    private fun applySysUi() {
         val hooks = SystemUIHooks(lpparam)
 
         broadcastManager.listenForPings()
@@ -77,14 +74,14 @@ class XposedHook : IXposedHookLoadPackage {
 
         // Disable Monet, if necessary
         if (!isFeatureEnabled("monet")) {
-            disableMonetOverlays(lpparam)
+            disableMonetOverlays()
         }
 
         // Hide red background in rounded screenshots
         hooks.applyRoundedScreenshotBg()
     }
 
-    private fun disableMonetOverlays(lpparam: XC_LoadPackage.LoadPackageParam) {
+    private fun disableMonetOverlays() {
         try {
             context.disableOverlay(lpparam, "com.android.systemui:accent")
             context.disableOverlay(lpparam, "com.android.systemui:neutral")
@@ -93,12 +90,12 @@ class XposedHook : IXposedHookLoadPackage {
         }
     }
 
-    private fun applyLauncher(lpparam: XC_LoadPackage.LoadPackageParam) {
+    private fun applyLauncher() {
         val hooks = LauncherHooks(lpparam)
         hooks.applyFeatureFlags()
     }
 
-    private fun applyAll(lpparam: XC_LoadPackage.LoadPackageParam) {
+    fun applyAll() {
         // Global kill-switch
         if (!isFeatureEnabled("global")) {
             // Always register broadcast receiver in System UI
@@ -113,8 +110,8 @@ class XposedHook : IXposedHookLoadPackage {
             // Never hook our own app in case something goes wrong
             BuildConfig.APPLICATION_ID -> return
             // System UI
-            "com.android.systemui" -> applySysUi(lpparam)
-            "com.google.android.apps.nexuslauncher" -> applyLauncher(lpparam)
+            "com.android.systemui" -> applySysUi()
+            "com.google.android.apps.nexuslauncher" -> applyLauncher()
         }
 
         // All apps
@@ -126,48 +123,5 @@ class XposedHook : IXposedHookLoadPackage {
         if (isFeatureEnabled("haptic_touch", false)) {
             hooks.applyHapticTouch()
         }
-    }
-
-    private val reloadReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            exitProcess(0)
-        }
-    }
-
-    override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
-        val contextHook = object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                // Make sure we don't initialize twice
-                if (::prefs.isInitialized) {
-                    return
-                }
-
-                context = param.result as Context
-                broadcastManager = BroadcastManager(context)
-
-                context.registerReceiver(
-                    reloadReceiver,
-                    IntentFilter(BroadcastManager.RELOAD_ACTION),
-                    BroadcastManager.MANAGER_PERMISSION,
-                    null
-                )
-
-                prefs = RemotePreferences(
-                    context,
-                    XposedPreferenceProvider.AUTHORITY,
-                    XposedPreferenceProvider.DEFAULT_PREFS,
-                    true
-                )
-
-                applyAll(lpparam)
-            }
-        }
-
-        // Wait to get a Context reference before initializing other hooks
-        XposedBridge.hookAllMethods(
-            Instrumentation::class.java,
-            "newApplication",
-            contextHook,
-        )
     }
 }
