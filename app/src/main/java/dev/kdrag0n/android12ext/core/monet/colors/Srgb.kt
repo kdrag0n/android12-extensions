@@ -1,6 +1,7 @@
 package dev.kdrag0n.android12ext.core.monet.colors
 
 import android.graphics.Color
+import kotlin.math.roundToInt
 
 data class Srgb(
     val r: Double,
@@ -21,6 +22,6 @@ data class Srgb(
 
     companion object {
         // Clamp out-of-bounds values
-        private fun quantize8(n: Double) = (n * 255.0).toInt().coerceIn(0..255)
+        private fun quantize8(n: Double) = (n * 255.0).roundToInt().coerceIn(0..255)
     }
 }
