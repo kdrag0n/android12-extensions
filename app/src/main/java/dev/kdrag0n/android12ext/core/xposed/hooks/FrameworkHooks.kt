@@ -14,38 +14,38 @@ object FrameworkHooks {
     private const val RIPPLE_CLASS = "android.graphics.drawable.RippleDrawable"
     private const val RIPPLE_STATE_CLASS = "android.graphics.drawable.RippleDrawable\$RippleState"
 
-    private val rippleHook = object : XC_MethodHook() {
-        override fun afterHookedMethod(param: MethodHookParam) {
-            XposedHelpers.getObjectField(param.thisObject, "mState").let { state ->
-                XposedHelpers.setIntField(state, "mRippleStyle", 1)
+    fun applyRipple(lpparam: XC_LoadPackage.LoadPackageParam) {
+        val hook = object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                XposedHelpers.getObjectField(param.thisObject, "mState").let { state ->
+                    XposedHelpers.setIntField(state, "mRippleStyle", 1)
+                }
             }
         }
-    }
 
-    private val hapticTouchHook = object : XC_MethodHook() {
-        override fun afterHookedMethod(param: MethodHookParam) {
-            val view = param.thisObject as View
-            view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-        }
-    }
-
-    fun applyRipple(lpparam: XC_LoadPackage.LoadPackageParam) {
         XposedHelpers.findAndHookConstructor(
                 RIPPLE_CLASS,
                 lpparam.classLoader,
                 XposedHelpers.findClass(RIPPLE_STATE_CLASS, lpparam.classLoader),
                 Resources::class.java,
-                rippleHook,
+                hook,
         )
 
-        lpparam.hookMethod(RIPPLE_CLASS, rippleHook, "updateStateFromTypedArray", TypedArray::class.java)
-        lpparam.hookMethod(RIPPLE_CLASS, rippleHook, "setRippleStyle", Int::class.java)
+        lpparam.hookMethod(RIPPLE_CLASS, hook, "updateStateFromTypedArray", TypedArray::class.java)
+        lpparam.hookMethod(RIPPLE_CLASS, hook, "setRippleStyle", Int::class.java)
     }
 
     fun applyHapticTouch(lpparam: XC_LoadPackage.LoadPackageParam) {
+        val hook = object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                val view = param.thisObject as View
+                view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            }
+        }
+
         lpparam.hookMethod(
             "android.view.View",
-            hapticTouchHook,
+            hook,
             "performButtonActionOnTouchDown",
             MotionEvent::class.java,
         )

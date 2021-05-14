@@ -41,21 +41,21 @@ object LauncherHooks {
         "ENABLE_TWO_PANEL_HOME" to true,
     )
 
-    private val featureFlagsHook = object : XC_MethodHook() {
-        override fun afterHookedMethod(param: MethodHookParam) {
-            val key = param.args[0] as String
-            Timber.i("Hooking launcher flag: $key")
-            XposedHelpers.setBooleanField(param.thisObject, CURRENT_VALUE_FIELD, flagValues[key] ?: return)
-        }
-    }
-
     fun applyFeatureFlags(lpparam: XC_LoadPackage.LoadPackageParam) {
+        val hook = object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                val key = param.args[0] as String
+                Timber.i("Hooking launcher flag: $key")
+                XposedHelpers.setBooleanField(param.thisObject, CURRENT_VALUE_FIELD, flagValues[key] ?: return)
+            }
+        }
+
         XposedHelpers.findAndHookConstructor(
             BOOLEAN_FLAG_CLASS,
             lpparam.classLoader,
             String::class.java,
             Boolean::class.java,
-            featureFlagsHook,
+            hook,
         )
     }
 }

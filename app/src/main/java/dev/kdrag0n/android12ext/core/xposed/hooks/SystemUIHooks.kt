@@ -14,59 +14,33 @@ object SystemUIHooks {
     private const val GAME_ENTRY_CLASS = "com.google.android.systemui.gamedashboard.EntryPointController"
     private const val PRIVACY_CLASS = "com.android.systemui.privacy.PrivacyItemController"
 
-    private val featureFlag = object : XC_MethodReplacement() {
-        override fun replaceHookedMethod(param: MethodHookParam) = true
-    }
-
-    private val gameDashboard = object : XC_MethodHook() {
-        override fun beforeHookedMethod(param: MethodHookParam) {
-            param.thisObject.javaClass.getDeclaredField("DISABLED").let {
-                it.isAccessible = true
-                it.set(null, java.lang.Boolean.FALSE)
-            }
-
-            XposedHelpers.setBooleanField(param.thisObject, "mShouldShow", true)
-        }
-    }
-
-    private val roundedScreenshotBg = object : XC_MethodHook() {
-        override fun beforeHookedMethod(param: MethodHookParam) {
-            param.thisObject.javaClass.getDeclaredField("DEBUG_COLOR").let {
-                it.isAccessible = true
-                it.setBoolean(null, false)
-            }
-        }
-    }
-
-    private val privacyIndicators = object : XC_MethodHook() {
-        override fun afterHookedMethod(param: MethodHookParam) {
-            XposedHelpers.setBooleanField(param.thisObject, "micCameraAvailable", true)
-            XposedHelpers.setBooleanField(param.thisObject, "locationAvailable", true)
-        }
-    }
-
-    private val themeOverlayController by lazy(mode = LazyThreadSafetyMode.NONE) {
-        ThemeOverlayController(ReferenceColors.MonetPurple)
-    }
-
-    private val themeGetOverlayHook = object : XC_MethodReplacement() {
-        override fun replaceHookedMethod(param: MethodHookParam): Any {
-            return themeOverlayController.getOverlay(param.args[0] as Int, param.args[1] as Int)
-        }
-    }
-
     fun applyFeatureFlag(lpparam: XC_LoadPackage.LoadPackageParam, flag: String) {
+        val hook = object : XC_MethodReplacement() {
+            override fun replaceHookedMethod(param: MethodHookParam) = true
+        }
+
         try {
-            lpparam.hookMethod(FEATURE_FLAGS_CLASS, featureFlag, flag)
+            lpparam.hookMethod(FEATURE_FLAGS_CLASS, hook, flag)
         } catch (e: NoSuchMethodException) {
             Timber.w("Feature flag does not exist: $flag")
         }
     }
 
     fun applyGameDashboard(lpparam: XC_LoadPackage.LoadPackageParam) {
+        val hook = object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam) {
+                param.thisObject.javaClass.getDeclaredField("DISABLED").let {
+                    it.isAccessible = true
+                    it.set(null, java.lang.Boolean.FALSE)
+                }
+
+                XposedHelpers.setBooleanField(param.thisObject, "mShouldShow", true)
+            }
+        }
+
         lpparam.hookMethod(
                 GAME_ENTRY_CLASS,
-                gameDashboard,
+                hook,
                 "setButtonState",
                 Boolean::class.java,
                 Boolean::class.java
@@ -74,15 +48,31 @@ object SystemUIHooks {
     }
 
     fun applyRoundedScreenshotBg(lpparam: XC_LoadPackage.LoadPackageParam) {
+        val hook = object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam) {
+                param.thisObject.javaClass.getDeclaredField("DEBUG_COLOR").let {
+                    it.isAccessible = true
+                    it.setBoolean(null, false)
+                }
+            }
+        }
+
         lpparam.hookMethod(
                 "com.android.systemui.ScreenDecorations",
-                roundedScreenshotBg,
+                hook,
                 "updateColorInversion",
                 Int::class.java
         )
     }
 
     fun applyPrivacyIndicators(lpparam: XC_LoadPackage.LoadPackageParam) {
+        val hook = object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                XposedHelpers.setBooleanField(param.thisObject, "micCameraAvailable", true)
+                XposedHelpers.setBooleanField(param.thisObject, "locationAvailable", true)
+            }
+        }
+
         XposedHelpers.findAndHookConstructor(
                 PRIVACY_CLASS,
                 lpparam.classLoader,
@@ -93,14 +83,21 @@ object SystemUIHooks {
                 XposedHelpers.findClass("com.android.systemui.settings.UserTracker", lpparam.classLoader),
                 XposedHelpers.findClass("com.android.systemui.privacy.logging.PrivacyLogger", lpparam.classLoader),
                 XposedHelpers.findClass("com.android.systemui.dump.DumpManager", lpparam.classLoader),
-                privacyIndicators,
+                hook,
         )
     }
 
     fun applyThemeOverlayController(lpparam: XC_LoadPackage.LoadPackageParam) {
+        val controller = ThemeOverlayController(ReferenceColors.MonetPurple)
+        val hook = object : XC_MethodReplacement() {
+            override fun replaceHookedMethod(param: MethodHookParam): Any {
+                return controller.getOverlay(param.args[0] as Int, param.args[1] as Int)
+            }
+        }
+
         lpparam.hookMethod(
                 "com.google.android.systemui.theme.ThemeOverlayControllerGoogle",
-                themeGetOverlayHook,
+                hook,
                 "getOverlay",
                 Int::class.java,
                 Int::class.java,
