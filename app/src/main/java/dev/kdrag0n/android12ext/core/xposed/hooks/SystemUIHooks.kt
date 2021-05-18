@@ -80,6 +80,7 @@ class SystemUIHooks(
                 XposedHelpers.findClass("com.android.systemui.util.DeviceConfigProxy", lpparam.classLoader),
                 XposedHelpers.findClass("com.android.systemui.settings.UserTracker", lpparam.classLoader),
                 XposedHelpers.findClass("com.android.systemui.privacy.logging.PrivacyLogger", lpparam.classLoader),
+                XposedHelpers.findClass("com.android.systemui.util.time.SystemClock", lpparam.classLoader),
                 XposedHelpers.findClass("com.android.systemui.dump.DumpManager", lpparam.classLoader),
                 hook,
         )
