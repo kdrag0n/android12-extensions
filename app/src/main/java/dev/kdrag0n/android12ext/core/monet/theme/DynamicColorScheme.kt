@@ -6,7 +6,6 @@ import dev.kdrag0n.android12ext.core.monet.colors.Oklch
 import dev.kdrag0n.android12ext.core.monet.colors.Oklch.Companion.toOklch
 import dev.kdrag0n.android12ext.core.monet.colors.Srgb
 import timber.log.Timber
-import kotlin.math.max
 
 class DynamicColorScheme(
     targetColors: ColorScheme,
@@ -14,14 +13,15 @@ class DynamicColorScheme(
 ) : ColorScheme() {
     private val primaryLch = Srgb(primaryColor).toLinearSrgb().toOklab().toOklch().let { lch ->
         // Boost chroma of primary color if it's non-negligible
-        lch.copy(C = if (lch.C > 0.001) {
-            max(0.04, lch.C)
+        // This interpolates up to C=0.04 using smoothstep.
+        lch.copy(C = if (lch.C < 0.04) {
+            smoothstep(0.0, MIN_ACCENT_CHROMA, lch.C) * MIN_ACCENT_CHROMA
         } else {
-            0.0
+            lch.C
         })
     }
     init {
-        Timber.i("Primary color: ${String.format("%06x", primaryColor)}")
+        Timber.i("Primary color: ${String.format("%06x", primaryColor)} => $primaryLch")
     }
 
     // Main background color. Tinted with the primary color.
@@ -69,5 +69,9 @@ class DynamicColorScheme(
         // Hue shift for the tertiary accent color (accent3), in degrees.
         // 60 degrees = shifting by a secondary color
         private const val ACCENT3_HUE_SHIFT_DEGREES = 60.0
+
+        // Minimum target chroma for accents
+        // This is not a hard clamp; we interpolate it with smoothstep.
+        private const val MIN_ACCENT_CHROMA = 0.04
     }
 }
