@@ -113,6 +113,23 @@ class SystemUIHooks(
         )
     }
 
+    fun applySensorPrivacyToggles() {
+        val hook = object : XC_MethodReplacement() {
+            override fun replaceHookedMethod(param: MethodHookParam) = true
+        }
+
+        lpparam.hookMethod(
+                "com.android.systemui.qs.tiles.MicrophoneToggleTile",
+                hook,
+                "isAvailable",
+        )
+        lpparam.hookMethod(
+                "com.android.systemui.qs.tiles.CameraToggleTile",
+                hook,
+                "isAvailable",
+        )
+    }
+
     companion object {
         private const val FEATURE_FLAGS_CLASS = "com.android.systemui.statusbar.FeatureFlags"
         private const val GAME_ENTRY_CLASS = "com.google.android.systemui.gamedashboard.EntryPointController"

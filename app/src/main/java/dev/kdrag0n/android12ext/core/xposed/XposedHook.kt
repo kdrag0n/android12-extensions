@@ -79,6 +79,8 @@ class XposedHook(
             disableMonetOverlays()
         }
 
+        sysuiHooks.applySensorPrivacyToggles()
+
         // Hide red background in rounded screenshots
         sysuiHooks.applyRoundedScreenshotBg()
     }
