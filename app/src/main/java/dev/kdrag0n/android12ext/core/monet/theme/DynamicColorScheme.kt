@@ -35,7 +35,7 @@ class DynamicColorScheme(
     override val accent2 = transformQuantizedColors(targetColors.accent2)
     // Tertiary accent color. Primary color shifted to the next secondary color via hue offset.
     override val accent3 = transformQuantizedColors(targetColors.accent3) { lch ->
-        lch.copy(h = lch.h + ACCENT3_HUE_OFFSET_DEGREES)
+        lch.copy(h = lch.h + ACCENT3_HUE_SHIFT_DEGREES)
     }
 
     private fun transformQuantizedColors(
@@ -66,8 +66,8 @@ class DynamicColorScheme(
     }
 
     companion object {
-        // Hue offset for the tertiary accent color (accent3), in degrees.
+        // Hue shift for the tertiary accent color (accent3), in degrees.
         // 60 degrees = shifting by a secondary color
-        private const val ACCENT3_HUE_OFFSET_DEGREES = 60.0
+        private const val ACCENT3_HUE_SHIFT_DEGREES = 60.0
     }
 }
