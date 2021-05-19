@@ -1,5 +1,6 @@
 package dev.kdrag0n.android12ext.core.xposed.hooks
 
+import android.content.Context
 import android.content.res.Resources
 import android.content.res.TypedArray
 import android.view.HapticFeedbackConstants
@@ -61,6 +62,24 @@ class FrameworkHooks(
                 hook,
                 "setQuantizer",
                 XposedHelpers.findClass("com.android.internal.graphics.palette.Quantizer", lpparam.classLoader),
+        )
+    }
+
+    fun applyInternetFlag() {
+        val hook = object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                if (param.args[1] as String == "settings_provider_model") {
+                    param.result = true
+                }
+            }
+        }
+
+        lpparam.hookMethod(
+                "android.util.FeatureFlagUtils",
+                hook,
+                "isEnabled",
+                Context::class.java,
+                String::class.java,
         )
     }
 

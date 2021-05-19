@@ -132,5 +132,7 @@ class XposedHook(
         if (isFeatureEnabled("haptic_touch", false)) {
             frameworkHooks.applyHapticTouch()
         }
+
+        frameworkHooks.applyInternetFlag()
     }
 }
