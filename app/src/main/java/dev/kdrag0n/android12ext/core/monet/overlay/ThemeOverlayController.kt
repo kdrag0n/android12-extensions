@@ -1,6 +1,7 @@
 package dev.kdrag0n.android12ext.core.monet.overlay
 
 import android.graphics.Color
+import dev.kdrag0n.android12ext.core.monet.colors.Srgb
 import dev.kdrag0n.android12ext.core.monet.theme.DynamicColorScheme
 import dev.kdrag0n.android12ext.core.monet.theme.ColorScheme
 import timber.log.Timber
@@ -31,10 +32,13 @@ class ThemeOverlayController(
 
                 listEntry.value.withIndex().forEach { colorEntry ->
                     val shadeKey = "${colorEntry.index * 100}"
-                    Timber.d("Color $group $shadeKey = ${String.format("%06x", colorEntry.value)}")
+                    val colorSrgb = colorEntry.value as? Srgb
+                            ?: colorEntry.value.toLinearSrgb().toSrgb()
+                    val colorRgb8 = colorSrgb.quantize8()
+                    Timber.d("Color $group $shadeKey = ${String.format("%06x", colorRgb8)}")
 
                     // Set alpha to 255
-                    val argbColor = Color.argb(255, 0, 0, 0) or colorEntry.value
+                    val argbColor = Color.argb(255, 0, 0, 0) or colorRgb8
 
                     val resKey = "android:color/system_${group}_$shadeKey"
                     setResourceValue(resKey, FabricatedOverlay.DATA_TYPE_COLOR, argbColor)

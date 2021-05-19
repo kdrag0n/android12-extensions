@@ -1,5 +1,6 @@
 package dev.kdrag0n.android12ext.core.monet.theme
 
+import dev.kdrag0n.android12ext.core.monet.colors.Color
 import dev.kdrag0n.android12ext.core.monet.colors.LinearSrgb.Companion.toLinearSrgb
 import dev.kdrag0n.android12ext.core.monet.colors.Oklab.Companion.toOklab
 import dev.kdrag0n.android12ext.core.monet.colors.Oklch
@@ -20,14 +21,16 @@ class DynamicColorScheme(
     override val accent2 = transformQuantizedColors(targetColors.accent2)
     override val accent3 = transformQuantizedColors(targetColors.accent3)
 
-    private fun transformQuantizedColors(colors: List<Int>): List<Int> {
+    private fun transformQuantizedColors(colors: List<Color>): List<Color> {
         return colors.withIndex().map { colorEntry ->
-            val colorLch = Srgb(colorEntry.value).toLinearSrgb().toOklab().toOklch()
+            val colorLch = colorEntry.value as? Oklch
+                    ?: colorEntry.value.toLinearSrgb().toOklab().toOklch()
             val newLch = transformColor(colorLch)
-            val newRgb8 = newLch.toOklab().toLinearSrgb().toSrgb().quantize8()
+            val newColor = newLch.toOklab().toLinearSrgb().toSrgb()
 
+            val newRgb8 = newColor.quantize8()
             Timber.d("Transform: $colorLch => $newLch => ${String.format("%06x", newRgb8)}")
-            return@map newRgb8
+            return@map newColor
         }
     }
 

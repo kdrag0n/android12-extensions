@@ -32,7 +32,7 @@ class ReferenceGenerator(
 
                 // Remove alpha channel
                 val hexRgb = hex and 0xffffff
-                emitCodeLine("            0x${String.format("%06x", hexRgb)},")
+                emitCodeLine("            Srgb(0x${String.format("%06x", hexRgb)}),")
             }
 
             emitCodeLine("        )")
