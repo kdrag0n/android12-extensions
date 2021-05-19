@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                     xposedDialog = MaterialAlertDialogBuilder(this).run {
                         setTitle(R.string.error_xposed_manager_not_installed)
                         setMessage(R.string.error_xposed_manager_not_installed_desc)
-                        setCancelable(false)
+                        setCancelable(BuildConfig.DEBUG)
                         show()
                     }
                 } else {
