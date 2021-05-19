@@ -15,7 +15,7 @@ class ReferenceGenerator(
     }
 
     fun generateTable() {
-        emitCodeLine("    object NewColors : TargetColors() {")
+        emitCodeLine("    object NewColors : ColorScheme() {")
 
         colorLists.map { (group, ids) ->
             emitCodeLine("        override val $group = listOf(")
