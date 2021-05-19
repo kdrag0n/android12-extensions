@@ -291,4 +291,444 @@ object ReferenceColors {
             )
         }
     }
+
+    object Beta1 {
+        object SystemDefault : ColorScheme() {
+            override val neutral1 = listOf(
+                    0xffffff,
+                    0xe2e2e2,
+                    0xc6c6c6,
+                    0xababab,
+                    0x909090,
+                    0x757575,
+                    0x5e5e5e,
+                    0x464646,
+                    0x303030,
+                    0x1b1b1b,
+                    0x000000,
+            )
+
+            override val neutral2 = listOf(
+                    0xffffff,
+                    0xe2e2e2,
+                    0xc6c6c6,
+                    0xababab,
+                    0x909090,
+                    0x757575,
+                    0x5e5e5e,
+                    0x464646,
+                    0x303030,
+                    0x1b1b1b,
+                    0x000000,
+            )
+
+            override val accent1 = listOf(
+                    0xffffff,
+                    0xd3e3fd,
+                    0xa8c7fa,
+                    0x7cacf8,
+                    0x4c8df6,
+                    0x1b6ef3,
+                    0x0b57d0,
+                    0x0842a0,
+                    0x062e6f,
+                    0x041e49,
+                    0x000000,
+            )
+
+            override val accent2 = listOf(
+                    0xffffff,
+                    0xdfe0ff,
+                    0xc3c4e2,
+                    0xa8a9c6,
+                    0x8d8fab,
+                    0x72738f,
+                    0x5a5c77,
+                    0x43455e,
+                    0x2c2f46,
+                    0x161a30,
+                    0x000000,
+            )
+
+            override val accent3 = listOf(
+                    0xffffff,
+                    0xf5d9ff,
+                    0xd8bde6,
+                    0xbca2ca,
+                    0xa187ae,
+                    0x846c91,
+                    0x6d567a,
+                    0x553e61,
+                    0x3d2849,
+                    0x271332,
+                    0x000000,
+            )
+
+        }
+
+        object MonetMint : ColorScheme() {
+            override val neutral1 = listOf(
+                    0xffffff,
+                    0xdde4e0,
+                    0xbfc9c4,
+                    0xa5ada9,
+                    0x89938e,
+                    0x6f7874,
+                    0x57605c,
+                    0x404945,
+                    0x2a322f,
+                    0x151d1a,
+                    0x000000,
+            )
+
+            override val neutral2 = listOf(
+                    0xffffff,
+                    0xe0e3e0,
+                    0xc4c7c4,
+                    0xa8acaa,
+                    0x8e928f,
+                    0x737774,
+                    0x5c5f5d,
+                    0x464746,
+                    0x2d312f,
+                    0x1a1c1b,
+                    0x000000,
+            )
+
+            override val accent1 = listOf(
+                    0xffffff,
+                    0x7ef8d4,
+                    0x60dbb9,
+                    0x3ebf9d,
+                    0x10a384,
+                    0x00866a,
+                    0x006c50,
+                    0x005139,
+                    0x003822,
+                    0x00210e,
+                    0x000200,
+            )
+
+            override val accent2 = listOf(
+                    0xffffff,
+                    0xcce9dd,
+                    0xb0cdc1,
+                    0x96b1a7,
+                    0x7c968c,
+                    0x627c72,
+                    0x4a645b,
+                    0x334c43,
+                    0x1d352d,
+                    0x072019,
+                    0x000000,
+            )
+
+            override val accent3 = listOf(
+                    0xffffff,
+                    0xd9e4ec,
+                    0x96ceed,
+                    0x7cb2d1,
+                    0x6197b5,
+                    0x457c99,
+                    0x2b6480,
+                    0x074c67,
+                    0x00344d,
+                    0x001d34,
+                    0x010000,
+            )
+
+        }
+
+        object MonetPurple : ColorScheme() {
+            override val neutral1 = listOf(
+                    0xffffff,
+                    0xeddfe7,
+                    0xd0c3cb,
+                    0xb4a8b0,
+                    0x9a8d96,
+                    0x7b7478,
+                    0x665b63,
+                    0x4d444b,
+                    0x362e34,
+                    0x21191f,
+                    0x000000,
+            )
+
+            override val neutral2 = listOf(
+                    0xffffff,
+                    0xe8e0e4,
+                    0xccc5c8,
+                    0xaeaaab,
+                    0x958f92,
+                    0x7a7477,
+                    0x625d60,
+                    0x4a4548,
+                    0x323031,
+                    0x1e1a1d,
+                    0x000000,
+            )
+
+            override val accent1 = listOf(
+                    0xffffff,
+                    0xffd5ff,
+                    0xfeabf3,
+                    0xe090d6,
+                    0xc376ba,
+                    0xa55c9d,
+                    0x8a4584,
+                    0x6f2d6a,
+                    0x541452,
+                    0x380038,
+                    0x000600,
+            )
+
+            override val accent2 = listOf(
+                    0xffffff,
+                    0xf5dbef,
+                    0xd9bfd3,
+                    0xbda4b7,
+                    0xa28a9d,
+                    0x866f82,
+                    0x6d5869,
+                    0x544151,
+                    0x3d2b3a,
+                    0x271625,
+                    0x000002,
+            )
+
+            override val accent3 = listOf(
+                    0xffffff,
+                    0xffdcc3,
+                    0xffb59d,
+                    0xe39983,
+                    0xc57f6a,
+                    0xa66552,
+                    0x8a4f3c,
+                    0x6e3827,
+                    0x522213,
+                    0x370e03,
+                    0x000000,
+            )
+
+        }
+
+        object MonetGreen : ColorScheme() {
+            override val neutral1 = listOf(
+                    0xffffff,
+                    0xe0e4d7,
+                    0xc3c8ba,
+                    0xa8ada0,
+                    0x8d9285,
+                    0x74776e,
+                    0x5d5f59,
+                    0x454840,
+                    0x2d3228,
+                    0x181d14,
+                    0x000000,
+            )
+
+            override val neutral2 = listOf(
+                    0xffffff,
+                    0xe2e3db,
+                    0xc6c7c0,
+                    0xaaaca4,
+                    0x8f918a,
+                    0x767673,
+                    0x5d5f59,
+                    0x454842,
+                    0x30312e,
+                    0x1a1c18,
+                    0x000000,
+            )
+
+            override val accent1 = listOf(
+                    0xffffff,
+                    0xbff28f,
+                    0xa3d576,
+                    0x89b95d,
+                    0x709d46,
+                    0x56822e,
+                    0x406918,
+                    0x295000,
+                    0x153800,
+                    0x082100,
+                    0x000000,
+            )
+
+            override val accent2 = listOf(
+                    0xffffff,
+                    0xdae7c9,
+                    0xbecbad,
+                    0xa3af93,
+                    0x89957a,
+                    0x6e7a60,
+                    0x57624a,
+                    0x404a34,
+                    0x29331f,
+                    0x151e0c,
+                    0x000000,
+            )
+
+            override val accent3 = listOf(
+                    0xffffff,
+                    0xa6f0ec,
+                    0x8bd3d0,
+                    0x6fb7b4,
+                    0x549c99,
+                    0x38817f,
+                    0x196966,
+                    0x00504e,
+                    0x003735,
+                    0x00201e,
+                    0x000204,
+            )
+
+        }
+
+        object MonetOrange : ColorScheme() {
+            override val neutral1 = listOf(
+                    0xffffff,
+                    0xf2dfd2,
+                    0xd5c3b7,
+                    0xb9a89c,
+                    0x9e8e82,
+                    0x827369,
+                    0x645d58,
+                    0x51443b,
+                    0x3a2e26,
+                    0x221a14,
+                    0x000000,
+            )
+
+            override val neutral2 = listOf(
+                    0xffffff,
+                    0xe8e1de,
+                    0xcfc4be,
+                    0xb3a9a3,
+                    0x988f89,
+                    0x7a7572,
+                    0x655d58,
+                    0x4d4541,
+                    0x32302f,
+                    0x201a16,
+                    0x000000,
+            )
+
+            override val accent1 = listOf(
+                    0xffffff,
+                    0xffe086,
+                    0xffb962,
+                    0xee9744,
+                    0xce7e2d,
+                    0xae6411,
+                    0x8b500e,
+                    0x643e1b,
+                    0x4f2500,
+                    0x360f00,
+                    0x000000,
+            )
+
+            override val accent2 = listOf(
+                    0xffffff,
+                    0xffdcc1,
+                    0xe2c0a6,
+                    0xc6a58c,
+                    0xa98b73,
+                    0x8d715a,
+                    0x735944,
+                    0x59422e,
+                    0x3d2d20,
+                    0x291707,
+                    0x000000,
+            )
+
+            override val accent3 = listOf(
+                    0xffffff,
+                    0xdde9a0,
+                    0xc0cd87,
+                    0xa5b16e,
+                    0x8b9656,
+                    0x707b3e,
+                    0x596329,
+                    0x424b14,
+                    0x2c3400,
+                    0x181e00,
+                    0x000000,
+            )
+
+        }
+
+        object MonetTeal : ColorScheme() {
+            override val neutral1 = listOf(
+                    0xffffff,
+                    0xdbe4e8,
+                    0xbfc8cc,
+                    0xa6acaf,
+                    0x899296,
+                    0x6e777b,
+                    0x576063,
+                    0x40484c,
+                    0x293235,
+                    0x151d20,
+                    0x000001,
+            )
+
+            override val neutral2 = listOf(
+                    0xffffff,
+                    0xe1e3e4,
+                    0xc5c7c8,
+                    0xaaabac,
+                    0x8f9192,
+                    0x747677,
+                    0x5d5f60,
+                    0x454748,
+                    0x2f3132,
+                    0x191c1d,
+                    0x000000,
+            )
+
+            override val accent1 = listOf(
+                    0xffffff,
+                    0xdae4e9,
+                    0x6fd3f7,
+                    0x51b7db,
+                    0x2e9cbf,
+                    0x0080a2,
+                    0x006687,
+                    0x004c6b,
+                    0x003352,
+                    0x001b3c,
+                    0x010000,
+            )
+
+            override val accent2 = listOf(
+                    0xffffff,
+                    0xcfe6f2,
+                    0xb3cad5,
+                    0x98afb9,
+                    0x7e949f,
+                    0x647983,
+                    0x4c626b,
+                    0x354a53,
+                    0x1e333c,
+                    0x081e26,
+                    0x000005,
+            )
+
+            override val accent3 = listOf(
+                    0xffffff,
+                    0xdee0ff,
+                    0xc0c2fa,
+                    0xa4a7dd,
+                    0x8a8dc1,
+                    0x6f72a4,
+                    0x575a8b,
+                    0x404371,
+                    0x292c59,
+                    0x141643,
+                    0x000100,
+            )
+
+        }
+    }
 }
