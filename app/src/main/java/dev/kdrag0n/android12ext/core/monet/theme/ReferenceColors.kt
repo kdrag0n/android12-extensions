@@ -293,7 +293,7 @@ object ReferenceColors {
     }
 
     object Beta1 {
-        object SystemDefault : ColorScheme() {
+        object PixelDefault : ColorScheme() {
             override val neutral1 = listOf(
                     0xffffff,
                     0xe2e2e2,
@@ -361,6 +361,79 @@ object ReferenceColors {
                     0x553e61,
                     0x3d2849,
                     0x271332,
+                    0x000000,
+            )
+
+        }
+
+        object AospDefault : ColorScheme() {
+            override val neutral1 = listOf(
+                    0xffffff,
+                    0xe2e2e2,
+                    0xc6c6c6,
+                    0xababab,
+                    0x909090,
+                    0x757575,
+                    0x5e5e5e,
+                    0x464646,
+                    0x303030,
+                    0x1b1b1b,
+                    0x000000,
+            )
+
+            override val neutral2 = listOf(
+                    0xffffff,
+                    0xe2e2e2,
+                    0xc6c6c6,
+                    0xababab,
+                    0x909090,
+                    0x757575,
+                    0x5e5e5e,
+                    0x464646,
+                    0x303030,
+                    0x1b1b1b,
+                    0x000000,
+            )
+
+            override val accent1 = listOf(
+                    0xffffff,
+                    0x8df5e3,
+                    0x71d8c7,
+                    0x53bcac,
+                    0x34a192,
+                    0x008375,
+                    0x006c5f,
+                    0x005747,
+                    0x003e31,
+                    0x002214,
+                    0x000000,
+            )
+
+            override val accent2 = listOf(
+                    0xffffff,
+                    0xbfebe3,
+                    0xa4cfc7,
+                    0x89b4ac,
+                    0x6f9991,
+                    0x537c75,
+                    0x3d665f,
+                    0x254e47,
+                    0x0c3731,
+                    0x00211c,
+                    0x000000,
+            )
+
+            override val accent3 = listOf(
+                    0xffffff,
+                    0xecdbff,
+                    0xcfbfeb,
+                    0xb3a4cf,
+                    0x988ab3,
+                    0x7b6e96,
+                    0x64587f,
+                    0x4c4165,
+                    0x352b4d,
+                    0x1e1636,
                     0x000000,
             )
 
