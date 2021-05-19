@@ -32,7 +32,13 @@ class DynamicColorScheme(
     }
 
     private fun transformColor(color: Oklch): Oklch {
-        // Keep target color's LC, replace h with primary
-        return Oklch(color.L, color.C, primaryLch.h)
+        return Oklch(
+            // Keep target luminance. Themes should never need to change it.
+            L = color.L,
+            // Allow colorless gray and 10% over-saturation for naturally saturated colors.
+            C = primaryLch.C.coerceIn(0.0, color.C * 1.1),
+            // Use the primary color's hue, since it's the most prominent feature of the theme.
+            h = primaryLch.h,
+        )
     }
 }
