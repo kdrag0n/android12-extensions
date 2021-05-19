@@ -64,7 +64,7 @@ class SystemUIHooks(
     }
 
     fun applyPrivacyIndicators() {
-        val hook = object : XC_MethodHook() {
+        val constructorHook = object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 XposedHelpers.setBooleanField(param.thisObject, "micCameraAvailable", true)
                 XposedHelpers.setBooleanField(param.thisObject, "locationAvailable", true)
@@ -82,7 +82,17 @@ class SystemUIHooks(
                 XposedHelpers.findClass("com.android.systemui.privacy.logging.PrivacyLogger", lpparam.classLoader),
                 XposedHelpers.findClass("com.android.systemui.util.time.SystemClock", lpparam.classLoader),
                 XposedHelpers.findClass("com.android.systemui.dump.DumpManager", lpparam.classLoader),
-                hook,
+                constructorHook,
+        )
+
+        val flagHook = object : XC_MethodReplacement() {
+            override fun replaceHookedMethod(param: MethodHookParam) = true
+        }
+
+        lpparam.hookMethod(
+                "com.android.systemui.qs.QuickStatusBarHeaderController",
+                flagHook,
+                "getChipEnabled",
         )
     }
 
