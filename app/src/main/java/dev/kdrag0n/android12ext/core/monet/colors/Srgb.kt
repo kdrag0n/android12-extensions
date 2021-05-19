@@ -1,19 +1,25 @@
 package dev.kdrag0n.android12ext.core.monet.colors
 
-import android.graphics.Color
+import dev.kdrag0n.android12ext.core.monet.colors.LinearSrgb.Companion.toLinearSrgb as realToLinearSrgb
 import kotlin.math.roundToInt
 
 data class Srgb(
     val r: Double,
     val g: Double,
     val b: Double,
-) {
+) : Color {
     // Convenient constructors for quantized values
     constructor(r: Int, g: Int, b: Int) : this(r.toDouble() / 255.0, g.toDouble() / 255.0, b.toDouble() / 255.0)
-    constructor(color: Int) : this(Color.red(color), Color.green(color), Color.blue(color))
+    constructor(color: Int) : this(
+        android.graphics.Color.red(color),
+        android.graphics.Color.green(color),
+        android.graphics.Color.blue(color),
+    )
+
+    override fun toLinearSrgb() = realToLinearSrgb()
 
     fun quantize8(): Int {
-        return Color.rgb(
+        return android.graphics.Color.rgb(
             quantize8(r),
             quantize8(g),
             quantize8(b),

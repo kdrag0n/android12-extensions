@@ -6,7 +6,9 @@ data class Oklch(
     val L: Double,
     val C: Double,
     val h: Double,
-) {
+) : Color {
+    override fun toLinearSrgb() = toOklab().toLinearSrgb()
+
     fun toOklab(): Oklab {
         val hRad = Math.toRadians(h)
 

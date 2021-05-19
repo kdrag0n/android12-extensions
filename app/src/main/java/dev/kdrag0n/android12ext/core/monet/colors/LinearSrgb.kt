@@ -6,7 +6,9 @@ data class LinearSrgb(
     val r: Double,
     val g: Double,
     val b: Double,
-) {
+) : Color {
+    override fun toLinearSrgb() = this
+
     fun toSrgb(): Srgb {
         return Srgb(
             r = eotf(r),

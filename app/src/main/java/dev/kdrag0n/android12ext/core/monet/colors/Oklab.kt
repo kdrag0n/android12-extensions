@@ -4,8 +4,8 @@ data class Oklab(
     val L: Double,
     val a: Double,
     val b: Double,
-) {
-    fun toLinearSrgb(): LinearSrgb {
+) : Color {
+    override fun toLinearSrgb(): LinearSrgb {
         val l2 = L + 0.3963377774 * a + 0.2158037573 * b
         val m2 = L - 0.1055613458 * a - 0.0638541728 * b
         val s2 = L - 0.0894841775 * a - 1.2914855480 * b
