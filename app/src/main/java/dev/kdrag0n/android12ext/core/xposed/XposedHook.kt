@@ -96,6 +96,10 @@ class XposedHook(
         launcherHooks.applyFeatureFlags()
     }
 
+    private fun applySystemServer() {
+        frameworkHooks.applyMedianCutQuantizer()
+    }
+
     fun applyAll() {
         // Global kill-switch
         if (!isFeatureEnabled("global")) {
@@ -114,6 +118,8 @@ class XposedHook(
             "com.android.systemui" -> applySysUi()
             // Pixel Launcher
             "com.google.android.apps.nexuslauncher" -> applyLauncher()
+            // System server
+            "android" -> applySystemServer()
         }
 
         // All apps
