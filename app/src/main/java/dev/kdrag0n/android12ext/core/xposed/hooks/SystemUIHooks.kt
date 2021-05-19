@@ -6,6 +6,7 @@ import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.core.monet.overlay.ThemeOverlayController
 import dev.kdrag0n.android12ext.core.monet.theme.ReferenceColors
+import dev.kdrag0n.android12ext.core.monet.theme.TargetColors
 import dev.kdrag0n.android12ext.core.xposed.hookMethod
 import timber.log.Timber
 
@@ -86,7 +87,7 @@ class SystemUIHooks(
     }
 
     fun applyThemeOverlayController() {
-        val controller = ThemeOverlayController(ReferenceColors.Beta1.MonetGreen)
+        val controller = ThemeOverlayController(TargetColors.Default)
         val hook = object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam): Any {
                 return controller.getOverlay(param.args[0] as Int, param.args[1] as Int)
