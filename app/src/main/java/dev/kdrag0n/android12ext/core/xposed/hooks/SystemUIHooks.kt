@@ -92,8 +92,16 @@ class SystemUIHooks(
         )
     }
 
-    fun applyThemeOverlayController(boostAccentChroma: Boolean, isGoogle: Boolean) {
-        val controller = ThemeOverlayController(TargetColors.Default, boostAccentChroma)
+    fun applyThemeOverlayController(
+        isGoogle: Boolean,
+        boostAccentChroma: Boolean,
+        multiColor: Boolean,
+    ) {
+        val controller = ThemeOverlayController(
+            TargetColors.Default,
+            boostAccentChroma,
+            multiColor,
+        )
         val clazz = if (isGoogle) THEME_CLASS_GOOGLE else THEME_CLASS_AOSP
 
         lpparam.hookMethod(clazz, object : XC_MethodReplacement() {

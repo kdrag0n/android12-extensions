@@ -71,8 +71,9 @@ class XposedHook(
         if (isFeatureEnabled("custom_monet", false) ||
                 (isFeatureEnabled("monet") && !hasSystemUiGoogle)) {
             sysuiHooks.applyThemeOverlayController(
-                isFeatureEnabled("custom_monet_boost_chroma", false),
                 hasSystemUiGoogle,
+                isFeatureEnabled("custom_monet_boost_chroma", false),
+                isFeatureEnabled("custom_monet_multi_color", false),
             )
         }
 
