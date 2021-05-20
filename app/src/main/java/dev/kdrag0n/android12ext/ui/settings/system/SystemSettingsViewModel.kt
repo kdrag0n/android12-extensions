@@ -21,6 +21,12 @@ class SystemSettingsViewModel(
             icon = R.drawable.ic_fluent_paint_brush_24_regular,
         )
         featureSwitch(
+            key = "gxoverlay",
+            title = R.string.feature_gxoverlay,
+            summary = R.string.feature_gxoverlay_desc,
+            icon = R.drawable.ic_fluent_grid_24_regular,
+        )
+        featureSwitch(
             key = "lockscreen",
             title = R.string.feature_lockscreen,
             summary = R.string.feature_lockscreen_desc,
