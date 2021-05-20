@@ -33,11 +33,11 @@ class DynamicColorScheme(
     override val neutral2 = transformQuantizedColors(targetColors.neutral2, primaryNeutral)
 
     // Main accent color. Generally, this is close to the primary color.
-    override val accent1 = transformQuantizedColors(targetColors.accent1, primaryAccent)
+    override val accent1 = transformQuantizedColors(targetColors.accent1, primaryNeutral)
     // Secondary accent color. Darker shades of accent1.
-    override val accent2 = transformQuantizedColors(targetColors.accent2, primaryAccent)
+    override val accent2 = transformQuantizedColors(targetColors.accent2, primaryNeutral)
     // Tertiary accent color. Primary color shifted to the next secondary color via hue offset.
-    override val accent3 = transformQuantizedColors(targetColors.accent3, primaryAccent) { lch ->
+    override val accent3 = transformQuantizedColors(targetColors.accent3, primaryNeutral) { lch ->
         lch.copy(h = lch.h + ACCENT3_HUE_SHIFT_DEGREES)
     }
 
