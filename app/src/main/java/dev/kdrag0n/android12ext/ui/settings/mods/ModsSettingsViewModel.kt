@@ -28,21 +28,31 @@ class ModsSettingsViewModel(
             icon = R.drawable.ic_fluent_phone_vibrate_24_regular,
             default = false,
         )
-
-        featureSwitch(
-            key = "custom_monet",
-            title = R.string.mod_custom_monet,
-            summary = R.string.mod_custom_monet_desc,
-            icon = R.drawable.ic_fluent_paint_bucket_24_regular,
-            default = false,
-        )
-
         pref("mods_info") {
             iconRes = R.drawable.ic_fluent_info_24_regular
             summaryRes = R.string.mods_info
             // Disabling the view makes the text contrast too low, so use our extension instead
             setInteractive(false)
         }
+
+        categoryHeader("category_theming") {
+            titleRes = R.string.category_theming
+        }
+
+        featureSwitch(
+            key = "custom_monet",
+            title = R.string.mod_custom_monet,
+            summary = R.string.mod_custom_monet_desc,
+            icon = R.drawable.ic_fluent_paint_brush_24_regular,
+            default = false,
+        )
+        featureSwitch(
+            key = "custom_monet_boost_chroma",
+            title = R.string.mod_custom_monet_boost_chroma,
+            summary = R.string.mod_custom_monet_boost_chroma_desc,
+            icon = R.drawable.ic_fluent_color_fill_24_regular,
+            default = false,
+        )
 
         // Debug
         if (BuildConfig.DEBUG) {
