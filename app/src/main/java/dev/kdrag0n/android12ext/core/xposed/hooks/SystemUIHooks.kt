@@ -91,8 +91,8 @@ class SystemUIHooks(
         )
     }
 
-    fun applyThemeOverlayController() {
-        val controller = ThemeOverlayController(TargetColors.Default)
+    fun applyThemeOverlayController(boostAccentChroma: Boolean) {
+        val controller = ThemeOverlayController(TargetColors.Default, boostAccentChroma)
         val hook = object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam): Any {
                 return controller.getOverlay(param.args[0] as Int, param.args[1] as Int)

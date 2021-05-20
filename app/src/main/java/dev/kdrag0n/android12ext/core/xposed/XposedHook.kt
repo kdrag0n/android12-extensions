@@ -67,7 +67,7 @@ class XposedHook(
 
         // Custom Monet engine
         if (isFeatureEnabled("custom_monet", false)) {
-            sysuiHooks.applyThemeOverlayController()
+            sysuiHooks.applyThemeOverlayController(isFeatureEnabled("custom_monet_boost_chroma", false))
         }
 
         // Disable Monet, if necessary
