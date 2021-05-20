@@ -9,6 +9,7 @@ import de.Maxr1998.modernpreferences.helpers.pref
 import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
+import dev.kdrag0n.android12ext.core.data.hasSystemUiGoogle
 import dev.kdrag0n.android12ext.monet.theme.ReferenceGenerator
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.buildWithPrefs
@@ -38,12 +39,14 @@ class ModsSettingsViewModel(
         categoryHeader("category_theming") {
             titleRes = R.string.category_theming
         }
+        val hasSystemUiGoogle = app.hasSystemUiGoogle()
         featureSwitch(
             key = "custom_monet",
             title = R.string.mod_custom_monet,
-            summary = R.string.mod_custom_monet_desc,
+            summary = if (hasSystemUiGoogle) R.string.mod_custom_monet_desc else R.string.mod_custom_monet_desc_forced,
             icon = R.drawable.ic_fluent_paint_brush_24_regular,
-            default = false,
+            default = hasSystemUiGoogle,
+            enabled = hasSystemUiGoogle,
         )
         featureSwitch(
             key = "custom_monet_boost_chroma",

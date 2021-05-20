@@ -5,6 +5,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.CustomApplication
 import dev.kdrag0n.android12ext.core.BroadcastManager
+import dev.kdrag0n.android12ext.core.data.hasSystemUiGoogle
 import dev.kdrag0n.android12ext.core.xposed.hooks.FrameworkHooks
 import dev.kdrag0n.android12ext.core.xposed.hooks.LauncherHooks
 import dev.kdrag0n.android12ext.core.xposed.hooks.SystemUIHooks
@@ -65,9 +66,14 @@ class XposedHook(
         // Enable game dashboard
         sysuiHooks.applyGameDashboard(isFeatureEnabled("game_dashboard"))
 
-        // Custom Monet engine
-        if (isFeatureEnabled("custom_monet", false)) {
-            sysuiHooks.applyThemeOverlayController(isFeatureEnabled("custom_monet_boost_chroma", false))
+        // Custom Monet engine, forced on AOSP
+        val hasSystemUiGoogle = context.hasSystemUiGoogle()
+        if (isFeatureEnabled("custom_monet", false) ||
+                (isFeatureEnabled("monet") && !hasSystemUiGoogle)) {
+            sysuiHooks.applyThemeOverlayController(
+                isFeatureEnabled("custom_monet_boost_chroma", false),
+                hasSystemUiGoogle,
+            )
         }
 
         // Disable Monet, if necessary

@@ -1,5 +1,6 @@
 package dev.kdrag0n.android12ext.core.xposed.hooks
 
+import android.app.WallpaperColors
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
@@ -91,21 +92,27 @@ class SystemUIHooks(
         )
     }
 
-    fun applyThemeOverlayController(boostAccentChroma: Boolean) {
+    fun applyThemeOverlayController(boostAccentChroma: Boolean, isGoogle: Boolean) {
         val controller = ThemeOverlayController(TargetColors.Default, boostAccentChroma)
-        val hook = object : XC_MethodReplacement() {
+        val clazz = if (isGoogle) THEME_CLASS_GOOGLE else THEME_CLASS_AOSP
+
+        lpparam.hookMethod(clazz, object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam): Any {
                 return controller.getOverlay(param.args[0] as Int, param.args[1] as Int)
             }
-        }
+        }, "getOverlay", Int::class.java, Int::class.java)
 
-        lpparam.hookMethod(
-                "com.google.android.systemui.theme.ThemeOverlayControllerGoogle",
-                hook,
-                "getOverlay",
-                Int::class.java,
-                Int::class.java,
-        )
+        lpparam.hookMethod(clazz, object : XC_MethodReplacement() {
+            override fun replaceHookedMethod(param: MethodHookParam): Any {
+                return controller.getNeutralColor(param.args[0] as WallpaperColors)
+            }
+        }, "getNeutralColor", WallpaperColors::class.java)
+
+        lpparam.hookMethod(clazz, object : XC_MethodReplacement() {
+            override fun replaceHookedMethod(param: MethodHookParam): Any {
+                return controller.getAccentColor(param.args[0] as WallpaperColors)
+            }
+        }, "getAccentColor", WallpaperColors::class.java)
     }
 
     fun applySensorPrivacyToggles() {
@@ -129,5 +136,8 @@ class SystemUIHooks(
         private const val FEATURE_FLAGS_CLASS = "com.android.systemui.statusbar.FeatureFlags"
         private const val GAME_ENTRY_CLASS = "com.google.android.systemui.gamedashboard.EntryPointController"
         private const val PRIVACY_CLASS = "com.android.systemui.privacy.PrivacyItemController"
+
+        private const val THEME_CLASS_AOSP = "com.android.systemui.theme.ThemeOverlayController"
+        private const val THEME_CLASS_GOOGLE = "com.google.android.systemui.theme.ThemeOverlayControllerGoogle"
     }
 }

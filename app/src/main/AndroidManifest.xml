@@ -8,8 +8,8 @@
         android:protectionLevel="signature" />
     <uses-permission android:name="dev.kdrag0n.android12ext.BROADCAST_PERMISSION" />
 
-    <!-- To launch LSPosed Manager -->
     <queries>
+        <package android:name="com.android.systemui" />
         <package android:name="org.lsposed.manager" />
     </queries>
 

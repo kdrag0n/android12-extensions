@@ -1,5 +1,6 @@
 package dev.kdrag0n.android12ext.monet.overlay
 
+import android.app.WallpaperColors
 import android.graphics.Color
 import dev.kdrag0n.android12ext.monet.colors.Srgb
 import dev.kdrag0n.android12ext.monet.theme.DynamicColorScheme
