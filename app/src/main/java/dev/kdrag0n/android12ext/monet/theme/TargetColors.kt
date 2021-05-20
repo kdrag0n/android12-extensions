@@ -1,6 +1,6 @@
-package dev.kdrag0n.android12ext.core.monet.theme
+package dev.kdrag0n.android12ext.monet.theme
 
-import dev.kdrag0n.android12ext.core.monet.colors.Oklch
+import dev.kdrag0n.android12ext.monet.colors.Oklch
 
 // Custom target color tables
 object TargetColors {

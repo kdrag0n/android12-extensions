@@ -1,6 +1,6 @@
-package dev.kdrag0n.android12ext.core.monet.colors
+package dev.kdrag0n.android12ext.monet.colors
 
-import dev.kdrag0n.android12ext.core.monet.colors.LinearSrgb.Companion.toLinearSrgb as realToLinearSrgb
+import dev.kdrag0n.android12ext.monet.colors.LinearSrgb.Companion.toLinearSrgb as realToLinearSrgb
 import kotlin.math.roundToInt
 
 data class Srgb(

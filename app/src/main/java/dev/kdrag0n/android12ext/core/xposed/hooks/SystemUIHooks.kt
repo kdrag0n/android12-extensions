@@ -4,9 +4,8 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import dev.kdrag0n.android12ext.core.monet.overlay.ThemeOverlayController
-import dev.kdrag0n.android12ext.core.monet.theme.ReferenceColors
-import dev.kdrag0n.android12ext.core.monet.theme.TargetColors
+import dev.kdrag0n.android12ext.monet.overlay.ThemeOverlayController
+import dev.kdrag0n.android12ext.monet.theme.TargetColors
 import dev.kdrag0n.android12ext.core.xposed.hookMethod
 import timber.log.Timber
 

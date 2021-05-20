@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.core.monet.colors
+package dev.kdrag0n.android12ext.monet.colors
 
 data class Oklab(
     val L: Double,

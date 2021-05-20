@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.core.monet.overlay
+package dev.kdrag0n.android12ext.monet.overlay
 
 import de.robv.android.xposed.XposedHelpers
 

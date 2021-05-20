@@ -1,10 +1,9 @@
-package dev.kdrag0n.android12ext.core.monet.theme
+package dev.kdrag0n.android12ext.monet.theme
 
 import android.content.Context
-import dev.kdrag0n.android12ext.core.monet.colors.LinearSrgb.Companion.toLinearSrgb
-import dev.kdrag0n.android12ext.core.monet.colors.Oklab.Companion.toOklab
-import dev.kdrag0n.android12ext.core.monet.colors.Oklch.Companion.toOklch
-import dev.kdrag0n.android12ext.core.monet.colors.Srgb
+import dev.kdrag0n.android12ext.monet.colors.Oklab.Companion.toOklab
+import dev.kdrag0n.android12ext.monet.colors.Oklch.Companion.toOklch
+import dev.kdrag0n.android12ext.monet.colors.Srgb
 import timber.log.Timber
 
 class ReferenceGenerator(

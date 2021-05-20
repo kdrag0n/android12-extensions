@@ -9,7 +9,7 @@ import de.Maxr1998.modernpreferences.helpers.pref
 import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
-import dev.kdrag0n.android12ext.core.monet.theme.ReferenceGenerator
+import dev.kdrag0n.android12ext.monet.theme.ReferenceGenerator
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.buildWithPrefs
 import dev.kdrag0n.android12ext.ui.utils.featureSwitch

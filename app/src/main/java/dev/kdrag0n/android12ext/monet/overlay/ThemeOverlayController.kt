@@ -1,9 +1,9 @@
-package dev.kdrag0n.android12ext.core.monet.overlay
+package dev.kdrag0n.android12ext.monet.overlay
 
 import android.graphics.Color
-import dev.kdrag0n.android12ext.core.monet.colors.Srgb
-import dev.kdrag0n.android12ext.core.monet.theme.DynamicColorScheme
-import dev.kdrag0n.android12ext.core.monet.theme.ColorScheme
+import dev.kdrag0n.android12ext.monet.colors.Srgb
+import dev.kdrag0n.android12ext.monet.theme.DynamicColorScheme
+import dev.kdrag0n.android12ext.monet.theme.ColorScheme
 import timber.log.Timber
 
 class ThemeOverlayController(

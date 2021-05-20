@@ -1,10 +1,10 @@
-package dev.kdrag0n.android12ext.core.monet.theme
+package dev.kdrag0n.android12ext.monet.theme
 
-import dev.kdrag0n.android12ext.core.monet.colors.Color
-import dev.kdrag0n.android12ext.core.monet.colors.Oklab.Companion.toOklab
-import dev.kdrag0n.android12ext.core.monet.colors.Oklch
-import dev.kdrag0n.android12ext.core.monet.colors.Oklch.Companion.toOklch
-import dev.kdrag0n.android12ext.core.monet.colors.Srgb
+import dev.kdrag0n.android12ext.monet.colors.Color
+import dev.kdrag0n.android12ext.monet.colors.Oklab.Companion.toOklab
+import dev.kdrag0n.android12ext.monet.colors.Oklch
+import dev.kdrag0n.android12ext.monet.colors.Oklch.Companion.toOklch
+import dev.kdrag0n.android12ext.monet.colors.Srgb
 import timber.log.Timber
 
 class DynamicColorScheme(

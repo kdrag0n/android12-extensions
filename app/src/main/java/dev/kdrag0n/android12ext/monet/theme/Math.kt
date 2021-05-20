@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.core.monet.theme
+package dev.kdrag0n.android12ext.monet.theme
 
 import kotlin.math.tanh
 

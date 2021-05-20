@@ -1,6 +1,6 @@
-package dev.kdrag0n.android12ext.core.monet.theme
+package dev.kdrag0n.android12ext.monet.theme
 
-import dev.kdrag0n.android12ext.core.monet.colors.Color
+import dev.kdrag0n.android12ext.monet.colors.Color
 
 abstract class ColorScheme {
     abstract val neutral1: List<Color>
