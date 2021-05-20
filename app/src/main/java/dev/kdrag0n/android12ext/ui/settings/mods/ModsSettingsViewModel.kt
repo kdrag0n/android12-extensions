@@ -52,6 +52,7 @@ class ModsSettingsViewModel(
             summary = R.string.mod_custom_monet_boost_chroma_desc,
             icon = R.drawable.ic_fluent_color_fill_24_regular,
             default = false,
+            dependency = "custom_monet_enabled",
         )
 
         // Debug
