@@ -80,12 +80,15 @@ class XposedHook(
 
         // Hide red background in rounded screenshots
         sysuiHooks.applyRoundedScreenshotBg()
+
+        // Toggle GX overlay
+        context.setOverlayEnabled(lpparam, "com.google.android.systemui.gxoverlay", isFeatureEnabled("gxoverlay"))
     }
 
     private fun disableMonetOverlays() {
         try {
-            context.disableOverlay(lpparam, "com.android.systemui:accent")
-            context.disableOverlay(lpparam, "com.android.systemui:neutral")
+            context.setOverlayEnabled(lpparam, "com.android.systemui:accent", false)
+            context.setOverlayEnabled(lpparam, "com.android.systemui:neutral", false)
         } catch (e: Exception) {
             Timber.e(e, "Failed to disable Monet overlays")
         }

@@ -23,7 +23,7 @@ fun XC_LoadPackage.LoadPackageParam.hookMethod(
 
 // OverlayManagerService has no public constant
 @SuppressLint("WrongConstant")
-fun Context.disableOverlay(lpparam: XC_LoadPackage.LoadPackageParam, overlay: String) {
+fun Context.setOverlayEnabled(lpparam: XC_LoadPackage.LoadPackageParam, overlay: String, enabled: Boolean) {
     val classOverlayIdentifier = XposedHelpers.findClass("android.content.om.OverlayIdentifier", lpparam.classLoader)
     val overlayId = XposedHelpers.callStaticMethod(classOverlayIdentifier, "fromString", overlay)
 
@@ -34,7 +34,7 @@ fun Context.disableOverlay(lpparam: XC_LoadPackage.LoadPackageParam, overlay: St
         txBuilder,
         "setEnabled",
         overlayId,
-        false,
+        enabled,
         0,
     )
     val tx = XposedHelpers.callMethod(txBuilder, "build")
