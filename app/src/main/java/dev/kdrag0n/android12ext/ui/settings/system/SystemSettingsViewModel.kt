@@ -57,12 +57,6 @@ class SystemSettingsViewModel(
             icon = R.drawable.ic_fluent_games_24_regular,
         )
         featureSwitch(
-            key = "privacy_indicators",
-            title = R.string.feature_privacy_indicators,
-            summary = R.string.feature_privacy_indicators_desc,
-            icon = R.drawable.ic_fluent_incognito_24_regular,
-        )
-        featureSwitch(
             key = "charging_ripple",
             title = R.string.feature_charging_ripple,
             summary = R.string.feature_charging_ripple_desc,
