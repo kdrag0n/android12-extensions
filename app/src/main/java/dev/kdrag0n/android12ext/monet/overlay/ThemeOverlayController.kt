@@ -10,8 +10,19 @@ import timber.log.Timber
 class ThemeOverlayController(
     private val targetColors: ColorScheme,
     private val boostAccentChroma: Boolean,
+    private val multiColor: Boolean,
 ) {
     private lateinit var colorScheme: DynamicColorScheme
+
+    fun getNeutralColor(colors: WallpaperColors) = colors.primaryColor.toArgb()
+    fun getAccentColor(colors: WallpaperColors) = if (multiColor) {
+        // Not all colors will always be present
+        (colors.secondaryColor
+            ?: colors.tertiaryColor
+            ?: colors.primaryColor).toArgb()
+    } else {
+        getNeutralColor(colors)
+    }
 
     // com.android.systemui.theme.ThemeOverlayController#getOverlay(int, int)
     fun getOverlay(primaryColor: Int, isAccent: Int): Any {
