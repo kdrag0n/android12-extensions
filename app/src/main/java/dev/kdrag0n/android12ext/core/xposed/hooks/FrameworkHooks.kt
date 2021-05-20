@@ -66,11 +66,11 @@ class FrameworkHooks(
         )
     }
 
-    fun applyInternetFlag() {
+    fun applyInternetFlag(enabled: Boolean) {
         val hook = object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (param.args[1] as String == "settings_provider_model") {
-                    param.result = true
+                    param.result = enabled
                 }
             }
         }

@@ -75,6 +75,7 @@ class XposedHook(
             disableMonetOverlays()
         }
 
+        // Unlock sensor privacy toggles
         sysuiHooks.applySensorPrivacyToggles()
 
         // Hide red background in rounded screenshots
@@ -96,6 +97,18 @@ class XposedHook(
 
     private fun applySystemServer() {
         frameworkHooks.applyMedianCutQuantizer()
+    }
+
+    private fun applyFramework() {
+        frameworkHooks.applyRipple(isFeatureEnabled("patterned_ripple"))
+
+        // Unified "Internet" settings
+        frameworkHooks.applyInternetFlag(isFeatureEnabled("internet_ui"))
+
+        // Haptics mod
+        if (isFeatureEnabled("haptic_touch", false)) {
+            frameworkHooks.applyHapticTouch()
+        }
     }
 
     fun applyAll() {
@@ -121,12 +134,6 @@ class XposedHook(
         }
 
         // All apps
-        frameworkHooks.applyRipple(isFeatureEnabled("patterned_ripple"))
-
-        if (isFeatureEnabled("haptic_touch", false)) {
-            frameworkHooks.applyHapticTouch()
-        }
-
-        frameworkHooks.applyInternetFlag()
+        applyFramework()
     }
 }
