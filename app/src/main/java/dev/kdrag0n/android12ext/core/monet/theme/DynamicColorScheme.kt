@@ -9,59 +9,63 @@ import timber.log.Timber
 
 class DynamicColorScheme(
     targetColors: ColorScheme,
-    primaryColor: Int,
+    primaryRgb8: Int,
 ) : ColorScheme() {
-    private val primaryLch = Srgb(primaryColor).toLinearSrgb().toOklab().toOklch().let { lch ->
-        // Boost chroma of primary color if it's non-negligible
-        // This interpolates up to C=0.04 using a scaled hyperbolic tangent.
+    private val primaryNeutral = Srgb(primaryRgb8).toLinearSrgb().toOklab().toOklch()
+
+    // Boost chroma of primary color for accents.
+    // This interpolates up to C=0.04 using a scaled hyperbolic tangent.
+    private val primaryAccent = primaryNeutral.let { lch ->
         lch.copy(C = if (lch.C < 0.04) {
             tanhScaled(lch.C, MIN_ACCENT_CHROMA, MIN_ACCENT_CHROMA_TANH_SCALE) * MIN_ACCENT_CHROMA
         } else {
             lch.C
         })
     }
+
     init {
-        Timber.i("Primary color: ${String.format("%06x", primaryColor)} => $primaryLch")
+        Timber.i("Primary color: ${String.format("%06x", primaryRgb8)} => $primaryNeutral")
     }
 
     // Main background color. Tinted with the primary color.
-    override val neutral1 = transformQuantizedColors(targetColors.neutral1)
+    override val neutral1 = transformQuantizedColors(targetColors.neutral1, primaryNeutral)
     // Secondary background color. Slightly tinted with the primary color.
-    override val neutral2 = transformQuantizedColors(targetColors.neutral2)
+    override val neutral2 = transformQuantizedColors(targetColors.neutral2, primaryNeutral)
 
     // Main accent color. Generally, this is close to the primary color.
-    override val accent1 = transformQuantizedColors(targetColors.accent1)
+    override val accent1 = transformQuantizedColors(targetColors.accent1, primaryAccent)
     // Secondary accent color. Darker shades of accent1.
-    override val accent2 = transformQuantizedColors(targetColors.accent2)
+    override val accent2 = transformQuantizedColors(targetColors.accent2, primaryAccent)
     // Tertiary accent color. Primary color shifted to the next secondary color via hue offset.
-    override val accent3 = transformQuantizedColors(targetColors.accent3) { lch ->
+    override val accent3 = transformQuantizedColors(targetColors.accent3, primaryAccent) { lch ->
         lch.copy(h = lch.h + ACCENT3_HUE_SHIFT_DEGREES)
     }
 
     private fun transformQuantizedColors(
         colors: List<Color>,
-        colorFilter: (Oklch) -> Oklch = { it }
+        primary: Oklch,
+        colorFilter: (Oklch) -> Oklch = { it },
     ): List<Color> {
         return colors.withIndex().map { colorEntry ->
-            val colorLch = colorEntry.value as? Oklch
+            val target = colorEntry.value as? Oklch
                     ?: colorEntry.value.toLinearSrgb().toOklab().toOklch()
-            val newLch = colorFilter(transformColor(colorLch))
-            val newColor = newLch.toOklab().toLinearSrgb().toSrgb()
+            val new = colorFilter(transformColor(target, primary))
+            val newColor = new.toOklab().toLinearSrgb().toSrgb()
 
             val newRgb8 = newColor.quantize8()
-            Timber.d("Transform: $colorLch => $newLch => ${String.format("%06x", newRgb8)}")
+            Timber.d("Transform: $target => $new => ${String.format("%06x", newRgb8)}")
             return@map newColor
         }
     }
 
-    private fun transformColor(color: Oklch): Oklch {
+    private fun transformColor(target: Oklch, primary: Oklch): Oklch {
         return Oklch(
             // Keep target luminance. Themes should never need to change it.
-            L = color.L,
+            L = target.L,
             // Allow colorless gray and 10% over-saturation for naturally saturated colors.
-            C = primaryLch.C.coerceIn(0.0, color.C * 1.1),
+            C = primary.C.coerceIn(0.0, target.C * 1.1),
             // Use the primary color's hue, since it's the most prominent feature of the theme.
-            h = primaryLch.h,
+            h = primary.h,
         )
     }
 
