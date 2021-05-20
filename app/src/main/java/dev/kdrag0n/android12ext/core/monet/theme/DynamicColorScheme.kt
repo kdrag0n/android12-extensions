@@ -13,9 +13,9 @@ class DynamicColorScheme(
 ) : ColorScheme() {
     private val primaryLch = Srgb(primaryColor).toLinearSrgb().toOklab().toOklch().let { lch ->
         // Boost chroma of primary color if it's non-negligible
-        // This interpolates up to C=0.04 using smoothstep.
+        // This interpolates up to C=0.04 using a scaled hyperbolic tangent.
         lch.copy(C = if (lch.C < 0.04) {
-            smoothstep(0.0, MIN_ACCENT_CHROMA, lch.C) * MIN_ACCENT_CHROMA
+            tanhScaled(lch.C, MIN_ACCENT_CHROMA, MIN_ACCENT_CHROMA_TANH_SCALE) * MIN_ACCENT_CHROMA
         } else {
             lch.C
         })
@@ -70,8 +70,11 @@ class DynamicColorScheme(
         // 60 degrees = shifting by a secondary color
         private const val ACCENT3_HUE_SHIFT_DEGREES = 60.0
 
-        // Minimum target chroma for accents
-        // This is not a hard clamp; we interpolate it with smoothstep.
+        // Minimum target chroma for accents.
+        // This is not a hard clamp; we interpolate to it with tanh.
         private const val MIN_ACCENT_CHROMA = 0.04
+        // Scale to target tanhScaled(MIN_ACCENT_CHROMA) = 1.0
+        // This value was found empirically. There doesn't seem to be an analytical way to do this.
+        private const val MIN_ACCENT_CHROMA_TANH_SCALE = 1 / 0.21
     }
 }
