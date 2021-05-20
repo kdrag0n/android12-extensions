@@ -29,6 +29,8 @@ private val FEATURE_FLAGS = mapOf(
     "isPMLiteEnabled" to "quick_settings", // doesn't work
     "isQuickAccessWalletEnabled" to "global", // optional QS tile, no reason to keep disabled
     //"isTwoColumnNotificationShadeEnabled" to "notification_shade", // landscape tablets only
+
+    // Beta 1 has no new flags and isNewNotifPipelineRenderingEnabled is still unstable.
 )
 
 class XposedHook(
@@ -54,20 +56,14 @@ class XposedHook(
 
         // Enable feature flags
         FEATURE_FLAGS.forEach { (flag, prefKey) ->
-            if (isFeatureEnabled(prefKey)) {
-                sysuiHooks.applyFeatureFlag(flag)
-            }
+            sysuiHooks.applyFeatureFlag(flag, isFeatureEnabled(prefKey))
         }
 
         // Enable privacy indicators
-        if (isFeatureEnabled("privacy_indicators")) {
-            sysuiHooks.applyPrivacyIndicators()
-        }
+        sysuiHooks.applyPrivacyIndicators(isFeatureEnabled("privacy_indicators"))
 
         // Enable game dashboard
-        if (isFeatureEnabled("game_dashboard")) {
-            sysuiHooks.applyGameDashboard()
-        }
+        sysuiHooks.applyGameDashboard(isFeatureEnabled("game_dashboard"))
 
         // Custom Monet engine
         if (isFeatureEnabled("custom_monet", false)) {
@@ -125,9 +121,7 @@ class XposedHook(
         }
 
         // All apps
-        if (isFeatureEnabled("patterned_ripple")) {
-            frameworkHooks.applyRipple()
-        }
+        frameworkHooks.applyRipple(isFeatureEnabled("patterned_ripple"))
 
         if (isFeatureEnabled("haptic_touch", false)) {
             frameworkHooks.applyHapticTouch()

@@ -12,9 +12,9 @@ import timber.log.Timber
 class SystemUIHooks(
     private val lpparam: XC_LoadPackage.LoadPackageParam,
 ) {
-    fun applyFeatureFlag(flag: String) {
+    fun applyFeatureFlag(flag: String, enabled: Boolean) {
         val hook = object : XC_MethodReplacement() {
-            override fun replaceHookedMethod(param: MethodHookParam) = true
+            override fun replaceHookedMethod(param: MethodHookParam) = enabled
         }
 
         try {
@@ -24,15 +24,10 @@ class SystemUIHooks(
         }
     }
 
-    fun applyGameDashboard() {
+    fun applyGameDashboard(enabled: Boolean) {
         val hook = object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
-                param.thisObject.javaClass.getDeclaredField("DISABLED").let {
-                    it.isAccessible = true
-                    it.set(null, java.lang.Boolean.FALSE)
-                }
-
-                XposedHelpers.setBooleanField(param.thisObject, "mShouldShow", true)
+                XposedHelpers.setBooleanField(param.thisObject, "mShouldShow", enabled)
             }
         }
 
@@ -63,11 +58,11 @@ class SystemUIHooks(
         )
     }
 
-    fun applyPrivacyIndicators() {
+    fun applyPrivacyIndicators(enabled: Boolean) {
         val constructorHook = object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
-                XposedHelpers.setBooleanField(param.thisObject, "micCameraAvailable", true)
-                XposedHelpers.setBooleanField(param.thisObject, "locationAvailable", true)
+                XposedHelpers.setBooleanField(param.thisObject, "micCameraAvailable", enabled)
+                XposedHelpers.setBooleanField(param.thisObject, "locationAvailable", enabled)
             }
         }
 

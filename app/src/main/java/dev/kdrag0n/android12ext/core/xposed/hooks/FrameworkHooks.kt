@@ -15,11 +15,12 @@ import dev.kdrag0n.android12ext.core.xposed.hookMethod
 class FrameworkHooks(
     private val lpparam: XC_LoadPackage.LoadPackageParam,
 ) {
-    fun applyRipple() {
+    fun applyRipple(patterned: Boolean) {
         val hook = object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 XposedHelpers.getObjectField(param.thisObject, "mState").let { state ->
-                    XposedHelpers.setIntField(state, "mRippleStyle", 1)
+                    val style = if (patterned) 1 else 0
+                    XposedHelpers.setIntField(state, "mRippleStyle", style)
                 }
             }
         }
