@@ -1,7 +1,7 @@
 id=android12-extensions
 name=Android 12 Extensions
-version=v3.1.0
-versionCode=30100
+version=v4.0.0
+versionCode=40000
 author=kdrag0n
-description=Enable and customize hidden features on preview versions of Android 12.
+description=Enable and customize hidden features on Android 12 Beta 1.
 support=https://t.me/proton_projects
