@@ -73,6 +73,6 @@
     ]]></string>
     <string name="about_uri_donate">https://kdrag0n.dev/donate</string>
     <string name="about_uri_source_code">https://github.com/kdrag0n/android12-extensions</string>
-    <string name="mod_custom_monet_boost_chroma">Make colors stronger</string>
+    <string name="mod_custom_monet_boost_chroma">Strong colors</string>
     <string name="mod_custom_monet_boost_chroma_desc">Stronger accent colors, similar to Pixel theming</string>
 </resources>

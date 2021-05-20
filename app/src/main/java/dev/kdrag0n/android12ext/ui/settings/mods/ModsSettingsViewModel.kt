@@ -38,7 +38,6 @@ class ModsSettingsViewModel(
         categoryHeader("category_theming") {
             titleRes = R.string.category_theming
         }
-
         featureSwitch(
             key = "custom_monet",
             title = R.string.mod_custom_monet,
