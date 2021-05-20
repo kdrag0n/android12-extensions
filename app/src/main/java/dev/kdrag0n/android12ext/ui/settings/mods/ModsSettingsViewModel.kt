@@ -56,6 +56,14 @@ class ModsSettingsViewModel(
             default = false,
             dependency = "custom_monet_enabled",
         )
+        featureSwitch(
+            key = "custom_monet_multi_color",
+            title = R.string.mod_custom_monet_multi_color,
+            summary = R.string.mod_custom_monet_multi_color_desc,
+            icon = R.drawable.ic_fluent_color_24_regular,
+            default = false,
+            dependency = "custom_monet_enabled",
+        )
 
         // Debug
         if (BuildConfig.DEBUG) {

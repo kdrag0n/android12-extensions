@@ -53,6 +53,11 @@
     <string name="category_theming">Theming</string>
     <string name="mod_custom_monet">Custom theming engine</string>
     <string name="mod_custom_monet_desc">Generate wallpaper-based themes with a custom engine</string>
+    <string name="mod_custom_monet_desc_forced">Generate wallpaper-based themes with a custom engine. Required on AOSP because there is no other engine.</string>
+    <string name="mod_custom_monet_boost_chroma">Strong colors</string>
+    <string name="mod_custom_monet_boost_chroma_desc">Stronger accent colors, similar to Pixel theming</string>
+    <string name="mod_custom_monet_multi_color">Multiple colors</string>
+    <string name="mod_custom_monet_multi_color_desc">Use multiple colors from the wallpaper for theming</string>
     <string name="mods_info">Mods are unofficial modifications to the system, not part of Android 12 itself. Similar to tweaks, the Xposed module needs to be enabled for every app you want to mod.</string>
 
     <!-- Errors -->
@@ -73,7 +78,4 @@
     ]]></string>
     <string name="about_uri_donate">https://kdrag0n.dev/donate</string>
     <string name="about_uri_source_code">https://github.com/kdrag0n/android12-extensions</string>
-    <string name="mod_custom_monet_boost_chroma">Strong colors</string>
-    <string name="mod_custom_monet_boost_chroma_desc">Stronger accent colors, similar to Pixel theming</string>
-    <string name="mod_custom_monet_desc_forced">Generate wallpaper-based themes with a custom engine. Required on AOSP because there is no other engine.</string>
 </resources>
