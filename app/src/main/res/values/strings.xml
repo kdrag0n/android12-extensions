@@ -26,9 +26,9 @@
     <string name="feature_lockscreen">Lock screen design</string>
     <string name="feature_lockscreen_desc">Clock, screen lock, and screen on/off animations</string>
     <string name="feature_notification_shade">Notification shade design</string>
-    <string name="feature_notification_shade_desc">Solid background and brightness slider</string>
+    <string name="feature_notification_shade_desc">Solid background &amp; brightness slider</string>
     <string name="feature_quick_settings">Quick settings design</string>
-    <string name="feature_quick_settings_desc">Fullscreen panel with large, rounded rectangle tiles</string>
+    <string name="feature_quick_settings_desc">Fullscreen panel with rectangular tiles</string>
     <string name="feature_toast">Toast design</string>
     <string name="feature_toast_desc">App icon and solid background</string>
     <string name="feature_game_dashboard">Game dashboard</string>
@@ -36,7 +36,7 @@
     <string name="feature_privacy_indicators">Privacy indicators</string>
     <string name="feature_privacy_indicators_desc">Camera, microphone, and location</string>
     <string name="feature_charging_ripple">Charging ripple animation</string>
-    <string name="feature_charging_ripple_desc">Fullscreen ripple animation when connecting charger (lock screen only)</string>
+    <string name="feature_charging_ripple_desc">Animation when connecting charger (lock screen only)</string>
     <string name="feature_internet_ui">Unified internet settings</string>
     <string name="feature_internet_ui_desc">Manage Wi-Fi and cellular in one place</string>
 
