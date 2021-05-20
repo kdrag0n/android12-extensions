@@ -130,10 +130,6 @@ class XposedHook(
             BuildConfig.APPLICATION_ID -> return
             // System UI
             "com.android.systemui" -> applySysUi()
-            // Pixel Launcher
-            "com.google.android.apps.nexuslauncher" -> applyLauncher()
-            // System server
-            "android" -> applySystemServer()
         }
 
         // All apps
