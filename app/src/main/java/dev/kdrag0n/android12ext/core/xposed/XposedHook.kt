@@ -54,6 +54,7 @@ class XposedHook(
 
     private fun applySysUi() {
         broadcastManager.listenForPings()
+        val hasSystemUiGoogle = context.hasSystemUiGoogle()
 
         // Enable feature flags
         FEATURE_FLAGS.forEach { (flag, prefKey) ->
@@ -64,10 +65,11 @@ class XposedHook(
         sysuiHooks.applyPrivacyIndicators(isFeatureEnabled("privacy_indicators"))
 
         // Enable game dashboard
-        sysuiHooks.applyGameDashboard(isFeatureEnabled("game_dashboard"))
+        if (hasSystemUiGoogle) {
+            sysuiHooks.applyGameDashboard(isFeatureEnabled("game_dashboard"))
+        }
 
         // Custom Monet engine, forced on AOSP
-        val hasSystemUiGoogle = context.hasSystemUiGoogle()
         if (isFeatureEnabled("custom_monet", false) ||
                 (isFeatureEnabled("monet") && !hasSystemUiGoogle)) {
             sysuiHooks.applyThemeOverlayController(
