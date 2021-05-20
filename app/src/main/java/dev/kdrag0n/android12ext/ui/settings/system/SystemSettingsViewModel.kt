@@ -62,6 +62,12 @@ class SystemSettingsViewModel(
             summary = R.string.feature_charging_ripple_desc,
             icon = R.drawable.ic_fluent_battery_charge_24_regular,
         )
+        featureSwitch(
+            key = "internet_ui",
+            title = R.string.feature_internet_ui,
+            summary = R.string.feature_internet_ui_desc,
+            icon = R.drawable.ic_fluent_globe_24_regular,
+        )
 
         buildWithPrefs(settingsRepo.prefs)
     }
