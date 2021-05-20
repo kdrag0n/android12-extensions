@@ -45,7 +45,7 @@ class ModsSettingsViewModel(
             title = R.string.mod_custom_monet,
             summary = if (hasSystemUiGoogle) R.string.mod_custom_monet_desc else R.string.mod_custom_monet_desc_forced,
             icon = R.drawable.ic_fluent_paint_brush_24_regular,
-            default = hasSystemUiGoogle,
+            default = !hasSystemUiGoogle,
             enabled = hasSystemUiGoogle,
         )
         featureSwitch(
