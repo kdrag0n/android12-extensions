@@ -1,10 +1,10 @@
 package dev.kdrag0n.android12ext.monet.colors
 
 data class Oklab(
-    val L: Double,
-    val a: Double,
-    val b: Double,
-) : Color {
+    override val L: Double,
+    override val a: Double,
+    override val b: Double,
+) : Color, Lab {
     override fun toLinearSrgb(): LinearSrgb {
         val l2 = L + 0.3963377774 * a + 0.2158037573 * b
         val m2 = L - 0.1055613458 * a - 0.0638541728 * b
