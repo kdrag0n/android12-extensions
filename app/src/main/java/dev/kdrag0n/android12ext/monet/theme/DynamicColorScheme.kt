@@ -67,8 +67,8 @@ class DynamicColorScheme(
         return Oklch(
             // Keep target luminance. Themes should never need to change it.
             L = target.L,
-            // Allow colorless gray and 10% over-saturation for naturally saturated colors.
-            C = primary.C.coerceIn(0.0, target.C * 1.1),
+            // Allow colorless gray.
+            C = primary.C.coerceIn(0.0, target.C),
             // Use the primary color's hue, since it's the most prominent feature of the theme.
             h = primary.h,
         )
