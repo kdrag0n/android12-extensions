@@ -47,20 +47,20 @@ class DynamicColorScheme(
     }
 
     private fun transformQuantizedColors(
-        colors: List<Color>,
+        colors: Map<Int, Color>,
         primary: Oklch,
         colorFilter: (Oklch) -> Oklch = { it },
-    ): List<Color> {
-        return colors.withIndex().map { colorEntry ->
-            val target = colorEntry.value as? Oklch
-                    ?: colorEntry.value.toLinearSrgb().toOklab().toOklch()
+    ): Map<Int, Color> {
+        return colors.map { (shade, color) ->
+            val target = color as? Oklch
+                    ?: color.toLinearSrgb().toOklab().toOklch()
             val new = colorFilter(transformColor(target, primary))
             val newColor = new.toOklab().toLinearSrgb().toSrgb()
 
             val newRgb8 = newColor.quantize8()
-            Timber.d("Transform: $target => $new => ${String.format("%06x", newRgb8)}")
-            return@map newColor
-        }
+            Timber.d("Transform: [$shade] $target => $new => ${String.format("%06x", newRgb8)}")
+            shade to newColor
+        }.toMap()
     }
 
     private fun transformColor(target: Oklch, primary: Oklch): Oklch {

@@ -17,21 +17,18 @@ class ReferenceGenerator(
         emitCodeLine("    object NewColors : ColorScheme() {")
 
         colorLists.map { (group, ids) ->
-            emitCodeLine("        override val $group = listOf(")
+            emitCodeLine("        override val $group = mapOf(")
 
-            ids.withIndex().map {
-                val id = it.value
-                val level = it.index * 100
-
-                val hex = context.getColor(id)
+            ids.map { (shade, resId) ->
+                val hex = context.getColor(resId)
                 val srgb = Srgb(hex)
                 val oklch = srgb.toLinearSrgb().toOklab().toOklch()
 
-                Timber.i("$group $level = $oklch")
+                Timber.i("$group $shade = $oklch")
 
                 // Remove alpha channel
                 val hexRgb = hex and 0xffffff
-                emitCodeLine("            Srgb(0x${String.format("%06x", hexRgb)}),")
+                emitCodeLine(String.format("            %-4d to Srgb(0x%06x),", shade, hexRgb))
             }
 
             emitCodeLine("        )")
@@ -42,74 +39,79 @@ class ReferenceGenerator(
     }
 
     companion object {
-        private val neutral1: List<Int> = listOf(
-            android.R.color.system_neutral1_0,
-            android.R.color.system_neutral1_100,
-            android.R.color.system_neutral1_200,
-            android.R.color.system_neutral1_300,
-            android.R.color.system_neutral1_400,
-            android.R.color.system_neutral1_500,
-            android.R.color.system_neutral1_600,
-            android.R.color.system_neutral1_700,
-            android.R.color.system_neutral1_800,
-            android.R.color.system_neutral1_900,
-            android.R.color.system_neutral1_1000,
+        private val neutral1: Map<Int, Int> = mapOf(
+            0    to android.R.color.system_neutral1_0,
+            50   to android.R.color.system_neutral1_50,
+            100  to android.R.color.system_neutral1_100,
+            200  to android.R.color.system_neutral1_200,
+            300  to android.R.color.system_neutral1_300,
+            400  to android.R.color.system_neutral1_400,
+            500  to android.R.color.system_neutral1_500,
+            600  to android.R.color.system_neutral1_600,
+            700  to android.R.color.system_neutral1_700,
+            800  to android.R.color.system_neutral1_800,
+            900  to android.R.color.system_neutral1_900,
+            1000 to android.R.color.system_neutral1_1000,
         )
 
-        private val neutral2: List<Int> = listOf(
-            android.R.color.system_neutral2_0,
-            android.R.color.system_neutral2_100,
-            android.R.color.system_neutral2_200,
-            android.R.color.system_neutral2_300,
-            android.R.color.system_neutral2_400,
-            android.R.color.system_neutral2_500,
-            android.R.color.system_neutral2_600,
-            android.R.color.system_neutral2_700,
-            android.R.color.system_neutral2_800,
-            android.R.color.system_neutral2_900,
-            android.R.color.system_neutral2_1000,
+        private val neutral2: Map<Int, Int> = mapOf(
+            0    to android.R.color.system_neutral2_0,
+            50   to android.R.color.system_neutral2_50,
+            100  to android.R.color.system_neutral2_100,
+            200  to android.R.color.system_neutral2_200,
+            300  to android.R.color.system_neutral2_300,
+            400  to android.R.color.system_neutral2_400,
+            500  to android.R.color.system_neutral2_500,
+            600  to android.R.color.system_neutral2_600,
+            700  to android.R.color.system_neutral2_700,
+            800  to android.R.color.system_neutral2_800,
+            900  to android.R.color.system_neutral2_900,
+            1000 to android.R.color.system_neutral2_1000,
         )
 
-        private val accent1: List<Int> = listOf(
-            android.R.color.system_accent1_0,
-            android.R.color.system_accent1_100,
-            android.R.color.system_accent1_200,
-            android.R.color.system_accent1_300,
-            android.R.color.system_accent1_400,
-            android.R.color.system_accent1_500,
-            android.R.color.system_accent1_600,
-            android.R.color.system_accent1_700,
-            android.R.color.system_accent1_800,
-            android.R.color.system_accent1_900,
-            android.R.color.system_accent1_1000,
+        private val accent1: Map<Int, Int> = mapOf(
+            0    to android.R.color.system_accent1_0,
+            50   to android.R.color.system_accent1_50,
+            100  to android.R.color.system_accent1_100,
+            200  to android.R.color.system_accent1_200,
+            300  to android.R.color.system_accent1_300,
+            400  to android.R.color.system_accent1_400,
+            500  to android.R.color.system_accent1_500,
+            600  to android.R.color.system_accent1_600,
+            700  to android.R.color.system_accent1_700,
+            800  to android.R.color.system_accent1_800,
+            900  to android.R.color.system_accent1_900,
+            1000 to android.R.color.system_accent1_1000,
         )
 
-        private val accent2: List<Int> = listOf(
-            android.R.color.system_accent2_0,
-            android.R.color.system_accent2_100,
-            android.R.color.system_accent2_200,
-            android.R.color.system_accent2_300,
-            android.R.color.system_accent2_400,
-            android.R.color.system_accent2_500,
-            android.R.color.system_accent2_600,
-            android.R.color.system_accent2_700,
-            android.R.color.system_accent2_800,
-            android.R.color.system_accent2_900,
-            android.R.color.system_accent2_1000,
+        private val accent2: Map<Int, Int> = mapOf(
+            0    to android.R.color.system_accent2_0,
+            50   to android.R.color.system_accent2_50,
+            100  to android.R.color.system_accent2_100,
+            200  to android.R.color.system_accent2_200,
+            300  to android.R.color.system_accent2_300,
+            400  to android.R.color.system_accent2_400,
+            500  to android.R.color.system_accent2_500,
+            600  to android.R.color.system_accent2_600,
+            700  to android.R.color.system_accent2_700,
+            800  to android.R.color.system_accent2_800,
+            900  to android.R.color.system_accent2_900,
+            1000 to android.R.color.system_accent2_1000,
         )
 
-        private val accent3: List<Int> = listOf(
-            android.R.color.system_accent3_0,
-            android.R.color.system_accent3_100,
-            android.R.color.system_accent3_200,
-            android.R.color.system_accent3_300,
-            android.R.color.system_accent3_400,
-            android.R.color.system_accent3_500,
-            android.R.color.system_accent3_600,
-            android.R.color.system_accent3_700,
-            android.R.color.system_accent3_800,
-            android.R.color.system_accent3_900,
-            android.R.color.system_accent3_1000,
+        private val accent3: Map<Int, Int> = mapOf(
+            0    to android.R.color.system_accent3_0,
+            50   to android.R.color.system_accent3_50,
+            100  to android.R.color.system_accent3_100,
+            200  to android.R.color.system_accent3_200,
+            300  to android.R.color.system_accent3_300,
+            400  to android.R.color.system_accent3_400,
+            500  to android.R.color.system_accent3_500,
+            600  to android.R.color.system_accent3_600,
+            700  to android.R.color.system_accent3_700,
+            800  to android.R.color.system_accent3_800,
+            900  to android.R.color.system_accent3_900,
+            1000 to android.R.color.system_accent3_1000,
         )
 
         private val colorLists = mapOf(

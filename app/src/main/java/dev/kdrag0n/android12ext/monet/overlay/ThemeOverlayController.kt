@@ -43,17 +43,16 @@ class ThemeOverlayController(
             colorsList.withIndex().forEach { listEntry ->
                 val group = "$groupKey${listEntry.index + 1}"
 
-                listEntry.value.withIndex().forEach { colorEntry ->
-                    val shadeKey = "${colorEntry.index * 100}"
-                    val colorSrgb = colorEntry.value as? Srgb
-                            ?: colorEntry.value.toLinearSrgb().toSrgb()
+                listEntry.value.forEach { (shade, color) ->
+                    val colorSrgb = color as? Srgb
+                            ?: color.toLinearSrgb().toSrgb()
                     val colorRgb8 = colorSrgb.quantize8()
-                    Timber.d("Color $group $shadeKey = ${String.format("%06x", colorRgb8)}")
+                    Timber.d("Color $group $shade = ${String.format("%06x", colorRgb8)}")
 
                     // Set alpha to 255
                     val argbColor = Color.argb(255, 0, 0, 0) or colorRgb8
 
-                    val resKey = "android:color/system_${group}_$shadeKey"
+                    val resKey = "android:color/system_${group}_$shade"
                     setResourceValue(resKey, FabricatedOverlay.DATA_TYPE_COLOR, argbColor)
                 }
             }
