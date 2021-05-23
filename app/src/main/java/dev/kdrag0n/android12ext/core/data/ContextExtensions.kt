@@ -5,7 +5,7 @@ import android.content.pm.PackageManager
 
 fun Context.hasSystemUiGoogle(): Boolean {
     val apkPath = packageManager.getPackageInfo("com.android.systemui", PackageManager.GET_META_DATA)
-            .applicationInfo.sourceDir
+        .applicationInfo.sourceDir
 
     return "SystemUIGoogle" in apkPath
 }

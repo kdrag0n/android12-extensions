@@ -5,9 +5,9 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import dev.kdrag0n.android12ext.core.xposed.hookMethod
 import dev.kdrag0n.android12ext.monet.overlay.ThemeOverlayController
 import dev.kdrag0n.android12ext.monet.theme.TargetColors
-import dev.kdrag0n.android12ext.core.xposed.hookMethod
 import timber.log.Timber
 
 class SystemUIHooks(
@@ -33,11 +33,11 @@ class SystemUIHooks(
         }
 
         lpparam.hookMethod(
-                GAME_ENTRY_CLASS,
-                hook,
-                "setButtonState",
-                Boolean::class.java,
-                Boolean::class.java
+            GAME_ENTRY_CLASS,
+            hook,
+            "setButtonState",
+            Boolean::class.java,
+            Boolean::class.java
         )
     }
 
@@ -52,10 +52,10 @@ class SystemUIHooks(
         }
 
         lpparam.hookMethod(
-                "com.android.systemui.ScreenDecorations",
-                hook,
-                "updateColorInversion",
-                Int::class.java
+            "com.android.systemui.ScreenDecorations",
+            hook,
+            "updateColorInversion",
+            Int::class.java
         )
     }
 
@@ -68,17 +68,17 @@ class SystemUIHooks(
         }
 
         XposedHelpers.findAndHookConstructor(
-                PRIVACY_CLASS,
-                lpparam.classLoader,
-                XposedHelpers.findClass("com.android.systemui.appops.AppOpsController", lpparam.classLoader),
-                XposedHelpers.findClass("com.android.systemui.util.concurrency.DelayableExecutor", lpparam.classLoader),
-                XposedHelpers.findClass("com.android.systemui.util.concurrency.DelayableExecutor", lpparam.classLoader),
-                XposedHelpers.findClass("com.android.systemui.util.DeviceConfigProxy", lpparam.classLoader),
-                XposedHelpers.findClass("com.android.systemui.settings.UserTracker", lpparam.classLoader),
-                XposedHelpers.findClass("com.android.systemui.privacy.logging.PrivacyLogger", lpparam.classLoader),
-                XposedHelpers.findClass("com.android.systemui.util.time.SystemClock", lpparam.classLoader),
-                XposedHelpers.findClass("com.android.systemui.dump.DumpManager", lpparam.classLoader),
-                constructorHook,
+            PRIVACY_CLASS,
+            lpparam.classLoader,
+            XposedHelpers.findClass("com.android.systemui.appops.AppOpsController", lpparam.classLoader),
+            XposedHelpers.findClass("com.android.systemui.util.concurrency.DelayableExecutor", lpparam.classLoader),
+            XposedHelpers.findClass("com.android.systemui.util.concurrency.DelayableExecutor", lpparam.classLoader),
+            XposedHelpers.findClass("com.android.systemui.util.DeviceConfigProxy", lpparam.classLoader),
+            XposedHelpers.findClass("com.android.systemui.settings.UserTracker", lpparam.classLoader),
+            XposedHelpers.findClass("com.android.systemui.privacy.logging.PrivacyLogger", lpparam.classLoader),
+            XposedHelpers.findClass("com.android.systemui.util.time.SystemClock", lpparam.classLoader),
+            XposedHelpers.findClass("com.android.systemui.dump.DumpManager", lpparam.classLoader),
+            constructorHook,
         )
 
         val flagHook = object : XC_MethodReplacement() {
@@ -86,9 +86,9 @@ class SystemUIHooks(
         }
 
         lpparam.hookMethod(
-                "com.android.systemui.qs.QuickStatusBarHeaderController",
-                flagHook,
-                "getChipEnabled",
+            "com.android.systemui.qs.QuickStatusBarHeaderController",
+            flagHook,
+            "getChipEnabled",
         )
     }
 
@@ -129,14 +129,14 @@ class SystemUIHooks(
         }
 
         lpparam.hookMethod(
-                "com.android.systemui.qs.tiles.MicrophoneToggleTile",
-                hook,
-                "isAvailable",
+            "com.android.systemui.qs.tiles.MicrophoneToggleTile",
+            hook,
+            "isAvailable",
         )
         lpparam.hookMethod(
-                "com.android.systemui.qs.tiles.CameraToggleTile",
-                hook,
-                "isAvailable",
+            "com.android.systemui.qs.tiles.CameraToggleTile",
+            hook,
+            "isAvailable",
         )
     }
 

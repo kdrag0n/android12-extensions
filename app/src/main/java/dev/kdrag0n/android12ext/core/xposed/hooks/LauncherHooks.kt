@@ -59,6 +59,7 @@ class LauncherHooks(
     companion object {
         // com.android.launcher3.config.FeatureFlags$BooleanFlag
         private const val BOOLEAN_FLAG_CLASS = "T.a"
+
         // BooleanFlag.mCurrentValue
         private const val CURRENT_VALUE_FIELD = "c"
     }

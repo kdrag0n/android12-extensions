@@ -26,11 +26,11 @@ class FrameworkHooks(
         }
 
         XposedHelpers.findAndHookConstructor(
-                RIPPLE_CLASS,
-                lpparam.classLoader,
-                XposedHelpers.findClass(RIPPLE_STATE_CLASS, lpparam.classLoader),
-                Resources::class.java,
-                hook,
+            RIPPLE_CLASS,
+            lpparam.classLoader,
+            XposedHelpers.findClass(RIPPLE_STATE_CLASS, lpparam.classLoader),
+            Resources::class.java,
+            hook,
         )
 
         lpparam.hookMethod(RIPPLE_CLASS, hook, "updateStateFromTypedArray", TypedArray::class.java)
@@ -59,10 +59,10 @@ class FrameworkHooks(
         }
 
         lpparam.hookMethod(
-                "com.android.internal.graphics.palette.Palette\$Builder",
-                hook,
-                "setQuantizer",
-                XposedHelpers.findClass("com.android.internal.graphics.palette.Quantizer", lpparam.classLoader),
+            "com.android.internal.graphics.palette.Palette\$Builder",
+            hook,
+            "setQuantizer",
+            XposedHelpers.findClass("com.android.internal.graphics.palette.Quantizer", lpparam.classLoader),
         )
     }
 
@@ -76,11 +76,11 @@ class FrameworkHooks(
         }
 
         lpparam.hookMethod(
-                "android.util.FeatureFlagUtils",
-                hook,
-                "isEnabled",
-                Context::class.java,
-                String::class.java,
+            "android.util.FeatureFlagUtils",
+            hook,
+            "isEnabled",
+            Context::class.java,
+            String::class.java,
         )
     }
 

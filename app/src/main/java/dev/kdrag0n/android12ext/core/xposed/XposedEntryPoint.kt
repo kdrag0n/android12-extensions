@@ -1,7 +1,10 @@
 package dev.kdrag0n.android12ext.core.xposed
 
 import android.app.Instrumentation
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import com.crossbowffs.remotepreferences.RemotePreferences
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodHook
@@ -32,17 +35,17 @@ class XposedEntryPoint : IXposedHookLoadPackage {
 
                 val broadcastManager = BroadcastManager(context)
                 context.registerReceiver(
-                        reloadReceiver,
-                        IntentFilter(BroadcastManager.RELOAD_ACTION),
-                        BroadcastManager.MANAGER_PERMISSION,
-                        null
+                    reloadReceiver,
+                    IntentFilter(BroadcastManager.RELOAD_ACTION),
+                    BroadcastManager.MANAGER_PERMISSION,
+                    null
                 )
 
                 val prefs = RemotePreferences(
-                        context,
-                        XposedPreferenceProvider.AUTHORITY,
-                        XposedPreferenceProvider.DEFAULT_PREFS,
-                        true
+                    context,
+                    XposedPreferenceProvider.AUTHORITY,
+                    XposedPreferenceProvider.DEFAULT_PREFS,
+                    true
                 )
 
                 hook = XposedHook(context, lpparam, prefs, broadcastManager)
@@ -52,9 +55,9 @@ class XposedEntryPoint : IXposedHookLoadPackage {
 
         // Wait to get a Context reference before initializing other hooks
         XposedBridge.hookAllMethods(
-                Instrumentation::class.java,
-                "newApplication",
-                contextHook,
+            Instrumentation::class.java,
+            "newApplication",
+            contextHook,
         )
     }
 }
