@@ -3,8 +3,8 @@ package dev.kdrag0n.android12ext.monet.overlay
 import android.app.WallpaperColors
 import android.graphics.Color
 import dev.kdrag0n.android12ext.monet.colors.Srgb
-import dev.kdrag0n.android12ext.monet.theme.DynamicColorScheme
 import dev.kdrag0n.android12ext.monet.theme.ColorScheme
+import dev.kdrag0n.android12ext.monet.theme.DynamicColorScheme
 import timber.log.Timber
 
 class ThemeOverlayController(
@@ -45,7 +45,7 @@ class ThemeOverlayController(
 
                 listEntry.value.forEach { (shade, color) ->
                     val colorSrgb = color as? Srgb
-                            ?: color.toLinearSrgb().toSrgb()
+                        ?: color.toLinearSrgb().toSrgb()
                     val colorRgb8 = colorSrgb.quantize8()
                     Timber.d("Color $group $shade = ${String.format("%06x", colorRgb8)}")
 

@@ -12,10 +12,10 @@ interface Lch {
             val hDeg = Math.toDegrees(atan2(b, a))
 
             return Triple(
-                    L,
-                    sqrt(a.pow(2) + b.pow(2)),
-                    // Normalize the angle, as many will be negative
-                    if (hDeg < 0) hDeg + 360 else hDeg,
+                L,
+                sqrt(a.pow(2) + b.pow(2)),
+                // Normalize the angle, as many will be negative
+                if (hDeg < 0) hDeg + 360 else hDeg,
             )
         }
 
@@ -23,9 +23,9 @@ interface Lch {
             val hRad = Math.toRadians(h)
 
             return Triple(
-                    L,
-                    C * cos(hRad),
-                    C * sin(hRad),
+                L,
+                C * cos(hRad),
+                C * sin(hRad),
             )
         }
     }

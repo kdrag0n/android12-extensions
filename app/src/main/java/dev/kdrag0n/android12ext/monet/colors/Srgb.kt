@@ -1,7 +1,7 @@
 package dev.kdrag0n.android12ext.monet.colors
 
-import dev.kdrag0n.android12ext.monet.colors.LinearSrgb.Companion.toLinearSrgb as realToLinearSrgb
 import kotlin.math.roundToInt
+import dev.kdrag0n.android12ext.monet.colors.LinearSrgb.Companion.toLinearSrgb as realToLinearSrgb
 
 data class Srgb(
     val r: Double,
