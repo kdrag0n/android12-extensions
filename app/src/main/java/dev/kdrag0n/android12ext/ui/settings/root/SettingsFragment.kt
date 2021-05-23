@@ -12,8 +12,8 @@ class SettingsFragment : BaseSettingsFragment() {
     private val viewModel: SettingsViewModel by viewModel()
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         setHasOptionsMenu(true)
         return super.onCreateView(inflater, container, savedInstanceState)

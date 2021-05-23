@@ -1,7 +1,9 @@
 package dev.kdrag0n.android12ext.ui.settings
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.chrisbanes.insetter.applyInsetter

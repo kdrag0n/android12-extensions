@@ -17,9 +17,9 @@ import dev.kdrag0n.android12ext.ui.utils.featureSwitch
 import dev.kdrag0n.android12ext.ui.utils.setInteractive
 
 class ModsSettingsViewModel(
-        app: Application,
-        private val settingsRepo: SettingsRepository,
-        private val refGen: ReferenceGenerator,
+    app: Application,
+    private val settingsRepo: SettingsRepository,
+    private val refGen: ReferenceGenerator,
 ) : BaseSettingsViewModel(app) {
     private val prefScreen = PreferenceScreen.Builder(app).run {
         featureSwitch(

@@ -10,8 +10,6 @@ import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.helpers.onClick
 import de.Maxr1998.modernpreferences.helpers.pref
 import de.Maxr1998.modernpreferences.helpers.switch
-import de.Maxr1998.modernpreferences.preferences.SwitchPreference
-import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.ui.NavViewModel
 
 // We need this in order to use device-encrypted preferences with ModernAndroidPreferences

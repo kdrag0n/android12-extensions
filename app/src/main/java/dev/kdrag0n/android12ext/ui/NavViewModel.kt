@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
-import java.lang.IllegalArgumentException
 
 abstract class NavViewModel(app: Application) : AndroidViewModel(app) {
     val navDest = MutableLiveData<Int>(null)
