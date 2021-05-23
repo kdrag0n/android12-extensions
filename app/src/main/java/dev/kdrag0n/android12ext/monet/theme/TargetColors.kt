@@ -23,7 +23,7 @@ object TargetColors {
         // After 90%, it jumps in steps of ~4-5% until ending at 70%
         override val neutral1 = mapOf(
             0    to Oklch(1.00, 0.000, 0.0),
-            50   to Oklch(0.99, 0.004, 0.0),
+            50   to Oklch(0.99, 0.003, 0.0),
             100  to Oklch(0.98, 0.004, 0.0),
             200  to Oklch(0.96, 0.004, 0.0),
             300  to Oklch(0.94, 0.004, 0.0),
