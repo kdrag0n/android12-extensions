@@ -4,7 +4,21 @@ import dev.kdrag0n.android12ext.monet.colors.Oklch
 
 // Custom target color tables
 object TargetColors {
+    /*
+     * Default target colors, conforming to Material You standards.
+     *
+     * Mostly derived from:
+     *   - AOSP defaults: Untinted gray neutral colors and teal accent (+60 deg = ~purple).
+     *   - Pixel defaults: Neutral colors are equivalent to AOSP. Main accent is blue.
+     */
     object Default : ColorScheme() {
+        /*
+         * Neutral targets:
+         * L = AOSP defaults
+         * C: derived from AOSP defaults - ~avg C=0.005
+         * h = 0 (populated by primary color)
+         */
+
         // Luminance decreases in ~2% steps until 90%
         // After 90%, it jumps in steps of ~4-5% until ending at 70%
         override val neutral1 = mapOf(
@@ -51,6 +65,13 @@ object TargetColors {
             900  to Oklch(0.70, 0.0822, 0.0),
             1000 to Oklch(0.00, 0.0000, 0.0),
         )
+
+        /*
+         * Accent targets:
+         * L = AOSP defaults
+         * C: Pixel defaults
+         * h = 0 (populated by primary color)
+         */
 
         override val accent2 = mapOf(
             0    to Oklch(1.00, 0.0000, 0.0),
