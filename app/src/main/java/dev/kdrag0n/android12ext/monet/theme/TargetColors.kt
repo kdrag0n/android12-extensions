@@ -23,7 +23,7 @@ object TargetColors {
         // After 90%, it jumps in steps of ~4-5% until ending at 70%
         override val neutral1 = mapOf(
             0    to Oklch(1.00, 0.000, 0.0),
-            50   to Oklch(0.98, 0.005, 0.0),
+            50   to Oklch(0.99, 0.005, 0.0),
             100  to Oklch(0.98, 0.005, 0.0),
             200  to Oklch(0.96, 0.005, 0.0),
             300  to Oklch(0.94, 0.005, 0.0),
@@ -38,7 +38,7 @@ object TargetColors {
 
         override val neutral2 = mapOf(
             0    to Oklch(1.00, 0.000, 0.0),
-            50   to Oklch(0.98, 0.003, 0.0),
+            50   to Oklch(0.99, 0.003, 0.0),
             100  to Oklch(0.98, 0.003, 0.0),
             200  to Oklch(0.96, 0.003, 0.0),
             300  to Oklch(0.94, 0.003, 0.0),
@@ -53,7 +53,7 @@ object TargetColors {
 
         override val accent1 = mapOf(
             0    to Oklch(1.00, 0.0000, 0.0),
-            50   to Oklch(0.98, 0.0080, 0.0),
+            50   to Oklch(0.99, 0.0033, 0.0),
             100  to Oklch(0.98, 0.0080, 0.0),
             200  to Oklch(0.96, 0.0170, 0.0),
             300  to Oklch(0.94, 0.0284, 0.0),
@@ -75,7 +75,7 @@ object TargetColors {
 
         override val accent2 = mapOf(
             0    to Oklch(1.00, 0.0000, 0.0),
-            50   to Oklch(0.98, 0.0084, 0.0),
+            50   to Oklch(0.99, 0.0045, 0.0),
             100  to Oklch(0.98, 0.0084, 0.0),
             200  to Oklch(0.96, 0.0091, 0.0),
             300  to Oklch(0.94, 0.0099, 0.0),
@@ -90,7 +90,7 @@ object TargetColors {
 
         override val accent3 = mapOf(
             0    to Oklch(1.00, 0.0000, 0.0),
-            50   to Oklch(0.98, 0.0120, 0.0),
+            50   to Oklch(0.99, 0.0081, 0.0),
             100  to Oklch(0.98, 0.0120, 0.0),
             200  to Oklch(0.96, 0.0141, 0.0),
             300  to Oklch(0.94, 0.0155, 0.0),
