@@ -14,6 +14,10 @@
 
         <item name="android:statusBarColor" tools:targetApi="l">@android:color/system_neutral1_800</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+
+        <item name="android:textColor">@color/text_color_primary_device_default_dark</item>
+        <item name="android:textColorPrimary">@color/text_color_primary_device_default_dark</item>
+        <item name="android:textColorSecondary">@color/text_color_secondary_device_default_dark</item>
     </style>
 
     <style name="Theme.A12Ext.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
