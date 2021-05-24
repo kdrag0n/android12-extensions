@@ -13,94 +13,110 @@ object TargetColors {
      */
     object Default : ColorScheme() {
         /*
-         * Neutral targets:
+         * Lightness for all colors
          * L = AOSP defaults
-         * C: derived from AOSP defaults - ~avg C=0.005
-         * h = 0 (populated by primary color)
+         */
+        private const val L_0    = 1.00
+        private const val L_50   = 0.96
+        private const val L_100  = 0.91
+        private const val L_200  = 0.83
+        private const val L_300  = 0.75
+        private const val L_400  = 0.65
+        private const val L_500  = 0.56
+        private const val L_600  = 0.48
+        private const val L_700  = 0.39
+        private const val L_800  = 0.31
+        private const val L_900  = 0.22
+        private const val L_1000 = 0.00
+
+        /*
+         * Neutral targets:
+         * C = derived from Google's CAM16 implementation
          */
 
-        // Luminance decreases in ~2% steps until 90%
-        // After 90%, it jumps in steps of ~4-5% until ending at 70%
+        private const val NEUTRAL1_CHROMA = 0.012
         override val neutral1 = mapOf(
-            0    to Oklch(1.00, 0.000, 0.0),
-            50   to Oklch(0.99, 0.003, 0.0),
-            100  to Oklch(0.98, 0.004, 0.0),
-            200  to Oklch(0.96, 0.004, 0.0),
-            300  to Oklch(0.94, 0.004, 0.0),
-            400  to Oklch(0.92, 0.004, 0.0),
-            500  to Oklch(0.90, 0.004, 0.0),
-            600  to Oklch(0.86, 0.004, 0.0),
-            700  to Oklch(0.82, 0.004, 0.0),
-            800  to Oklch(0.77, 0.004, 0.0),
-            900  to Oklch(0.70, 0.004, 0.0),
-            1000 to Oklch(0.00, 0.000, 0.0),
+            0    to Oklch(L_0,    0.0),
+            50   to Oklch(L_50,   NEUTRAL1_CHROMA),
+            100  to Oklch(L_100,  NEUTRAL1_CHROMA),
+            200  to Oklch(L_200,  NEUTRAL1_CHROMA),
+            300  to Oklch(L_300,  NEUTRAL1_CHROMA),
+            400  to Oklch(L_400,  NEUTRAL1_CHROMA),
+            500  to Oklch(L_500,  NEUTRAL1_CHROMA),
+            600  to Oklch(L_600,  NEUTRAL1_CHROMA),
+            700  to Oklch(L_700,  NEUTRAL1_CHROMA),
+            800  to Oklch(L_800,  NEUTRAL1_CHROMA),
+            900  to Oklch(L_900,  NEUTRAL1_CHROMA),
+            1000 to Oklch(L_1000, 0.0),
         )
 
+        private const val NEUTRAL2_CHROMA = NEUTRAL1_CHROMA / 2.0
         override val neutral2 = mapOf(
-            0    to Oklch(1.00, 0.000, 0.0),
-            50   to Oklch(0.99, 0.002, 0.0),
-            100  to Oklch(0.98, 0.002, 0.0),
-            200  to Oklch(0.96, 0.002, 0.0),
-            300  to Oklch(0.94, 0.002, 0.0),
-            400  to Oklch(0.92, 0.002, 0.0),
-            500  to Oklch(0.90, 0.002, 0.0),
-            600  to Oklch(0.86, 0.002, 0.0),
-            700  to Oklch(0.82, 0.002, 0.0),
-            800  to Oklch(0.77, 0.002, 0.0),
-            900  to Oklch(0.70, 0.002, 0.0),
-            1000 to Oklch(0.00, 0.000, 0.0),
-        )
-
-        override val accent1 = mapOf(
-            0    to Oklch(1.00, 0.0000, 0.0),
-            50   to Oklch(0.99, 0.0033, 0.0),
-            100  to Oklch(0.98, 0.0080, 0.0),
-            200  to Oklch(0.96, 0.0170, 0.0),
-            300  to Oklch(0.94, 0.0284, 0.0),
-            400  to Oklch(0.92, 0.0456, 0.0),
-            500  to Oklch(0.90, 0.0759, 0.0),
-            600  to Oklch(0.86, 0.0922, 0.0),
-            700  to Oklch(0.82, 0.0908, 0.0),
-            800  to Oklch(0.77, 0.0858, 0.0),
-            900  to Oklch(0.70, 0.0822, 0.0),
-            1000 to Oklch(0.00, 0.0000, 0.0),
+            0    to Oklch(L_0,    0.0),
+            50   to Oklch(L_50,   NEUTRAL2_CHROMA),
+            100  to Oklch(L_100,  NEUTRAL2_CHROMA),
+            200  to Oklch(L_200,  NEUTRAL2_CHROMA),
+            300  to Oklch(L_300,  NEUTRAL2_CHROMA),
+            400  to Oklch(L_400,  NEUTRAL2_CHROMA),
+            500  to Oklch(L_500,  NEUTRAL2_CHROMA),
+            600  to Oklch(L_600,  NEUTRAL2_CHROMA),
+            700  to Oklch(L_700,  NEUTRAL2_CHROMA),
+            800  to Oklch(L_800,  NEUTRAL2_CHROMA),
+            900  to Oklch(L_900,  NEUTRAL2_CHROMA),
+            1000 to Oklch(L_1000, 0.0),
         )
 
         /*
          * Accent targets:
-         * L = AOSP defaults
-         * C: Pixel defaults
-         * h = 0 (populated by primary color)
+         * C = Pixel defaults
          */
 
-        override val accent2 = mapOf(
-            0    to Oklch(1.00, 0.0000, 0.0),
-            50   to Oklch(0.99, 0.0045, 0.0),
-            100  to Oklch(0.98, 0.0084, 0.0),
-            200  to Oklch(0.96, 0.0091, 0.0),
-            300  to Oklch(0.94, 0.0099, 0.0),
-            400  to Oklch(0.92, 0.0110, 0.0),
-            500  to Oklch(0.90, 0.0131, 0.0),
-            600  to Oklch(0.86, 0.0152, 0.0),
-            700  to Oklch(0.82, 0.0177, 0.0),
-            800  to Oklch(0.77, 0.0222, 0.0),
-            900  to Oklch(0.70, 0.0332, 0.0),
-            1000 to Oklch(0.00, 0.0000, 0.0),
+        private const val ACCENT1_CHROMA = 0.12
+        override val accent1 = mapOf(
+            0    to Oklch(L_0,    0.0),
+            50   to Oklch(L_50,   ACCENT1_CHROMA),
+            100  to Oklch(L_100,  ACCENT1_CHROMA),
+            200  to Oklch(L_200,  ACCENT1_CHROMA),
+            300  to Oklch(L_300,  ACCENT1_CHROMA),
+            400  to Oklch(L_400,  ACCENT1_CHROMA),
+            500  to Oklch(L_500,  ACCENT1_CHROMA),
+            600  to Oklch(L_600,  ACCENT1_CHROMA),
+            700  to Oklch(L_700,  ACCENT1_CHROMA),
+            800  to Oklch(L_800,  ACCENT1_CHROMA),
+            900  to Oklch(L_900,  ACCENT1_CHROMA),
+            1000 to Oklch(L_1000, 0.0),
         )
 
+        private const val ACCENT2_CHROMA = 0.04
+        override val accent2 = mapOf(
+            0    to Oklch(L_0,    0.0),
+            50   to Oklch(L_50,   ACCENT2_CHROMA),
+            100  to Oklch(L_100,  ACCENT2_CHROMA),
+            200  to Oklch(L_200,  ACCENT2_CHROMA),
+            300  to Oklch(L_300,  ACCENT2_CHROMA),
+            400  to Oklch(L_400,  ACCENT2_CHROMA),
+            500  to Oklch(L_500,  ACCENT2_CHROMA),
+            600  to Oklch(L_600,  ACCENT2_CHROMA),
+            700  to Oklch(L_700,  ACCENT2_CHROMA),
+            800  to Oklch(L_800,  ACCENT2_CHROMA),
+            900  to Oklch(L_900,  ACCENT2_CHROMA),
+            1000 to Oklch(L_1000, 0.0),
+        )
+
+        private const val ACCENT3_CHROMA = 0.06
         override val accent3 = mapOf(
-            0    to Oklch(1.00, 0.0000, 0.0),
-            50   to Oklch(0.99, 0.0081, 0.0),
-            100  to Oklch(0.98, 0.0120, 0.0),
-            200  to Oklch(0.96, 0.0141, 0.0),
-            300  to Oklch(0.94, 0.0155, 0.0),
-            400  to Oklch(0.92, 0.0176, 0.0),
-            500  to Oklch(0.90, 0.0199, 0.0),
-            600  to Oklch(0.86, 0.0230, 0.0),
-            700  to Oklch(0.82, 0.0288, 0.0),
-            800  to Oklch(0.77, 0.0372, 0.0),
-            900  to Oklch(0.70, 0.0572, 0.0),
-            1000 to Oklch(0.00, 0.0000, 0.0),
+            0    to Oklch(L_0,    0.0),
+            50   to Oklch(L_50,   ACCENT3_CHROMA),
+            100  to Oklch(L_100,  ACCENT3_CHROMA),
+            200  to Oklch(L_200,  ACCENT3_CHROMA),
+            300  to Oklch(L_300,  ACCENT3_CHROMA),
+            400  to Oklch(L_400,  ACCENT3_CHROMA),
+            500  to Oklch(L_500,  ACCENT3_CHROMA),
+            600  to Oklch(L_600,  ACCENT3_CHROMA),
+            700  to Oklch(L_700,  ACCENT3_CHROMA),
+            800  to Oklch(L_800,  ACCENT3_CHROMA),
+            900  to Oklch(L_900,  ACCENT3_CHROMA),
+            1000 to Oklch(L_1000, 0.0),
         )
     }
 }
