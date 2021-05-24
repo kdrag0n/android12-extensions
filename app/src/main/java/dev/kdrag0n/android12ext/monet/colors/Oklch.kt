@@ -6,7 +6,7 @@ import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.toLch
 data class Oklch(
     override val L: Double,
     override val C: Double,
-    override val h: Double,
+    override val h: Double = 0.0,
 ) : Color, Lch {
     override fun toLinearSrgb() = toOklab().toLinearSrgb()
 
