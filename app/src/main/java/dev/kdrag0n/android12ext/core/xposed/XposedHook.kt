@@ -94,6 +94,11 @@ class XposedHook(
 
         // Toggle GX overlay
         context.setOverlayEnabled(lpparam, "com.google.android.systemui.gxoverlay", isFeatureEnabled("gxoverlay"))
+
+        // Toggle AOSP circle icons overlay
+        if (!hasSystemUiGoogle) {
+            context.setOverlayEnabled(lpparam, "com.android.theme.icon.circle", isFeatureEnabled("aosp_circle_icons"))
+        }
     }
 
     private fun disableMonetOverlays() {

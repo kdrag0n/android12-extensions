@@ -78,4 +78,7 @@
     ]]></string>
     <string name="about_uri_donate">https://kdrag0n.dev/donate</string>
     <string name="about_uri_source_code">https://github.com/kdrag0n/android12-extensions</string>
+    <string name="category_aosp">AOSP</string>
+    <string name="mod_aosp_circle_icons">Circular icons</string>
+    <string name="mod_aosp_circle_icons_desc">Circle shape for app icons</string>
 </resources>

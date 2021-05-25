@@ -65,6 +65,18 @@ class ModsSettingsViewModel(
             dependency = "custom_monet_enabled",
         )
 
+        if (!hasSystemUiGoogle) {
+            categoryHeader("category_aosp") {
+                titleRes = R.string.category_aosp
+            }
+            featureSwitch(
+                key = "aosp_circle_icons",
+                title = R.string.mod_aosp_circle_icons,
+                summary = R.string.mod_aosp_circle_icons_desc,
+                icon = R.drawable.ic_fluent_circle_24_regular,
+            )
+        }
+
         // Debug
         if (BuildConfig.DEBUG) {
             categoryHeader("debug_header") {
