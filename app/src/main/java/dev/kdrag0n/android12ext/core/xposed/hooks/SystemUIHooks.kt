@@ -98,7 +98,7 @@ class SystemUIHooks(
         multiColor: Boolean,
     ) {
         val controller = ThemeOverlayController(
-            TargetColors.Default,
+            TargetColors(),
             boostAccentChroma,
             multiColor,
         )
