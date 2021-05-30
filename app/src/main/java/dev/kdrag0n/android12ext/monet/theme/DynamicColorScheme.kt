@@ -35,20 +35,30 @@ class DynamicColorScheme(
     }
 
     // Main background color. Tinted with the primary color.
-    override val neutral1 = transformQuantizedColors(targetColors.neutral1, primaryNeutral)
+    override val neutral1 by lazy(mode = LazyThreadSafetyMode.NONE) {
+        transformQuantizedColors(targetColors.neutral1, primaryNeutral)
+    }
 
     // Secondary background color. Slightly tinted with the primary color.
-    override val neutral2 = transformQuantizedColors(targetColors.neutral2, primaryNeutral)
+    override val neutral2 by lazy(mode = LazyThreadSafetyMode.NONE) {
+        transformQuantizedColors(targetColors.neutral2, primaryNeutral)
+    }
 
     // Main accent color. Generally, this is close to the primary color.
-    override val accent1 = transformQuantizedColors(targetColors.accent1, primaryAccent)
+    override val accent1 by lazy(mode = LazyThreadSafetyMode.NONE) {
+        transformQuantizedColors(targetColors.accent1, primaryAccent)
+    }
 
     // Secondary accent color. Darker shades of accent1.
-    override val accent2 = transformQuantizedColors(targetColors.accent2, primaryAccent)
+    override val accent2 by lazy(mode = LazyThreadSafetyMode.NONE) {
+        transformQuantizedColors(targetColors.accent2, primaryAccent)
+    }
 
     // Tertiary accent color. Primary color shifted to the next secondary color via hue offset.
-    override val accent3 = transformQuantizedColors(targetColors.accent3, primaryAccent) { lch ->
-        lch.copy(h = lch.h + ACCENT3_HUE_SHIFT_DEGREES)
+    override val accent3 by lazy(mode = LazyThreadSafetyMode.NONE) {
+        transformQuantizedColors(targetColors.accent3, primaryAccent) { lch ->
+            lch.copy(h = lch.h + ACCENT3_HUE_SHIFT_DEGREES)
+        }
     }
 
     private fun transformQuantizedColors(
