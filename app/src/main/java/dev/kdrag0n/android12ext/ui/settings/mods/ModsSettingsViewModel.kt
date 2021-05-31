@@ -6,6 +6,7 @@ import de.Maxr1998.modernpreferences.PreferencesAdapter
 import de.Maxr1998.modernpreferences.helpers.categoryHeader
 import de.Maxr1998.modernpreferences.helpers.onClick
 import de.Maxr1998.modernpreferences.helpers.pref
+import de.Maxr1998.modernpreferences.helpers.seekBar
 import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
@@ -49,14 +50,19 @@ class ModsSettingsViewModel(
             default = !hasSystemUiGoogle,
             enabled = hasSystemUiGoogle,
         )
-        featureSwitch(
-            key = "custom_monet_boost_chroma",
-            title = R.string.mod_custom_monet_boost_chroma,
-            summary = R.string.mod_custom_monet_boost_chroma_desc,
-            icon = R.drawable.ic_fluent_color_fill_24_regular,
-            default = false,
-            dependency = "custom_monet_enabled",
-        )
+        seekBar("custom_monet_chroma_multiplier") {
+            titleRes = R.string.mod_custom_monet_chroma_multiplier
+            iconRes = R.drawable.ic_fluent_color_fill_24_regular
+            dependency = "custom_monet_enabled"
+
+            min = 0
+            default = 50
+            max = 100
+            step = 10
+            formatter = { value ->
+                String.format("%.01fx", value.toFloat() / 50)
+            }
+        }
         featureSwitch(
             key = "custom_monet_multi_color",
             title = R.string.mod_custom_monet_multi_color,
