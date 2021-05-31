@@ -62,7 +62,7 @@ fun PreferenceScreen.Appendable.featureSwitch(
 fun PreferenceScreen.Appendable.navPref(
     key: String,
     @StringRes title: Int,
-    @StringRes summary: Int,
+    @StringRes summary: Int? = null,
     @DrawableRes icon: Int,
     @IdRes action: Int,
     vm: NavViewModel,
@@ -70,7 +70,9 @@ fun PreferenceScreen.Appendable.navPref(
 ) {
     pref("nav_${key}_enabled") {
         titleRes = title
-        summaryRes = summary
+        if (summary != null) {
+            summaryRes = summary
+        }
         iconRes = icon
         persistent = false
         this.dependency = dependency

@@ -81,4 +81,6 @@
     <string name="category_aosp">AOSP</string>
     <string name="mod_aosp_circle_icons">Circular icons</string>
     <string name="mod_aosp_circle_icons_desc">Circle shape for app icons</string>
+    <string name="monet_quantizer">Color extraction</string>
+    <string name="mod_monet_quantizer">Test color extraction</string>
 </resources>

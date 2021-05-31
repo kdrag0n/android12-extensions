@@ -36,7 +36,16 @@
         android:id="@+id/mods_settings"
         android:name="dev.kdrag0n.android12ext.ui.settings.mods.ModsSettingsFragment"
         android:label="@string/settings_mods"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+        <action android:id="@+id/action_settings_mods_to_quantizer"
+            app:destination="@id/monet_quantizer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/monet_quantizer"
+        android:name="dev.kdrag0n.android12ext.ui.monet.quantizer.QuantizerFragment"
+        android:label="@string/monet_quantizer"
+        tools:layout="@layout/fragment_quantizer" />
 
     <fragment
         android:id="@+id/about_libraries"

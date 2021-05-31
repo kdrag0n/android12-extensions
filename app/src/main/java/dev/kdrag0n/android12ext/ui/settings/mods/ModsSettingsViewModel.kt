@@ -14,6 +14,7 @@ import dev.kdrag0n.android12ext.monet.theme.ReferenceGenerator
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.buildWithPrefs
 import dev.kdrag0n.android12ext.ui.utils.featureSwitch
+import dev.kdrag0n.android12ext.ui.utils.navPref
 import dev.kdrag0n.android12ext.ui.utils.setInteractive
 
 class ModsSettingsViewModel(
@@ -89,6 +90,13 @@ class ModsSettingsViewModel(
                     false
                 }
             }
+            navPref(
+                key = "monet_quantizer",
+                title = R.string.mod_monet_quantizer,
+                icon = R.drawable.ic_fluent_wallpaper_24_regular,
+                action = R.id.action_settings_mods_to_quantizer,
+                vm = this@ModsSettingsViewModel,
+            )
         }
 
         buildWithPrefs(settingsRepo.prefs)
