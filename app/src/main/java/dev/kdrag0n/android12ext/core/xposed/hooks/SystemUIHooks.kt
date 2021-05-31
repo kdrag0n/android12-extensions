@@ -99,12 +99,12 @@ class SystemUIHooks(
 
     fun applyThemeOverlayController(
         isGoogle: Boolean,
-        boostAccentChroma: Boolean,
+        chromaMultiplier: Double,
         multiColor: Boolean,
     ) {
         val controller = ThemeOverlayController(
-            TargetColors(),
-            boostAccentChroma,
+            TargetColors(chromaMultiplier),
+            chromaMultiplier,
             multiColor,
         )
         val clazz = if (isGoogle) THEME_CLASS_GOOGLE else THEME_CLASS_AOSP
