@@ -9,7 +9,7 @@ import timber.log.Timber
 
 class ThemeOverlayController(
     private val targetColors: ColorScheme,
-    private val boostAccentChroma: Boolean,
+    private val chromaMultiplier: Double,
     private val multiColor: Boolean,
 ) {
     private lateinit var colorScheme: DynamicColorScheme
@@ -27,7 +27,7 @@ class ThemeOverlayController(
     // com.android.systemui.theme.ThemeOverlayController#getOverlay(int, int)
     fun getOverlay(primaryColor: Int, isAccent: Int): Any {
         // Generate color scheme
-        colorScheme = DynamicColorScheme(targetColors, primaryColor, boostAccentChroma)
+        colorScheme = DynamicColorScheme(targetColors, primaryColor, chromaMultiplier)
 
         val groupKey = when (isAccent) {
             1 -> "accent"
