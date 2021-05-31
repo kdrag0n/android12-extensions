@@ -11,6 +11,7 @@ import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.core.xposed.hookMethod
+import dev.kdrag0n.android12ext.monet.extraction.JzazbzCentroid
 
 class FrameworkHooks(
     private val lpparam: XC_LoadPackage.LoadPackageParam,
@@ -84,8 +85,28 @@ class FrameworkHooks(
         )
     }
 
+    fun applyQuantizerColorspace() {
+        val centroidProvider = JzazbzCentroid()
+
+        lpparam.hookMethod(CENTROID_CLASS, object : XC_MethodReplacement() {
+            override fun replaceHookedMethod(param: MethodHookParam) =
+                centroidProvider.getCentroid(param.args[0] as Int)
+        }, "getCentroid", Int::class.java)
+
+        lpparam.hookMethod(CENTROID_CLASS, object : XC_MethodReplacement() {
+            override fun replaceHookedMethod(param: MethodHookParam) =
+                centroidProvider.getColor(param.args[0] as FloatArray)
+        }, "getColor", FloatArray::class.java)
+
+        lpparam.hookMethod(CENTROID_CLASS, object : XC_MethodReplacement() {
+            override fun replaceHookedMethod(param: MethodHookParam) =
+                centroidProvider.distance(param.args[0] as FloatArray, param.args[1] as FloatArray)
+        }, "distance", FloatArray::class.java, FloatArray::class.java)
+    }
+
     companion object {
         private const val RIPPLE_CLASS = "android.graphics.drawable.RippleDrawable"
         private const val RIPPLE_STATE_CLASS = "android.graphics.drawable.RippleDrawable\$RippleState"
+        private const val CENTROID_CLASS = "com.android.internal.graphics.palette.LABCentroid"
     }
 }
