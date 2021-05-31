@@ -10,25 +10,12 @@ import timber.log.Timber
 class DynamicColorScheme(
     targetColors: ColorScheme,
     primaryRgb8: Int,
-    boostAccentChroma: Boolean,
+    chromaMultiplier: Double = 1.0,
 ) : ColorScheme() {
-    private val primaryNeutral = Srgb(primaryRgb8).toLinearSrgb().toOklab().toOklch()
-
-    // Boost chroma of primary color for accents.
-    // This interpolates up to C=0.04 using a scaled hyperbolic tangent.
-    private val primaryAccent = primaryNeutral.let { lch ->
-        if (boostAccentChroma) {
-            lch.copy(
-                C = if (lch.C < 0.04) {
-                    tanhScaled(lch.C, MIN_ACCENT_CHROMA, MIN_ACCENT_CHROMA_TANH_SCALE) * MIN_ACCENT_CHROMA
-                } else {
-                    lch.C
-                }
-            )
-        } else {
-            lch
-        }
+    private val primaryNeutral = Srgb(primaryRgb8).toLinearSrgb().toOklab().toOklch().let { lch ->
+        lch.copy(C = lch.C * chromaMultiplier)
     }
+    private val primaryAccent = primaryNeutral
 
     init {
         Timber.i("Primary color: ${String.format("%06x", primaryRgb8)} => $primaryNeutral")
@@ -93,13 +80,5 @@ class DynamicColorScheme(
         // Hue shift for the tertiary accent color (accent3), in degrees.
         // 60 degrees = shifting by a secondary color
         private const val ACCENT3_HUE_SHIFT_DEGREES = 60.0
-
-        // Minimum target chroma for accents.
-        // This is not a hard clamp; we interpolate to it with tanh.
-        private const val MIN_ACCENT_CHROMA = 0.04
-
-        // Scale to target tanhScaled(MIN_ACCENT_CHROMA) = 1.0
-        // This value was found empirically. There doesn't seem to be an analytical way to do this.
-        private const val MIN_ACCENT_CHROMA_TANH_SCALE = 1 / 0.21
     }
 }
