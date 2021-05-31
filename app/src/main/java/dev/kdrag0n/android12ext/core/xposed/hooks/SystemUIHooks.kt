@@ -1,6 +1,10 @@
 package dev.kdrag0n.android12ext.core.xposed.hooks
 
+import android.annotation.SuppressLint
 import android.app.WallpaperColors
+import android.app.WallpaperManager
+import android.content.Context
+import androidx.core.content.getSystemService
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
@@ -11,6 +15,7 @@ import dev.kdrag0n.android12ext.monet.theme.TargetColors
 import timber.log.Timber
 
 class SystemUIHooks(
+    private val context: Context,
     private val lpparam: XC_LoadPackage.LoadPackageParam,
 ) {
     fun applyFeatureFlag(flag: String, enabled: Boolean) {
@@ -103,6 +108,7 @@ class SystemUIHooks(
             multiColor,
         )
         val clazz = if (isGoogle) THEME_CLASS_GOOGLE else THEME_CLASS_AOSP
+        val wallpaperManager = context.getSystemService<WallpaperManager>()!!
 
         lpparam.hookMethod(clazz, object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam): Any {
@@ -121,6 +127,20 @@ class SystemUIHooks(
                 return controller.getAccentColor(param.args[0] as WallpaperColors)
             }
         }, "getAccentColor", WallpaperColors::class.java)
+
+        // Quantization tweaks
+        lpparam.hookMethod(THEME_CLASS_AOSP, object : XC_MethodHook() {
+            // System UI has permission to draw the wallpaper
+            @SuppressLint("MissingPermission")
+            override fun beforeHookedMethod(param: MethodHookParam) {
+                if (wallpaperManager.wallpaperInfo == null) {
+                    // Static wallpaper: use custom quantizer
+                    Timber.i("Extracting colors using custom quantizer")
+                    val colors = WallpaperColors.fromDrawable(wallpaperManager.drawable)
+                    XposedHelpers.setObjectField(param.thisObject, "mSystemColors", colors)
+                }
+            }
+        }, "reevaluateSystemTheme", Boolean::class.java)
     }
 
     fun applySensorPrivacyToggles() {

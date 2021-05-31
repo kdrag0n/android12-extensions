@@ -41,7 +41,7 @@ class XposedHook(
     private val prefs: SharedPreferences,
     private val broadcastManager: BroadcastManager,
 ) {
-    private val sysuiHooks = SystemUIHooks(lpparam)
+    private val sysuiHooks = SystemUIHooks(context, lpparam)
     private val frameworkHooks = FrameworkHooks(lpparam)
     private val launcherHooks = LauncherHooks(lpparam)
 
@@ -74,6 +74,8 @@ class XposedHook(
         if (isFeatureEnabled("custom_monet", false) ||
             (isFeatureEnabled("monet") && !hasSystemUiGoogle)
         ) {
+            frameworkHooks.applyQuantizerColorspace()
+
             sysuiHooks.applyThemeOverlayController(
                 hasSystemUiGoogle,
                 isFeatureEnabled("custom_monet_boost_chroma", false),
