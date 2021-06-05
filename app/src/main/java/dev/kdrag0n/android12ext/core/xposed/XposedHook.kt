@@ -79,7 +79,7 @@ class XposedHook(
             sysuiHooks.applyThemeOverlayController(
                 hasSystemUiGoogle,
                 prefs.getInt("custom_monet_chroma_multiplier", 50).toDouble() / 50,
-                isFeatureEnabled("custom_monet_multi_color", false),
+                false,
             )
         }
 
