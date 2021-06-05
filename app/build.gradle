@@ -12,8 +12,8 @@ android {
         applicationId "dev.kdrag0n.android12ext"
         minSdkVersion 30
         targetSdkVersion 30
-        versionCode 40100
-        versionName "4.1.0"
+        versionCode 40101
+        versionName "4.1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
