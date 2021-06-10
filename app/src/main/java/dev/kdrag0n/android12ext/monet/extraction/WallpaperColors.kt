@@ -8,3 +8,9 @@ val WallpaperColors.mainColors: List<Color>
         return this::class.java.getDeclaredMethod("getMainColors")
             .invoke(this) as List<Color>
     }
+
+val WallpaperColors.allColors: Map<Int, Int>
+    get() {
+        return this::class.java.getDeclaredMethod("getAllColors")
+            .invoke(this) as Map<Int, Int>
+    }
