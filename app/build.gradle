@@ -61,4 +61,5 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'io.insert-koin:koin-android:3.0.1'
     implementation 'io.coil-kt:coil:1.2.1'
+    implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:2.0'
 }

@@ -16,6 +16,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import org.lsposed.hiddenapibypass.HiddenApiBypass
 import timber.log.Timber
 
 // Referenced in AndroidManifest.xml
@@ -26,6 +27,8 @@ class CustomApplication : Application() {
         commonInit()
 
         Preference.Config.summaryMaxLines = 5
+
+        HiddenApiBypass.addHiddenApiExemptions("L")
 
         val koinModule = module {
             single { BroadcastManager(get()) }
