@@ -9,4 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="dark_gray_bg">#FF121212</color>
     <color name="dark_gray_bg_elevated_4dp">#FF2B2B2B</color>
+
+    <!-- Launcher icon -->
+    <color name="launcher_fg">@android:color/system_accent1_600</color>
+    <color name="launcher_bg">@android:color/system_accent2_50</color>
 </resources>
