@@ -41,6 +41,7 @@ class ReferenceGenerator(
     companion object {
         private val neutral1: Map<Int, Int> = mapOf(
             0    to android.R.color.system_neutral1_0,
+            10   to android.R.color.system_neutral1_10,
             50   to android.R.color.system_neutral1_50,
             100  to android.R.color.system_neutral1_100,
             200  to android.R.color.system_neutral1_200,
@@ -56,6 +57,7 @@ class ReferenceGenerator(
 
         private val neutral2: Map<Int, Int> = mapOf(
             0    to android.R.color.system_neutral2_0,
+            10   to android.R.color.system_neutral2_10,
             50   to android.R.color.system_neutral2_50,
             100  to android.R.color.system_neutral2_100,
             200  to android.R.color.system_neutral2_200,
@@ -71,6 +73,7 @@ class ReferenceGenerator(
 
         private val accent1: Map<Int, Int> = mapOf(
             0    to android.R.color.system_accent1_0,
+            10   to android.R.color.system_accent1_10,
             50   to android.R.color.system_accent1_50,
             100  to android.R.color.system_accent1_100,
             200  to android.R.color.system_accent1_200,
@@ -86,6 +89,7 @@ class ReferenceGenerator(
 
         private val accent2: Map<Int, Int> = mapOf(
             0    to android.R.color.system_accent2_0,
+            10   to android.R.color.system_accent2_10,
             50   to android.R.color.system_accent2_50,
             100  to android.R.color.system_accent2_100,
             200  to android.R.color.system_accent2_200,
@@ -101,6 +105,7 @@ class ReferenceGenerator(
 
         private val accent3: Map<Int, Int> = mapOf(
             0    to android.R.color.system_accent3_0,
+            10   to android.R.color.system_accent3_10,
             50   to android.R.color.system_accent3_50,
             100  to android.R.color.system_accent3_100,
             200  to android.R.color.system_accent3_200,
