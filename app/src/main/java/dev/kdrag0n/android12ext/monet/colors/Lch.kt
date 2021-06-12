@@ -13,7 +13,7 @@ interface Lch {
 
             return doubleArrayOf(
                 L,
-                sqrt(a.pow(2) + b.pow(2)),
+                sqrt(a*a + b*b),
                 // Normalize the angle, as many will be negative
                 if (hDeg < 0) hDeg + 360 else hDeg,
             )
