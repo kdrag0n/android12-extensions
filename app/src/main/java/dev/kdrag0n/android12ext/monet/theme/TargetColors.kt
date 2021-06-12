@@ -15,18 +15,19 @@ class TargetColors(
 ) : ColorScheme() {
     companion object {
         // Lightness from AOSP defaults
-        private const val L_0    = 1.00
-        private const val L_50   = 0.96
-        private const val L_100  = 0.91
-        private const val L_200  = 0.83
-        private const val L_300  = 0.74
-        private const val L_400  = 0.65
-        private const val L_500  = 0.56
-        private const val L_600  = 0.48
-        private const val L_700  = 0.39
-        private const val L_800  = 0.31
-        private const val L_900  = 0.22
-        private const val L_1000 = 0.00
+        private const val L_0    = 1.000
+        private const val L_10   = 0.988
+        private const val L_50   = 0.955
+        private const val L_100  = 0.913
+        private const val L_200  = 0.827
+        private const val L_300  = 0.741
+        private const val L_400  = 0.653
+        private const val L_500  = 0.562
+        private const val L_600  = 0.482
+        private const val L_700  = 0.394
+        private const val L_800  = 0.309
+        private const val L_900  = 0.222
+        private const val L_1000 = 0.000
 
         // Neutral chroma from Google's CAM16 implementation
         private const val NEUTRAL1_CHROMA = 0.0132
@@ -49,6 +50,7 @@ class TargetColors(
         val chromaAdj = chroma * chromaFactor
         return mapOf(
             0    to Oklch(L_0,    0.0),
+            10   to Oklch(L_10,   chromaAdj),
             50   to Oklch(L_50,   chromaAdj),
             100  to Oklch(L_100,  chromaAdj),
             200  to Oklch(L_200,  chromaAdj),
