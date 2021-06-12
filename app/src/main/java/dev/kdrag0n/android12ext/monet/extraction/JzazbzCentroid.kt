@@ -21,12 +21,12 @@ class JzazbzCentroid : CentroidProvider {
         val (x1, y1, z1) = a
         val (x2, y2, z2) = b
 
-        val dx = (x1 - x2).pow(2)
-        val dy = (y1 - y2).pow(2)
-        val dz = (z1 - z2).pow(2)
+        val dx = x1 - x2
+        val dy = y1 - y2
+        val dz = z1 - z2
 
         // sqrt is unnecessary; see https://arxiv.org/pdf/1101.0395.pdf
         // K-means / weighted sort-means compare sum of squares
-        return dx + dy + dz
+        return dx*dy + dy*dy + dz*dz
     }
 }
