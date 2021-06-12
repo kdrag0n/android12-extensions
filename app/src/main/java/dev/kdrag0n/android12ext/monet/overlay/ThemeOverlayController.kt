@@ -27,7 +27,7 @@ class ThemeOverlayController(
     // com.android.systemui.theme.ThemeOverlayController#getOverlay(int, int)
     fun getOverlay(primaryColor: Int, isAccent: Int): Any {
         // Generate color scheme
-        colorScheme = DynamicColorScheme(targetColors, primaryColor, chromaMultiplier)
+        colorScheme = DynamicColorScheme(targetColors, Srgb(primaryColor), chromaMultiplier)
 
         val groupKey = when (isAccent) {
             1 -> "accent"
