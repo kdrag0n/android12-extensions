@@ -157,6 +157,8 @@ class XposedHook(
             "com.android.systemui" -> applySysUi()
             // Play Games
             "com.google.android.play.games" -> applyPlayGames()
+            // Launcher
+            "com.android.launcher3", "com.google.android.apps.nexuslauncher" -> applyLauncher()
         }
 
         // All apps
