@@ -9,6 +9,7 @@
     <uses-permission android:name="dev.kdrag0n.android12ext.BROADCAST_PERMISSION" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <queries>
         <package android:name="com.android.systemui" />
@@ -41,6 +42,8 @@
             android:exported="true"
             android:directBootAware="true"
             tools:ignore="ExportedContentProvider" />
+
+        <service android:name=".core.CallService" />
 
         <meta-data
             android:name="xposedmodule"
