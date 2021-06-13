@@ -2,7 +2,7 @@ package dev.kdrag0n.android12ext.core.xposed.hooks
 
 import android.content.Context
 import android.content.res.Resources
-import android.content.res.TypedArray
+import android.graphics.drawable.RippleDrawable
 import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
@@ -10,32 +10,50 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import dev.kdrag0n.android12ext.core.RippleShader
 import dev.kdrag0n.android12ext.core.xposed.hookMethod
 import dev.kdrag0n.android12ext.monet.extraction.JzazbzCentroid
 
 class FrameworkHooks(
     private val lpparam: XC_LoadPackage.LoadPackageParam,
 ) {
-    fun applyRipple(patterned: Boolean) {
+    fun applyRippleStyle(patterned: Boolean) {
         val hook = object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
-                XposedHelpers.getObjectField(param.thisObject, "mState").let { state ->
-                    val style = if (patterned) 1 else 0
-                    XposedHelpers.setIntField(state, "mRippleStyle", style)
-                }
+                val style = if (patterned) 1 else 0
+                XposedHelpers.setIntField(param.thisObject, "mRippleStyle", style)
             }
         }
 
         XposedHelpers.findAndHookConstructor(
-            RIPPLE_CLASS,
+            "android.graphics.drawable.RippleDrawable\$RippleState",
             lpparam.classLoader,
-            XposedHelpers.findClass(RIPPLE_STATE_CLASS, lpparam.classLoader),
+            XposedHelpers.findClass("android.graphics.drawable.LayerDrawable\$LayerState", lpparam.classLoader),
+            RippleDrawable::class.java,
             Resources::class.java,
             hook,
         )
+    }
 
-        lpparam.hookMethod(RIPPLE_CLASS, hook, "updateStateFromTypedArray", TypedArray::class.java)
-        lpparam.hookMethod(RIPPLE_CLASS, hook, "setRippleStyle", Int::class.java)
+    fun applyCustomRipple() {
+        val hook = object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam) {
+                // Hijack RippleShader super calls
+                if (param.thisObject::class.java.name != "android.graphics.drawable.RippleShader") {
+                    return
+                }
+
+                param.args[0] = RippleShader.SHADER
+            }
+        }
+
+        XposedHelpers.findAndHookConstructor(
+            "android.graphics.RuntimeShader",
+            lpparam.classLoader,
+            String::class.java,
+            Boolean::class.java,
+            hook,
+        )
     }
 
     fun applyHapticTouch() {
@@ -105,8 +123,6 @@ class FrameworkHooks(
     }
 
     companion object {
-        private const val RIPPLE_CLASS = "android.graphics.drawable.RippleDrawable"
-        private const val RIPPLE_STATE_CLASS = "android.graphics.drawable.RippleDrawable\$RippleState"
         private const val CENTROID_CLASS = "com.android.internal.graphics.palette.LABCentroid"
     }
 }
