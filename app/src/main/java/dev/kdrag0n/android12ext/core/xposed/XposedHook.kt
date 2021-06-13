@@ -9,6 +9,7 @@ import dev.kdrag0n.android12ext.core.BroadcastManager
 import dev.kdrag0n.android12ext.core.data.hasSystemUiGoogle
 import dev.kdrag0n.android12ext.core.xposed.hooks.FrameworkHooks
 import dev.kdrag0n.android12ext.core.xposed.hooks.LauncherHooks
+import dev.kdrag0n.android12ext.core.xposed.hooks.PlayGamesHooks
 import dev.kdrag0n.android12ext.core.xposed.hooks.SystemUIHooks
 import timber.log.Timber
 
@@ -44,6 +45,7 @@ class XposedHook(
     private val sysuiHooks = SystemUIHooks(context, lpparam)
     private val frameworkHooks = FrameworkHooks(lpparam)
     private val launcherHooks = LauncherHooks(lpparam)
+    private val playGamesHooks = PlayGamesHooks()
 
     init {
         CustomApplication.commonInit()
@@ -132,6 +134,10 @@ class XposedHook(
         }
     }
 
+    private fun applyPlayGames() {
+        playGamesHooks.applyPreviewSdk()
+    }
+
     fun applyAll() {
         // Global kill-switch
         if (!isFeatureEnabled("global")) {
@@ -148,6 +154,8 @@ class XposedHook(
             BuildConfig.APPLICATION_ID -> return
             // System UI
             "com.android.systemui" -> applySysUi()
+            // Play Games
+            "com.google.android.play.games" -> applyPlayGames()
         }
 
         // All apps
