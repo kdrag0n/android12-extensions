@@ -21,6 +21,10 @@ object RippleShader {
         uniform vec4 in_sparkleColor;
         uniform shader in_shader;
 
+        // Constants for Gaussian PDF
+        const float SQRT_2PI = 2.506628274631000241612355;
+        const float E = 2.718281828459045090795598;
+
         // White noise with triangular distribution
         float triangleNoise(vec2 n) {
             n  = fract(n * vec2(5.3987, 5.4421));
@@ -29,13 +33,13 @@ object RippleShader {
             return fract(xy * 95.4307) + fract(xy * 75.04961) - 1.0;
         }
 
-        // Inverse square root, scaled to ~same range as smoothstep
-        float inv_sqrt(float x) {
-            x = (2.0*x - 1.0) * 2.0;
-            return ((x / sqrt(1.0 + x*x)) + 1.0) / 2.0;
+        // PDF for Gaussian blur
+        float gaussian_pdf(float mean, float stddev, float x) {
+            float a = (x - mean) / stddev;
+            return 1.0 / (stddev * SQRT_2PI) * pow(E, -0.5 * a*a);
         }
 
-        // Circular wave, blurred with inverse square root
+        // Circular wave with Gaussian blur
         float softWave(vec2 uv, vec2 center, float radius, float blur) {
             // 1/2 inside the circle, 1/2 outside the circle
             float blurHalf = blur * 0.5;
@@ -43,8 +47,8 @@ object RippleShader {
             float dNorm = distance(uv, center) / radius;
             // Ring position within full circle = progress
             float ringX = in_progress;
-            // Invert sigmoid output to approximate blurred circle outline
-            float ring = 1.0 - inv_sqrt(abs(ringX - dNorm) / blurHalf);
+            // Apply Gaussian blur with dynamic standard deviation and scale to reduce lightness
+            float ring = gaussian_pdf(0.0, 0.05 + 0.3 * blurHalf, ringX - dNorm) * 0.4;
 
             // 0.5 base highlight + foreground ring
             return 0.5 + ring;
@@ -64,7 +68,7 @@ object RippleShader {
             // Dither with triangular white noise. Unfortunately, we can't use blue noise
             // because RuntimeShader doesn't allow us to add custom textures.
             float dither = triangleNoise(pos) / 255.0;
-            float waveAlpha = softWave(pos, in_touch, in_maxRadius, 1.2 - in_progress) * fade * in_color.a + dither;
+            float waveAlpha = softWave(pos, in_touch, in_maxRadius, 1.3 - in_progress) * fade * in_color.a + dither;
             vec4 waveColor = vec4(in_color.rgb * waveAlpha, waveAlpha);
 
             float mask = in_hasMask == 1.0 ? sample(in_shader, pos).a > 0.0 ? 1.0 : 0.0 : 1.0;
