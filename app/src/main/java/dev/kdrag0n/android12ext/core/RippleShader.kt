@@ -21,26 +21,53 @@ object RippleShader {
         uniform vec4 in_sparkleColor;
         uniform shader in_shader;
 
-        float softCircle(vec2 uv, vec2 xy, float radius, float blur) {
-            float blurHalf = blur * 0.5;
-            float d = distance(uv, xy);
-            return 1. - smoothstep(1. - blurHalf, 1. + blurHalf, d / radius);
+        // White noise with triangular distribution
+        float triangleNoise(vec2 n) {
+            n  = fract(n * vec2(5.3987, 5.4421));
+            n += dot(n.yx, n.xy + vec2(21.5351, 14.3137));
+            float xy = n.x * n.y;
+            return fract(xy * 95.4307) + fract(xy * 75.04961) - 1.0;
         }
+
+        // Inverse square root, scaled to ~same range as smoothstep
+        float inv_sqrt(float x) {
+            x = (2.0*x - 1.0) * 2.0;
+            return ((x / sqrt(1.0 + x*x)) + 1.0) / 2.0;
+        }
+
+        // Circular wave, blurred with inverse square root
+        float softWave(vec2 uv, vec2 center, float radius, float blur) {
+            // 1/2 inside the circle, 1/2 outside the circle
+            float blurHalf = blur * 0.5;
+            // Distance from the center of the circle (touch point), normalized to [0, 1]  radius)
+            float dNorm = distance(uv, center) / radius;
+            // Ring position within full circle = progress
+            float ringX = in_progress;
+            // Invert sigmoid output to approximate blurred circle outline
+            float ring = 1.0 - inv_sqrt(abs(ringX - dNorm) / blurHalf);
+
+            // 0.5 base highlight + foreground ring
+            return 0.5 + ring;
+        }
+
         float subProgress(float start, float end, float progress) {
             float sub = clamp(progress, start, end);
             return (sub - start) / (end - start); 
         }
 
-        vec4 main(vec2 p) {
-            float fadeIn = subProgress(0., 0.1, in_progress);
-            float scaleIn = subProgress(0., 0.45, in_progress);
-            float fadeOutRipple = subProgress(0.5, 1., in_progress);
-            vec2 center = mix(in_touch, in_origin, scaleIn);
-            vec2 uv = p * in_resolutionScale;
-            float fade = min(fadeIn, 1. - fadeOutRipple);
-            float waveAlpha = softCircle(p, center, in_maxRadius * scaleIn, 0.2) * fade * in_color.a;
+        vec4 main(vec2 pos) {
+            // Fade the entire ripple in and out, including base highlight
+            float fadeIn = subProgress(0.0, 0.1, in_progress);
+            float fadeOut = subProgress(0.5, 1.0, in_progress);
+            float fade = min(fadeIn, 1.0 - fadeOut);
+
+            // Dither with triangular white noise. Unfortunately, we can't use blue noise
+            // because RuntimeShader doesn't allow us to add custom textures.
+            float dither = triangleNoise(pos) / 255.0;
+            float waveAlpha = softWave(pos, in_touch, in_maxRadius, 1.2 - in_progress) * fade * in_color.a + dither;
             vec4 waveColor = vec4(in_color.rgb * waveAlpha, waveAlpha);
-            float mask = in_hasMask == 1. ? sample(in_shader, p).a > 0. ? 1. : 0. : 1.;
+
+            float mask = in_hasMask == 1.0 ? sample(in_shader, pos).a > 0.0 ? 1.0 : 0.0 : 1.0;
             return waveColor * mask;
         }
     """.trimIndent()
