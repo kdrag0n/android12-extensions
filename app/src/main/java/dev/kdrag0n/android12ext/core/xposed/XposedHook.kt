@@ -153,8 +153,6 @@ class XposedHook(
         }
 
         when (lpparam.packageName) {
-            // Never hook our own app in case something goes wrong
-            BuildConfig.APPLICATION_ID -> return
             // System UI
             "com.android.systemui" -> applySysUi()
             // Play Games
