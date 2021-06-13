@@ -21,10 +21,6 @@ object RippleShader {
         uniform vec4 in_sparkleColor;
         uniform shader in_shader;
 
-        // Constants for Gaussian PDF
-        const float SQRT_2PI = 2.506628274631000241612355;
-        const float E = 2.718281828459045090795598;
-
         // White noise with triangular distribution
         float triangleNoise(vec2 n) {
             n  = fract(n * vec2(5.3987, 5.4421));
@@ -34,29 +30,27 @@ object RippleShader {
         }
 
         // PDF for Gaussian blur
+        const float SQRT_2PI = 2.506628274631000241612355;
         float gaussian_pdf(float mean, float stddev, float x) {
             float a = (x - mean) / stddev;
-            return 1.0 / (stddev * SQRT_2PI) * pow(E, -0.5 * a*a);
+            return 1.0 / (stddev * SQRT_2PI) * exp(-0.5 * a*a);
         }
 
         // Circular wave with Gaussian blur
         float softWave(vec2 uv, vec2 center, float radius, float blur) {
-            // 1/2 inside the circle, 1/2 outside the circle
-            float blurHalf = blur * 0.5;
             // Distance from the center of the circle (touch point), normalized to [0, 1]  radius)
             float dNorm = distance(uv, center) / radius;
             // Ring position within full circle = progress
             float ringX = in_progress;
-            // Apply Gaussian blur with dynamic standard deviation and scale to reduce lightness
-            float ring = gaussian_pdf(0.0, 0.05 + 0.3 * blurHalf, ringX - dNorm) * 0.4;
+            // Apply Gaussian blur with dynamic standard deviation, and scale to reduce lightness
+            float ring = gaussian_pdf(0.0, 0.05 + 0.15 * blur, ringX - dNorm) * 0.4;
 
             // 0.5 base highlight + foreground ring
             return 0.5 + ring;
         }
 
         float subProgress(float start, float end, float progress) {
-            float sub = clamp(progress, start, end);
-            return (sub - start) / (end - start); 
+            return saturate((progress - start) / (end - start));
         }
 
         vec4 main(vec2 pos) {
