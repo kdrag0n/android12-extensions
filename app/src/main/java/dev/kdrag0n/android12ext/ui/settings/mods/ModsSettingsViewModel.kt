@@ -1,6 +1,9 @@
 package dev.kdrag0n.android12ext.ui.settings.mods
 
-import android.app.Application
+import android.app.*
+import android.content.Intent
+import android.graphics.drawable.Icon
+import androidx.core.content.getSystemService
 import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.PreferencesAdapter
 import de.Maxr1998.modernpreferences.helpers.categoryHeader
@@ -9,14 +12,17 @@ import de.Maxr1998.modernpreferences.helpers.pref
 import de.Maxr1998.modernpreferences.helpers.seekBar
 import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
+import dev.kdrag0n.android12ext.core.CallService
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.core.data.hasSystemUiGoogle
 import dev.kdrag0n.android12ext.monet.theme.ReferenceGenerator
+import dev.kdrag0n.android12ext.ui.main.MainActivity
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.buildWithPrefs
 import dev.kdrag0n.android12ext.ui.utils.featureSwitch
 import dev.kdrag0n.android12ext.ui.utils.navPref
 import dev.kdrag0n.android12ext.ui.utils.setInteractive
+import java.util.concurrent.ThreadLocalRandom
 
 class ModsSettingsViewModel(
     app: Application,
@@ -95,6 +101,13 @@ class ModsSettingsViewModel(
                 action = R.id.action_settings_mods_to_quantizer,
                 vm = this@ModsSettingsViewModel,
             )
+            pref("test_ongoing_call") {
+                title = "Test ongoing call"
+                onClick {
+                    CallService.start(app)
+                    false
+                }
+            }
         }
 
         buildWithPrefs(settingsRepo.prefs)
