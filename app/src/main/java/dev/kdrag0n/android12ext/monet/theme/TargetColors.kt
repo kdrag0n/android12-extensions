@@ -31,6 +31,23 @@ class TargetColors(
             1000 to 0.000,
         )
 
+        // Lightness map in CIELAB L*
+        val LSTAR_LIGHTNESS_MAP = mapOf(
+            0    to 100.0,
+            10   to  99.0,
+            50   to  95.0,
+            100  to  90.0,
+            200  to  80.0,
+            300  to  70.0,
+            400  to  60.0,
+            500  to  49.6,
+            600  to  40.0,
+            700  to  30.0,
+            800  to  20.0,
+            900  to  10.0,
+            1000 to   0.0,
+        )
+
         // Neutral chroma from Google's CAM16 implementation
         private const val NEUTRAL1_CHROMA = 0.0132
         private const val NEUTRAL2_CHROMA = NEUTRAL1_CHROMA / 2
