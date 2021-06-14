@@ -3,11 +3,13 @@ package dev.kdrag0n.android12ext.ui.settings.system
 import android.app.Application
 import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.PreferencesAdapter
+import de.Maxr1998.modernpreferences.helpers.pref
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.buildWithPrefs
 import dev.kdrag0n.android12ext.ui.utils.featureSwitch
+import dev.kdrag0n.android12ext.ui.utils.setInteractive
 
 class SystemSettingsViewModel(
     app: Application,
@@ -16,34 +18,41 @@ class SystemSettingsViewModel(
     private val prefScreen = PreferenceScreen.Builder(app).run {
         featureSwitch(
             key = "monet",
-            title = R.string.feature_monet,
-            summary = R.string.feature_monet_desc,
+            title = R.string.system_monet,
+            summary = R.string.system_monet_desc,
             icon = R.drawable.ic_fluent_paint_brush_24_regular,
         )
         featureSwitch(
             key = "lockscreen",
-            title = R.string.feature_lockscreen,
-            summary = R.string.feature_lockscreen_desc,
+            title = R.string.system_lockscreen,
+            summary = R.string.system_lockscreen_desc,
             icon = R.drawable.ic_fluent_lock_closed_24_regular,
         )
         featureSwitch(
             key = "toast",
-            title = R.string.feature_toast,
-            summary = R.string.feature_toast_desc,
+            title = R.string.system_toast,
+            summary = R.string.system_toast_desc,
             icon = R.drawable.ic_fluent_badge_24_regular,
         )
         featureSwitch(
             key = "charging_ripple",
-            title = R.string.feature_charging_ripple,
-            summary = R.string.feature_charging_ripple_desc,
+            title = R.string.system_charging_ripple,
+            summary = R.string.system_charging_ripple_desc,
             icon = R.drawable.ic_fluent_battery_charge_24_regular,
         )
         featureSwitch(
             key = "internet_ui",
-            title = R.string.feature_internet_ui,
-            summary = R.string.feature_internet_ui_desc,
+            title = R.string.system_internet_ui,
+            summary = R.string.system_internet_ui_desc,
             icon = R.drawable.ic_fluent_globe_24_regular,
         )
+
+        pref("system_info") {
+            iconRes = R.drawable.ic_fluent_info_24_regular
+            summaryRes = R.string.system_info
+            // Disabling the view makes text contrast too low, so use our extension instead
+            setInteractive(false)
+        }
 
         buildWithPrefs(settingsRepo.prefs)
     }

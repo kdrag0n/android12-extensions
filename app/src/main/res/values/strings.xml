@@ -19,24 +19,20 @@
     <string name="settings_appearance">Appearance</string>
     <string name="settings_appearance_desc">Unofficial theme and color changes</string>
 
-    <!-- Features -->
-    <string name="features">Features</string>
-    <string name="feature_monet">Monet</string>
-    <string name="feature_monet_desc">Colorful wallpaper-based themes</string>
-    <string name="feature_lockscreen">Lock screen design</string>
-    <string name="feature_lockscreen_desc">Clock and screen on/off animations</string>
-    <string name="feature_notification_shade">Notification shade design</string>
-    <string name="feature_notification_shade_desc">Solid background &amp; brightness slider</string>
-    <string name="feature_quick_settings">Quick settings design</string>
-    <string name="feature_quick_settings_desc">Fullscreen panel with rectangular tiles</string>
-    <string name="feature_toast">Toast design</string>
-    <string name="feature_toast_desc">App icon and solid background</string>
-    <string name="feature_privacy_indicators">Privacy indicators</string>
-    <string name="feature_privacy_indicators_desc">Camera, microphone, and location</string>
-    <string name="feature_charging_ripple">Charging ripple animation</string>
-    <string name="feature_charging_ripple_desc">Animation when connecting charger</string>
-    <string name="feature_internet_ui">Unified internet settings</string>
-    <string name="feature_internet_ui_desc">Manage Wi-Fi and cellular in one place</string>
+    <!-- System -->
+    <string name="system_monet">Monet</string>
+    <string name="system_monet_desc">Colorful wallpaper-based themes</string>
+    <string name="system_lockscreen">Lock screen design</string>
+    <string name="system_lockscreen_desc">Clock layout and screen on/off animations</string>
+    <string name="system_toast">Toast design</string>
+    <string name="system_toast_desc">App icon and solid background</string>
+    <string name="system_privacy_indicators">Privacy indicators</string>
+    <string name="system_privacy_indicators_desc">Camera, microphone, and location</string>
+    <string name="system_charging_ripple">Charging ripple animation</string>
+    <string name="system_charging_ripple_desc">Animation when connecting charger</string>
+    <string name="system_internet_ui">Unified internet settings</string>
+    <string name="system_internet_ui_desc">Manage Wi-Fi and cellular in one place</string>
+    <string name="system_info">You can also disable features that are enabled by default.</string>
 
     <!-- Tweaks -->
     <string name="tweak_ripple_style">Ripple animation</string>
