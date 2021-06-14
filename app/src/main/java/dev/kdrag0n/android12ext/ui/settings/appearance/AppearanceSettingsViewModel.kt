@@ -1,6 +1,9 @@
 package dev.kdrag0n.android12ext.ui.settings.appearance
 
 import android.app.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.PreferencesAdapter
 import de.Maxr1998.modernpreferences.helpers.categoryHeader
@@ -17,12 +20,18 @@ import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.buildWithPrefs
 import dev.kdrag0n.android12ext.ui.utils.featureSwitch
 import dev.kdrag0n.android12ext.ui.utils.navPref
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AppearanceSettingsViewModel(
     app: Application,
     private val settingsRepo: SettingsRepository,
     private val refGen: ReferenceGenerator,
 ) : BaseSettingsViewModel(app) {
+    val openColorPicker = MutableLiveData<Int?>(null)
+    private lateinit var colorPref: ColorSwatchPreference
+
     private val prefScreen = PreferenceScreen.Builder(app).run {
         val hasSystemUiGoogle = app.hasSystemUiGoogle()
         featureSwitch(
@@ -45,6 +54,27 @@ class AppearanceSettingsViewModel(
             formatter = { value ->
                 String.format("%.01fx", value.toFloat() / 50)
             }
+        }
+
+        categoryHeader("category_colors") {
+            titleRes = R.string.category_colors
+        }
+        featureSwitch(
+            key = "monet_custom_color",
+            title = R.string.appearance_monet_custom_color,
+            summary = R.string.appearance_monet_custom_color_desc,
+            icon = R.drawable.ic_fluent_color_24_regular,
+            default = false,
+        )
+        colorPref("monet_custom_color_value") {
+            titleRes = R.string.appearance_monet_custom_color_value
+            dependency = "monet_custom_color_enabled"
+
+            onClick {
+                openColorPicker.value = settingsRepo.prefs.getInt("monet_custom_color_value", -1)
+                false
+            }
+            colorPref = this
         }
 
         if (!hasSystemUiGoogle) {
@@ -90,4 +120,26 @@ class AppearanceSettingsViewModel(
         buildWithPrefs(settingsRepo.prefs)
     }
     override val prefAdapter = PreferencesAdapter(prefScreen)
+
+    val selectedColor = MutableLiveData<Int>()
+    private val selectedColorObserver = Observer<Int> { color ->
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                settingsRepo.prefs.edit().run {
+                    putInt("monet_custom_color_value", color)
+                    commit()
+                }
+            }
+
+            colorPref.requestRebind()
+        }
+    }
+
+    init {
+        selectedColor.observeForever(selectedColorObserver)
+    }
+
+    override fun onCleared() {
+        selectedColor.removeObserver(selectedColorObserver)
+    }
 }

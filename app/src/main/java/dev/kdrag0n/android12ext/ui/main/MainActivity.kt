@@ -10,16 +10,19 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import dev.chrisbanes.insetter.applyInsetter
 import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
+import dev.kdrag0n.android12ext.ui.settings.appearance.ColorDialogViewModel
 import dev.kdrag0n.android12ext.ui.utils.NoSwipeBehavior
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val XPOSED_MANAGER_PACKAGE = "org.lsposed.manager"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ColorPickerDialogListener {
     private val viewModel: MainViewModel by viewModel()
+    private val colorDialogViewModel: ColorDialogViewModel by viewModel()
     private lateinit var navController: NavController
 
     private var xposedDialog: AlertDialog? = null
@@ -95,6 +98,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onDialogDismissed(dialogId: Int) = Unit
+    override fun onColorSelected(dialogId: Int, color: Int) {
+        colorDialogViewModel.selectedColor.value = color
     }
 
     override fun onSupportNavigateUp(): Boolean {

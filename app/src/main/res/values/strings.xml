@@ -61,6 +61,10 @@
     <string name="appearance_custom_monet_chroma_multiplier">Colorfulness</string>
     <string name="appearance_custom_monet_multi_color">Multiple colors</string>
     <string name="appearance_custom_monet_multi_color_desc">Use multiple colors from the wallpaper for theming</string>
+    <string name="category_colors">Colors</string>
+    <string name="appearance_monet_custom_color">Use custom color</string>
+    <string name="appearance_monet_custom_color_desc">Select theme color instead of extracting colors from wallpaper</string>
+    <string name="appearance_monet_custom_color_value">Theme color</string>
     <string name="category_aosp">AOSP</string>
     <string name="appearance_aosp_circle_icons">Circular icons</string>
     <string name="appearance_aosp_circle_icons_desc">Circle shape for app icons</string>

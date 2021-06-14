@@ -63,4 +63,5 @@ dependencies {
     implementation 'io.insert-koin:koin-android:3.1.0'
     implementation 'io.coil-kt:coil:1.2.1'
     implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:2.0'
+    implementation 'com.jaredrummler:colorpicker:1.1.0'
 }
