@@ -81,10 +81,26 @@ class SystemUIHooks(
         )
     }
 
+    fun applyMonetColor(
+        isGoogle: Boolean,
+        colorOverride: Int,
+    ) {
+        val clazz = if (isGoogle) THEME_CLASS_GOOGLE else THEME_CLASS_AOSP
+
+        lpparam.hookMethod(clazz, object : XC_MethodReplacement() {
+            override fun replaceHookedMethod(param: MethodHookParam) = colorOverride
+        }, "getNeutralColor", WallpaperColors::class.java)
+
+        lpparam.hookMethod(clazz, object : XC_MethodReplacement() {
+            override fun replaceHookedMethod(param: MethodHookParam) = colorOverride
+        }, "getAccentColor", WallpaperColors::class.java)
+    }
+
     fun applyThemeOverlayController(
         isGoogle: Boolean,
         chromaMultiplier: Double,
         multiColor: Boolean,
+        colorOverride: Int?,
     ) {
         val controller = ThemeOverlayController(
             TargetColors(chromaMultiplier),
@@ -102,13 +118,15 @@ class SystemUIHooks(
 
         lpparam.hookMethod(clazz, object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam): Any {
-                return controller.getNeutralColor(param.args[0] as WallpaperColors)
+                return colorOverride
+                    ?: controller.getNeutralColor(param.args[0] as WallpaperColors)
             }
         }, "getNeutralColor", WallpaperColors::class.java)
 
         lpparam.hookMethod(clazz, object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam): Any {
-                return controller.getAccentColor(param.args[0] as WallpaperColors)
+                return colorOverride
+                    ?: controller.getAccentColor(param.args[0] as WallpaperColors)
             }
         }, "getAccentColor", WallpaperColors::class.java)
 

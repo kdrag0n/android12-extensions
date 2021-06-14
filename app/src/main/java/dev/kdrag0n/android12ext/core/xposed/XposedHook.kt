@@ -67,6 +67,14 @@ class XposedHook(
         // Enable privacy indicators
         sysuiHooks.applyPrivacyIndicators(isFeatureEnabled("privacy_indicators"))
 
+        // Get color override, applied below
+        val colorOverride = if (isFeatureEnabled("monet_custom_color", false)) {
+            val colorPref = prefs.getInt("monet_custom_color_value", -1)
+            if (colorPref == -1) null else colorPref
+        } else {
+            null
+        }
+
         // Custom Monet engine, forced on AOSP
         if (isFeatureEnabled("custom_monet", false) ||
             (isFeatureEnabled("monet") && !hasSystemUiGoogle)
@@ -74,10 +82,13 @@ class XposedHook(
             frameworkHooks.applyQuantizerColorspace()
 
             sysuiHooks.applyThemeOverlayController(
-                hasSystemUiGoogle,
-                prefs.getInt("custom_monet_chroma_multiplier", 50).toDouble() / 50,
-                false,
+                isGoogle = hasSystemUiGoogle,
+                chromaMultiplier = prefs.getInt("custom_monet_chroma_multiplier", 50).toDouble() / 50,
+                multiColor = false,
+                colorOverride = colorOverride,
             )
+        } else if (colorOverride != null) {
+            sysuiHooks.applyMonetColor(hasSystemUiGoogle, colorOverride)
         }
 
         // Disable Monet, if necessary
