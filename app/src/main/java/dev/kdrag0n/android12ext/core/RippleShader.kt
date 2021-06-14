@@ -65,7 +65,7 @@ object RippleShader {
             // as part of gradually spreading out.
             float waveBlur = 1.3 - waveProgress + (in_turbulencePhase / 15.0);
             // The wave also fades out with hold time.
-            float waveFade = 1.0 - in_turbulencePhase / 20.0;
+            float waveFade = saturate(1.0 - in_turbulencePhase / 20.0);
             // Calculate wave color, excluding fade
             float waveAlpha = softWave(pos, in_touch, in_maxRadius, waveProgress, waveBlur);
 
