@@ -37,8 +37,6 @@
     <string name="feature_charging_ripple_desc">Animation when connecting charger (lock screen only)</string>
     <string name="feature_internet_ui">Unified internet settings</string>
     <string name="feature_internet_ui_desc">Manage Wi-Fi and cellular in one place</string>
-    <string name="feature_gxoverlay">Pixel system theme</string>
-    <string name="feature_gxoverlay_desc">New notification shade and quick settings styles</string>
 
     <!-- Tweaks -->
     <string name="tweak_ripple_style">Ripple animation</string>
