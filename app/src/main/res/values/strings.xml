@@ -16,6 +16,8 @@
     <string name="settings_system_desc">New system features and changes</string>
     <string name="settings_tweaks">Tweaks</string>
     <string name="settings_tweaks_desc">Per-app interface changes</string>
+    <string name="settings_launcher">Launcher</string>
+    <string name="settings_launcher_desc">Pixel Launcher changes</string>
     <string name="settings_appearance">Appearance</string>
     <string name="settings_appearance_desc">Unofficial theme and color changes</string>
 
@@ -47,6 +49,13 @@
     <string name="tweak_haptic_touch">Vibrate on touch</string>
     <string name="tweak_haptic_touch_desc">Subtle vibration when you touch an interactive element in most apps</string>
     <string name="tweaks_info">Tweaks are per-app interface changes. The Xposed module needs to be enabled for every app you want to tweak.</string>
+
+    <!-- Launcher -->
+    <string name="launcher_themed_icons">Themed icons</string>
+    <string name="launcher_themed_icons_desc">Use Material You colors for supported Google app icons (home screen only)</string>
+    <string name="launcher_device_search">New search interface</string>
+    <string name="launcher_device_search_desc">Material You search UI in the app drawer</string>
+    <string name="launcher_info">The Xposed module must be enabled for Pixel Launcher in order for these settings to work.</string>
 
     <!-- Appearance -->
     <string name="appearance_custom_monet">Custom theme engine</string>

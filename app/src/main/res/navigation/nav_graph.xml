@@ -16,6 +16,8 @@
             app:destination="@id/system_settings" />
         <action android:id="@+id/action_settings_root_to_tweaks"
             app:destination="@id/tweaks_settings" />
+        <action android:id="@+id/action_settings_root_to_launcher"
+            app:destination="@id/launcher_settings" />
         <action android:id="@+id/action_settings_root_to_appearance"
             app:destination="@id/appearance_settings" />
     </fragment>
@@ -30,6 +32,12 @@
         android:id="@+id/tweaks_settings"
         android:name="dev.kdrag0n.android12ext.ui.settings.tweaks.TweakSettingsFragment"
         android:label="@string/settings_tweaks"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/launcher_settings"
+        android:name="dev.kdrag0n.android12ext.ui.settings.launcher.LauncherSettingsFragment"
+        android:label="@string/settings_launcher"
         tools:layout="@layout/fragment_settings" />
 
     <fragment

@@ -49,6 +49,15 @@ class SettingsViewModel(
             dependency = "global_enabled",
         )
         navPref(
+            key = "settings_launcher",
+            title = R.string.settings_launcher,
+            summary = R.string.settings_launcher_desc,
+            icon = R.drawable.ic_fluent_app_folder_24_regular,
+            action = R.id.action_settings_root_to_launcher,
+            vm = this@SettingsViewModel,
+            dependency = "global_enabled",
+        )
+        navPref(
             key = "settings_appearance",
             title = R.string.settings_appearance,
             summary = R.string.settings_appearance_desc,
