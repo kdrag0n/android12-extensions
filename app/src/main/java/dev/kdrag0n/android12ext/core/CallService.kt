@@ -30,8 +30,9 @@ class CallService : Service() {
 
         // Notification
         val notification = Notification.Builder(this, "test").run {
-            val intent = Intent(this@CallService, MainActivity::class.java)
-            val pendingIntent = PendingIntent.getActivity(this@CallService, 100, intent, 0)
+            val pendingIntent = Intent(this@CallService, MainActivity::class.java).let {
+                PendingIntent.getActivity(this@CallService, 100, it, 0)
+            }
 
             setContentIntent(pendingIntent)
             setSmallIcon(R.drawable.ic_fluent_call_24_filled)
