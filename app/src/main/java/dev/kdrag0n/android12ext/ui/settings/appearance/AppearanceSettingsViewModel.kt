@@ -66,7 +66,7 @@ class AppearanceSettingsViewModel(
             key = "monet_custom_color",
             title = R.string.appearance_monet_custom_color,
             summary = R.string.appearance_monet_custom_color_desc,
-            icon = R.drawable.ic_fluent_color_24_regular,
+            icon = R.drawable.ic_fluent_color_line_24_regular,
             default = false,
         )
         colorPref("monet_custom_color_value") {
@@ -82,7 +82,7 @@ class AppearanceSettingsViewModel(
         pref("monet_palette") {
             titleRes = R.string.appearance_monet_palette
             summaryRes = R.string.appearance_monet_palette_desc
-            iconRes = R.drawable.ic_fluent_wallpaper_24_regular
+            iconRes = R.drawable.ic_fluent_color_24_regular
             onClick {
                 openPalette.value = Unit
                 false
