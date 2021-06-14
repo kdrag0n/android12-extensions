@@ -48,39 +48,6 @@ class SystemUIHooks(
         )
     }
 
-    fun applyPrivacyIndicators(enabled: Boolean) {
-        val constructorHook = object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                XposedHelpers.setBooleanField(param.thisObject, "micCameraAvailable", enabled)
-                XposedHelpers.setBooleanField(param.thisObject, "locationAvailable", enabled)
-            }
-        }
-
-        XposedHelpers.findAndHookConstructor(
-            PRIVACY_CLASS,
-            lpparam.classLoader,
-            XposedHelpers.findClass("com.android.systemui.appops.AppOpsController", lpparam.classLoader),
-            XposedHelpers.findClass("com.android.systemui.util.concurrency.DelayableExecutor", lpparam.classLoader),
-            XposedHelpers.findClass("com.android.systemui.util.concurrency.DelayableExecutor", lpparam.classLoader),
-            XposedHelpers.findClass("com.android.systemui.util.DeviceConfigProxy", lpparam.classLoader),
-            XposedHelpers.findClass("com.android.systemui.settings.UserTracker", lpparam.classLoader),
-            XposedHelpers.findClass("com.android.systemui.privacy.logging.PrivacyLogger", lpparam.classLoader),
-            XposedHelpers.findClass("com.android.systemui.util.time.SystemClock", lpparam.classLoader),
-            XposedHelpers.findClass("com.android.systemui.dump.DumpManager", lpparam.classLoader),
-            constructorHook,
-        )
-
-        val flagHook = object : XC_MethodReplacement() {
-            override fun replaceHookedMethod(param: MethodHookParam) = true
-        }
-
-        lpparam.hookMethod(
-            "com.android.systemui.qs.QuickStatusBarHeaderController",
-            flagHook,
-            "getChipEnabled",
-        )
-    }
-
     fun applyMonetColor(
         isGoogle: Boolean,
         colorOverride: Int,
