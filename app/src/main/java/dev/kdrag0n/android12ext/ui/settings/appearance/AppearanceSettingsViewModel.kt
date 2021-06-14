@@ -4,6 +4,7 @@ import android.app.*
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
+import com.topjohnwu.superuser.Shell
 import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.PreferencesAdapter
 import de.Maxr1998.modernpreferences.helpers.categoryHeader
@@ -82,11 +83,17 @@ class AppearanceSettingsViewModel(
                 titleRes = R.string.category_aosp
             }
             featureSwitch(
-                key = "aosp_circle_icons",
+                key = "aosp_circle_icons2",
                 title = R.string.appearance_aosp_circle_icons,
                 summary = R.string.appearance_aosp_circle_icons_desc,
                 icon = R.drawable.ic_fluent_circle_24_regular,
-            )
+                default = false,
+            ) {
+                onClick {
+                    updateCircleOverlay()
+                    false
+                }
+            }
         }
 
         // Debug
@@ -120,6 +127,20 @@ class AppearanceSettingsViewModel(
         buildWithPrefs(settingsRepo.prefs)
     }
     override val prefAdapter = PreferencesAdapter(prefScreen)
+
+    private fun updateCircleOverlay() {
+        val action = if (settingsRepo.prefs.getBoolean("aosp_circle_icons2_enabled", false)) {
+            "enable"
+        } else {
+            "disable"
+        }
+
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                Shell.su("cmd overlay $action com.android.theme.icon.circle").submit()
+            }
+        }
+    }
 
     val selectedColor = MutableLiveData<Int>()
     private val selectedColorObserver = Observer<Int> { color ->

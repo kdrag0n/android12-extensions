@@ -1,6 +1,7 @@
 package dev.kdrag0n.android12ext
 
 import android.app.Application
+import com.topjohnwu.superuser.Shell
 import de.Maxr1998.modernpreferences.Preference
 import dev.kdrag0n.android12ext.core.BroadcastManager
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
@@ -53,6 +54,11 @@ class CustomApplication : Application() {
             androidContext(this@CustomApplication)
             modules(koinModule)
         }
+
+        Shell.enableVerboseLogging = BuildConfig.DEBUG
+        Shell.setDefaultBuilder(Shell.Builder.create().apply {
+            setFlags(Shell.FLAG_REDIRECT_STDERR)
+        })
     }
 
     companion object {

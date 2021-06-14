@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.topjohnwu.superuser.Shell
 import dev.kdrag0n.android12ext.core.BroadcastManager
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import kotlinx.coroutines.delay
@@ -25,7 +26,12 @@ class MainViewModel(
     private var prefChangeCount = 0
 
     // Needs to be separate from registerOnSharedPreferenceChangeListener in order to hold a strong reference
-    private val prefChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
+    private val prefChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+        // This key is applied separately
+        if (key == "aosp_circle_icons2_enabled") {
+            return@OnSharedPreferenceChangeListener
+        }
+
         // Debounce restarts to mitigate excessive disruption
         viewModelScope.launch {
             showReloadWarning.value = false
@@ -50,6 +56,13 @@ class MainViewModel(
         }
     }
     val showReloadWarning = MutableLiveData(false)
+
+    val isRooted = MutableLiveData<Boolean>()
+    fun updateRootState() {
+        viewModelScope.launch {
+            isRooted.value = Shell.rootAccess()
+        }
+    }
 
     init {
         settingsRepo.prefs.registerOnSharedPreferenceChangeListener(prefChangeListener)

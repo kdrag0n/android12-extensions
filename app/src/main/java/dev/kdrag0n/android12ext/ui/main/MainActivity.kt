@@ -19,6 +19,7 @@ import dev.kdrag0n.android12ext.ui.utils.NoSwipeBehavior
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val XPOSED_MANAGER_PACKAGE = "org.lsposed.manager"
+private const val MAGISK_MANAGER_PACKAGE = "com.topjohnwu.magisk"
 
 class MainActivity : AppCompatActivity(), ColorPickerDialogListener {
     private val viewModel: MainViewModel by viewModel()
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener {
     private lateinit var navController: NavController
 
     private var xposedDialog: AlertDialog? = null
+    private var rootDialog: AlertDialog? = null
     private var reloadSnackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,9 +53,8 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener {
             xposedDialog = null
 
             if (!isHooked) {
-                val managerIntent = packageManager.getLaunchIntentForPackage(
-                    XPOSED_MANAGER_PACKAGE
-                )
+                val managerIntent = packageManager.getLaunchIntentForPackage(XPOSED_MANAGER_PACKAGE)
+
                 if (managerIntent == null) {
                     xposedDialog = MaterialAlertDialogBuilder(this).run {
                         setTitle(R.string.error_xposed_manager_not_installed)
@@ -74,6 +75,29 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener {
                         getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                             startActivity(managerIntent)
                         }
+                    }
+                }
+            }
+        }
+
+        viewModel.isRooted.observe(this) { isRooted ->
+            rootDialog?.dismiss()
+            rootDialog = null
+
+            if (!isRooted) {
+                val managerIntent = packageManager.getLaunchIntentForPackage(MAGISK_MANAGER_PACKAGE)!!
+
+                rootDialog = MaterialAlertDialogBuilder(this).run {
+                    setTitle(R.string.error_missing_root)
+                    setMessage(R.string.error_missing_root_desc)
+                    setCancelable(BuildConfig.DEBUG)
+                    // Empty callback because we override it later
+                    setPositiveButton(R.string.allow) { _, _ -> }
+                    show()
+                }.apply {
+                    // Override button callback to stop it from dismissing the dialog
+                    getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                        startActivity(managerIntent)
                     }
                 }
             }
@@ -112,5 +136,6 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener {
     override fun onResume() {
         super.onResume()
         viewModel.updateHookState()
+        viewModel.updateRootState()
     }
 }
