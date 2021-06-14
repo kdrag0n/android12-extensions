@@ -28,6 +28,8 @@
     <string name="system_lockscreen_desc">Clock layout and screen on/off animations</string>
     <string name="system_toast">Toast design</string>
     <string name="system_toast_desc">App icon and solid background</string>
+    <string name="system_rounded_screenshots">Rounded screenshots</string>
+    <string name="system_rounded_screenshots_desc">Include rounded screen corners in screenshots</string>
     <string name="system_privacy_indicators">Privacy indicators</string>
     <string name="system_privacy_indicators_desc">Camera, microphone, and location</string>
     <string name="system_charging_ripple">Charging ripple animation</string>
