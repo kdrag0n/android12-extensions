@@ -27,6 +27,7 @@ class TweakSettingsViewModel(
             titleRes = R.string.tweak_ripple_style
             summaryRes = R.string.tweak_ripple_style_default
             iconRes = R.drawable.ic_fluent_tap_single_24_regular
+            initialSelection = "default"
         }
 
         featureSwitch(
