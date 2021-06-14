@@ -13,7 +13,7 @@ android {
         minSdkVersion 30
         targetSdkVersion 30
         versionCode 40101
-        versionName "4.1.1"
+        versionName "5.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
