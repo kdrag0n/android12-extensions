@@ -30,22 +30,6 @@ class SystemUIHooks(
         }
     }
 
-    fun applyGameDashboard(enabled: Boolean) {
-        val hook = object : XC_MethodHook() {
-            override fun beforeHookedMethod(param: MethodHookParam) {
-                XposedHelpers.setBooleanField(param.thisObject, "mShouldShow", enabled)
-            }
-        }
-
-        lpparam.hookMethod(
-            GAME_ENTRY_CLASS,
-            hook,
-            "setButtonState",
-            Boolean::class.java,
-            Boolean::class.java
-        )
-    }
-
     fun applyRoundedScreenshotBg() {
         val hook = object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {

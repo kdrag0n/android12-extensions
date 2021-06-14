@@ -31,8 +31,6 @@
     <string name="feature_quick_settings_desc">Fullscreen panel with rectangular tiles</string>
     <string name="feature_toast">Toast design</string>
     <string name="feature_toast_desc">App icon and solid background</string>
-    <string name="feature_game_dashboard">Game dashboard</string>
-    <string name="feature_game_dashboard_desc">Quick screenshots and Do Not Disturb</string>
     <string name="feature_privacy_indicators">Privacy indicators</string>
     <string name="feature_privacy_indicators_desc">Camera, microphone, and location</string>
     <string name="feature_charging_ripple">Charging ripple animation</string>

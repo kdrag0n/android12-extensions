@@ -67,11 +67,6 @@ class XposedHook(
         // Enable privacy indicators
         sysuiHooks.applyPrivacyIndicators(isFeatureEnabled("privacy_indicators"))
 
-        // Enable game dashboard
-        if (hasSystemUiGoogle) {
-            sysuiHooks.applyGameDashboard(isFeatureEnabled("game_dashboard"))
-        }
-
         // Custom Monet engine, forced on AOSP
         if (isFeatureEnabled("custom_monet", false) ||
             (isFeatureEnabled("monet") && !hasSystemUiGoogle)

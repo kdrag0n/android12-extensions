@@ -51,12 +51,6 @@ class SystemSettingsViewModel(
             icon = R.drawable.ic_fluent_badge_24_regular,
         )
         featureSwitch(
-            key = "game_dashboard",
-            title = R.string.feature_game_dashboard,
-            summary = R.string.feature_game_dashboard_desc,
-            icon = R.drawable.ic_fluent_games_24_regular,
-        )
-        featureSwitch(
             key = "charging_ripple",
             title = R.string.feature_charging_ripple,
             summary = R.string.feature_charging_ripple_desc,
