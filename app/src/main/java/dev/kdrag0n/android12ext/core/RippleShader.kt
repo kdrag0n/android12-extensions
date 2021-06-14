@@ -30,23 +30,19 @@ object RippleShader {
         }
 
         // PDF for Gaussian blur
+        // Specialized for mean=0 for performance
         const float SQRT_2PI = 2.506628274631000241612355;
-        float gaussian_pdf(float mean, float stddev, float x) {
-            float a = (x - mean) / stddev;
+        float gaussian_pdf(float stddev, float x) {
+            float a = x / stddev;
             return 1.0 / (stddev * SQRT_2PI) * exp(-0.5 * a*a);
         }
 
         // Circular wave with Gaussian blur
-        float softWave(vec2 uv, vec2 center, float radius, float blur) {
+        float softWave(vec2 uv, vec2 center, float maxRadius, float radius, float blur) {
             // Distance from the center of the circle (touch point), normalized to [0, 1]  radius)
-            float dNorm = distance(uv, center) / radius;
-            // Ring position within full circle = progress
-            float ringX = in_progress;
+            float dNorm = distance(uv, center) / maxRadius;
             // Apply Gaussian blur with dynamic standard deviation, and scale to reduce lightness
-            float ring = gaussian_pdf(0.0, 0.05 + 0.15 * blur, ringX - dNorm) * 0.4;
-
-            // 0.5 base highlight + foreground ring
-            return 0.5 + ring;
+            return gaussian_pdf(0.05 + 0.15 * blur, radius - dNorm) * 0.4;
         }
 
         float subProgress(float start, float end, float progress) {
@@ -59,14 +55,30 @@ object RippleShader {
             float fadeOut = subProgress(0.5, 1.0, in_progress);
             float fade = min(fadeIn, 1.0 - fadeOut);
 
+            // Turbulence phase = time. Unlike progress, it continues moving when the
+            // ripple is held between enter and exit animations, so we can use it to
+            // make a hold animation.
+
+            // Hold time increases the radius slightly to progress the animation.
+            float waveProgress = in_progress + in_turbulencePhase / 60.0;
+            // Blur radius decreases as the animation progresses, but increases with hold time
+            // as part of gradually spreading out.
+            float waveBlur = 1.3 - waveProgress + (in_turbulencePhase / 15.0);
+            // The wave also fades out with hold time.
+            float waveFade = 1.0 - in_turbulencePhase / 20.0;
+            // Calculate wave color, excluding fade
+            float waveAlpha = softWave(pos, in_touch, in_maxRadius, waveProgress, waveBlur);
+
             // Dither with triangular white noise. Unfortunately, we can't use blue noise
             // because RuntimeShader doesn't allow us to add custom textures.
-            float dither = triangleNoise(pos) / 255.0;
-            float waveAlpha = softWave(pos, in_touch, in_maxRadius, 1.3 - in_progress) * fade * in_color.a + dither;
-            vec4 waveColor = vec4(in_color.rgb * waveAlpha, waveAlpha);
+            float dither = triangleNoise(pos) / 128.0;
+
+            // 0.5 base highlight + foreground ring
+            float finalAlpha = (0.5 + waveAlpha * waveFade) * fade * in_color.a + dither;
+            vec4 finalColor = vec4(in_color.rgb * finalAlpha, finalAlpha);
 
             float mask = in_hasMask == 1.0 ? sample(in_shader, pos).a > 0.0 ? 1.0 : 0.0 : 1.0;
-            return waveColor * mask;
+            return finalColor * mask;
         }
     """.trimIndent()
 }
