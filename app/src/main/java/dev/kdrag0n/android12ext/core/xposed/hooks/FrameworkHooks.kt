@@ -7,6 +7,7 @@ import android.graphics.drawable.RippleDrawable
 import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.LinearInterpolator
 import android.view.animation.PathInterpolator
 import androidx.core.animation.addListener
 import de.robv.android.xposed.XC_MethodHook
@@ -62,6 +63,7 @@ class FrameworkHooks(
 
         // Reduce duration of enter animation
         val fastOutSlowIn = PathInterpolator(0.4f, 0.0f, 0.2f, 1.0f)
+        val linearInterpolator = LinearInterpolator()
         val hook2 = object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam) {
                 val expand = param.args[0] as Animator
@@ -71,6 +73,19 @@ class FrameworkHooks(
                 })
                 expand.interpolator = fastOutSlowIn
                 expand.start()
+
+                val loop = param.args[1] as Animator
+                loop.duration = 7000
+                loop.addListener(onEnd = {
+                    XposedHelpers.callMethod(param.thisObject, "onAnimationEnd", it)
+                    XposedHelpers.setObjectField(param.thisObject, "mLoopAnimation", null)
+                })
+                loop.interpolator = linearInterpolator
+                loop.start()
+
+                val mLoopAnimation = XposedHelpers.getObjectField(param.thisObject, "mLoopAnimation") as Animator?
+                mLoopAnimation?.cancel()
+                XposedHelpers.setObjectField(param.thisObject, "mLoopAnimation", loop)
             }
         }
         lpparam.hookMethod(
