@@ -2,6 +2,7 @@ package dev.kdrag0n.android12ext.core.xposed
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.CustomApplication
 import dev.kdrag0n.android12ext.core.BroadcastManager
@@ -63,8 +64,7 @@ class XposedHook(
 
         // Get color override, applied below
         val colorOverride = if (isFeatureEnabled("monet_custom_color", false)) {
-            val colorPref = prefs.getInt("monet_custom_color_value", -1)
-            if (colorPref == -1) null else colorPref
+            prefs.getInt("monet_custom_color_value", Color.BLUE)
         } else {
             null
         }

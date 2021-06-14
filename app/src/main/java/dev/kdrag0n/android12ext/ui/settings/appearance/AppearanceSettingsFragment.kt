@@ -25,10 +25,7 @@ class AppearanceSettingsFragment : BaseSettingsFragment() {
                 viewModel.openColorPicker.value = null
 
                 ColorPickerDialog.newBuilder().run {
-                    if (color != -1) {
-                        setColor(color)
-                    }
-
+                    setColor(color)
                     setDialogTitle(R.string.appearance_monet_custom_color_value)
                     show(activity)
                 }

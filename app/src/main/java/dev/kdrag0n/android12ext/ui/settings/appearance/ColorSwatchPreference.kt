@@ -1,6 +1,7 @@
 package dev.kdrag0n.android12ext.ui.settings.appearance
 
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.View
 import de.Maxr1998.modernpreferences.Preference
 import de.Maxr1998.modernpreferences.PreferenceScreen
@@ -13,11 +14,11 @@ class ColorSwatchPreference(key: String) : Preference(key) {
     override fun bindViews(holder: PreferencesAdapter.ViewHolder) {
         super.bindViews(holder)
 
-        val color = getInt(-1)
-        if (!enabled || color == -1) {
-            holder.widget!!.visibility = View.INVISIBLE
-        } else {
+        val color = getInt(Color.BLUE)
+        if (enabled) {
             holder.widget!!.backgroundTintList = ColorStateList.valueOf(color)
+        } else {
+            holder.widget!!.visibility = View.INVISIBLE
         }
     }
 }
