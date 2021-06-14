@@ -123,7 +123,12 @@ class XposedHook(
     }
 
     private fun applyFramework() {
-        frameworkHooks.applyRippleStyle(isFeatureEnabled("patterned_ripple"))
+        // Ripple style
+        when (prefs.getString("ripple_style", null)) {
+            "no_sparkles" -> frameworkHooks.applyNoSparklesRipple()
+            "legacy" -> frameworkHooks.applyLegacyRipple()
+            "fluent" -> frameworkHooks.applyFluentRipple()
+        }
 
         // Unified "Internet" settings
         frameworkHooks.applyInternetFlag(isFeatureEnabled("internet_ui"))
@@ -132,9 +137,6 @@ class XposedHook(
         if (isFeatureEnabled("haptic_touch", false)) {
             frameworkHooks.applyHapticTouch()
         }
-
-        // Custom ripple mod
-        frameworkHooks.applyCustomRipple()
     }
 
     private fun applyPlayGames() {

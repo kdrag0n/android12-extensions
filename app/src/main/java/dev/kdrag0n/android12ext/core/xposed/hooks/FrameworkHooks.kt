@@ -14,7 +14,8 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import dev.kdrag0n.android12ext.core.RippleShader
+import dev.kdrag0n.android12ext.core.ripple.RIPPLE_SHADER_FLUENT
+import dev.kdrag0n.android12ext.core.ripple.RIPPLE_SHADER_NO_SPARKLES
 import dev.kdrag0n.android12ext.core.xposed.hookMethod
 import dev.kdrag0n.android12ext.monet.extraction.JzazbzCentroid
 import java.util.function.Consumer
@@ -22,11 +23,34 @@ import java.util.function.Consumer
 class FrameworkHooks(
     private val lpparam: XC_LoadPackage.LoadPackageParam,
 ) {
-    fun applyRippleStyle(patterned: Boolean) {
+    private fun applyRippleShader(shader: String) {
+        val hook = object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam) {
+                // Only hijack RippleShader super calls
+                if (param.thisObject::class.java.name != "android.graphics.drawable.RippleShader") {
+                    return
+                }
+
+                param.args[0] = shader
+            }
+        }
+        XposedHelpers.findAndHookConstructor(
+            "android.graphics.RuntimeShader",
+            lpparam.classLoader,
+            String::class.java,
+            Boolean::class.java,
+            hook,
+        )
+    }
+
+    fun applyNoSparklesRipple() {
+        applyRippleShader(RIPPLE_SHADER_NO_SPARKLES)
+    }
+
+    fun applyLegacyRipple() {
         val hook = object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
-                val style = if (patterned) 1 else 0
-                XposedHelpers.setIntField(param.thisObject, "mRippleStyle", style)
+                XposedHelpers.setIntField(param.thisObject, "mRippleStyle", 0)
             }
         }
 
@@ -41,30 +65,14 @@ class FrameworkHooks(
     }
 
     @Suppress("PrivateApi", "unchecked_cast")
-    fun applyCustomRipple() {
+    fun applyFluentRipple() {
         // Replace ripple shader
-        val hook = object : XC_MethodHook() {
-            override fun beforeHookedMethod(param: MethodHookParam) {
-                // Only hijack RippleShader super calls
-                if (param.thisObject::class.java.name != "android.graphics.drawable.RippleShader") {
-                    return
-                }
-
-                param.args[0] = RippleShader.SHADER
-            }
-        }
-        XposedHelpers.findAndHookConstructor(
-            "android.graphics.RuntimeShader",
-            lpparam.classLoader,
-            String::class.java,
-            Boolean::class.java,
-            hook,
-        )
+        applyRippleShader(RIPPLE_SHADER_FLUENT)
 
         // Reduce duration of enter animation
         val fastOutSlowIn = PathInterpolator(0.4f, 0.0f, 0.2f, 1.0f)
         val linearInterpolator = LinearInterpolator()
-        val hook2 = object : XC_MethodReplacement() {
+        val hookStart = object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam) {
                 val expand = param.args[0] as Animator
                 expand.duration = 350
@@ -90,7 +98,7 @@ class FrameworkHooks(
         }
         lpparam.hookMethod(
             "android.graphics.drawable.RippleAnimationSession",
-            hook2,
+            hookStart,
             "startAnimation",
             Animator::class.java,
             Animator::class.java,
@@ -99,7 +107,7 @@ class FrameworkHooks(
         // Remove start delay and increase duration to compensate
         // Change curve from linear to ease-out
         val easeOut = PathInterpolator(0.0f, 0.0f, 0.58f, 1.0f)
-        val hook3 = object : XC_MethodReplacement() {
+        val hookExit = object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam) {
                 val canvas = param.args[0]
 
@@ -123,7 +131,7 @@ class FrameworkHooks(
         }
         lpparam.hookMethod(
             "android.graphics.drawable.RippleAnimationSession",
-            hook3,
+            hookExit,
             "exitHardware",
             XposedHelpers.findClass("android.graphics.RecordingCanvas", lpparam.classLoader),
         )
