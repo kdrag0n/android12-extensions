@@ -3,7 +3,6 @@ package dev.kdrag0n.android12ext.core.xposed
 import android.content.Context
 import android.content.SharedPreferences
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.CustomApplication
 import dev.kdrag0n.android12ext.core.BroadcastManager
 import dev.kdrag0n.android12ext.core.data.hasSystemUiGoogle
@@ -96,11 +95,6 @@ class XposedHook(
 
         // Hide red background in rounded screenshots
         sysuiHooks.applyRoundedScreenshotBg()
-
-        // Toggle AOSP circle icons overlay
-        if (!hasSystemUiGoogle) {
-            context.setOverlayEnabled(lpparam, "com.android.theme.icon.circle", isFeatureEnabled("aosp_circle_icons"))
-        }
     }
 
     private fun disableMonetOverlays() {
