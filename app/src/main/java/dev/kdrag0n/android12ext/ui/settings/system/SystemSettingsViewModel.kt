@@ -27,18 +27,6 @@ class SystemSettingsViewModel(
             icon = R.drawable.ic_fluent_lock_closed_24_regular,
         )
         featureSwitch(
-            key = "notification_shade",
-            title = R.string.feature_notification_shade,
-            summary = R.string.feature_notification_shade_desc,
-            icon = R.drawable.ic_fluent_alert_24_regular,
-        )
-        featureSwitch(
-            key = "quick_settings",
-            title = R.string.feature_quick_settings,
-            summary = R.string.feature_quick_settings_desc,
-            icon = R.drawable.ic_fluent_table_settings_24_regular,
-        )
-        featureSwitch(
             key = "toast",
             title = R.string.feature_toast,
             summary = R.string.feature_toast_desc,
