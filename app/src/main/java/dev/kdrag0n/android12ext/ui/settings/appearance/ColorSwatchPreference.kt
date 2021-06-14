@@ -14,7 +14,7 @@ class ColorSwatchPreference(key: String) : Preference(key) {
         super.bindViews(holder)
 
         val color = getInt(-1)
-        if (color == -1) {
+        if (!enabled || color == -1) {
             holder.widget!!.visibility = View.INVISIBLE
         } else {
             holder.widget!!.backgroundTintList = ColorStateList.valueOf(color)
