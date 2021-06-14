@@ -16,8 +16,8 @@
     <string name="settings_system_desc">New system features and changes</string>
     <string name="settings_tweaks">Tweaks</string>
     <string name="settings_tweaks_desc">Per-app interface changes</string>
-    <string name="settings_mods">Mods</string>
-    <string name="settings_mods_desc">Unofficial modifications to the system</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_appearance_desc">Unofficial theme and color changes</string>
 
     <!-- Features -->
     <string name="features">Features</string>
@@ -56,19 +56,20 @@
     <string name="tweak_haptic_touch_desc">Subtle vibration when you touch an interactive element in most apps</string>
     <string name="tweaks_info">Tweaks are per-app interface changes. The Xposed module needs to be enabled for every app you want to tweak.</string>
 
-    <!-- Mods -->
-    <string name="category_theming">Theming</string>
-    <string name="mod_custom_monet">Custom theme engine</string>
-    <string name="mod_custom_monet_desc">Generate wallpaper-based themes with a custom engine</string>
-    <string name="mod_custom_monet_desc_forced">Generate wallpaper-based themes with a custom engine. Required on AOSP because there is no other engine.</string>
-    <string name="mod_custom_monet_chroma_multiplier">Colorfulness</string>
-    <string name="mod_custom_monet_multi_color">Multiple colors</string>
-    <string name="mod_custom_monet_multi_color_desc">Use multiple colors from the wallpaper for theming</string>
+    <!-- Appearance -->
+    <string name="appearance_custom_monet">Custom theme engine</string>
+    <string name="appearance_custom_monet_desc">Generate wallpaper-based themes with a custom engine</string>
+    <string name="appearance_custom_monet_desc_forced">Generate wallpaper-based themes with a custom engine. Required on AOSP because there is no other engine.</string>
+    <string name="appearance_custom_monet_chroma_multiplier">Colorfulness</string>
+    <string name="appearance_custom_monet_multi_color">Multiple colors</string>
+    <string name="appearance_custom_monet_multi_color_desc">Use multiple colors from the wallpaper for theming</string>
     <string name="category_aosp">AOSP</string>
-    <string name="mod_aosp_circle_icons">Circular icons</string>
-    <string name="mod_aosp_circle_icons_desc">Circle shape for app icons</string>
+    <string name="appearance_aosp_circle_icons">Circular icons</string>
+    <string name="appearance_aosp_circle_icons_desc">Circle shape for app icons</string>
+
+    <!-- Debug -->
     <string name="monet_quantizer">Color extraction</string>
-    <string name="mod_monet_quantizer">Test color extraction</string>
+    <string name="appearance_monet_quantizer">Test color extraction</string>
 
     <!-- Errors -->
     <string name="error_xposed_module_missing">Xposed module is not enabled</string>

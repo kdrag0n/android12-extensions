@@ -49,11 +49,11 @@ class SettingsViewModel(
             dependency = "global_enabled",
         )
         navPref(
-            key = "settings_mods",
-            title = R.string.settings_mods,
-            summary = R.string.settings_mods_desc,
-            icon = R.drawable.ic_fluent_layer_24_regular,
-            action = R.id.action_settings_root_to_mods,
+            key = "settings_appearance",
+            title = R.string.settings_appearance,
+            summary = R.string.settings_appearance_desc,
+            icon = R.drawable.ic_fluent_color_24_regular,
+            action = R.id.action_settings_root_to_appearance,
             vm = this@SettingsViewModel,
             dependency = "global_enabled",
         )

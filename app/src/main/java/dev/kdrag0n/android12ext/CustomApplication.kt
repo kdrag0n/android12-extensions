@@ -7,7 +7,7 @@ import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.monet.theme.ReferenceGenerator
 import dev.kdrag0n.android12ext.ui.main.MainViewModel
 import dev.kdrag0n.android12ext.ui.monet.quantizer.QuantizerViewModel
-import dev.kdrag0n.android12ext.ui.settings.mods.ModsSettingsViewModel
+import dev.kdrag0n.android12ext.ui.settings.appearance.AppearanceSettingsViewModel
 import dev.kdrag0n.android12ext.ui.settings.root.SettingsViewModel
 import dev.kdrag0n.android12ext.ui.settings.system.SystemSettingsViewModel
 import dev.kdrag0n.android12ext.ui.settings.tweaks.TweakSettingsViewModel
@@ -39,7 +39,7 @@ class CustomApplication : Application() {
             viewModel { SettingsViewModel(get(), get(), get()) }
             viewModel { SystemSettingsViewModel(get(), get()) }
             viewModel { TweakSettingsViewModel(get(), get()) }
-            viewModel { ModsSettingsViewModel(get(), get(), get()) }
+            viewModel { AppearanceSettingsViewModel(get(), get(), get()) }
             viewModel { QuantizerViewModel(get()) }
         }
 
