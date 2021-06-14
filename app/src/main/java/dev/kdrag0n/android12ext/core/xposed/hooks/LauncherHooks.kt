@@ -8,10 +8,7 @@ import timber.log.Timber
 class LauncherHooks(
     private val lpparam: XC_LoadPackage.LoadPackageParam,
 ) {
-    val flagValues = mapOf(
-        "ENABLE_DEVICE_SEARCH" to true,
-        "ENABLE_THEMED_ICONS" to true,
-    )
+    val flagValues = mutableMapOf<String, Boolean>()
 
     fun applyFeatureFlags() {
         val hook = object : XC_MethodHook() {

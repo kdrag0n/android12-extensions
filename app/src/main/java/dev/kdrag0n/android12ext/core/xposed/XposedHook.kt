@@ -107,6 +107,9 @@ class XposedHook(
     }
 
     private fun applyLauncher() {
+        launcherHooks.flagValues["ENABLE_THEMED_ICONS"] = isFeatureEnabled("launcher_themed_icons")
+        launcherHooks.flagValues["ENABLE_DEVICE_SEARCH"] = isFeatureEnabled("launcher_device_search")
+
         launcherHooks.applyFeatureFlags()
     }
 
