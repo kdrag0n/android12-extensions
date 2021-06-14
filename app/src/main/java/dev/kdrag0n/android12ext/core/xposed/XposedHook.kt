@@ -19,21 +19,19 @@ private val FEATURE_FLAGS = mapOf(
     "isMonetEnabled" to "monet",
     //"isNewNotifPipelineEnabled" to "notification_shade", // crashes on DP2, does nothing on DP3
     //"isNewNotifPipelineRenderingEnabled" to "notification_shade", // breaks notifications
-    "isShadeOpaque" to "notification_shade",
     "isToastStyleEnabled" to "toast",
-    "useNewBrightnessSlider" to "notification_shade",
     "useNewLockscreenAnimations" to "lockscreen",
 
     // DP3
-    "isQSLabelsEnabled" to "quick_settings", // crashes on DP2
     "isAlarmTileAvailable" to "global", // optional QS tile, no reason to keep disabled
     "isChargingRippleEnabled" to "charging_ripple", // only affects keyguard, so assign to lock screen
-    "isNavigationBarOverlayEnabled" to "global", // for game dashboard, does nothing otherwise
-    "isPMLiteEnabled" to "quick_settings", // doesn't work
     "isQuickAccessWalletEnabled" to "global", // optional QS tile, no reason to keep disabled
     //"isTwoColumnNotificationShadeEnabled" to "notification_shade", // landscape tablets only
 
     // Beta 1 has no new flags and isNewNotifPipelineRenderingEnabled is still unstable.
+
+    // Beta 2
+    "isPMLiteEnabled" to "global",
 )
 
 class XposedHook(
