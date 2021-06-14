@@ -24,7 +24,7 @@
     <string name="feature_monet">Monet</string>
     <string name="feature_monet_desc">Colorful wallpaper-based themes</string>
     <string name="feature_lockscreen">Lock screen design</string>
-    <string name="feature_lockscreen_desc">Clock, screen lock, and screen on/off animations</string>
+    <string name="feature_lockscreen_desc">Clock and screen on/off animations</string>
     <string name="feature_notification_shade">Notification shade design</string>
     <string name="feature_notification_shade_desc">Solid background &amp; brightness slider</string>
     <string name="feature_quick_settings">Quick settings design</string>
@@ -34,7 +34,7 @@
     <string name="feature_privacy_indicators">Privacy indicators</string>
     <string name="feature_privacy_indicators_desc">Camera, microphone, and location</string>
     <string name="feature_charging_ripple">Charging ripple animation</string>
-    <string name="feature_charging_ripple_desc">Animation when connecting charger (lock screen only)</string>
+    <string name="feature_charging_ripple_desc">Animation when connecting charger</string>
     <string name="feature_internet_ui">Unified internet settings</string>
     <string name="feature_internet_ui_desc">Manage Wi-Fi and cellular in one place</string>
 
@@ -73,7 +73,7 @@
 
     <!-- Errors -->
     <string name="error_xposed_module_missing">Xposed module is not enabled</string>
-    <string name="error_xposed_module_missing_desc">In order for this app to work, you need to enable the included Xposed module for the “System UI” app in LSPosed Manager and restart your device.\n\nNote: “System UI” is NOT the same as “System Framework”. Don’t see it? Uncheck 3-dot menu > Filters > System.</string>
+    <string name="error_xposed_module_missing_desc">In order for this app to work, you need to enable the included Xposed module for the “System UI” app in LSPosed Manager and restart your device.\n\nNote: “System UI” is NOT the same as “System Framework”. Don’t see it? Uncheck 3-dot menu > Hide > System apps.</string>
     <string name="error_xposed_manager_not_installed">LSPosed Manager is not installed</string>
     <string name="error_xposed_manager_not_installed_desc">To enable all features:\n\t1. Install the “Riru” module from Magisk Manager\n\t2. Install the “Riru - LSPosed” module from Magisk Manager\n\t3. Restart your device\n\t4. Open this app for more instructions</string>
 
