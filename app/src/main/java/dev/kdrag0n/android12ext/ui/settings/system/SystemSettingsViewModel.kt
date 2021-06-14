@@ -39,6 +39,7 @@ class SystemSettingsViewModel(
             title = R.string.system_rounded_screenshots,
             summary = R.string.system_rounded_screenshots_desc,
             icon = R.drawable.ic_fluent_screenshot_24_regular,
+            default = false,
         )
         featureSwitch(
             key = "charging_ripple",
