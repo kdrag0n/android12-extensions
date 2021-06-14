@@ -93,8 +93,8 @@ class XposedHook(
         // Unlock sensor privacy toggles
         sysuiHooks.applySensorPrivacyToggles()
 
-        // Hide red background in rounded screenshots
-        sysuiHooks.applyRoundedScreenshotBg()
+        // Rounded screenshots
+        sysuiHooks.applyRoundedScreenshots(isFeatureEnabled("rounded_screenshots", false))
     }
 
     private fun disableMonetOverlays() {

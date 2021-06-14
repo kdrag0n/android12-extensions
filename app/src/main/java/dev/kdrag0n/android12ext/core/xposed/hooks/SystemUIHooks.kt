@@ -30,22 +30,18 @@ class SystemUIHooks(
         }
     }
 
-    fun applyRoundedScreenshotBg() {
-        val hook = object : XC_MethodHook() {
-            override fun beforeHookedMethod(param: MethodHookParam) {
-                param.thisObject.javaClass.getDeclaredField("DEBUG_COLOR").let {
-                    it.isAccessible = true
-                    it.setBoolean(null, false)
-                }
-            }
+    fun applyRoundedScreenshots(enabled: Boolean) {
+        val clazz = XposedHelpers.findClass("com.android.systemui.ScreenDecorations", lpparam.classLoader)
+
+        clazz.getDeclaredField("DEBUG_SCREENSHOT_ROUNDED_CORNERS").let {
+            it.isAccessible = true
+            it.setBoolean(null, enabled)
         }
 
-        lpparam.hookMethod(
-            "com.android.systemui.ScreenDecorations",
-            hook,
-            "updateColorInversion",
-            Int::class.java
-        )
+        clazz.getDeclaredField("DEBUG_COLOR").let {
+            it.isAccessible = true
+            it.setBoolean(null, false)
+        }
     }
 
     fun applyMonetColor(
