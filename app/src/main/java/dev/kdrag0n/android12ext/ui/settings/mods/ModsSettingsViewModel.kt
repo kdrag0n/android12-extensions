@@ -30,20 +30,6 @@ class ModsSettingsViewModel(
     private val refGen: ReferenceGenerator,
 ) : BaseSettingsViewModel(app) {
     private val prefScreen = PreferenceScreen.Builder(app).run {
-        featureSwitch(
-            key = "haptic_touch",
-            title = R.string.mod_haptic_touch,
-            summary = R.string.mod_haptic_touch_desc,
-            icon = R.drawable.ic_fluent_phone_vibrate_24_regular,
-            default = false,
-        )
-        pref("mods_info") {
-            iconRes = R.drawable.ic_fluent_info_24_regular
-            summaryRes = R.string.mods_info
-            // Disabling the view makes the text contrast too low, so use our extension instead
-            setInteractive(false)
-        }
-
         categoryHeader("category_theming") {
             titleRes = R.string.category_theming
         }

@@ -43,13 +43,20 @@
     <string name="feature_gxoverlay_desc">New notification shade and quick settings styles</string>
 
     <!-- Tweaks -->
-    <string name="tweak_patterned_ripple">Patterned ripple effects</string>
-    <string name="tweak_patterned_ripple_desc">Touch ripple with noise and gradient</string>
+    <string name="tweak_ripple_style">Ripple animation</string>
+    <string name="tweak_ripple_style_default">Default</string>
+    <string name="tweak_ripple_style_default_desc">Default Android 12 ripple</string>
+    <string name="tweak_ripple_style_no_sparkles">No sparkles</string>
+    <string name="tweak_ripple_style_no_sparkles_desc">Default ripple with sparkles removed</string>
+    <string name="tweak_ripple_style_fluent">Fluent</string>
+    <string name="tweak_ripple_style_fluent_desc">Custom ripple inspired by Fluent Design</string>
+    <string name="tweak_ripple_style_legacy">Legacy</string>
+    <string name="tweak_ripple_style_legacy_desc">Old Material ripple from Android 11</string>
+    <string name="tweak_haptic_touch">Vibrate on touch</string>
+    <string name="tweak_haptic_touch_desc">Subtle vibration when you touch an interactive element in most apps</string>
     <string name="tweaks_info">Tweaks are per-app interface changes. The Xposed module needs to be enabled for every app you want to tweak.</string>
 
     <!-- Mods -->
-    <string name="mod_haptic_touch">Vibrate on touch</string>
-    <string name="mod_haptic_touch_desc">Subtle vibration when you touch an interactive element in most apps</string>
     <string name="category_theming">Theming</string>
     <string name="mod_custom_monet">Custom theme engine</string>
     <string name="mod_custom_monet_desc">Generate wallpaper-based themes with a custom engine</string>
@@ -57,7 +64,6 @@
     <string name="mod_custom_monet_chroma_multiplier">Colorfulness</string>
     <string name="mod_custom_monet_multi_color">Multiple colors</string>
     <string name="mod_custom_monet_multi_color_desc">Use multiple colors from the wallpaper for theming</string>
-    <string name="mods_info">Mods are unofficial modifications to the system, not part of Android 12 itself. Similar to tweaks, the Xposed module needs to be enabled for every app you want to mod.</string>
     <string name="category_aosp">AOSP</string>
     <string name="mod_aosp_circle_icons">Circular icons</string>
     <string name="mod_aosp_circle_icons_desc">Circle shape for app icons</string>
