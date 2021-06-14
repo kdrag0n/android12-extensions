@@ -37,6 +37,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.monet.palette.PaletteActivity"
+            android:label="@string/monet_palette"
+            android:theme="@style/Theme.A12Ext.Palette"
+            android:exported="false" />
+
         <!-- Access controls are implemented in the provider -->
         <provider
             android:authorities="dev.kdrag0n.android12ext.xposedpreferences"
@@ -45,7 +51,8 @@
             android:directBootAware="true"
             tools:ignore="ExportedContentProvider" />
 
-        <service android:name=".core.CallService" />
+        <service android:name=".core.CallService"
+            android:exported="false" />
 
         <meta-data
             android:name="xposedmodule"

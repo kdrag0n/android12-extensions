@@ -39,6 +39,8 @@
         tools:layout="@layout/fragment_settings">
         <action android:id="@+id/action_settings_appearance_to_quantizer"
             app:destination="@id/monet_quantizer" />
+        <action android:id="@+id/action_settings_appearance_to_palette"
+            app:destination="@id/monet_palette" />
     </fragment>
 
     <fragment
@@ -46,6 +48,12 @@
         android:name="dev.kdrag0n.android12ext.ui.monet.quantizer.QuantizerFragment"
         android:label="@string/monet_quantizer"
         tools:layout="@layout/fragment_quantizer" />
+
+    <fragment
+        android:id="@+id/monet_palette"
+        android:name="dev.kdrag0n.android12ext.ui.monet.palette.PaletteFragment"
+        android:label="@string/monet_palette"
+        tools:layout="@layout/fragment_palette" />
 
     <fragment
         android:id="@+id/about_libraries"

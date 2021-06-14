@@ -1,9 +1,11 @@
 package dev.kdrag0n.android12ext.ui.settings.appearance
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import dev.kdrag0n.android12ext.R
+import dev.kdrag0n.android12ext.ui.monet.palette.PaletteActivity
 import dev.kdrag0n.android12ext.ui.observeNav
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsFragment
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -30,6 +32,13 @@ class AppearanceSettingsFragment : BaseSettingsFragment() {
                     setDialogTitle(R.string.appearance_monet_custom_color_value)
                     show(activity)
                 }
+            }
+        }
+
+        viewModel.openPalette.observe(viewLifecycleOwner) { event ->
+            if (event != null) {
+                viewModel.openPalette.value = null
+                startActivity(Intent(requireContext(), PaletteActivity::class.java))
             }
         }
 

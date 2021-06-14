@@ -92,4 +92,13 @@
     ]]></string>
     <string name="about_uri_donate">https://kdrag0n.dev/donate</string>
     <string name="about_uri_source_code">https://github.com/kdrag0n/android12-extensions</string>
+    <string name="monet_palette">Color palette</string>
+    <string name="appearance_monet_palette">Show color palette</string>
+    <string name="appearance_monet_palette_desc">65 Material You colors</string>
+    <string name="monet_palette_accent1">A-1</string>
+    <string name="monet_palette_accent2">A-2</string>
+    <string name="monet_palette_accent3">A-3</string>
+    <string name="monet_palette_neutral1">N-1</string>
+    <string name="monet_palette_neutral2">N-2</string>
+    <string name="monet_palette_shade_0">0</string>
 </resources>

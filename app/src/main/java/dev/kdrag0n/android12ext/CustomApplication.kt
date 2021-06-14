@@ -7,6 +7,7 @@ import dev.kdrag0n.android12ext.core.BroadcastManager
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.monet.theme.ReferenceGenerator
 import dev.kdrag0n.android12ext.ui.main.MainViewModel
+import dev.kdrag0n.android12ext.ui.monet.palette.PaletteViewModel
 import dev.kdrag0n.android12ext.ui.monet.quantizer.QuantizerViewModel
 import dev.kdrag0n.android12ext.ui.settings.appearance.AppearanceSettingsViewModel
 import dev.kdrag0n.android12ext.ui.settings.appearance.ColorDialogViewModel
@@ -44,6 +45,7 @@ class CustomApplication : Application() {
             viewModel { AppearanceSettingsViewModel(get(), get(), get()) }
             viewModel { QuantizerViewModel(get()) }
             viewModel { ColorDialogViewModel() }
+            viewModel { PaletteViewModel() }
         }
 
         startKoin {

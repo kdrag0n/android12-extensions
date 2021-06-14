@@ -16,7 +16,7 @@ class ReferenceGenerator(
     fun generateTable() {
         emitCodeLine("    object NewColors : ColorScheme() {")
 
-        colorLists.map { (group, ids) ->
+        COLOR_MAPS.map { (group, ids) ->
             emitCodeLine("        override val $group = mapOf(")
 
             ids.map { (shade, resId) ->
@@ -119,7 +119,7 @@ class ReferenceGenerator(
             1000 to android.R.color.system_accent3_1000,
         )
 
-        private val colorLists = mapOf(
+        val COLOR_MAPS = mapOf(
             "neutral1" to neutral1,
             "neutral2" to neutral2,
             "accent1" to accent1,

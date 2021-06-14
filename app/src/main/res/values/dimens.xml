@@ -1,5 +1,6 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="color_sample">36dp</dimen>
+    <dimen name="color_sample_large">42dp</dimen>
     <dimen name="color_sample_margin">8dp</dimen>
 </resources>

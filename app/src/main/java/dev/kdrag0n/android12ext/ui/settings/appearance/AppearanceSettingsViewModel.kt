@@ -33,6 +33,8 @@ class AppearanceSettingsViewModel(
     val openColorPicker = MutableLiveData<Int?>(null)
     private lateinit var colorPref: ColorSwatchPreference
 
+    val openPalette = MutableLiveData<Unit?>(null)
+
     private val prefScreen = PreferenceScreen.Builder(app).run {
         val hasSystemUiGoogle = app.hasSystemUiGoogle()
         featureSwitch(
@@ -76,6 +78,15 @@ class AppearanceSettingsViewModel(
                 false
             }
             colorPref = this
+        }
+        pref("monet_palette") {
+            titleRes = R.string.appearance_monet_palette
+            summaryRes = R.string.appearance_monet_palette_desc
+            iconRes = R.drawable.ic_fluent_wallpaper_24_regular
+            onClick {
+                openPalette.value = Unit
+                false
+            }
         }
 
         if (!hasSystemUiGoogle) {

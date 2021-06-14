@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <!-- Space where swatch label would be -->
+    <View
+        android:layout_width="@dimen/color_sample"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/color_sample_margin" />
+
+    <include
+        android:id="@+id/color_shade_0"
+        layout="@layout/color_shade_label" />
+
+    <include
+        android:id="@+id/color_shade_10"
+        layout="@layout/color_shade_label" />
+
+    <include
+        android:id="@+id/color_shade_50"
+        layout="@layout/color_shade_label" />
+
+    <include
+        android:id="@+id/color_shade_100"
+        layout="@layout/color_shade_label" />
+
+    <include
+        android:id="@+id/color_shade_200"
+        layout="@layout/color_shade_label" />
+
+    <include
+        android:id="@+id/color_shade_300"
+        layout="@layout/color_shade_label" />
+
+    <include
+        android:id="@+id/color_shade_400"
+        layout="@layout/color_shade_label" />
+
+    <include
+        android:id="@+id/color_shade_500"
+        layout="@layout/color_shade_label" />
+
+    <include
+        android:id="@+id/color_shade_600"
+        layout="@layout/color_shade_label" />
+
+    <include
+        android:id="@+id/color_shade_700"
+        layout="@layout/color_shade_label" />
+
+    <include
+        android:id="@+id/color_shade_800"
+        layout="@layout/color_shade_label" />
+
+    <include
+        android:id="@+id/color_shade_900"
+        layout="@layout/color_shade_label" />
+
+    <include
+        android:id="@+id/color_shade_1000"
+        layout="@layout/color_shade_label" />
+
+</LinearLayout>
