@@ -30,7 +30,7 @@ float triangleNoise(vec2 n) {
 const float SQRT_2PI = 2.506628274631000241612355;
 float gaussian_pdf(float stddev, float x) {
     float a = x / stddev;
-    return 1.0 / (stddev * SQRT_2PI) * exp(-0.5 * a*a);
+    return exp(-0.5 * a*a) / (stddev * SQRT_2PI);
 }
 
 // Circular wave with Gaussian blur
