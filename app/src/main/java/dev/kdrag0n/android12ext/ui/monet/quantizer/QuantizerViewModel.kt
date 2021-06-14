@@ -24,7 +24,7 @@ class QuantizerViewModel(app: Application) : AndroidViewModel(app) {
         wallpaperColors.value = colorInts
     }
 
-    private val colorsChangedListener = WallpaperManager.OnColorsChangedListener { colors, which ->
+    private val colorsChangedListener = WallpaperManager.OnColorsChangedListener { _, which ->
         if (which != WallpaperManager.FLAG_SYSTEM) {
             return@OnColorsChangedListener
         }
