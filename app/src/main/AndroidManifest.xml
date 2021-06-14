@@ -15,6 +15,7 @@
         <package android:name="com.android.systemui" />
         <package android:name="org.lsposed.manager" />
         <package android:name="com.topjohnwu.magisk" />
+        <package android:name="com.google.android.apps.nexuslauncher" />
     </queries>
 
     <application

@@ -9,3 +9,12 @@ fun Context.hasSystemUiGoogle(): Boolean {
 
     return "SystemUIGoogle" in apkPath
 }
+
+fun Context.hasPixelLauncher(): Boolean {
+    return try {
+        packageManager.getPackageInfo("com.android.systemui", 0)
+        true
+    } catch (e: PackageManager.NameNotFoundException) {
+        false
+    }
+}

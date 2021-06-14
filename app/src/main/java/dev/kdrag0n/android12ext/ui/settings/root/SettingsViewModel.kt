@@ -8,6 +8,7 @@ import de.Maxr1998.modernpreferences.helpers.*
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.*
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
+import dev.kdrag0n.android12ext.core.data.hasPixelLauncher
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.buildWithPrefs
 import dev.kdrag0n.android12ext.ui.utils.navPref
@@ -48,15 +49,17 @@ class SettingsViewModel(
             vm = this@SettingsViewModel,
             dependency = "global_enabled",
         )
-        navPref(
-            key = "settings_launcher",
-            title = R.string.settings_launcher,
-            summary = R.string.settings_launcher_desc,
-            icon = R.drawable.ic_fluent_app_folder_24_regular,
-            action = R.id.action_settings_root_to_launcher,
-            vm = this@SettingsViewModel,
-            dependency = "global_enabled",
-        )
+        if (app.hasPixelLauncher()) {
+            navPref(
+                key = "settings_launcher",
+                title = R.string.settings_launcher,
+                summary = R.string.settings_launcher_desc,
+                icon = R.drawable.ic_fluent_app_folder_24_regular,
+                action = R.id.action_settings_root_to_launcher,
+                vm = this@SettingsViewModel,
+                dependency = "global_enabled",
+            )
+        }
         navPref(
             key = "settings_appearance",
             title = R.string.settings_appearance,
