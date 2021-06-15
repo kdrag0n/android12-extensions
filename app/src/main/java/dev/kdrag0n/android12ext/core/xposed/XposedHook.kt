@@ -7,10 +7,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.CustomApplication
 import dev.kdrag0n.android12ext.core.BroadcastManager
 import dev.kdrag0n.android12ext.core.data.hasSystemUiGoogle
-import dev.kdrag0n.android12ext.core.xposed.hooks.FrameworkHooks
-import dev.kdrag0n.android12ext.core.xposed.hooks.LauncherHooks
-import dev.kdrag0n.android12ext.core.xposed.hooks.PlayGamesHooks
-import dev.kdrag0n.android12ext.core.xposed.hooks.SystemUIHooks
+import dev.kdrag0n.android12ext.core.xposed.hooks.*
 import timber.log.Timber
 
 private val FEATURE_FLAGS = mapOf(
@@ -41,6 +38,7 @@ class XposedHook(
     private val broadcastManager: BroadcastManager,
 ) {
     private val sysuiHooks = SystemUIHooks(context, lpparam)
+    private val settingsHooks = SettingsHooks(lpparam)
     private val frameworkHooks = FrameworkHooks(lpparam)
     private val launcherHooks = LauncherHooks(lpparam)
     private val playGamesHooks = PlayGamesHooks()
@@ -138,6 +136,10 @@ class XposedHook(
         playGamesHooks.applyPreviewSdk()
     }
 
+    private fun applySettings() {
+        settingsHooks.applySharedAxisTransition()
+    }
+
     fun applyAll() {
         // Global kill-switch
         if (!isFeatureEnabled("global")) {
@@ -154,6 +156,8 @@ class XposedHook(
             "com.android.systemui" -> applySysUi()
             // Play Games
             "com.google.android.play.games" -> applyPlayGames()
+            // Settings
+            "com.android.settings" -> applySettings()
             // Launcher
             "com.android.launcher3", "com.google.android.apps.nexuslauncher" -> applyLauncher()
         }
