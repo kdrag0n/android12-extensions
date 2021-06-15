@@ -77,6 +77,7 @@ class XposedHook(
                 isGoogle = hasSystemUiGoogle,
                 chromaMultiplier = prefs.getInt("custom_monet_chroma_multiplier", 50).toDouble() / 50,
                 multiColor = false,
+                accurateShades = isFeatureEnabled("custom_monet_accurate_shades"),
                 colorOverride = colorOverride,
             )
         } else if (colorOverride != null) {

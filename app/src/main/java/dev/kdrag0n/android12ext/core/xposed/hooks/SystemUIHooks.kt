@@ -63,12 +63,14 @@ class SystemUIHooks(
         isGoogle: Boolean,
         chromaMultiplier: Double,
         multiColor: Boolean,
+        accurateShades: Boolean,
         colorOverride: Int?,
     ) {
         val controller = ThemeOverlayController(
             TargetColors(chromaMultiplier),
             chromaMultiplier,
             multiColor,
+            accurateShades,
         )
         val clazz = if (isGoogle) THEME_CLASS_GOOGLE else THEME_CLASS_AOSP
         val wallpaperManager = context.getSystemService<WallpaperManager>()!!
