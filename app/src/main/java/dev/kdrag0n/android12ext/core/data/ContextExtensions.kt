@@ -12,7 +12,7 @@ fun Context.hasSystemUiGoogle(): Boolean {
 
 fun Context.hasPixelLauncher(): Boolean {
     return try {
-        packageManager.getPackageInfo("com.android.systemui", 0)
+        packageManager.getPackageInfo("com.google.android.apps.nexuslauncher", 0)
         true
     } catch (e: PackageManager.NameNotFoundException) {
         false
