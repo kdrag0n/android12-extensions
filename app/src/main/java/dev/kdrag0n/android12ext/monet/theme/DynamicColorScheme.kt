@@ -15,6 +15,7 @@ class DynamicColorScheme(
     targetColors: ColorScheme,
     primaryColor: Color,
     chromaMultiplier: Double = 1.0,
+    private val accurateShades: Boolean = true,
 ) : ColorScheme() {
     private val primaryNeutral = primaryColor.toLinearSrgb().toOklab().toOklch().let { lch ->
         lch.copy(C = lch.C * chromaMultiplier)
@@ -76,8 +77,12 @@ class DynamicColorScheme(
         val C = primary.C.coerceIn(0.0, target.C)
         // Use the primary color's hue, since it's the most prominent feature of the theme.
         val h = primary.h
-        // Binary search for the target lightness
-        val L = searchLstar(targetLstar, C, h)
+        // Binary search for the target lightness for accuracy
+        val L = if (accurateShades) {
+            searchLstar(targetLstar, C, h)
+        } else {
+            target.L
+        }
 
         return Oklch(L, C, h)
     }
