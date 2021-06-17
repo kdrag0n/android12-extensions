@@ -28,7 +28,7 @@ class MainViewModel(
     // Needs to be separate from registerOnSharedPreferenceChangeListener in order to hold a strong reference
     private val prefChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
         // This key is applied separately
-        if (key == "aosp_circle_icons2_enabled") {
+        if (key == "aosp_circle_icons2_enabled" || key == "monet_custom_color_value") {
             return@OnSharedPreferenceChangeListener
         }
 

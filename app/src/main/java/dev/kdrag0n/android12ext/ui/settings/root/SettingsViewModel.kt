@@ -1,6 +1,7 @@
 package dev.kdrag0n.android12ext.ui.settings.root
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import de.Maxr1998.modernpreferences.Preference
 import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.PreferencesAdapter
@@ -18,6 +19,8 @@ class SettingsViewModel(
     private val settingsRepo: SettingsRepository,
     private val broadcastManager: BroadcastManager,
 ) : BaseSettingsViewModel(app) {
+    override val navDest = MutableLiveData(R.id.action_settings_root_to_appearance)
+
     private val prefScreen = PreferenceScreen.Builder(app).run {
         Preference.Config.summaryMaxLines = 5
 

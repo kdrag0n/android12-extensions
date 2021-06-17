@@ -1,5 +1,6 @@
 package dev.kdrag0n.android12ext.ui.monet.palette
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
@@ -41,9 +42,9 @@ class PaletteFragment : BaseFragment() {
 
             val swatch = view.findViewById<LinearLayout>(swatchId)
             swatch.findViewById<TextView>(R.id.color_swatch_label).text = getString(swatchLabelId)
-            shades.forEach { (shade, colorId) ->
-                val color = resources.getColorStateList(colorId, null)
-                swatch.findViewById<View>(shadeIds[shade]!!).backgroundTintList = color
+            shades.forEach { (shade, color) ->
+                val tint = ColorStateList.valueOf(color.toLinearSrgb().toSrgb().quantize8())
+                swatch.findViewById<View>(shadeIds[shade]!!).backgroundTintList = tint
             }
         }
     }

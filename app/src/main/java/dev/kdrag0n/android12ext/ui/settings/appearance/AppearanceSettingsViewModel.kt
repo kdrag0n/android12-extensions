@@ -1,6 +1,7 @@
 package dev.kdrag0n.android12ext.ui.settings.appearance
 
 import android.app.*
+import android.graphics.Color
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
@@ -163,14 +164,22 @@ class AppearanceSettingsViewModel(
     val selectedColor = MutableLiveData<Int>()
     private val selectedColorObserver = Observer<Int> { color ->
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            val valueChanged = withContext(Dispatchers.IO) {
+                val oldValue = settingsRepo.prefs.getInt("monet_custom_color_value", Color.BLUE)
+
                 settingsRepo.prefs.edit().run {
                     putInt("monet_custom_color_value", color)
                     commit()
                 }
+
+                oldValue != color
             }
 
             colorPref.requestRebind()
+
+            if (valueChanged) {
+                openPalette.value = Unit
+            }
         }
     }
 

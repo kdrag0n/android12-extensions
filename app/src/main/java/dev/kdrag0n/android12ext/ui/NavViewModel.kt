@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 
 abstract class NavViewModel(app: Application) : AndroidViewModel(app) {
-    val navDest = MutableLiveData<Int>(null)
+    open val navDest = MutableLiveData<Int>(null)
 }
 
 fun MutableLiveData<Int>.observeNav(fragment: BaseFragment) {

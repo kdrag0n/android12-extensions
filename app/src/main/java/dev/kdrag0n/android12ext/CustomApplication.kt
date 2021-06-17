@@ -47,7 +47,7 @@ class CustomApplication : Application() {
             viewModel { AppearanceSettingsViewModel(get(), get(), get()) }
             viewModel { QuantizerViewModel(get()) }
             viewModel { ColorDialogViewModel() }
-            viewModel { PaletteViewModel() }
+            viewModel { PaletteViewModel(get()) }
         }
 
         startKoin {
