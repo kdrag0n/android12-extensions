@@ -50,6 +50,7 @@ class AppearanceSettingsViewModel(
             title = R.string.appearance_custom_monet_accurate_shades,
             summary = R.string.appearance_custom_monet_accurate_shades_desc,
             icon = R.drawable.ic_fluent_dark_theme_24_regular,
+            dependency = "custom_monet_enabled",
         )
         seekBar("custom_monet_chroma_multiplier") {
             titleRes = R.string.appearance_custom_monet_chroma_multiplier
