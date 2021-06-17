@@ -16,19 +16,19 @@ class TargetColors(
     companion object {
         // Lightness from AOSP defaults
         private val LIGHTNESS_MAP = mapOf(
-            0    to 1.000,
-            10   to 0.988,
-            50   to 0.955,
-            100  to 0.913,
-            200  to 0.827,
-            300  to 0.741,
-            400  to 0.653,
-            500  to 0.562,
-            600  to 0.482,
-            700  to 0.394,
-            800  to 0.309,
-            900  to 0.222,
-            1000 to 0.000,
+            0    to 1.00000,
+            10   to 0.98809,
+            50   to 0.95514,
+            100  to 0.91279,
+            200  to 0.82656,
+            300  to 0.74123,
+            400  to 0.65335,
+            500  to 0.56241,
+            600  to 0.48193,
+            700  to 0.39418,
+            800  to 0.30919,
+            900  to 0.22213,
+            1000 to 0.00000,
         )
 
         // Lightness map in CIELAB L*
@@ -48,14 +48,19 @@ class TargetColors(
             1000 to   0.0,
         )
 
-        // Neutral chroma from Google's CAM16 implementation
-        private const val NEUTRAL1_CHROMA = 0.0132
-        private const val NEUTRAL2_CHROMA = NEUTRAL1_CHROMA / 2
-
         // Accent chroma from Pixel defaults
-        private const val ACCENT1_CHROMA = 0.1212
-        private const val ACCENT2_CHROMA = 0.04
-        private const val ACCENT3_CHROMA = 0.06
+        // We use the most chromatic color as the reference
+        // A-1 chroma = avg(default Pixel Blue shades 100-900)
+        // Excluding very bright variants (10, 50) to avoid light bias
+        // A-1 > A-3 > A-2
+        private const val ACCENT1_CHROMA = 0.13281
+        private const val ACCENT2_CHROMA = ACCENT1_CHROMA / 3
+        private const val ACCENT3_CHROMA = ACCENT2_CHROMA * 2
+
+        // Neutral chroma derived from Google's CAM16 implementation
+        // N-2 > N-1
+        private const val NEUTRAL1_CHROMA = ACCENT1_CHROMA / 12
+        private const val NEUTRAL2_CHROMA = NEUTRAL1_CHROMA * 2
     }
 
     override val neutral1 = shadesWithChroma(NEUTRAL1_CHROMA)
