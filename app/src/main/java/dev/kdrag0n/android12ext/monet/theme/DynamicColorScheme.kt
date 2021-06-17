@@ -77,7 +77,7 @@ class DynamicColorScheme(
         val h = primary.h
         // Binary search for the target lightness for accuracy
         val L = if (accurateShades) {
-            searchLstar(targetLstar, C, h)
+            searchLstar(target.L, C, h)
         } else {
             target.L
         }
@@ -106,7 +106,7 @@ class DynamicColorScheme(
             val srgbClipped = Oklch(mid, C, h).toOklab().toLinearSrgb().toSrgb().quantize8()
 
             // Convert back to Color and compare CIELAB L*
-            val lstar = Srgb(srgbClipped).toLinearSrgb().toCieXyz().toCieLab().L
+            val lstar = Srgb(srgbClipped).toLinearSrgb().toOklab().L
             val delta = abs(lstar - targetLstar)
 
             if (delta < bestLDelta) {
@@ -136,7 +136,7 @@ class DynamicColorScheme(
 
         // Threshold for matching CIELAB L* targets. Colors with lightness delta
         // under this value are considered to match the reference lightness.
-        private const val TARGET_LSTAR_THRESHOLD = 0.01
+        private const val TARGET_LSTAR_THRESHOLD = 0.01 / 100.0
 
         // Threshold for terminating the binary search if min and max are too close.
         // The search is very unlikely to make progress after this point, so we
