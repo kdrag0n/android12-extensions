@@ -49,21 +49,19 @@ class DynamicColorScheme(
 
     // Tertiary accent color. Primary color shifted to the next secondary color via hue offset.
     override val accent3 by lazy(mode = LazyThreadSafetyMode.NONE) {
-        transformSwatch(targetColors.accent3, primaryAccent) { lch ->
-            lch.copy(h = lch.h + ACCENT3_HUE_SHIFT_DEGREES)
-        }
+        val primaryA3 = primaryAccent.copy(h = primaryAccent.h + ACCENT3_HUE_SHIFT_DEGREES)
+        transformSwatch(targetColors.accent3, primaryA3)
     }
 
     private fun transformSwatch(
         swatch: Map<Int, Color>,
         primary: Lch,
-        colorFilter: (Oklch) -> Oklch = { it },
     ): Map<Int, Color> {
         return swatch.map { (shade, color) ->
             val target = color as? Lch
                 ?: color.toLinearSrgb().toOklab().toOklch()
             val targetLstar = TargetColors.LSTAR_LIGHTNESS_MAP[shade]!!
-            val newLch = colorFilter(transformColor(target, primary, targetLstar))
+            val newLch = transformColor(target, primary, targetLstar)
             val newSrgb = newLch.toOklab().toLinearSrgb().toSrgb()
 
             val newRgb8 = newSrgb.quantize8()
