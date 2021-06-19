@@ -77,6 +77,10 @@ class AutoPaletteRenderer(
             "brown" to -8825528,
             "blue-gray" to -10453621,
             "pink" to -54125,
+
+            "pure-red" to -65536,
+            "pure-green" to -16711936,
+            "pure-blue" to -16776961,
         )
     }
 }
