@@ -4,9 +4,9 @@ import dev.kdrag0n.android12ext.monet.colors.CieLab.Companion.toCieLab
 import dev.kdrag0n.android12ext.monet.colors.CieXyz.Companion.toCieXyz
 import dev.kdrag0n.android12ext.monet.colors.Color
 import dev.kdrag0n.android12ext.monet.colors.Lch
-import dev.kdrag0n.android12ext.monet.colors.Jzazbz.Companion.toJzazbz
-import dev.kdrag0n.android12ext.monet.colors.Jzczhz
-import dev.kdrag0n.android12ext.monet.colors.Jzczhz.Companion.toJzczhz
+import dev.kdrag0n.android12ext.monet.colors.Oklab.Companion.toOklab
+import dev.kdrag0n.android12ext.monet.colors.Oklch
+import dev.kdrag0n.android12ext.monet.colors.Oklch.Companion.toOklch
 import dev.kdrag0n.android12ext.monet.colors.Srgb
 import timber.log.Timber
 import kotlin.math.abs
@@ -17,7 +17,7 @@ class DynamicColorScheme(
     chromaMultiplier: Double = 1.0,
     private val accurateShades: Boolean = true,
 ) : ColorScheme() {
-    private val primaryNeutral = primaryColor.toLinearSrgb().toCieXyz().toJzazbz().toJzczhz().let { lch ->
+    private val primaryNeutral = primaryColor.toLinearSrgb().toOklab().toOklch().let { lch ->
         lch.copy(C = lch.C * chromaMultiplier)
     }
     private val primaryAccent = primaryNeutral
@@ -59,10 +59,10 @@ class DynamicColorScheme(
     ): Map<Int, Color> {
         return swatch.map { (shade, color) ->
             val target = color as? Lch
-                ?: color.toLinearSrgb().toCieXyz().toJzazbz().toJzczhz()
+                ?: color.toLinearSrgb().toOklab().toOklch()
             val targetLstar = TargetColors.LSTAR_LIGHTNESS_MAP[shade]!!
             val newLch = transformColor(target, primary, targetLstar)
-            val newSrgb = newLch.toJzazbz().toLinearSrgb().toSrgb()
+            val newSrgb = newLch.toOklab().toLinearSrgb().toSrgb()
 
             val newRgb8 = newSrgb.quantize8()
             Timber.d("Transform: [$shade] $target => $newLch => ${String.format("%06x", newRgb8)}")
@@ -70,7 +70,7 @@ class DynamicColorScheme(
         }.toMap()
     }
 
-    private fun transformColor(target: Lch, primary: Lch, targetLstar: Double): Jzczhz {
+    private fun transformColor(target: Lch, primary: Lch, targetLstar: Double): Oklch {
         // Allow colorless gray.
         val C = primary.C.coerceIn(0.0, target.C)
         // Use the primary color's hue, since it's the most prominent feature of the theme.
@@ -82,7 +82,7 @@ class DynamicColorScheme(
             target.L
         }
 
-        return Jzczhz(L, C, h)
+        return Oklch(L, C, h)
     }
 
     private fun searchLstar(targetLstar: Double, C: Double, h: Double): Double {
@@ -103,11 +103,10 @@ class DynamicColorScheme(
             // The search must be done in 8-bpc sRGB to account for the effects of clipping.
             // Otherwise, results at lightness extremes (especially ~shade 10) are quite far
             // off after quantization and clipping.
-            Timber.i("SARU srch: ${Jzczhz(mid, C, h)} ${Jzczhz(mid, C, h).toJzazbz()} ${Jzczhz(mid, C, h).toJzazbz().toCieXyz()} ${Jzczhz(mid, C, h).toJzazbz().toLinearSrgb().toSrgb()}")
-            val srgbClipped = Jzczhz(mid, C, h).toJzazbz().toLinearSrgb().toSrgb().quantize8()
+            val srgbClipped = Oklch(mid, C, h).toOklab().toLinearSrgb().toSrgb().quantize8()
 
             // Convert back to Color and compare CIELAB L*
-            val lstar = Srgb(srgbClipped).toLinearSrgb().toCieXyz().toJzazbz().L
+            val lstar = Srgb(srgbClipped).toLinearSrgb().toOklab().L
             val delta = abs(lstar - targetLstar)
 
             if (delta < bestLDelta) {
@@ -137,7 +136,7 @@ class DynamicColorScheme(
 
         // Threshold for matching CIELAB L* targets. Colors with lightness delta
         // under this value are considered to match the reference lightness.
-        private const val TARGET_LSTAR_THRESHOLD = 0.01 / 10000.0
+        private const val TARGET_LSTAR_THRESHOLD = 0.01 / 100.0
 
         // Threshold for terminating the binary search if min and max are too close.
         // The search is very unlikely to make progress after this point, so we
