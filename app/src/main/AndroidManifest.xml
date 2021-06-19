@@ -42,6 +42,7 @@
             android:name=".ui.monet.palette.PaletteActivity"
             android:label="@string/monet_palette"
             android:theme="@style/Theme.A12Ext.Palette"
+            android:screenOrientation="landscape"
             android:exported="false" />
 
         <!-- Access controls are implemented in the provider -->

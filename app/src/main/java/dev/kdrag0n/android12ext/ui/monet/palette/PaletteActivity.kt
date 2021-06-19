@@ -13,7 +13,6 @@ class PaletteActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_palette)
 
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         window.setDecorFitsSystemWindows(false)
         window.insetsController?.let { controller ->
             controller.hide(WindowInsets.Type.systemBars())
