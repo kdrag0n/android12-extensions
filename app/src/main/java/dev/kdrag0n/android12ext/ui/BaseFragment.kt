@@ -7,7 +7,9 @@ import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.google.android.material.transition.FadeThroughProvider
 import com.google.android.material.transition.MaterialSharedAxis
+import com.google.android.material.transition.SlideDistanceProvider
 import dev.kdrag0n.android12ext.R
 
 open class BaseFragment : Fragment() {
@@ -31,11 +33,17 @@ open class BaseFragment : Fragment() {
 }
 
 fun Fragment.applyTransitions() {
-    // Default transitions similar to Android 10+ Activity transitions
-    enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-    returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-    exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-    reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+    // Match Android 12 Settings app (as of Beta 2), but without Google's config
+    // For reference, the Settings config is:
+    //     450 ms
+    //     96dp primary slide
+    //     0.22 progress threshold for secondary fade
+    //     fast_out_slow_in curve
+
+    enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+    returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+    exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+    reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
 }
 
 fun Fragment.applyTransitionsViewCreated() {
