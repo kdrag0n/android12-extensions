@@ -1,7 +1,7 @@
 package dev.kdrag0n.android12ext.monet.theme
 
 import dev.kdrag0n.android12ext.monet.colors.Color
-import dev.kdrag0n.android12ext.monet.colors.Oklch
+import dev.kdrag0n.android12ext.monet.colors.Jzczhz
 
 /*
  * Default target colors, conforming to Material You standards.
@@ -16,19 +16,19 @@ class TargetColors(
     companion object {
         // Lightness from AOSP defaults
         private val LIGHTNESS_MAP = mapOf(
-            0    to 1.00000,
-            10   to 0.98809,
-            50   to 0.95514,
-            100  to 0.91279,
-            200  to 0.82656,
-            300  to 0.74123,
-            400  to 0.65335,
-            500  to 0.56241,
-            600  to 0.48193,
-            700  to 0.39418,
-            800  to 0.30919,
-            900  to 0.22213,
-            1000 to 0.00000,
+            0    to 0.017580049949915525,
+            10   to 0.01720883876215196,
+            50   to 0.016194192816266096,
+            100  to 0.01491710199863671,
+            200  to 0.012419025912093814,
+            300  to 0.010097298187197932,
+            400  to 0.007885462735958415,
+            500  to 0.005815914895234246,
+            600  to 0.004198187917249932,
+            700  to 0.002695487762239713,
+            800  to 0.0015342903147554181,
+            900  to 6.789793323185895E-4,
+            1000 to -8.077935669463161E-26,
         )
 
         // Lightness map in CIELAB L*
@@ -53,7 +53,7 @@ class TargetColors(
         // A-1 chroma = avg(default Pixel Blue shades 100-900)
         // Excluding very bright variants (10, 50) to avoid light bias
         // A-1 > A-3 > A-2
-        private const val ACCENT1_CHROMA = 0.13281
+        private const val ACCENT1_CHROMA = 0.010860848736413473
         private const val ACCENT2_CHROMA = ACCENT1_CHROMA / 3
         private const val ACCENT3_CHROMA = ACCENT2_CHROMA * 2
 
@@ -75,7 +75,7 @@ class TargetColors(
         val chromaAdj = chroma * chromaFactor
 
         return LIGHTNESS_MAP.map {
-            it.key to Oklch(it.value, chromaAdj)
+            it.key to Jzczhz(it.value, chromaAdj, 0.0)
         }.toMap()
     }
 }
