@@ -3,17 +3,21 @@ package dev.kdrag0n.android12ext.ui.settings.appearance
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.viewModelScope
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.ui.monet.palette.PaletteActivity
 import dev.kdrag0n.android12ext.ui.observeNav
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsFragment
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AppearanceSettingsFragment : BaseSettingsFragment() {
     private val viewModel: AppearanceSettingsViewModel by viewModel()
     private val colorDialogViewModel: ColorDialogViewModel by sharedViewModel()
+
+    private val paletteRenderer = AutoPaletteRenderer(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,6 +40,16 @@ class AppearanceSettingsFragment : BaseSettingsFragment() {
             if (event != null) {
                 viewModel.openPalette.value = null
                 startActivity(Intent(requireContext(), PaletteActivity::class.java))
+            }
+        }
+
+        viewModel.renderPalettes.observe(viewLifecycleOwner) {event ->
+            if (event != null) {
+                viewModel.viewModelScope.launch {
+                    paletteRenderer.doAllColors()
+                }
+
+                viewModel.renderPalettes.value = null
             }
         }
 

@@ -35,6 +35,7 @@ class AppearanceSettingsViewModel(
     private lateinit var colorPref: ColorSwatchPreference
 
     val openPalette = MutableLiveData<Unit?>(null)
+    val renderPalettes = MutableLiveData<Unit?>(null)
 
     private val prefScreen = PreferenceScreen.Builder(app).run {
         val hasSystemUiGoogle = app.hasSystemUiGoogle()
@@ -119,6 +120,13 @@ class AppearanceSettingsViewModel(
         if (BuildConfig.DEBUG) {
             categoryHeader("debug_header") {
                 title = "Debug"
+            }
+            pref("render_palettes") {
+                title = "Render palettes"
+                onClick {
+                    renderPalettes.value = Unit
+                    false
+                }
             }
             pref("gen_ref") {
                 title = "Generate reference color table"
