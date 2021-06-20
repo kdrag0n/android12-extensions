@@ -1,11 +1,10 @@
 package dev.kdrag0n.android12ext.monet.theme
 
-import dev.kdrag0n.android12ext.monet.colors.Cam16Ucs.Companion.toCam16Ucs
 import dev.kdrag0n.android12ext.monet.colors.Color
 import dev.kdrag0n.android12ext.monet.colors.Lch
 import dev.kdrag0n.android12ext.monet.colors.Oklab.Companion.toOklab
-import dev.kdrag0n.android12ext.monet.colors.Cam16UcsLch
-import dev.kdrag0n.android12ext.monet.colors.Cam16UcsLch.Companion.toCam16UcsLch
+import dev.kdrag0n.android12ext.monet.colors.Cam16
+import dev.kdrag0n.android12ext.monet.colors.Cam16.Companion.toCam16
 import dev.kdrag0n.android12ext.monet.colors.Srgb
 import timber.log.Timber
 import kotlin.math.abs
@@ -16,7 +15,7 @@ class DynamicColorScheme(
     chromaMultiplier: Double = 1.0,
     private val accurateShades: Boolean = true,
 ) : ColorScheme() {
-    private val primaryNeutral = primaryColor.toLinearSrgb().toSrgb().toCam16Ucs().toCam16UcsLch().let { lch ->
+    private val primaryNeutral = primaryColor.toLinearSrgb().toSrgb().toCam16().let { lch ->
         lch.copy(C = lch.C * chromaMultiplier)
     }
     private val primaryAccent = primaryNeutral
@@ -58,9 +57,9 @@ class DynamicColorScheme(
     ): Map<Int, Color> {
         return swatch.map { (shade, color) ->
             val target = color as? Lch
-                ?: color.toLinearSrgb().toSrgb().toCam16Ucs().toCam16UcsLch()
+                ?: color.toLinearSrgb().toSrgb().toCam16()
             val newLch = transformColor(target, primary)
-            val newSrgb = newLch.toCam16Ucs().toSrgb()
+            val newSrgb = newLch.toSrgb()
 
             val newRgb8 = newSrgb.quantize8()
             Timber.d("Transform: [$shade] $target => $newLch => ${String.format("%06x", newRgb8)}")
@@ -68,7 +67,7 @@ class DynamicColorScheme(
         }.toMap()
     }
 
-    private fun transformColor(target: Lch, primary: Lch): Cam16UcsLch {
+    private fun transformColor(target: Lch, primary: Lch): Cam16 {
         // Allow colorless gray.
         val C = primary.C.coerceIn(0.0, target.C)
         // Use the primary color's hue, since it's the most prominent feature of the theme.
@@ -80,7 +79,7 @@ class DynamicColorScheme(
             target.L
         }
 
-        return Cam16UcsLch(L, C, h)
+        return Cam16(L, C, h)
     }
 
     private fun findSrgbLightness(targetL: Double, C: Double, h: Double): Double {
@@ -101,10 +100,10 @@ class DynamicColorScheme(
             // The search must be done in 8-bpc sRGB to account for the effects of clipping.
             // Otherwise, results at lightness extremes (especially ~shade 10) are quite far
             // off after quantization and clipping.
-            val srgbClipped = Cam16UcsLch(mid, C, h).toCam16Ucs().toSrgb().quantize8()
+            val srgbClipped = Cam16(mid, C, h).toSrgb().quantize8()
 
             // Convert back to Oklab and compare lightness
-            val l = Srgb(srgbClipped).toCam16Ucs().toCam16UcsLch().L
+            val l = Srgb(srgbClipped).toCam16().L
             val delta = abs(l - targetL)
 
             if (delta < bestLDelta) {
