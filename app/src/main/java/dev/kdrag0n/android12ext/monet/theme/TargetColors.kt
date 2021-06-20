@@ -17,17 +17,17 @@ class TargetColors(
         // Lightness from AOSP defaults
         private val LIGHTNESS_MAP = mapOf(
             0    to 100.0,
-            10   to 98.85996,
-            50   to 95.65455,
-            100  to 91.422035,
-            200  to 82.42242,
-            300  to 73.04234,
-            400  to 62.959972,
-            500  to 52.19809,
-            600  to 42.556396,
-            700  to 32.159122,
-            800  to 22.531433,
-            900  to 13.577155,
+            10   to 98.077286,
+            50   to 92.8308,
+            100  to 86.24347,
+            200  to 73.39204,
+            300  to 61.44706,
+            400  to 49.99679,
+            500  to 39.11102,
+            600  to 30.351782,
+            700  to 21.80448,
+            800  to 14.609172,
+            900  to 8.459497,
             1000 to 0.0,
         )
 
@@ -36,7 +36,7 @@ class TargetColors(
         // A-1 chroma = avg(default Pixel Blue shades 100-900)
         // Excluding very bright variants (10, 50) to avoid light bias
         // A-1 > A-3 > A-2
-        private const val ACCENT1_CHROMA = 26.502362666666667
+        private const val ACCENT1_CHROMA = 47.35212111111111
         private const val ACCENT2_CHROMA = ACCENT1_CHROMA / 3
         private const val ACCENT3_CHROMA = ACCENT2_CHROMA * 2
 
