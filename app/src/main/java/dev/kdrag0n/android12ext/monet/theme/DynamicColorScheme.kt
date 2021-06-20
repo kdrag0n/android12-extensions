@@ -1,7 +1,5 @@
 package dev.kdrag0n.android12ext.monet.theme
 
-import dev.kdrag0n.android12ext.monet.colors.CieLab.Companion.toCieLab
-import dev.kdrag0n.android12ext.monet.colors.CieXyz.Companion.toCieXyz
 import dev.kdrag0n.android12ext.monet.colors.Color
 import dev.kdrag0n.android12ext.monet.colors.Lch
 import dev.kdrag0n.android12ext.monet.colors.Oklab.Companion.toOklab
@@ -60,8 +58,7 @@ class DynamicColorScheme(
         return swatch.map { (shade, color) ->
             val target = color as? Lch
                 ?: color.toLinearSrgb().toOklab().toOklch()
-            val targetLstar = TargetColors.LSTAR_LIGHTNESS_MAP[shade]!!
-            val newLch = transformColor(target, primary, targetLstar)
+            val newLch = transformColor(target, primary)
             val newSrgb = newLch.toOklab().toLinearSrgb().toSrgb()
 
             val newRgb8 = newSrgb.quantize8()
@@ -70,14 +67,14 @@ class DynamicColorScheme(
         }.toMap()
     }
 
-    private fun transformColor(target: Lch, primary: Lch, targetLstar: Double): Oklch {
+    private fun transformColor(target: Lch, primary: Lch): Oklch {
         // Allow colorless gray.
         val C = primary.C.coerceIn(0.0, target.C)
         // Use the primary color's hue, since it's the most prominent feature of the theme.
         val h = primary.h
         // Binary search for the target lightness for accuracy
         val L = if (accurateShades) {
-            searchLstar(target.L, C, h)
+            findSrgbLightness(target.L, C, h)
         } else {
             target.L
         }
@@ -85,7 +82,7 @@ class DynamicColorScheme(
         return Oklch(L, C, h)
     }
 
-    private fun searchLstar(targetLstar: Double, C: Double, h: Double): Double {
+    private fun findSrgbLightness(targetL: Double, C: Double, h: Double): Double {
         // Some colors result in imperfect blacks (e.g. #000002) if we don't account for
         // negative lightness.
         var min = -0.5
@@ -105,26 +102,26 @@ class DynamicColorScheme(
             // off after quantization and clipping.
             val srgbClipped = Oklch(mid, C, h).toOklab().toLinearSrgb().toSrgb().quantize8()
 
-            // Convert back to Color and compare CIELAB L*
-            val lstar = Srgb(srgbClipped).toLinearSrgb().toOklab().L
-            val delta = abs(lstar - targetLstar)
+            // Convert back to Oklab and compare lightness
+            val l = Srgb(srgbClipped).toLinearSrgb().toOklab().L
+            val delta = abs(l - targetL)
 
             if (delta < bestLDelta) {
                 bestL = mid
                 bestLDelta = delta
             }
 
-            Timber.i("Search for L*: [target=$targetLstar] ($min, $max)=>$mid  L*=$lstar delta=$delta  (best=$bestL delta=$bestLDelta)")
+            Timber.i("Search for L: [target=$targetL] ($min, $max)=>$mid  L=$l delta=$delta  (best=$bestL delta=$bestLDelta)")
 
             when {
                 // If L* ~= target, consider the result good enough
-                delta <= TARGET_LSTAR_THRESHOLD -> return mid
+                delta <= TARGET_L_DELTA -> return mid
                 // If min ~= max, we're unlikely to make any more progress
                 abs(min - max) <= TARGET_L_EPSILON -> return bestL
 
                 // Divide and continue
-                lstar < targetLstar -> min = mid
-                lstar > targetLstar -> max = mid
+                l < targetL -> min = mid
+                l > targetL -> max = mid
             }
         }
     }
@@ -134,9 +131,9 @@ class DynamicColorScheme(
         // 60 degrees = shifting by a secondary color
         private const val ACCENT3_HUE_SHIFT_DEGREES = 60.0
 
-        // Threshold for matching CIELAB L* targets. Colors with lightness delta
+        // Threshold for matching lightness targets. Colors with lightness delta
         // under this value are considered to match the reference lightness.
-        private const val TARGET_LSTAR_THRESHOLD = 0.01 / 100.0
+        private const val TARGET_L_DELTA = 0.01 / 100.0
 
         // Threshold for terminating the binary search if min and max are too close.
         // The search is very unlikely to make progress after this point, so we
