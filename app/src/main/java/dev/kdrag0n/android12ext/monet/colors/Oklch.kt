@@ -1,24 +1,32 @@
 package dev.kdrag0n.android12ext.monet.colors
 
-import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.toLab
-import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.toLch
+import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLabA
+import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLabB
+import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLchC
+import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLchH
 
 data class Oklch(
     override val L: Double,
     override val C: Double,
-    override val h: Double = 0.0,
+    override val h: Double,
 ) : Color, Lch {
     override fun toLinearSrgb() = toOklab().toLinearSrgb()
 
     fun toOklab(): Oklab {
-        val (l, a, b) = toLab()
-        return Oklab(l, a, b)
+        return Oklab(
+            L = L,
+            a = calcLabA(),
+            b = calcLabB(),
+        )
     }
 
     companion object {
         fun Oklab.toOklch(): Oklch {
-            val (l, c, h) = toLch()
-            return Oklch(l, c, h)
+            return Oklch(
+                L = L,
+                C = calcLchC(),
+                h = calcLchH(),
+            )
         }
     }
 }
