@@ -1,22 +1,32 @@
 package dev.kdrag0n.android12ext.monet.colors
 
-import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.toLab
-import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.toLch
+import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLabA
+import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLabB
+import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLchC
+import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLchH
 
 data class CieLch(
     override val L: Double,
     override val C: Double,
-    override val h: Double = 0.0,
-) : Lch {
+    override val h: Double,
+) : Color, Lch {
+    override fun toLinearSrgb() = toCieLab().toLinearSrgb()
+
     fun toCieLab(): CieLab {
-        val (l, a, b) = toLab()
-        return CieLab(l, a, b)
+        return CieLab(
+            L = L,
+            a = calcLabA(),
+            b = calcLabB(),
+        )
     }
 
     companion object {
         fun CieLab.toCieLch(): CieLch {
-            val (l, c, h) = toLch()
-            return CieLch(l, c, h)
+            return CieLch(
+                L = L,
+                C = calcLchC(),
+                h = calcLchH(),
+            )
         }
     }
 }

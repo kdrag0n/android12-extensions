@@ -8,25 +8,13 @@ interface Lch {
     val h: Double
 
     companion object {
-        internal fun Lab.toLch(): DoubleArray {
+        internal fun Lab.calcLchC() = sqrt(a*a + b*b)
+        internal fun Lab.calcLchH(): Double {
             val hDeg = Math.toDegrees(atan2(b, a))
-
-            return doubleArrayOf(
-                L,
-                sqrt(a*a + b*b),
-                // Normalize the angle, as many will be negative
-                if (hDeg < 0) hDeg + 360 else hDeg,
-            )
+            return if (hDeg < 0) hDeg + 360 else hDeg
         }
 
-        internal fun Lch.toLab(): DoubleArray {
-            val hRad = Math.toRadians(h)
-
-            return doubleArrayOf(
-                L,
-                C * cos(hRad),
-                C * sin(hRad),
-            )
-        }
+        internal fun Lch.calcLabA() = C * cos(Math.toRadians(h))
+        internal fun Lch.calcLabB() = C * sin(Math.toRadians(h))
     }
 }

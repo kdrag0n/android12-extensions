@@ -1,7 +1,9 @@
 package dev.kdrag0n.android12ext.monet.colors
 
-import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.toLab
-import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.toLch
+import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLabA
+import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLabB
+import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLchC
+import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLchH
 
 data class Srlch2(
     override val L: Double,
@@ -11,14 +13,20 @@ data class Srlch2(
     override fun toLinearSrgb() = toSrlab2().toLinearSrgb()
 
     fun toSrlab2(): Srlab2 {
-        val (l, a, b) = toLab()
-        return Srlab2(l, a, b)
+        return Srlab2(
+            L = L,
+            a = calcLabA(),
+            b = calcLabB(),
+        )
     }
 
     companion object {
         fun Srlab2.toSrlch2(): Srlch2 {
-            val (l, c, h) = toLch()
-            return Srlch2(l, c, h)
+            return Srlch2(
+                L = L,
+                C = calcLchC(),
+                h = calcLchH(),
+            )
         }
     }
 }

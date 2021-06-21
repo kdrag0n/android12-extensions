@@ -1,24 +1,32 @@
 package dev.kdrag0n.android12ext.monet.colors
 
-import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.toLab
-import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.toLch
+import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLabA
+import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLabB
+import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLchC
+import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLchH
 
 data class Jzczhz(
     override val L: Double,
     override val C: Double,
-    override val h: Double = 0.0,
+    override val h: Double,
 ) : Color, Lch {
     override fun toLinearSrgb() = toJzazbz().toLinearSrgb()
 
     fun toJzazbz(): Jzazbz {
-        val (l, a, b) = toLab()
-        return Jzazbz(l, a, b)
+        return Jzazbz(
+            L = L,
+            a = calcLabA(),
+            b = calcLabB(),
+        )
     }
 
     companion object {
         fun Jzazbz.toJzczhz(): Jzczhz {
-            val (l, c, h) = toLch()
-            return Jzczhz(l, c, h)
+            return Jzczhz(
+                L = L,
+                C = calcLchC(),
+                h = calcLchH(),
+            )
         }
     }
 }
