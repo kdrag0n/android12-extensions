@@ -6,7 +6,7 @@ data class Srlab2(
     override val L: Double,
     override val a: Double,
     override val b: Double,
-) : Color, Lab {
+) : Lab {
     override fun toLinearSrgb(): LinearSrgb {
         val x = fInv(0.01 * L + 0.000904127 * a + 0.000456344 * b)
         val y = fInv(0.01 * L - 0.000533159 * a - 0.000269178 * b)

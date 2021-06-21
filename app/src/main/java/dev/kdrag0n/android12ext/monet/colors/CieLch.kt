@@ -9,7 +9,7 @@ data class CieLch(
     override val L: Double,
     override val C: Double,
     override val h: Double,
-) : Color, Lch {
+) : Lch {
     override fun toLinearSrgb() = toCieLab().toLinearSrgb()
 
     fun toCieLab(): CieLab {

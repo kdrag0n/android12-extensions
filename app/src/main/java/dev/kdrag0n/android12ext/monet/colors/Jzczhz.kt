@@ -9,7 +9,7 @@ data class Jzczhz(
     override val L: Double,
     override val C: Double,
     override val h: Double,
-) : Color, Lch {
+) : Lch {
     override fun toLinearSrgb() = toJzazbz().toLinearSrgb()
 
     fun toJzazbz(): Jzazbz {

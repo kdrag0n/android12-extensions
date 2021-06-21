@@ -5,6 +5,8 @@ data class CieLab(
     override val a: Double,
     override val b: Double,
 ) : Lab {
+    override fun toLinearSrgb() = toCieXyz().toLinearSrgb()
+
     fun toCieXyz(): CieXyz {
         val lp = (L + 16.0) / 116.0
 

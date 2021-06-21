@@ -6,7 +6,7 @@ data class Oklab(
     override val L: Double,
     override val a: Double,
     override val b: Double,
-) : Color, Lab {
+) : Lab {
     override fun toLinearSrgb(): LinearSrgb {
         val l = oklabToL(this)
         val m = oklabToM(this)

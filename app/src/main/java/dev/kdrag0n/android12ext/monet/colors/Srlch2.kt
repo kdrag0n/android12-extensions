@@ -9,7 +9,7 @@ data class Srlch2(
     override val L: Double,
     override val C: Double,
     override val h: Double,
-) : Color, Lch {
+) : Lch {
     override fun toLinearSrgb() = toSrlab2().toLinearSrgb()
 
     fun toSrlab2(): Srlab2 {

@@ -9,7 +9,7 @@ data class Cam16UcsLch(
     override val L: Double,
     override val C: Double,
     override val h: Double,
-) : Color, Lch {
+) : Lch {
     override fun toLinearSrgb() = toCam16Ucs().toLinearSrgb()
 
     fun toCam16Ucs(): Cam16Ucs {
