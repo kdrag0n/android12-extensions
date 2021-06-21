@@ -1,6 +1,6 @@
 package dev.kdrag0n.android12ext.monet.colors
 
-import dev.kdrag0n.android12ext.monet.colors.aosp.Cam
+import dev.kdrag0n.android12ext.monet.colors.google.Cam
 
 data class Cam16(
     override val L: Double,
