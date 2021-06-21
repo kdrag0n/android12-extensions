@@ -9,7 +9,11 @@ data class Srgb(
     val b: Double,
 ) : Color {
     // Convenient constructors for quantized values
-    constructor(r: Int, g: Int, b: Int) : this(r.toDouble() / 255.0, g.toDouble() / 255.0, b.toDouble() / 255.0)
+    constructor(r: Int, g: Int, b: Int) : this(
+        r.toDouble() / 255.0,
+        g.toDouble() / 255.0,
+        b.toDouble() / 255.0,
+    )
     constructor(color: Int) : this(
         android.graphics.Color.red(color),
         android.graphics.Color.green(color),

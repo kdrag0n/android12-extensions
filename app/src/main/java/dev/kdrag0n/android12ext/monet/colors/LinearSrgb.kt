@@ -11,38 +11,32 @@ data class LinearSrgb(
 
     fun toSrgb(): Srgb {
         return Srgb(
-            r = oetf(r),
-            g = oetf(g),
-            b = oetf(b),
+            r = f(r),
+            g = f(g),
+            b = f(b),
         )
     }
 
     companion object {
-        // Opto-electrical transfer function
-        // Forward transform to sRGB
-        private fun oetf(x: Double): Double {
-            return if (x >= 0.0031308) {
-                1.055 * x.pow(1.0 / 2.4) - 0.055
-            } else {
-                12.92 * x
-            }
+        // Linear -> sRGB
+        private fun f(x: Double) = if (x >= 0.0031308) {
+            1.055 * x.pow(1.0 / 2.4) - 0.055
+        } else {
+            12.92 * x
         }
 
-        // Electro-optical transfer function
-        // Inverse transform to linear sRGB
-        private fun eotf(x: Double): Double {
-            return if (x >= 0.04045) {
-                ((x + 0.055) / 1.055).pow(2.4)
-            } else {
-                x / 12.92
-            }
+        // sRGB -> linear
+        private fun fInv(x: Double) = if (x >= 0.04045) {
+            ((x + 0.055) / 1.055).pow(2.4)
+        } else {
+            x / 12.92
         }
 
         fun Srgb.toLinearSrgb(): LinearSrgb {
             return LinearSrgb(
-                r = eotf(r),
-                g = eotf(g),
-                b = eotf(b),
+                r = fInv(r),
+                g = fInv(g),
+                b = fInv(b),
             )
         }
     }

@@ -8,13 +8,9 @@ data class Srlab2(
     override val b: Double,
 ) : Color, Lab {
     override fun toLinearSrgb(): LinearSrgb {
-        val x2 = 0.01 * L + 0.000904127 * a + 0.000456344 * b
-        val y2 = 0.01 * L - 0.000533159 * a - 0.000269178 * b
-        val z2 = 0.01 * L                   - 0.005800000 * b
-
-        val x = cube(x2)
-        val y = cube(y2)
-        val z = cube(z2)
+        val x = fInv(0.01 * L + 0.000904127 * a + 0.000456344 * b)
+        val y = fInv(0.01 * L - 0.000533159 * a - 0.000269178 * b)
+        val z = fInv(0.01 * L                   - 0.005800000 * b)
 
         return LinearSrgb(
             r =  5.435679 * x - 4.599131 * y + 0.163593 * z,
@@ -24,26 +20,22 @@ data class Srlab2(
     }
 
     companion object {
-        private fun root(x: Double) = if (x <= 216.0 / 24389.0) {
+        private fun f(x: Double) = if (x <= 216.0 / 24389.0) {
             x * 24389.0 / 2700.0
         } else {
             1.16 * Math.cbrt(x) - 0.16
         }
 
-        private fun cube(x: Double) = if (x <= 0.08) {
+        private fun fInv(x: Double) = if (x <= 0.08) {
             x * 2700.0 / 24389.0
         } else {
             ((x + 0.16) / 1.16).pow(3)
         }
 
         fun LinearSrgb.toSrlab2(): Srlab2 {
-            val x = 0.320530 * r + 0.636920 * g + 0.042560 * b
-            val y = 0.161987 * r + 0.756636 * g + 0.081376 * b
-            val z = 0.017228 * r + 0.108660 * g + 0.874112 * b
-
-            val x2 = root(x)
-            val y2 = root(y)
-            val z2 = root(z)
+            val x2 = f(0.320530 * r + 0.636920 * g + 0.042560 * b)
+            val y2 = f(0.161987 * r + 0.756636 * g + 0.081376 * b)
+            val z2 = f(0.017228 * r + 0.108660 * g + 0.874112 * b)
 
             return Srlab2(
                 L =  37.0950 * x2 +  62.9054 * y2 -   0.0008 * z2,
