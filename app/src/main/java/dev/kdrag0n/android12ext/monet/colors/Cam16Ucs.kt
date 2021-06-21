@@ -1,7 +1,7 @@
 package dev.kdrag0n.android12ext.monet.colors
 
-import dev.kdrag0n.android12ext.monet.colors.aosp.Cam
-import dev.kdrag0n.android12ext.monet.colors.aosp.Frame
+import dev.kdrag0n.android12ext.monet.colors.google.Cam
+import dev.kdrag0n.android12ext.monet.colors.google.Frame
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.exp
