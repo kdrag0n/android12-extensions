@@ -2,7 +2,7 @@ package dev.kdrag0n.android12ext.monet.colors
 
 import kotlin.math.*
 
-interface Lch {
+interface Lch : Color {
     val L: Double
     val C: Double
     val h: Double

@@ -6,7 +6,7 @@ data class Cam16(
     override val L: Double,
     override val C: Double,
     override val h: Double,
-) : Color, Lch {
+) : Lch {
     override fun toLinearSrgb() = toSrgb().toLinearSrgb()
 
     fun toSrgb(): Srgb {

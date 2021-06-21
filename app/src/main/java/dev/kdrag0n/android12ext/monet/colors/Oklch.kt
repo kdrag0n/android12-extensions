@@ -9,7 +9,7 @@ data class Oklch(
     override val L: Double,
     override val C: Double,
     override val h: Double,
-) : Color, Lch {
+) : Lch {
     override fun toLinearSrgb() = toOklab().toLinearSrgb()
 
     fun toOklab(): Oklab {
