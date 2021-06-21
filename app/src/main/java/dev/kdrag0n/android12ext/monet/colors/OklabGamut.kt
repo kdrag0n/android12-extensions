@@ -1,6 +1,8 @@
 package dev.kdrag0n.android12ext.monet.colors
 
 import dev.kdrag0n.android12ext.monet.colors.Oklab.Companion.toOklab
+import dev.kdrag0n.android12ext.monet.cube
+import dev.kdrag0n.android12ext.monet.square
 import kotlin.math.*
 
 /**
@@ -29,6 +31,8 @@ import kotlin.math.*
 // Renaming variables hurts the readability of math code
 @Suppress("LocalVariableName")
 object OklabGamut {
+    private const val CLIP_EPSILON = 0.00001
+
     // Finds the maximum saturation possible for a given hue that fits in sRGB
     // Saturation here is defined as S = C/L
     // a and b must be normalized so a^2 + b^2 == 1
@@ -36,53 +40,14 @@ object OklabGamut {
         // Max saturation will be when one of r, g or b goes below zero.
 
         // Select different coefficients depending on which component goes below zero first
-        val k0: Double
-        val k1: Double
-        val k2: Double
-        val k3: Double
-        val k4: Double
-        val wl: Double
-        val wm: Double
-        val ws: Double
-
-        when {
-            -1.88170328 * a - 0.80936493 * b > 1 -> {
-                // Red component
-                k0 = +1.19086277
-                k1 = +1.76576728
-                k2 = +0.59662641
-                k3 = +0.75515197
-                k4 = +0.56771245
-                wl = +4.0767416621
-                wm = -3.3077115913
-                ws = +0.2309699292
-            }
-            1.81444104 * a - 1.19445276 * b > 1 -> {
-                // Green component
-                k0 = +0.73956515
-                k1 = -0.45954404
-                k2 = +0.08285427
-                k3 = +0.12541070
-                k4 = +0.14503204
-                wl = -1.2681437731
-                wm = +2.6097574011
-                ws = -0.3413193965
-            }
-            else -> {
-                // Blue component
-                k0 = +1.35733652
-                k1 = -0.00915799
-                k2 = -1.15130210
-                k3 = -0.50559606
-                k4 = +0.00692167
-                wl = -0.0041960863
-                wm = -0.7034186147
-                ws = +1.7076147010
-            }
+        val coeff = when {
+            -1.88170328 * a - 0.80936493 * b > 1 -> SaturationCoefficients.RED
+            1.81444104 * a - 1.19445276 * b > 1 -> SaturationCoefficients.GREEN
+            else -> SaturationCoefficients.BLUE
         }
 
         // Approximate max saturation using a polynomial:
-        val S = k0 + k1 * a + k2 * b + k3 * a * a + k4 * a * b
+        val S = coeff.k0 + coeff.k1 * a + coeff.k2 * b + coeff.k3 * a * a + coeff.k4 * a * b
 
         // Do one step Halley's method to get closer
         // this gives an error less than 10e6, except for some blue hues where the dS/dh is close to infinite
@@ -97,21 +62,21 @@ object OklabGamut {
             val m_ = 1 + S * k_m
             val s_ = 1 + S * k_s
 
-            val l = l_ * l_ * l_
-            val m = m_ * m_ * m_
-            val s = s_ * s_ * s_
+            val l = cube(l_)
+            val m = cube(m_)
+            val s = cube(s_)
 
-            val l_dS = 3 * k_l * l_ * l_
-            val m_dS = 3 * k_m * m_ * m_
-            val s_dS = 3 * k_s * s_ * s_
+            val l_dS = 3 * k_l * square(l_)
+            val m_dS = 3 * k_m * square(m_)
+            val s_dS = 3 * k_s * square(s_)
 
-            val l_dS2 = 6 * k_l * k_l * l_
-            val m_dS2 = 6 * k_m * k_m * m_
-            val s_dS2 = 6 * k_s * k_s * s_
+            val l_dS2 = 6 * square(k_l) * l_
+            val m_dS2 = 6 * square(k_m) * m_
+            val s_dS2 = 6 * square(k_s) * s_
 
-            val f  = wl * l     + wm * m     + ws * s
-            val f1 = wl * l_dS  + wm * m_dS  + ws * s_dS
-            val f2 = wl * l_dS2 + wm * m_dS2 + ws * s_dS2
+            val f  = coeff.wl * l     + coeff.wm * m     + coeff.ws * s
+            val f1 = coeff.wl * l_dS  + coeff.wm * m_dS  + coeff.ws * s_dS
+            val f2 = coeff.wl * l_dS2 + coeff.wm * m_dS2 + coeff.ws * s_dS2
 
             return S - f * f1 / (f1*f1 - 0.5 * f * f2)
         }
@@ -119,8 +84,7 @@ object OklabGamut {
 
     // finds L_cusp and C_cusp for a given hue
     // a and b must be normalized so a^2 + b^2 == 1
-    private fun findCusp(a: Double, b: Double): DoubleArray
-    {
+    private fun findCusp(a: Double, b: Double): LC {
         // First, find the maximum saturation (saturation S = C/L)
         val S_cusp = computeMaxSaturation(a, b)
 
@@ -129,217 +93,200 @@ object OklabGamut {
         val L_cusp = Math.cbrt(1.0 / max(max(rgb_at_max.r, rgb_at_max.g), rgb_at_max.b))
         val C_cusp = L_cusp * S_cusp
 
-        return doubleArrayOf(L_cusp, C_cusp)
+        return LC(L_cusp, C_cusp)
+    }
+
+    private fun halleyTerm(
+        l: Double, m: Double, s: Double,
+        ldt: Double, mdt: Double, sdt: Double,
+        ldt2: Double, mdt2: Double, sdt2: Double,
+        coeff1: Double, coeff2: Double, coeff3: Double,
+    ): Double {
+        val n = coeff1 * l + coeff2 * m + coeff3 * s - 1
+        val n1 = coeff1 * ldt + coeff2 * mdt + coeff3 * sdt
+        val n2 = coeff1 * ldt2 + coeff2 * mdt2 + coeff3 * sdt2
+
+        val u_n = n1 / (n1 * n1 - 0.5 * n * n2)
+        val t_n = -n * u_n
+
+        return if (u_n >= 0) t_n else Double.MAX_VALUE
     }
 
     // Finds intersection of the line defined by
     // L = L0 * (1 - t) + t * L1
     // C = t * C1
     // a and b must be normalized so a^2 + b^2 == 1
-    private fun findGamutIntersection(a: Double, b: Double, L1: Double, C1: Double, L0: Double): Double
-    {
-        // Find the cusp of the gamut triangle
-        val (cuspL, cuspC) = findCusp(a, b)
-
-        // Find the intersection for upper and lower half seprately
-        var t: Double
-        if (((L1 - L0) * cuspC - (cuspL - L0) * C1) <= 0) {
+    private fun findGamutIntersection(
+        cusp: LC,
+        a: Double, b: Double,
+        L1: Double, C1: Double,
+        L0: Double,
+    ): Double {
+        // Find the intersection for upper and lower half separately
+        if (((L1 - L0) * cusp.C - (cusp.L - L0) * C1) <= 0) {
             // Lower half
+            return cusp.C * L0 / (C1 * cusp.L + cusp.C * (L0 - L1))
+        }
 
-            t = cuspC * L0 / (C1 * cuspL + cuspC * (L0 - L1))
-        } else {
-            // Upper half
+        // Upper half
 
-            // First intersect with triangle
-            t = cuspC * (L0 - 1) / (C1 * (cuspL - 1) + cuspC * (L0 - L1))
+        // First intersect with triangle
+        val t = cusp.C * (L0 - 1) / (C1 * (cusp.L - 1) + cusp.C * (L0 - L1))
 
-            // Then one step Halley's method
+        // Then one step Halley's method
+        run {
+            val dL = L1 - L0
+            val dC = C1
+
+            val k_l = +0.3963377774 * a + 0.2158037573 * b
+            val k_m = -0.1055613458 * a - 0.0638541728 * b
+            val k_s = -0.0894841775 * a - 1.2914855480 * b
+
+            val l_dt = dL + dC * k_l
+            val m_dt = dL + dC * k_m
+            val s_dt = dL + dC * k_s
+
+            // If higher accuracy is required, 2 or 3 iterations of the following block can be used:
             run {
-                val dL = L1 - L0
-                val dC = C1
+                val L = L0 * (1.0 - t) + t * L1
+                val C = t * C1
 
-                val k_l = +0.3963377774 * a + 0.2158037573 * b
-                val k_m = -0.1055613458 * a - 0.0638541728 * b
-                val k_s = -0.0894841775 * a - 1.2914855480 * b
+                val l_ = L + C * k_l
+                val m_ = L + C * k_m
+                val s_ = L + C * k_s
 
-                val l_dt = dL + dC * k_l
-                val m_dt = dL + dC * k_m
-                val s_dt = dL + dC * k_s
+                val l = cube(l_)
+                val m = cube(m_)
+                val s = cube(s_)
 
-                // If higher accuracy is required, 2 or 3 iterations of the following block can be used:
-                run {
-                    val L = L0 * (1.0 - t) + t * L1
-                    val C = t * C1
+                val ldt = 3 * l_dt * square(l_)
+                val mdt = 3 * m_dt * square(m_)
+                val sdt = 3 * s_dt * square(s_)
 
-                    val l_ = L + C * k_l
-                    val m_ = L + C * k_m
-                    val s_ = L + C * k_s
+                val ldt2 = 6 * square(l_dt) * l_
+                val mdt2 = 6 * square(m_dt) * m_
+                val sdt2 = 6 * square(s_dt) * s_
 
-                    val l = l_ * l_ * l_
-                    val m = m_ * m_ * m_
-                    val s = s_ * s_ * s_
+                val t_r = halleyTerm(
+                    l, m, s, ldt, mdt, sdt, ldt2, mdt2, sdt2,
+                    4.0767416621, -3.3077115913, 0.2309699292,
+                )
+                val t_g = halleyTerm(
+                    l, m, s, ldt, mdt, sdt, ldt2, mdt2, sdt2,
+                    -1.2681437731, 2.6097574011, -0.3413193965,
+                )
+                val t_b = halleyTerm(
+                    l, m, s, ldt, mdt, sdt, ldt2, mdt2, sdt2,
+                    -0.0041960863, -0.7034186147, 1.7076147010,
+                )
 
-                    val ldt = 3 * l_dt * l_ * l_
-                    val mdt = 3 * m_dt * m_ * m_
-                    val sdt = 3 * s_dt * s_ * s_
+                return t + min(t_r, min(t_g, t_b))
+            }
+        }
+    }
 
-                    val ldt2 = 6 * l_dt * l_dt * l_
-                    val mdt2 = 6 * m_dt * m_dt * m_
-                    val sdt2 = 6 * s_dt * s_dt * s_
+    fun clip(rgb: LinearSrgb, method: ClipMethod, alpha: Double = 0.05): LinearSrgb {
+        if (rgb.r in 0.0..1.0 && rgb.g in 0.0..1.0 && rgb.b in 0.0..1.0) {
+            return rgb
+        }
 
-                    val r = 4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s - 1
-                    val r1 = 4.0767416621 * ldt - 3.3077115913 * mdt + 0.2309699292 * sdt
-                    val r2 = 4.0767416621 * ldt2 - 3.3077115913 * mdt2 + 0.2309699292 * sdt2
+        val lab = rgb.toOklab()
 
-                    val u_r = r1 / (r1 * r1 - 0.5 * r * r2)
-                    var t_r = -r * u_r
+        val L = lab.L
+        val C = max(CLIP_EPSILON, sqrt(lab.a * lab.a + lab.b * lab.b))
+        val a_ = lab.a / C
+        val b_ = lab.b / C
 
-                    val g = -1.2681437731 * l + 2.6097574011 * m - 0.3413193965 * s - 1
-                    val g1 = -1.2681437731 * ldt + 2.6097574011 * mdt - 0.3413193965 * sdt
-                    val g2 = -1.2681437731 * ldt2 + 2.6097574011 * mdt2 - 0.3413193965 * sdt2
+        val cusp = findCusp(a_, b_)
 
-                    val u_g = g1 / (g1 * g1 - 0.5 * g * g2)
-                    var t_g = -g * u_g
+        val L0 = when (method) {
+            // L0 = target L
+            ClipMethod.PRESERVE_LIGHTNESS -> L.coerceIn(0.0, 1.0)
 
-                    val b = -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s - 1
-                    val b1 = -0.0041960863 * ldt - 0.7034186147 * mdt + 1.7076147010 * sdt
-                    val b2 = -0.0041960863 * ldt2 - 0.7034186147 * mdt2 + 1.7076147010 * sdt2
+            // L0 = 0.5 (mid grayscale)
+            ClipMethod.PROJECT_TO_MID -> 0.5
+            // L0 = L_cusp
+            ClipMethod.PROJECT_TO_LCUSP -> cusp.L
 
-                    val u_b = b1 / (b1 * b1 - 0.5 * b * b2)
-                    var t_b = -b * u_b
+            // Adaptive L0 towards L0=0.5
+            ClipMethod.ADAPTIVE_TOWARDS_MID -> {
+                val Ld = L - 0.5
+                val e1 = 0.5 + abs(Ld) + alpha * C
+                0.5*(1.0 + sign(Ld)*(e1 - sqrt(e1*e1 - 2.0 *abs(Ld))))
+            }
+            // Adaptive L0 towards L0=L_cusp
+            ClipMethod.ADAPTIVE_TOWARDS_LCUSP -> {
+                val Ld = L - cusp.L
+                val k = 2.0 * (if (Ld > 0) 1.0 - cusp.L else cusp.L)
 
-                    t_r = if (u_r >= 0) t_r else Double.MAX_VALUE
-                    t_g = if (u_g >= 0) t_g else Double.MAX_VALUE
-                    t_b = if (u_b >= 0) t_b else Double.MAX_VALUE
-
-                    t += min(t_r, min(t_g, t_b))
-                }
+                val e1 = 0.5*k + abs(Ld) + alpha * C/k
+                cusp.L + 0.5 * (sign(Ld) * (e1 - sqrt(e1 * e1 - 2.0 * k * abs(Ld))))
             }
         }
 
-        return t
-    }
-
-    fun gamutClipPreserveLightness(rgb: LinearSrgb): LinearSrgb
-    {
-        if (rgb.r < 1 && rgb.g < 1 && rgb.b < 1 && rgb.r > 0 && rgb.g > 0 && rgb.b > 0)
-            return rgb
-
-        val lab = rgb.toOklab()
-
-        val L = lab.L
-        val eps = 0.00001
-        val C = max(eps, sqrt(lab.a * lab.a + lab.b * lab.b))
-        val a_ = lab.a / C
-        val b_ = lab.b / C
-
-        val L0 = L.coerceIn(0.0..1.0)
-
-        val t = findGamutIntersection(a_, b_, L, C, L0)
+        val t = findGamutIntersection(cusp, a_, b_, L, C, L0)
         val L_clipped = L0 * (1 - t) + t * L
         val C_clipped = t * C
 
         return Oklab(L_clipped, C_clipped * a_, C_clipped * b_).toLinearSrgb()
     }
 
-    fun gamutClipProjectTo0p5(rgb: LinearSrgb): LinearSrgb
-    {
-        if (rgb.r < 1 && rgb.g < 1 && rgb.b < 1 && rgb.r > 0 && rgb.g > 0 && rgb.b > 0)
-            return rgb
+    enum class ClipMethod {
+        PRESERVE_LIGHTNESS,
 
-        val lab = rgb.toOklab()
+        PROJECT_TO_MID,
+        PROJECT_TO_LCUSP,
 
-        val L = lab.L
-        val eps = 0.00001
-        val C = max(eps, sqrt(lab.a * lab.a + lab.b * lab.b))
-        val a_ = lab.a / C
-        val b_ = lab.b / C
-
-        val L0 = 0.5
-
-        val t = findGamutIntersection(a_, b_, L, C, L0)
-        val L_clipped = L0 * (1 - t) + t * L
-        val C_clipped = t * C
-
-        return Oklab(L_clipped, C_clipped * a_, C_clipped * b_).toLinearSrgb()
+        ADAPTIVE_TOWARDS_MID,
+        ADAPTIVE_TOWARDS_LCUSP,
     }
 
-    fun gamutClipProjectToLcusp(rgb: LinearSrgb): LinearSrgb
-    {
-        if (rgb.r < 1 && rgb.g < 1 && rgb.b < 1 && rgb.r > 0 && rgb.g > 0 && rgb.b > 0)
-            return rgb
+    private data class LC(
+        val L: Double,
+        val C: Double,
+    )
 
-        val lab = rgb.toOklab()
+    private enum class SaturationCoefficients(
+        val k0: Double,
+        val k1: Double,
+        val k2: Double,
+        val k3: Double,
+        val k4: Double,
+        val wl: Double,
+        val wm: Double,
+        val ws: Double,
+    ) {
+        RED(
+            k0 = +1.19086277,
+            k1 = +1.76576728,
+            k2 = +0.59662641,
+            k3 = +0.75515197,
+            k4 = +0.56771245,
+            wl = +4.0767416621,
+            wm = -3.3077115913,
+            ws = +0.2309699292,
+        ),
 
-        val L = lab.L
-        val eps = 0.00001
-        val C = max(eps, sqrt(lab.a * lab.a + lab.b * lab.b))
-        val a_ = lab.a / C
-        val b_ = lab.b / C
+        GREEN(
+            k0 = +0.73956515,
+            k1 = -0.45954404,
+            k2 = +0.08285427,
+            k3 = +0.12541070,
+            k4 = +0.14503204,
+            wl = -1.2681437731,
+            wm = +2.6097574011,
+            ws = -0.3413193965,
+        ),
 
-        // The cusp is computed here and in findGamutIntersection, an optimized solution would only compute it once.
-        val (cuspL, cuspC) = findCusp(a_, b_)
-
-        val L0 = cuspL
-
-        val t = findGamutIntersection(a_, b_, L, C, L0)
-
-        val L_clipped = L0 * (1 - t) + t * L
-        val C_clipped = t * C
-
-        return Oklab(L_clipped, C_clipped * a_, C_clipped * b_).toLinearSrgb()
-    }
-
-    fun gamutClipAdaptiveL0Towards0p5(rgb: LinearSrgb, alpha: Double = 0.05): LinearSrgb
-    {
-        if (rgb.r < 1 && rgb.g < 1 && rgb.b < 1 && rgb.r > 0 && rgb.g > 0 && rgb.b > 0)
-            return rgb
-
-        val lab = rgb.toOklab()
-
-        val L = lab.L
-        val eps = 0.00001
-        val C = max(eps, sqrt(lab.a * lab.a + lab.b * lab.b))
-        val a_ = lab.a / C
-        val b_ = lab.b / C
-
-        val Ld = L - 0.5
-        val e1 = 0.5 + abs(Ld) + alpha * C
-        val L0 = 0.5*(1.0 + sign(Ld)*(e1 - sqrt(e1*e1 - 2.0 *abs(Ld))))
-
-        val t = findGamutIntersection(a_, b_, L, C, L0)
-        val L_clipped = L0 * (1.0 - t) + t * L
-        val C_clipped = t * C
-
-        return Oklab(L_clipped, C_clipped * a_, C_clipped * b_).toLinearSrgb()
-    }
-
-    fun gamutClipAdaptiveL0TowardsLcusp(rgb: LinearSrgb, alpha: Double = 0.05): LinearSrgb
-    {
-        if (rgb.r < 1 && rgb.g < 1 && rgb.b < 1 && rgb.r > 0 && rgb.g > 0 && rgb.b > 0)
-            return rgb
-
-        val lab = rgb.toOklab()
-
-        val L = lab.L
-        val eps = 0.00001
-        val C = max(eps, sqrt(lab.a * lab.a + lab.b * lab.b))
-        val a_ = lab.a / C
-        val b_ = lab.b / C
-
-        // The cusp is computed here and in findGamutIntersection, an optimized solution would only compute it once.
-        val (cuspL, cuspC) = findCusp(a_, b_)
-
-        val Ld = L - cuspL
-        val k = 2.0 * (if (Ld > 0) 1.0 - cuspL else cuspL)
-
-        val e1 = 0.5*k + abs(Ld) + alpha * C/k
-        val L0 = cuspL + 0.5 * (sign(Ld) * (e1 - sqrt(e1 * e1 - 2.0 * k * abs(Ld))))
-
-        val t = findGamutIntersection(a_, b_, L, C, L0)
-        val L_clipped = L0 * (1.0 - t) + t * L
-        val C_clipped = t * C
-
-        return Oklab(L_clipped, C_clipped * a_, C_clipped * b_).toLinearSrgb()
+        BLUE(
+            k0 = +1.35733652,
+            k1 = -0.00915799,
+            k2 = -1.15130210,
+            k3 = -0.50559606,
+            k4 = +0.00692167,
+            wl = -0.0041960863,
+            wm = -0.7034186147,
+            ws = +1.7076147010,
+        ),
     }
 }
