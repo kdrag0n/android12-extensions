@@ -17,17 +17,17 @@ data class Cam16Ucs(
     fun toSrgb(): Srgb {
         // CAM16-UCS inverse solved from forward equations
         // Need to do this ourselves because Google only implements forward UCS
-        val J = L / (1.7 - 0.007*L)
+        val j = L / (1.7 - 0.007*L)
         val hRad = atan2(b, a)
-        val Mp = a / cos(hRad) // a' = M' * cos(h)
-        val M = (exp(0.0228 * Mp) - 1) / 0.0228
+        val mp = a / cos(hRad) // a' = M' * cos(h)
+        val m = (exp(0.0228 * mp) - 1) / 0.0228
 
         // M -> C for Jch inverse
-        val C = M / Frame.DEFAULT.fl.pow(0.25f)
+        val c = m / Frame.DEFAULT.fl.pow(0.25f)
         // Convert h to degrees for Google's CAM16 implementation
         val hDeg = Math.toDegrees(hRad)
 
-        val cam = Cam.fromJch(J.toFloat(), C.toFloat(), hDeg.toFloat())
+        val cam = Cam.fromJch(j.toFloat(), c.toFloat(), hDeg.toFloat())
         return Srgb(cam.viewedInSrgb())
     }
 
