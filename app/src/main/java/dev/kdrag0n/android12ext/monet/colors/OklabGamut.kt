@@ -220,7 +220,7 @@ object OklabGamut {
         return t
     }
 
-    fun gamutClipPreserveChroma(rgb: LinearSrgb): LinearSrgb
+    fun gamutClipPreserveLightness(rgb: LinearSrgb): LinearSrgb
     {
         if (rgb.r < 1 && rgb.g < 1 && rgb.b < 1 && rgb.r > 0 && rgb.g > 0 && rgb.b > 0)
             return rgb
