@@ -3,10 +3,14 @@ package dev.kdrag0n.android12ext.ui.settings.appearance
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
+import dev.kdrag0n.android12ext.monet.colors.Srgb
+import dev.kdrag0n.android12ext.monet.theme.DynamicColorScheme
+import dev.kdrag0n.android12ext.monet.theme.TargetColors
 import dev.kdrag0n.android12ext.ui.monet.palette.PaletteActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -65,6 +69,8 @@ class AutoPaletteRenderer(
     }
 
     companion object {
+        private const val TAG = "MonetBench"
+
         val COLORS = mapOf(
             "magenta" to -6543440,
             "violet" to -10011977,
@@ -82,5 +88,39 @@ class AutoPaletteRenderer(
             "pure-green" to -16711936,
             "pure-blue" to -16776961,
         )
+
+        // Needs to work on release builds for performance reasons
+        @SuppressLint("LogNotTimber")
+        fun runBenchmark() {
+            Log.i(TAG, "Warming up")
+            (1..10000).forEach { _ ->
+                COLORS.values.forEach { color ->
+                    val colors = DynamicColorScheme(
+                        targetColors = TargetColors(),
+                        primaryColor = Srgb(color),
+                    )
+                    colors.accentColors
+                    colors.neutralColors
+                }
+            }
+
+            Log.i(TAG, "Benchmarking")
+            var count = 0
+            val before = System.nanoTime()
+            (1..10000).forEach { _ ->
+                COLORS.values.forEach { color ->
+                    val colors = DynamicColorScheme(
+                        targetColors = TargetColors(),
+                        primaryColor = Srgb(color),
+                    )
+                    colors.accentColors
+                    colors.neutralColors
+                    count++
+                }
+            }
+            val after = System.nanoTime()
+            val timePerScheme = (after - before).toDouble() / 1e6 / count
+            Log.i(TAG, "Done in $timePerScheme ms/color")
+        }
     }
 }

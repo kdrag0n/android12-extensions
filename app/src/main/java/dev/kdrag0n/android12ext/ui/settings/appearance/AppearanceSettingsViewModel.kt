@@ -142,6 +142,13 @@ class AppearanceSettingsViewModel(
                 action = R.id.action_settings_appearance_to_quantizer,
                 vm = this@AppearanceSettingsViewModel,
             )
+            pref("benchmark_monet") {
+                title = "Benchmark color generation"
+                onClick {
+                    AutoPaletteRenderer.runBenchmark()
+                    false
+                }
+            }
             pref("test_ongoing_call") {
                 title = "Test ongoing call"
                 onClick {
