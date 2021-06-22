@@ -48,9 +48,9 @@ class DynamicColorScheme(
     }
 
     private fun transformSwatch(
-        swatch: Map<Int, Color>,
+        swatch: ColorSwatch,
         primary: Lch,
-    ): Map<Int, Color> {
+    ): ColorSwatch {
         return swatch.map { (shade, color) ->
             val target = color as? Lch
                 ?: color.toLinearSrgb().toOklab().toOklch()
