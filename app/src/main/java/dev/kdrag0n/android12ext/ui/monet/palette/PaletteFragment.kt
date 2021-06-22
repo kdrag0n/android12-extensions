@@ -26,6 +26,9 @@ class PaletteFragment : BaseFragment() {
         view.setBackgroundResource(R.color.palette_bg)
 
         val shadeLabels = view.findViewById<LinearLayout>(R.id.color_swatch_shade_labels)
+        val seedTint = ColorStateList.valueOf(viewModel.seedColor)
+        shadeLabels.findViewById<View>(R.id.color_sample_seed).backgroundTintList = seedTint
+
         shadeIds.forEach { (shade, id) ->
             shadeLabels.findViewById<TextView>(id).text = shade.toString()
         }

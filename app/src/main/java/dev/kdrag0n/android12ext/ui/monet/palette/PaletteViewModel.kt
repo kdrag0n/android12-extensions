@@ -9,9 +9,10 @@ import dev.kdrag0n.android12ext.monet.theme.MaterialYouTargets
 class PaletteViewModel(
     settingsRepo: SettingsRepository,
 ) : ViewModel() {
+    val seedColor = settingsRepo.prefs.getInt("monet_custom_color_value", android.graphics.Color.BLUE)
     private val scheme = DynamicColorScheme(
         targets = MaterialYouTargets(),
-        seedColor = Srgb(settingsRepo.prefs.getInt("monet_custom_color_value", android.graphics.Color.BLUE)),
+        seedColor = Srgb(seedColor),
     )
 
     val colors = mapOf(

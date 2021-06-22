@@ -3,11 +3,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <!-- Space where swatch label would be -->
-    <View
-        android:layout_width="@dimen/color_sample"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/color_sample_margin" />
+    <include
+        android:id="@+id/color_sample_seed"
+        layout="@layout/color_sample" />
 
     <include
         android:id="@+id/color_shade_0"
