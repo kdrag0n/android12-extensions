@@ -78,10 +78,10 @@ class DynamicColorScheme(
             OklabGamut.ClipMethod.PRESERVE_LIGHTNESS
         } else {
             // Prefer chroma
-            OklabGamut.ClipMethod.PROJECT_TO_LCUSP
+            OklabGamut.ClipMethod.ADAPTIVE_TOWARDS_LCUSP
         }
 
-        return OklabGamut.clip(srgb, clipMethod, oklab = oklab)
+        return OklabGamut.clip(srgb, clipMethod, alpha = 5.0, oklab = oklab)
     }
 
     companion object {
