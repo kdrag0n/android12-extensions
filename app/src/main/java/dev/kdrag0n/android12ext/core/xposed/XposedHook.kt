@@ -77,7 +77,7 @@ class XposedHook(
 
             sysuiHooks.applyThemeOverlayController(
                 isGoogle = hasSystemUiGoogle,
-                chromaMultiplier = prefs.getInt("custom_monet_chroma_multiplier", 50).toDouble() / 50,
+                chromaMultiplier = prefs.getInt("custom_monet_chroma_multiplier", 50).toFloat() / 50,
                 multiColor = false,
                 colorOverride = colorOverride,
             )

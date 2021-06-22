@@ -61,7 +61,7 @@ class SystemUIHooks(
 
     fun applyThemeOverlayController(
         isGoogle: Boolean,
-        chromaMultiplier: Double,
+        chromaMultiplier: Float,
         multiColor: Boolean,
         colorOverride: Int?,
     ) {
