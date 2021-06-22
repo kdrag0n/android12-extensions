@@ -6,11 +6,9 @@ import dev.kdrag0n.android12ext.monet.colors.Oklch
 /*
  * Default target colors, conforming to Material You standards.
  *
- * Mostly derived from:
- *   - AOSP defaults: Untinted gray neutral colors and teal accent (+60 deg = ~purple).
- *   - Pixel defaults: Neutral colors are equivalent to AOSP. Main accent is blue.
+ * Derived from AOSP and Pixel defaults.
  */
-class TargetColors(
+class MaterialYouTargets(
     private val chromaFactor: Double = 1.0,
 ) : ColorScheme() {
     companion object {

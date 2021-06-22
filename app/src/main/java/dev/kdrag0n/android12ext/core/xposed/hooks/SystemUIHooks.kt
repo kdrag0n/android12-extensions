@@ -11,7 +11,7 @@ import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.core.xposed.hookMethod
 import dev.kdrag0n.android12ext.monet.overlay.ThemeOverlayController
-import dev.kdrag0n.android12ext.monet.theme.TargetColors
+import dev.kdrag0n.android12ext.monet.theme.MaterialYouTargets
 import timber.log.Timber
 
 class SystemUIHooks(
@@ -66,7 +66,7 @@ class SystemUIHooks(
         colorOverride: Int?,
     ) {
         val controller = ThemeOverlayController(
-            TargetColors(chromaMultiplier),
+            MaterialYouTargets(chromaMultiplier),
             chromaMultiplier,
             multiColor,
         )
