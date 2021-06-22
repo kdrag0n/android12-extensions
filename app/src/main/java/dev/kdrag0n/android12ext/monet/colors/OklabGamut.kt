@@ -185,12 +185,17 @@ object OklabGamut {
         }
     }
 
-    fun clip(rgb: LinearSrgb, method: ClipMethod, alpha: Double = 0.05): LinearSrgb {
+    fun clip(
+        rgb: LinearSrgb,
+        method: ClipMethod,
+        alpha: Double = 0.05,
+        oklab: Oklab? = null,
+    ): LinearSrgb {
         if (rgb.r in 0.0..1.0 && rgb.g in 0.0..1.0 && rgb.b in 0.0..1.0) {
             return rgb
         }
 
-        val lab = rgb.toOklab()
+        val lab = oklab ?: rgb.toOklab()
 
         val L = lab.L
         val C = max(CLIP_EPSILON, sqrt(lab.a * lab.a + lab.b * lab.b))

@@ -71,7 +71,8 @@ class DynamicColorScheme(
         // Use the primary color's hue, since it's the most prominent feature of the theme.
         val h = primary.h
 
-        val srgb = Oklch(L, C, h).toLinearSrgb()
+        val oklab = Oklch(L, C, h).toOklab()
+        val srgb = oklab.toLinearSrgb()
         val clipMethod = if (accurateShades) {
             // Prefer lightness
             OklabGamut.ClipMethod.PRESERVE_LIGHTNESS
@@ -80,7 +81,7 @@ class DynamicColorScheme(
             OklabGamut.ClipMethod.PROJECT_TO_LCUSP
         }
 
-        return OklabGamut.clip(srgb, clipMethod)
+        return OklabGamut.clip(srgb, clipMethod, oklab = oklab)
     }
 
     companion object {
