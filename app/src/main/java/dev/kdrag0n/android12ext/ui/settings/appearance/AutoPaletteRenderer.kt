@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.monet.colors.Srgb
 import dev.kdrag0n.android12ext.monet.theme.DynamicColorScheme
-import dev.kdrag0n.android12ext.monet.theme.TargetColors
+import dev.kdrag0n.android12ext.monet.theme.MaterialYouTargets
 import dev.kdrag0n.android12ext.ui.monet.palette.PaletteActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -96,7 +96,7 @@ class AutoPaletteRenderer(
             (1..10000).forEach { _ ->
                 COLORS.values.forEach { color ->
                     val colors = DynamicColorScheme(
-                        targetColors = TargetColors(),
+                        targetColors = MaterialYouTargets(),
                         primaryColor = Srgb(color),
                     )
                     colors.accentColors
@@ -110,7 +110,7 @@ class AutoPaletteRenderer(
             (1..10000).forEach { _ ->
                 COLORS.values.forEach { color ->
                     val colors = DynamicColorScheme(
-                        targetColors = TargetColors(),
+                        targetColors = MaterialYouTargets(),
                         primaryColor = Srgb(color),
                     )
                     colors.accentColors
