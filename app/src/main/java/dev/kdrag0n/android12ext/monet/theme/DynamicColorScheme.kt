@@ -6,55 +6,55 @@ import dev.kdrag0n.android12ext.monet.colors.Oklch.Companion.toOklch
 import timber.log.Timber
 
 class DynamicColorScheme(
-    targetColors: ColorScheme,
-    primaryColor: Color,
-    chromaMultiplier: Double = 1.0,
+    targets: ColorScheme,
+    seedColor: Color,
+    chromaFactor: Double = 1.0,
     private val accurateShades: Boolean = true,
 ) : ColorScheme() {
-    private val primaryNeutral = primaryColor.toLinearSrgb().toOklab().toOklch().let { lch ->
-        lch.copy(C = lch.C * chromaMultiplier)
+    private val seedNeutral = seedColor.toLinearSrgb().toOklab().toOklch().let { lch ->
+        lch.copy(C = lch.C * chromaFactor)
     }
-    private val primaryAccent = primaryNeutral
+    private val seedAccent = seedNeutral
 
     init {
-        val primaryRgb8 = primaryColor.toLinearSrgb().toSrgb().quantize8()
-        Timber.i("Primary color: ${String.format("%06x", primaryRgb8)} => $primaryNeutral")
+        val seedRgb8 = seedColor.toLinearSrgb().toSrgb().quantize8()
+        Timber.i("Seed color: ${String.format("%06x", seedRgb8)} => $seedNeutral")
     }
 
-    // Main background color. Tinted with the primary color.
+    // Main background color. Tinted with the seed color.
     override val neutral1 by lazy(mode = LazyThreadSafetyMode.NONE) {
-        transformSwatch(targetColors.neutral1, primaryNeutral)
+        transformSwatch(targets.neutral1, seedNeutral)
     }
 
-    // Secondary background color. Slightly tinted with the primary color.
+    // Secondary background color. Slightly tinted with the seed color.
     override val neutral2 by lazy(mode = LazyThreadSafetyMode.NONE) {
-        transformSwatch(targetColors.neutral2, primaryNeutral)
+        transformSwatch(targets.neutral2, seedNeutral)
     }
 
-    // Main accent color. Generally, this is close to the primary color.
+    // Main accent color. Generally, this is close to the seed color.
     override val accent1 by lazy(mode = LazyThreadSafetyMode.NONE) {
-        transformSwatch(targetColors.accent1, primaryAccent)
+        transformSwatch(targets.accent1, seedAccent)
     }
 
     // Secondary accent color. Darker shades of accent1.
     override val accent2 by lazy(mode = LazyThreadSafetyMode.NONE) {
-        transformSwatch(targetColors.accent2, primaryAccent)
+        transformSwatch(targets.accent2, seedAccent)
     }
 
-    // Tertiary accent color. Primary color shifted to the next secondary color via hue offset.
+    // Tertiary accent color. Seed color shifted to the next secondary color via hue offset.
     override val accent3 by lazy(mode = LazyThreadSafetyMode.NONE) {
-        val primaryA3 = primaryAccent.copy(h = primaryAccent.h + ACCENT3_HUE_SHIFT_DEGREES)
-        transformSwatch(targetColors.accent3, primaryA3)
+        val seedA3 = seedAccent.copy(h = seedAccent.h + ACCENT3_HUE_SHIFT_DEGREES)
+        transformSwatch(targets.accent3, seedA3)
     }
 
     private fun transformSwatch(
         swatch: ColorSwatch,
-        primary: Lch,
+        seed: Lch,
     ): ColorSwatch {
         return swatch.map { (shade, color) ->
             val target = color as? Lch
                 ?: color.toLinearSrgb().toOklab().toOklch()
-            val newLch = transformColor(target, primary)
+            val newLch = transformColor(target, seed)
             val newSrgb = newLch.toLinearSrgb().toSrgb()
 
             val newRgb8 = newSrgb.quantize8()
@@ -63,13 +63,13 @@ class DynamicColorScheme(
         }.toMap()
     }
 
-    private fun transformColor(target: Lch, primary: Lch): Color {
+    private fun transformColor(target: Lch, seed: Lch): Color {
         // Keep target lightness.
         val L = target.L
         // Allow colorless gray.
-        val C = primary.C.coerceIn(0.0, target.C)
-        // Use the primary color's hue, since it's the most prominent feature of the theme.
-        val h = primary.h
+        val C = seed.C.coerceIn(0.0, target.C)
+        // Use the seed color's hue, since it's the most prominent feature of the theme.
+        val h = seed.h
 
         val oklab = Oklch(L, C, h).toOklab()
         val srgb = oklab.toLinearSrgb()

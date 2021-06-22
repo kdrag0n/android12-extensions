@@ -89,37 +89,34 @@ class AutoPaletteRenderer(
             "pure-blue" to -16776961,
         )
 
-        // Needs to work on release builds for performance reasons
-        @SuppressLint("LogNotTimber")
-        fun runBenchmark() {
-            Log.i(TAG, "Warming up")
-            (1..10000).forEach { _ ->
-                COLORS.values.forEach { color ->
-                    val colors = DynamicColorScheme(
-                        targetColors = MaterialYouTargets(),
-                        primaryColor = Srgb(color),
-                    )
-                    colors.accentColors
-                    colors.neutralColors
-                }
-            }
-
-            Log.i(TAG, "Benchmarking")
+        private fun doBenchmarkRound(): Double {
             var count = 0
             val before = System.nanoTime()
+
             (1..10000).forEach { _ ->
                 COLORS.values.forEach { color ->
                     val colors = DynamicColorScheme(
-                        targetColors = MaterialYouTargets(),
-                        primaryColor = Srgb(color),
+                        targets = MaterialYouTargets(),
+                        seedColor = Srgb(color),
                     )
                     colors.accentColors
                     colors.neutralColors
                     count++
                 }
             }
+
             val after = System.nanoTime()
-            val timePerScheme = (after - before).toDouble() / 1e6 / count
+            return (after - before).toDouble() / 1e6 / count
+        }
+
+        // Needs to work on release builds for performance reasons
+        @SuppressLint("LogNotTimber")
+        fun runBenchmark() {
+            Log.i(TAG, "Warming up")
+            doBenchmarkRound()
+
+            Log.i(TAG, "Benchmarking")
+            val timePerScheme = doBenchmarkRound()
             Log.i(TAG, "Done in $timePerScheme ms/color")
         }
     }

@@ -10,8 +10,8 @@ class PaletteViewModel(
     settingsRepo: SettingsRepository,
 ) : ViewModel() {
     private val scheme = DynamicColorScheme(
-        targetColors = MaterialYouTargets(),
-        primaryColor = Srgb(settingsRepo.prefs.getInt("monet_custom_color_value", android.graphics.Color.BLUE)),
+        targets = MaterialYouTargets(),
+        seedColor = Srgb(settingsRepo.prefs.getInt("monet_custom_color_value", android.graphics.Color.BLUE)),
     )
 
     val colors = mapOf(
