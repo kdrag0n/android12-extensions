@@ -28,6 +28,8 @@
 
     <style name="Theme.A12Ext.Palette" parent="Theme.A12Ext.NoActionBar">
         <item name="android:windowLayoutInDisplayCutoutMode">always</item>
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:fontFeatureSettings">cv03, cv04</item>
     </style>
 
     <style name="Theme.A12Ext.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
