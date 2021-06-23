@@ -21,4 +21,17 @@ class SettingsHooks(
             Context::class.java,
         )
     }
+
+    fun applyBatterySlots(enabled: Boolean) {
+        val hook = object : XC_MethodReplacement() {
+            override fun replaceHookedMethod(param: MethodHookParam) = enabled
+        }
+
+        lpparam.hookMethod(
+            "com.google.android.settings.fuelgauge.PowerUsageFeatureProviderGoogleImpl",
+            hook,
+            "isChartGraphSlotsEnabled",
+            Context::class.java,
+        )
+    }
 }
