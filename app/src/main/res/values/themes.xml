@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.A12Ext" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.App" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="android:colorBackground">@android:color/system_neutral1_50</item>
         <item name="colorBackgroundFloating">@android:color/system_neutral1_50</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -21,18 +21,18 @@
         <item name="android:textColorSecondary">@color/text_color_secondary_device_default_light</item>
     </style>
 
-    <style name="Theme.A12Ext.NoActionBar">
+    <style name="Theme.App.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.A12Ext.Palette" parent="Theme.A12Ext.NoActionBar">
+    <style name="Theme.App.Palette" parent="Theme.App.NoActionBar">
         <item name="android:windowLayoutInDisplayCutoutMode">always</item>
         <item name="android:fontFamily">@font/inter_medium</item>
         <item name="android:fontFeatureSettings">cv03, cv04</item>
     </style>
 
-    <style name="Theme.A12Ext.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="Theme.App.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorPrimary">@android:color/system_neutral1_50</item>
         <item name="colorPrimaryVariant">@android:color/system_neutral1_100</item>
         <item name="colorOnPrimary">@android:color/system_neutral1_900</item>

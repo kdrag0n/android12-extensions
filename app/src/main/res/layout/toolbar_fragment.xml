@@ -12,7 +12,7 @@
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/silk_toolbar_expanded_height"
-        android:theme="@style/Theme.A12Ext.AppBarOverlay"
+        android:theme="@style/Theme.App.AppBarOverlay"
         android:fitsSystemWindows="true"
         android:background="@android:color/transparent"
         app:elevation="0dp">

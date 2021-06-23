@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.A12Ext" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.App" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="android:colorBackground">@android:color/system_neutral1_900</item>
         <item name="colorBackgroundFloating">@android:color/system_neutral1_900</item>
 
@@ -20,7 +20,7 @@
         <item name="android:textColorSecondary">@color/text_color_secondary_device_default_dark</item>
     </style>
 
-    <style name="Theme.A12Ext.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="Theme.App.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorPrimary">@android:color/system_neutral1_900</item>
         <item name="colorPrimaryVariant">@android:color/system_neutral1_700</item>
         <item name="colorOnPrimary">@android:color/system_neutral1_0</item>
