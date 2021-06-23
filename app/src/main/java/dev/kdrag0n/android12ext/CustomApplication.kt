@@ -13,6 +13,7 @@ import dev.kdrag0n.android12ext.ui.settings.appearance.AppearanceSettingsViewMod
 import dev.kdrag0n.android12ext.ui.settings.appearance.ColorDialogViewModel
 import dev.kdrag0n.android12ext.ui.settings.launcher.LauncherSettingsViewModel
 import dev.kdrag0n.android12ext.ui.settings.root.SettingsViewModel
+import dev.kdrag0n.android12ext.ui.settings.settings.AndroidSettingsSettingsViewModel
 import dev.kdrag0n.android12ext.ui.settings.system.SystemSettingsViewModel
 import dev.kdrag0n.android12ext.ui.settings.tweaks.TweakSettingsViewModel
 import org.koin.android.ext.koin.androidContext
@@ -42,8 +43,9 @@ class CustomApplication : Application() {
             viewModel { MainViewModel(get(), get()) }
             viewModel { SettingsViewModel(get(), get(), get()) }
             viewModel { SystemSettingsViewModel(get(), get()) }
-            viewModel { TweakSettingsViewModel(get(), get()) }
+            viewModel { AndroidSettingsSettingsViewModel(get(), get()) }
             viewModel { LauncherSettingsViewModel(get(), get()) }
+            viewModel { TweakSettingsViewModel(get(), get()) }
             viewModel { AppearanceSettingsViewModel(get(), get(), get()) }
             viewModel { QuantizerViewModel(get()) }
             viewModel { ColorDialogViewModel() }

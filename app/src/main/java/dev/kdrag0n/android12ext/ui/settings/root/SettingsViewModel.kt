@@ -44,11 +44,11 @@ class SettingsViewModel(
             dependency = "global_enabled",
         )
         navPref(
-            key = "settings_tweaks",
-            title = R.string.settings_tweaks,
-            summary = R.string.settings_tweaks_desc,
-            icon = R.drawable.ic_fluent_wrench_24_regular,
-            action = R.id.action_settings_root_to_tweaks,
+            key = "settings_android_settings",
+            title = R.string.settings_android_settings,
+            summary = R.string.settings_android_settings_desc,
+            icon = R.drawable.ic_fluent_settings_24_regular,
+            action = R.id.action_settings_root_to_android_settings,
             vm = this@SettingsViewModel,
             dependency = "global_enabled",
         )
@@ -63,6 +63,15 @@ class SettingsViewModel(
                 dependency = "global_enabled",
             )
         }
+        navPref(
+            key = "settings_tweaks",
+            title = R.string.settings_tweaks,
+            summary = R.string.settings_tweaks_desc,
+            icon = R.drawable.ic_fluent_wrench_24_regular,
+            action = R.id.action_settings_root_to_tweaks,
+            vm = this@SettingsViewModel,
+            dependency = "global_enabled",
+        )
         navPref(
             key = "settings_appearance",
             title = R.string.settings_appearance,
