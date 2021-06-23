@@ -185,7 +185,7 @@ object OklabGamut {
         }
     }
 
-    fun clip(
+    private fun clip(
         rgb: LinearSrgb,
         method: ClipMethod,
         alpha: Double = 0.05,
@@ -294,4 +294,14 @@ object OklabGamut {
             ws = +1.7076147010,
         ),
     }
+
+    fun Color.clipToLinearSrgb(
+        method: ClipMethod = ClipMethod.PRESERVE_LIGHTNESS,
+        alpha: Double = 0.05,
+    ) = clip(
+        rgb = toLinearSrgb(),
+        method = method,
+        alpha = alpha,
+        oklab = this as? Oklab,
+    )
 }

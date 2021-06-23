@@ -2,6 +2,7 @@ package dev.kdrag0n.android12ext.monet.theme
 
 import dev.kdrag0n.android12ext.monet.colors.*
 import dev.kdrag0n.android12ext.monet.colors.Oklab.Companion.toOklab
+import dev.kdrag0n.android12ext.monet.colors.OklabGamut.clipToLinearSrgb
 import dev.kdrag0n.android12ext.monet.colors.Oklch.Companion.toOklch
 import timber.log.Timber
 
@@ -75,17 +76,16 @@ class DynamicColorScheme(
         // Use the seed color's hue, since it's the most prominent feature of the theme.
         val h = seed.h
 
-        val oklab = Oklch(L, C, h).toOklab()
-        val srgb = oklab.toLinearSrgb()
-        val clipMethod = if (accurateShades) {
-            // Prefer lightness
-            OklabGamut.ClipMethod.PRESERVE_LIGHTNESS
-        } else {
-            // Prefer chroma
-            OklabGamut.ClipMethod.ADAPTIVE_TOWARDS_LCUSP
-        }
-
-        return OklabGamut.clip(srgb, clipMethod, alpha = 5.0, oklab = oklab)
+        return Oklch(L, C, h).toOklab().clipToLinearSrgb(
+            method = if (accurateShades) {
+                // Prefer lightness
+                OklabGamut.ClipMethod.PRESERVE_LIGHTNESS
+            } else {
+                // Prefer chroma
+                OklabGamut.ClipMethod.ADAPTIVE_TOWARDS_LCUSP
+            },
+            alpha = 5.0,
+        )
     }
 
     companion object {
