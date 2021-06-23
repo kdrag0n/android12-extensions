@@ -5,13 +5,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
-import dev.chrisbanes.insetter.applyInsetter
 import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.ui.settings.appearance.ColorDialogViewModel
@@ -34,19 +31,10 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener {
         super.onCreate(savedInstanceState)
         window.setDecorFitsSystemWindows(false)
 
-        setContentView(R.layout.activity_main)
-
-        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        toolbar.applyInsetter {
-            type(statusBars = true) {
-                margin()
-            }
-        }
+        setContentView(R.layout.content_main)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        setupActionBarWithNavController(navController)
 
         viewModel.isXposedHooked.observe(this) { isHooked ->
             xposedDialog?.dismiss()

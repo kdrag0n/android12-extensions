@@ -1,5 +1,10 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="silk_toolbar_expanded_height">226dp</dimen>
+    <dimen name="silk_toolbar_scrim_visible_height">174dp</dimen>
+    <!-- Align with preference icons -->
+    <dimen name="silk_toolbar_expanded_title_margin">24dp</dimen>
+
     <dimen name="color_sample">36dp</dimen>
     <dimen name="color_sample_large">42dp</dimen>
     <dimen name="color_sample_margin">8dp</dimen>

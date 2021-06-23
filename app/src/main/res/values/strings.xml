@@ -9,6 +9,7 @@
     <string name="enable">Enable</string>
 
     <!-- Settings -->
+    <string name="settings_title">Extensions</string>
     <string name="enabled">Enable features</string>
     <string name="enabled_desc">Quickly toggle all features for testing</string>
     <string name="settings">Settings</string>

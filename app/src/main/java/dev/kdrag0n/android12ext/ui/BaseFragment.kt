@@ -7,10 +7,7 @@ import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
-import com.google.android.material.transition.FadeThroughProvider
 import com.google.android.material.transition.MaterialSharedAxis
-import com.google.android.material.transition.SlideDistanceProvider
-import dev.kdrag0n.android12ext.R
 
 open class BaseFragment : Fragment() {
     @CallSuper

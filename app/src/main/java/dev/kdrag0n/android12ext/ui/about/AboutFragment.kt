@@ -8,10 +8,11 @@ import android.view.ViewGroup
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
 import com.mikepenz.aboutlibraries.LibsConfiguration
+import com.mikepenz.aboutlibraries.LibsFragmentCompat
 import com.mikepenz.aboutlibraries.entity.Library
-import com.mikepenz.aboutlibraries.ui.LibsSupportFragment
 import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
+import dev.kdrag0n.android12ext.ui.BaseToolbarFragment
 import dev.kdrag0n.android12ext.ui.applyTransitions
 import dev.kdrag0n.android12ext.ui.applyTransitionsViewCreated
 import dev.kdrag0n.android12ext.ui.utils.openUri
@@ -27,17 +28,19 @@ private val EMAIL_URI = Base64.decode(Base64.decode(EMAIL_ENC_1, Base64.DEFAULT)
             .reversed()
             .joinToString(".")
 
-class AboutFragment : LibsSupportFragment() {
+class AboutFragment : BaseToolbarFragment() {
+    private val libsFragment = LibsFragmentCompat()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         applyTransitions()
     }
 
-    override fun onCreateView(
+    override fun onCreateContentView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val libsBuilder = LibsBuilder().apply {
             withAboutIconShown(true)
             withAboutAppName(getString(R.string.app_name))
@@ -84,11 +87,18 @@ class AboutFragment : LibsSupportFragment() {
             putSerializable("data", libsBuilder)
         }
 
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return libsFragment.onCreateView(inflater.context, inflater, container, savedInstanceState, arguments)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         applyTransitionsViewCreated()
+        libsFragment.onViewCreated(view)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        libsFragment.onDestroyView()
     }
 }

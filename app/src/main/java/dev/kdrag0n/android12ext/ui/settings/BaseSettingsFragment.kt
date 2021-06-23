@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.chrisbanes.insetter.applyInsetter
 import dev.kdrag0n.android12ext.R
-import dev.kdrag0n.android12ext.ui.BaseFragment
+import dev.kdrag0n.android12ext.ui.BaseToolbarFragment
 
-open class BaseSettingsFragment : BaseFragment() {
-    override fun onCreateView(
+open class BaseSettingsFragment : BaseToolbarFragment() {
+    override fun onCreateContentView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        return inflater.inflate(R.layout.content_settings, container, false)
     }
 
     protected fun initViewModel(viewModel: BaseSettingsViewModel) {

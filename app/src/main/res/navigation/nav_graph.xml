@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/settings_root"
         android:name="dev.kdrag0n.android12ext.ui.settings.root.SettingsFragment"
-        android:label="@string/app_name"
-        tools:layout="@layout/fragment_settings">
+        android:label="@string/settings_title"
+        tools:layout="@layout/content_settings">
         <action android:id="@+id/action_settings_root_to_about"
             app:destination="@id/about_libraries" />
         <action android:id="@+id/action_settings_root_to_system"
@@ -28,31 +28,31 @@
         android:id="@+id/system_settings"
         android:name="dev.kdrag0n.android12ext.ui.settings.system.SystemSettingsFragment"
         android:label="@string/settings_system"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/content_settings" />
 
     <fragment
         android:id="@+id/android_settings_settings"
         android:name="dev.kdrag0n.android12ext.ui.settings.settings.AndroidSettingsSettingsFragment"
         android:label="@string/settings_android_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/content_settings" />
 
     <fragment
         android:id="@+id/launcher_settings"
         android:name="dev.kdrag0n.android12ext.ui.settings.launcher.LauncherSettingsFragment"
         android:label="@string/settings_launcher"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/content_settings" />
 
     <fragment
         android:id="@+id/tweaks_settings"
         android:name="dev.kdrag0n.android12ext.ui.settings.tweaks.TweakSettingsFragment"
         android:label="@string/settings_tweaks"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/content_settings" />
 
     <fragment
         android:id="@+id/appearance_settings"
         android:name="dev.kdrag0n.android12ext.ui.settings.appearance.AppearanceSettingsFragment"
         android:label="@string/settings_appearance"
-        tools:layout="@layout/fragment_settings">
+        tools:layout="@layout/content_settings">
         <action android:id="@+id/action_settings_appearance_to_quantizer"
             app:destination="@id/monet_quantizer" />
         <action android:id="@+id/action_settings_appearance_to_palette"

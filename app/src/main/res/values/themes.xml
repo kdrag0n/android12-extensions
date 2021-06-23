@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.A12Ext" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="android:colorBackground">@android:color/system_neutral1_50</item>
@@ -13,7 +13,7 @@
         <item name="colorSecondaryVariant">@android:color/system_accent1_600</item>
         <item name="colorOnSecondary">@android:color/system_neutral2_700</item>
 
-        <item name="android:statusBarColor" tools:targetApi="l">@android:color/system_neutral1_100</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
 
         <item name="android:textColor">@color/text_color_primary_device_default_light</item>
@@ -33,9 +33,13 @@
     </style>
 
     <style name="Theme.A12Ext.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="colorPrimary">@android:color/system_neutral1_100</item>
+        <item name="colorPrimary">@android:color/system_neutral1_50</item>
         <item name="colorPrimaryVariant">@android:color/system_neutral1_100</item>
         <item name="colorOnPrimary">@android:color/system_neutral1_900</item>
         <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="TextAppearance.App.CollapsingToolbar.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 </resources>
