@@ -30,6 +30,7 @@
             app:scrimVisibleHeightTrigger="@dimen/silk_toolbar_scrim_visible_height"
             app:expandedTitleMarginStart="@dimen/silk_toolbar_expanded_title_margin"
             app:expandedTitleMarginEnd="@dimen/silk_toolbar_expanded_title_margin"
+            app:expandedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
             app:collapsedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Collapsed">
 
             <com.google.android.material.appbar.MaterialToolbar
