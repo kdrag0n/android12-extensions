@@ -142,7 +142,10 @@ class XposedHook(
 
     private fun applySettings() {
         settingsHooks.applySharedAxisTransition(isFeatureEnabled("settings_shared_axis"))
-        settingsHooks.applyBatterySlots(isFeatureEnabled("settings_battery_slots"))
+
+        if (context.hasSystemUiGoogle()) {
+            settingsHooks.applyBatterySlots(isFeatureEnabled("settings_battery_slots"))
+        }
     }
 
     fun applyAll() {
