@@ -141,7 +141,7 @@ class XposedHook(
     }
 
     private fun applySettings() {
-        settingsHooks.applySharedAxisTransition()
+        settingsHooks.applySharedAxisTransition(isFeatureEnabled("settings_shared_axis"))
         settingsHooks.applyBatterySlots(isFeatureEnabled("settings_battery_slots"))
     }
 

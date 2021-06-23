@@ -9,9 +9,9 @@ import dev.kdrag0n.android12ext.core.xposed.hookMethod
 class SettingsHooks(
     private val lpparam: XC_LoadPackage.LoadPackageParam,
 ) {
-    fun applySharedAxisTransition() {
+    fun applySharedAxisTransition(enabled: Boolean) {
         val hook = object : XC_MethodReplacement() {
-            override fun replaceHookedMethod(param: MethodHookParam) = true
+            override fun replaceHookedMethod(param: MethodHookParam) = enabled
         }
 
         lpparam.hookMethod(
