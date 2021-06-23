@@ -20,7 +20,7 @@
         <item name="android:textColorPrimary">@color/text_color_primary_device_default_light</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_device_default_light</item>
 
-        <item name="android:fontFamily">google-sans-text</item>
+        <item name="android:fontFamily">@font/inter</item>
         <item name="textAppearanceListItem">@style/TextAppearance.App.ListItem.Title</item>
     </style>
 
@@ -43,15 +43,14 @@
     </style>
 
     <style name="TextAppearance.App.CollapsingToolbar.Expanded" parent="TextAppearance.Design.CollapsingToolbar.Expanded">
-        <item name="android:fontFamily">google-sans</item>
+        <item name="android:fontFamily">@font/inter</item>
     </style>
 
     <style name="TextAppearance.App.CollapsingToolbar.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:fontFamily">google-sans</item>
+        <item name="android:fontFamily">@font/inter</item>
     </style>
     
     <style name="TextAppearance.App.ListItem.Title" parent="TextAppearance.AppCompat.Subhead">
-        <item name="android:fontFamily">google-sans</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">19sp</item>
     </style>
 </resources>
