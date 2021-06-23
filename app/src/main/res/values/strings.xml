@@ -11,10 +11,10 @@
     <!-- Settings -->
     <string name="settings_title">Extensions</string>
     <string name="enabled">Enable features</string>
-    <string name="enabled_desc">Quickly toggle all features for testing</string>
+    <string name="enabled_desc">Enable or disable everything</string>
     <string name="settings">Settings</string>
     <string name="settings_system">System</string>
-    <string name="settings_system_desc">New system features and changes</string>
+    <string name="settings_system_desc">System features and changes</string>
     <string name="settings_android_settings">Settings</string>
     <string name="settings_android_settings_desc">Changes to the Settings app</string>
     <string name="settings_launcher">Launcher</string>
@@ -36,7 +36,7 @@
     <string name="system_privacy_indicators">Privacy indicators</string>
     <string name="system_privacy_indicators_desc">Camera, microphone, and location</string>
     <string name="system_charging_ripple">Charging ripple animation</string>
-    <string name="system_charging_ripple_desc">Animation when connecting charger</string>
+    <string name="system_charging_ripple_desc">Ripple animation when starting to charge</string>
     <string name="system_internet_ui">Unified internet settings</string>
     <string name="system_internet_ui_desc">Manage Wi-Fi and cellular in one place</string>
     <string name="system_info">You can also disable features that are enabled by default.</string>
@@ -44,7 +44,7 @@
     <!-- Android Settings -->
     <string name="android_settings_shared_axis">Shared axis transition</string>
     <string name="android_settings_shared_axis_desc">New animation when opening and closing pages</string>
-    <string name="android_settings_battery_slots">Detailed battery usage history</string>
+    <string name="android_settings_battery_slots">Battery usage periods</string>
     <string name="android_settings_battery_slots_desc">Historical battery usage breakdowns for 2-hour periods</string>
     <string name="android_settings_info">The Xposed module must be enabled for the Settings app in order for these settings to work.</string>
 
