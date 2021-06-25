@@ -1,22 +1,20 @@
 package dev.kdrag0n.android12ext.ui.settings.settings
 
 import android.app.Application
-import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.PreferencesAdapter
 import de.Maxr1998.modernpreferences.helpers.pref
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.core.data.hasSystemUiGoogle
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
-import dev.kdrag0n.android12ext.ui.utils.buildWithPrefs
 import dev.kdrag0n.android12ext.ui.utils.featureSwitch
 import dev.kdrag0n.android12ext.ui.utils.setInteractive
 
 class AndroidSettingsSettingsViewModel(
     app: Application,
-    private val settingsRepo: SettingsRepository,
+    settingsRepo: SettingsRepository,
 ) : BaseSettingsViewModel(app) {
-    private val prefScreen = PreferenceScreen.Builder(app).run {
+    private val prefScreen = settingsRepo.prefScreen {
         featureSwitch(
             key = "settings_shared_axis",
             title = R.string.android_settings_shared_axis,
@@ -38,8 +36,6 @@ class AndroidSettingsSettingsViewModel(
             // Disabling the view makes text contrast too low, so use our extension instead
             setInteractive(false)
         }
-
-        buildWithPrefs(settingsRepo.prefs)
     }
     override val prefAdapter = PreferencesAdapter(prefScreen)
 }

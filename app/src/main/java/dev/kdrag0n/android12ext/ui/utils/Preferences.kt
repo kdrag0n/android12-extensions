@@ -1,7 +1,6 @@
 package dev.kdrag0n.android12ext.ui.utils
 
 import android.annotation.SuppressLint
-import android.content.SharedPreferences
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
@@ -12,22 +11,6 @@ import de.Maxr1998.modernpreferences.helpers.pref
 import de.Maxr1998.modernpreferences.helpers.switch
 import de.Maxr1998.modernpreferences.preferences.SwitchPreference
 import dev.kdrag0n.android12ext.ui.NavViewModel
-
-// We need this in order to use device-encrypted preferences with ModernAndroidPreferences
-fun PreferenceScreen.Builder.buildWithPrefs(prefs: SharedPreferences): PreferenceScreen {
-    javaClass.getDeclaredField("prefs").let { field ->
-        field.isAccessible = true
-        field.set(this, prefs)
-    }
-
-    javaClass.getDeclaredField("context").let { field ->
-        field.isAccessible = true
-        field.set(this, null)
-    }
-
-    return PreferenceScreen::class.java.getDeclaredConstructor(PreferenceScreen.Builder::class.java)
-        .newInstance(this)
-}
 
 fun Preference.setInteractive(interactive: Boolean) {
     if (!interactive) {
