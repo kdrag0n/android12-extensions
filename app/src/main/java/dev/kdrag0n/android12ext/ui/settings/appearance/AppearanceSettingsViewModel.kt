@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.topjohnwu.superuser.Shell
-import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.PreferencesAdapter
 import de.Maxr1998.modernpreferences.helpers.categoryHeader
 import de.Maxr1998.modernpreferences.helpers.onClick
@@ -18,7 +17,6 @@ import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.core.data.hasSystemUiGoogle
 import dev.kdrag0n.android12ext.monet.theme.ReferenceGenerator
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
-import dev.kdrag0n.android12ext.ui.utils.buildWithPrefs
 import dev.kdrag0n.android12ext.ui.utils.featureSwitch
 import dev.kdrag0n.android12ext.ui.utils.navPref
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +33,7 @@ class AppearanceSettingsViewModel(
 
     val openPalette = MutableLiveData<Unit?>(null)
 
-    private val prefScreen = PreferenceScreen.Builder(app).run {
+    private val prefScreen = settingsRepo.prefScreen {
         val hasSystemUiGoogle = app.hasSystemUiGoogle()
         featureSwitch(
             key = "custom_monet",
@@ -134,8 +132,6 @@ class AppearanceSettingsViewModel(
                 }
             }
         }
-
-        buildWithPrefs(settingsRepo.prefs)
     }
     override val prefAdapter = PreferencesAdapter(prefScreen)
 
