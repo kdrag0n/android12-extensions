@@ -69,6 +69,7 @@ class SystemUIHooks(
             MaterialYouTargets(chromaMultiplier),
             chromaMultiplier,
             multiColor,
+            true,
         )
         val clazz = if (isGoogle) THEME_CLASS_GOOGLE else THEME_CLASS_AOSP
         val wallpaperManager = context.getSystemService<WallpaperManager>()!!
