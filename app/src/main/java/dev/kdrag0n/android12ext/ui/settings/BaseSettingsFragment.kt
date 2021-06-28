@@ -10,7 +10,7 @@ import dev.chrisbanes.insetter.applyInsetter
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.ui.BaseToolbarFragment
 
-open class BaseSettingsFragment : BaseToolbarFragment() {
+abstract class BaseSettingsFragment : BaseToolbarFragment() {
     override fun onCreateContentView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
