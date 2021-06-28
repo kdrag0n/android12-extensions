@@ -3,8 +3,8 @@ buildscript {
     val kotlinVersion by rootProject.extra { "1.5.20" }
 
     repositories {
+        mavenCentral()
         google()
-        jcenter()
         maven("https://plugins.gradle.org/m2/")
     }
 
@@ -21,9 +21,11 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenCentral()
         google()
-        jcenter()
         maven("https://jitpack.io")
+        // Required for Xposed API library
+        jcenter()
     }
 }
 

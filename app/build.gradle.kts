@@ -54,7 +54,7 @@ kapt {
 dependencies {
     compileOnly("de.robv.android.xposed:api:82")
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra.get("kotlinVersion")}")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.20")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
 
@@ -70,13 +70,13 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.37")
     kapt("com.google.dagger:hilt-compiler:2.37")
 
-    implementation("de.maxr1998:modernandroidpreferences:2.0")
-    implementation("com.microsoft.design:fluent-system-icons:1.1.115")
-    implementation("dev.chrisbanes.insetter:insetter:0.5.0")
+    implementation("de.maxr1998:modernandroidpreferences:2.1.0")
+    implementation("com.microsoft.design:fluent-system-icons:1.1.134")
+    implementation("dev.chrisbanes.insetter:insetter:0.6.0")
     implementation("com.crossbowffs.remotepreferences:remotepreferences:0.8")
     implementation("com.mikepenz:aboutlibraries:8.8.4")
     implementation("com.jakewharton.timber:timber:4.7.1")
-    implementation("io.coil-kt:coil:1.2.1")
+    implementation("io.coil-kt:coil:1.2.2")
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:2.0")
     implementation("com.jaredrummler:colorpicker:1.1.0")
     implementation("com.github.topjohnwu.libsu:core:3.1.2")
