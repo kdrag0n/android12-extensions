@@ -1,17 +1,23 @@
 package dev.kdrag0n.android12ext.ui.monet.quantizer
 
-import android.app.Application
 import android.app.WallpaperManager
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
 import androidx.core.content.getSystemService
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.kdrag0n.android12ext.monet.extraction.mainColors
+import javax.inject.Inject
 
-class QuantizerViewModel(app: Application) : AndroidViewModel(app) {
-    private val wallpaperManager = app.getSystemService<WallpaperManager>()!!
+@HiltViewModel
+class QuantizerViewModel @Inject constructor(
+    @ApplicationContext context: Context
+) : ViewModel() {
+    private val wallpaperManager = context.getSystemService<WallpaperManager>()!!
 
     val wallpaperDrawable = MutableLiveData<Drawable>()
     val wallpaperColors = MutableLiveData<List<Int>>()

@@ -10,6 +10,7 @@ import com.mikepenz.aboutlibraries.LibsBuilder
 import com.mikepenz.aboutlibraries.LibsConfiguration
 import com.mikepenz.aboutlibraries.LibsFragmentCompat
 import com.mikepenz.aboutlibraries.entity.Library
+import dagger.hilt.android.AndroidEntryPoint
 import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.ui.BaseToolbarFragment
@@ -28,6 +29,7 @@ private val EMAIL_URI = Base64.decode(Base64.decode(EMAIL_ENC_1, Base64.DEFAULT)
             .reversed()
             .joinToString(".")
 
+@AndroidEntryPoint
 class AboutFragment : BaseToolbarFragment() {
     private val libsFragment = LibsFragmentCompat()
 

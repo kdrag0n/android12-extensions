@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
     id 'com.mikepenz.aboutlibraries.plugin'
 }
 
@@ -38,6 +40,17 @@ android {
     }
 }
 
+kapt {
+    correctErrorTypes true
+
+    javacOptions {
+        // These options are normally set automatically via the Hilt Gradle plugin, but we
+        // set them manually to workaround a bug in the Kotlin 1.5.20
+        option '-Adagger.fastInit=ENABLED'
+        option '-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true'
+    }
+}
+
 dependencies {
     compileOnly 'de.robv.android.xposed:api:82'
 
@@ -54,6 +67,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    implementation 'com.google.dagger:hilt-android:2.37'
+    kapt 'com.google.dagger:hilt-compiler:2.37'
 
     implementation 'de.maxr1998:modernandroidpreferences:2.0'
     implementation 'com.microsoft.design:fluent-system-icons:1.1.115'
@@ -61,7 +76,6 @@ dependencies {
     implementation 'com.crossbowffs.remotepreferences:remotepreferences:0.8'
     implementation 'com.mikepenz:aboutlibraries:8.8.4'
     implementation 'com.jakewharton.timber:timber:4.7.1'
-    implementation 'io.insert-koin:koin-android:3.1.0'
     implementation 'io.coil-kt:coil:1.2.1'
     implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:2.0'
     implementation 'com.jaredrummler:colorpicker:1.1.0'

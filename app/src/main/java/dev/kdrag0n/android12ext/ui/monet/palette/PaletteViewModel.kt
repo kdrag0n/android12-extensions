@@ -1,12 +1,15 @@
 package dev.kdrag0n.android12ext.ui.monet.palette
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.monet.colors.Srgb
 import dev.kdrag0n.android12ext.monet.theme.DynamicColorScheme
 import dev.kdrag0n.android12ext.monet.theme.MaterialYouTargets
+import javax.inject.Inject
 
-class PaletteViewModel(
+@HiltViewModel
+class PaletteViewModel @Inject constructor(
     settingsRepo: SettingsRepository,
 ) : ViewModel() {
     val seedColor = settingsRepo.prefs.getInt("monet_custom_color_value", android.graphics.Color.BLUE)

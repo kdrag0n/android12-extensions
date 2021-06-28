@@ -1,6 +1,7 @@
 package dev.kdrag0n.android12ext.ui.main
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -9,18 +10,19 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
+import dagger.hilt.android.AndroidEntryPoint
 import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.ui.settings.appearance.ColorDialogViewModel
 import dev.kdrag0n.android12ext.ui.utils.NoSwipeBehavior
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val XPOSED_MANAGER_PACKAGE = "org.lsposed.manager"
 private const val MAGISK_MANAGER_PACKAGE = "com.topjohnwu.magisk"
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), ColorPickerDialogListener {
-    private val viewModel: MainViewModel by viewModel()
-    private val colorDialogViewModel: ColorDialogViewModel by viewModel()
+    private val viewModel: MainViewModel by viewModels()
+    private val colorDialogViewModel: ColorDialogViewModel by viewModels()
     private lateinit var navController: NavController
 
     private var xposedDialog: AlertDialog? = null

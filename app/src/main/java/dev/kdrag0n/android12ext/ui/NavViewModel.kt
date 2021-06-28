@@ -1,11 +1,10 @@
 package dev.kdrag0n.android12ext.ui
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 
-abstract class NavViewModel(app: Application) : AndroidViewModel(app) {
+abstract class NavViewModel : ViewModel() {
     open val navDest = MutableLiveData<Int>(null)
 }
 

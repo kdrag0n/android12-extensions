@@ -1,6 +1,6 @@
 package dev.kdrag0n.android12ext.ui.settings.system
 
-import android.app.Application
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.Maxr1998.modernpreferences.PreferencesAdapter
 import de.Maxr1998.modernpreferences.helpers.pref
 import dev.kdrag0n.android12ext.R
@@ -8,11 +8,12 @@ import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.featureSwitch
 import dev.kdrag0n.android12ext.ui.utils.setInteractive
+import javax.inject.Inject
 
-class SystemSettingsViewModel(
-    app: Application,
+@HiltViewModel
+class SystemSettingsViewModel @Inject constructor(
     settingsRepo: SettingsRepository,
-) : BaseSettingsViewModel(app) {
+) : BaseSettingsViewModel() {
     private val prefScreen = settingsRepo.prefScreen {
         featureSwitch(
             key = "monet",

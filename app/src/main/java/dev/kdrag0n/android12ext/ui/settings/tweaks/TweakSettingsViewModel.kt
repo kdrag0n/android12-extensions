@@ -1,6 +1,6 @@
 package dev.kdrag0n.android12ext.ui.settings.tweaks
 
-import android.app.Application
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.Maxr1998.modernpreferences.PreferencesAdapter
 import de.Maxr1998.modernpreferences.helpers.pref
 import de.Maxr1998.modernpreferences.helpers.singleChoice
@@ -10,11 +10,12 @@ import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.featureSwitch
 import dev.kdrag0n.android12ext.ui.utils.setInteractive
+import javax.inject.Inject
 
-class TweakSettingsViewModel(
-    app: Application,
+@HiltViewModel
+class TweakSettingsViewModel @Inject constructor(
     settingsRepo: SettingsRepository,
-) : BaseSettingsViewModel(app) {
+) : BaseSettingsViewModel() {
     private val prefScreen = settingsRepo.prefScreen {
         singleChoice("ripple_style", listOf(
             SelectionItem("default", R.string.tweak_ripple_style_default, R.string.tweak_ripple_style_default_desc),

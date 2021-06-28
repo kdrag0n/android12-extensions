@@ -3,26 +3,33 @@ package dev.kdrag0n.android12ext.ui.settings.appearance
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
+import dagger.hilt.android.AndroidEntryPoint
 import dev.kdrag0n.android12ext.R
+import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.ui.monet.palette.PaletteActivity
 import dev.kdrag0n.android12ext.ui.observeNav
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsFragment
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AppearanceSettingsFragment : BaseSettingsFragment() {
-    private val viewModel: AppearanceSettingsViewModel by viewModel()
-    private val colorDialogViewModel: ColorDialogViewModel by sharedViewModel()
+    private val viewModel: AppearanceSettingsViewModel by viewModels()
+    private val colorDialogViewModel: ColorDialogViewModel by activityViewModels()
 
-    private val paletteRenderer = AutoPaletteRenderer(this)
+    @Inject lateinit var settingsRepo: SettingsRepository
+    private lateinit var paletteRenderer: AutoPaletteRenderer
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel(viewModel)
         viewModel.navDest.observeNav(this)
+
+        paletteRenderer = AutoPaletteRenderer(this, settingsRepo)
 
         viewModel.openColorPicker.observe(viewLifecycleOwner) { color ->
             if (color != null) {

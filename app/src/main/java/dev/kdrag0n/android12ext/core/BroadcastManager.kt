@@ -4,14 +4,18 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.kdrag0n.android12ext.BuildConfig
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class BroadcastManager(
-    private val context: Context,
+@Singleton
+class BroadcastManager @Inject constructor(
+    @ApplicationContext private val context: Context,
 ) {
     private val pingLock = Mutex()
 

@@ -5,13 +5,15 @@ import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
 import androidx.annotation.IdRes
+import androidx.fragment.app.viewModels
 import coil.load
+import dagger.hilt.android.AndroidEntryPoint
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.ui.BaseFragment
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class QuantizerFragment : BaseFragment() {
-    private val viewModel: QuantizerViewModel by viewModel()
+    private val viewModel: QuantizerViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

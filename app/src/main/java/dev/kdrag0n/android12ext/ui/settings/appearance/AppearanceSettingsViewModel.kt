@@ -1,11 +1,14 @@
 package dev.kdrag0n.android12ext.ui.settings.appearance
 
 import android.app.*
+import android.content.Context
 import android.graphics.Color
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.topjohnwu.superuser.Shell
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.Maxr1998.modernpreferences.PreferencesAdapter
 import de.Maxr1998.modernpreferences.helpers.categoryHeader
 import de.Maxr1998.modernpreferences.helpers.onClick
@@ -23,12 +26,14 @@ import dev.kdrag0n.android12ext.ui.utils.navPref
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class AppearanceSettingsViewModel(
-    app: Application,
+@HiltViewModel
+class AppearanceSettingsViewModel @Inject constructor(
+    @ApplicationContext context: Context,
     private val settingsRepo: SettingsRepository,
     private val refGen: ReferenceGenerator,
-) : BaseSettingsViewModel(app) {
+) : BaseSettingsViewModel() {
     val openColorPicker = MutableLiveData<Int?>(null)
     private lateinit var colorPref: ColorSwatchPreference
 
@@ -36,7 +41,7 @@ class AppearanceSettingsViewModel(
     val renderPalettes = MutableLiveData<Unit?>(null)
 
     private val prefScreen = settingsRepo.prefScreen {
-        val hasSystemUiGoogle = app.hasSystemUiGoogle()
+        val hasSystemUiGoogle = context.hasSystemUiGoogle()
         featureSwitch(
             key = "custom_monet",
             title = R.string.appearance_custom_monet,
@@ -150,7 +155,7 @@ class AppearanceSettingsViewModel(
             pref("test_ongoing_call") {
                 title = "Test ongoing call"
                 onClick {
-                    CallService.start(app)
+                    CallService.start(context)
                     false
                 }
             }

@@ -1,7 +1,9 @@
 package dev.kdrag0n.android12ext.ui.settings.root
 
-import android.app.Application
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import de.Maxr1998.modernpreferences.Preference
 import de.Maxr1998.modernpreferences.PreferencesAdapter
 import de.Maxr1998.modernpreferences.helpers.*
@@ -11,12 +13,14 @@ import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.core.data.hasPixelLauncher
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.navPref
+import javax.inject.Inject
 
-class SettingsViewModel(
-    app: Application,
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    @ApplicationContext context: Context,
     settingsRepo: SettingsRepository,
     private val broadcastManager: BroadcastManager,
-) : BaseSettingsViewModel(app) {
+) : BaseSettingsViewModel() {
     override val navDest = MutableLiveData(R.id.action_settings_root_to_appearance)
 
     private val prefScreen = settingsRepo.prefScreen {
@@ -50,7 +54,7 @@ class SettingsViewModel(
             vm = this@SettingsViewModel,
             dependency = "global_enabled",
         )
-        if (app.hasPixelLauncher()) {
+        if (context.hasPixelLauncher()) {
             navPref(
                 key = "settings_launcher",
                 title = R.string.settings_launcher,

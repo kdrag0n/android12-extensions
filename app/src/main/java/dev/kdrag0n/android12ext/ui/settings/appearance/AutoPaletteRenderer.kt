@@ -14,8 +14,6 @@ import dev.kdrag0n.android12ext.monet.theme.MaterialYouTargets
 import dev.kdrag0n.android12ext.ui.monet.palette.PaletteActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import timber.log.Timber
 import java.io.File
 import kotlin.coroutines.Continuation
@@ -24,9 +22,8 @@ import kotlin.coroutines.suspendCoroutine
 
 class AutoPaletteRenderer(
     private val fragment: Fragment,
-) : KoinComponent {
-    private val settingsRepo: SettingsRepository by inject()
-
+    private val settingsRepo: SettingsRepository,
+) {
     private var launchContinuation: Continuation<ActivityResult>? = null
     private val launcher = fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         launchContinuation?.resume(it)

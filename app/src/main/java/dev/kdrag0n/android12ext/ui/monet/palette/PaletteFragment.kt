@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.ui.BaseFragment
-import org.koin.android.ext.android.inject
 
+@AndroidEntryPoint
 class PaletteFragment : BaseFragment() {
-    private val viewModel: PaletteViewModel by inject()
+    private val viewModel: PaletteViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -3,14 +3,16 @@ package dev.kdrag0n.android12ext.ui.settings.root
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.ui.observeNav
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsFragment
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class SettingsFragment : BaseSettingsFragment(), Toolbar.OnMenuItemClickListener {
-    private val viewModel: SettingsViewModel by viewModel()
+    private val viewModel: SettingsViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
