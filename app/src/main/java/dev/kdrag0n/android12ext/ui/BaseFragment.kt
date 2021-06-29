@@ -37,12 +37,6 @@ abstract class BaseFragment(
     }
 
     @CallSuper
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        applyTransitionsViewCreated()
-    }
-
-    @CallSuper
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return NavigationUI.onNavDestinationSelected(item, findNavController()) ||
                 super.onOptionsItemSelected(item)
