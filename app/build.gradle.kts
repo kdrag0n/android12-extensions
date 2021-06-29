@@ -80,4 +80,7 @@ dependencies {
     implementation("com.jaredrummler:colorpicker:1.1.0")
     implementation("com.github.topjohnwu.libsu:core:3.1.2")
     implementation("com.github.Zhuinden:fragmentviewbindingdelegate-kt:1.0.0")
+
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
+    debugImplementation("com.github.haroldadmin:WhatTheStack:0.3.0")
 }
