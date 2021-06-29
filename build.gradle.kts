@@ -6,9 +6,14 @@ buildscript {
         mavenCentral()
         google()
         maven("https://plugins.gradle.org/m2/")
+        maven("https://storage.googleapis.com/r8-releases/raw")
     }
 
     dependencies {
+        // Fix https://issuetracker.google.com/issues/192023718
+        // TODO: Remove once we update to AGP 7.0
+        classpath("com.android.tools:r8:2.2.77")
+
         classpath("com.android.tools.build:gradle:4.2.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath("com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:8.9.0")
