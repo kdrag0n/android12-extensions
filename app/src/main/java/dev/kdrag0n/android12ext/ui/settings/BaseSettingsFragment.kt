@@ -25,6 +25,7 @@ abstract class BaseSettingsFragment : BaseToolbarFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        settingsBinding.preferencesView.adapter = null
         _binding = null
     }
 
