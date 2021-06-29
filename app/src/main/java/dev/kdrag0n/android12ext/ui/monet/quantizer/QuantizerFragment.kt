@@ -3,10 +3,7 @@ package dev.kdrag0n.android12ext.ui.monet.quantizer
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.*
-import android.widget.ImageView
-import androidx.annotation.IdRes
 import androidx.fragment.app.viewModels
-import coil.load
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dev.kdrag0n.android12ext.R
@@ -23,7 +20,7 @@ class QuantizerFragment : BaseFragment(R.layout.fragment_quantizer) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.wallpaperDrawable.observe(viewLifecycleOwner) {
-            binding.wallpaperView.load(it)
+            binding.wallpaperView.setImageDrawable(it)
         }
 
         viewModel.wallpaperColors.observe(viewLifecycleOwner) {

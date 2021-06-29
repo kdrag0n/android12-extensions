@@ -76,7 +76,6 @@ dependencies {
     implementation("com.crossbowffs.remotepreferences:remotepreferences:0.8")
     implementation("com.mikepenz:aboutlibraries:8.8.4")
     implementation("com.jakewharton.timber:timber:4.7.1")
-    implementation("io.coil-kt:coil:1.2.2")
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:2.0")
     implementation("com.jaredrummler:colorpicker:1.1.0")
     implementation("com.github.topjohnwu.libsu:core:3.1.2")
