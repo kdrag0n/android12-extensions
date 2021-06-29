@@ -59,8 +59,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
 
     implementation("androidx.core:core-ktx:1.5.0")
-    // AppCompat 1.3.0 makes https://github.com/material-components/material-components-android/issues/1984 worse
-    implementation("androidx.appcompat:appcompat:1.2.0")
+    implementation("androidx.appcompat:appcompat:1.3.0")
     implementation("com.google.android.material:material:1.4.0-rc01")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
@@ -74,7 +73,7 @@ dependencies {
     implementation("com.microsoft.design:fluent-system-icons:1.1.134")
     implementation("dev.chrisbanes.insetter:insetter:0.6.0")
     implementation("com.crossbowffs.remotepreferences:remotepreferences:0.8")
-    implementation("com.mikepenz:aboutlibraries:8.8.4")
+    implementation("com.mikepenz:aboutlibraries:8.9.0")
     implementation("com.jakewharton.timber:timber:4.7.1")
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:2.0")
     implementation("com.jaredrummler:colorpicker:1.1.0")
