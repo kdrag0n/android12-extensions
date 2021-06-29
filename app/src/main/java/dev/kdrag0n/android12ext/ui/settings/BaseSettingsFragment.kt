@@ -8,18 +8,28 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.chrisbanes.insetter.applyInsetter
 import dev.kdrag0n.android12ext.R
+import dev.kdrag0n.android12ext.databinding.ContentSettingsBinding
 import dev.kdrag0n.android12ext.ui.BaseToolbarFragment
 
 abstract class BaseSettingsFragment : BaseToolbarFragment() {
+    private var _binding: ContentSettingsBinding? = null
+    private val settingsBinding get() = _binding!!
+
     override fun onCreateContentView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.content_settings, container, false)
+        _binding = ContentSettingsBinding.inflate(inflater, container, false)
+        return settingsBinding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     protected fun initViewModel(viewModel: BaseSettingsViewModel) {
-        requireView().findViewById<RecyclerView>(R.id.preferences_view).apply {
+        settingsBinding.preferencesView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = viewModel.prefAdapter
             viewModel.prefAdapter.restoreAndObserveScrollPosition(this)

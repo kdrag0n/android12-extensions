@@ -8,15 +8,18 @@ import android.view.WindowInsets
 import android.view.WindowInsetsController
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
-import dev.kdrag0n.android12ext.R
+import dev.kdrag0n.android12ext.databinding.ActivityPaletteBinding
 import java.io.FileOutputStream
 
 @AndroidEntryPoint
 class PaletteActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityPaletteBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_palette)
+        binding = ActivityPaletteBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         window.setDecorFitsSystemWindows(false)
         window.insetsController?.let { controller ->
@@ -34,7 +37,7 @@ class PaletteActivity : AppCompatActivity() {
     }
 
     private fun takeScreenshot(): Bitmap {
-        val view = findViewById<View>(android.R.id.content)
+        val view = binding.root
         val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         view.draw(canvas)

@@ -19,6 +19,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 
     buildTypes {
         getByName("release") {
@@ -77,4 +80,5 @@ dependencies {
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:2.0")
     implementation("com.jaredrummler:colorpicker:1.1.0")
     implementation("com.github.topjohnwu.libsu:core:3.1.2")
+    implementation("com.github.Zhuinden:fragmentviewbindingdelegate-kt:1.0.0")
 }

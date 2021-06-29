@@ -1,19 +1,39 @@
 package dev.kdrag0n.android12ext.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.CallSuper
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.transition.MaterialSharedAxis
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment(
+    @LayoutRes private val layoutId: Int,
+) : Fragment() {
+    // Workaround for Hilt Gradle Plugin's lack of support for default arguments
+    constructor() : this(0)
+
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         applyTransitions()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
+        return if (layoutId == 0) {
+            null
+        } else {
+            inflater.inflate(layoutId, container, false)
+        }
     }
 
     @CallSuper

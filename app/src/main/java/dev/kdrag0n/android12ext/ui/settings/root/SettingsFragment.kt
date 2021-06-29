@@ -20,9 +20,8 @@ class SettingsFragment : BaseSettingsFragment(), Toolbar.OnMenuItemClickListener
         initViewModel(viewModel)
         viewModel.navDest.observeNav(this)
 
-        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
-        toolbar.inflateMenu(R.menu.menu_settings)
-        toolbar.setOnMenuItemClickListener(this)
+        toolbarBinding.toolbar.inflateMenu(R.menu.menu_settings)
+        toolbarBinding.toolbar.setOnMenuItemClickListener(this)
     }
 
     override fun onMenuItemClick(item: MenuItem) = when (item.itemId) {

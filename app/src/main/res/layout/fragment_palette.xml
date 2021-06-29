@@ -7,61 +7,61 @@
     tools:context=".ui.monet.palette.PaletteFragment">
 
     <include
-        android:id="@+id/color_swatch_shade_labels"
+        android:id="@+id/shade_labels"
         layout="@layout/color_swatch_shade_labels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/color_swatch_accent1"
+        app:layout_constraintBottom_toTopOf="@+id/accent1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <include
-        android:id="@+id/color_swatch_accent1"
+        android:id="@+id/accent1"
         layout="@layout/color_swatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/color_swatch_shade_labels"
-        app:layout_constraintBottom_toTopOf="@+id/color_swatch_accent2"
+        app:layout_constraintTop_toBottomOf="@id/shade_labels"
+        app:layout_constraintBottom_toTopOf="@+id/accent2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <include
-        android:id="@+id/color_swatch_accent2"
+        android:id="@+id/accent2"
         layout="@layout/color_swatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/color_swatch_accent1"
-        app:layout_constraintBottom_toTopOf="@+id/color_swatch_accent3"
+        app:layout_constraintTop_toBottomOf="@+id/accent1"
+        app:layout_constraintBottom_toTopOf="@+id/accent3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <include
-        android:id="@+id/color_swatch_accent3"
+        android:id="@+id/accent3"
         layout="@layout/color_swatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/color_swatch_accent2"
-        app:layout_constraintBottom_toTopOf="@+id/color_swatch_neutral1"
+        app:layout_constraintTop_toBottomOf="@+id/accent2"
+        app:layout_constraintBottom_toTopOf="@+id/neutral1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <include
-        android:id="@+id/color_swatch_neutral1"
+        android:id="@+id/neutral1"
         layout="@layout/color_swatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/color_swatch_accent3"
-        app:layout_constraintBottom_toTopOf="@+id/color_swatch_neutral2"
+        app:layout_constraintTop_toBottomOf="@+id/accent3"
+        app:layout_constraintBottom_toTopOf="@+id/neutral2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <include
-        android:id="@+id/color_swatch_neutral2"
+        android:id="@+id/neutral2"
         layout="@layout/color_swatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/color_swatch_neutral1"
+        app:layout_constraintTop_toBottomOf="@+id/neutral1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

@@ -4,45 +4,58 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
+import androidx.annotation.LayoutRes
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.google.android.material.appbar.MaterialToolbar
-import dev.kdrag0n.android12ext.R
+import dev.kdrag0n.android12ext.databinding.ToolbarFragmentBinding
 
-abstract class BaseToolbarFragment : BaseFragment() {
+abstract class BaseToolbarFragment(
+    @LayoutRes private val layoutId: Int,
+) : BaseFragment() {
+    // Workaround for Hilt Gradle Plugin's lack of support for default arguments
+    constructor() : this(0)
+
+    private var _binding: ToolbarFragmentBinding? = null
+    protected val toolbarBinding get() = _binding!!
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val rootView = inflater.inflate(R.layout.toolbar_fragment, container, false)
-        val frame = rootView.findViewById<FrameLayout>(R.id.content_frame)
+        _binding = ToolbarFragmentBinding.inflate(inflater, container, false)
 
-        val contentView = onCreateContentView(inflater, frame, savedInstanceState)
-        frame.addView(contentView)
+        val contentView = onCreateContentView(inflater, toolbarBinding.contentFrame, savedInstanceState)
+        toolbarBinding.contentFrame.addView(contentView)
 
-        return rootView
+        return toolbarBinding.root
     }
 
-    protected abstract fun onCreateContentView(
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    protected open fun onCreateContentView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View
+    ): View? {
+        return if (layoutId == 0) {
+            null
+        } else {
+            inflater.inflate(layoutId, container, false)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
-        val collapsingToolbar = view.findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar)
         val navController = findNavController()
-
         val dest = navController.currentDestination!!
-        collapsingToolbar.title = dest.label
+        toolbarBinding.collapsingToolbar.title = dest.label
         if (dest.id == navController.graph.startDestination) {
-            toolbar.navigationIcon = null
+            toolbarBinding.toolbar.navigationIcon = null
         }
 
-        toolbar.setNavigationOnClickListener {
+        toolbarBinding.toolbar.setNavigationOnClickListener {
             NavigationUI.navigateUp(navController, AppBarConfiguration(navController.graph))
         }
     }

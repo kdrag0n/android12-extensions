@@ -7,40 +7,36 @@ import android.widget.ImageView
 import androidx.annotation.IdRes
 import androidx.fragment.app.viewModels
 import coil.load
+import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dev.kdrag0n.android12ext.R
+import dev.kdrag0n.android12ext.databinding.ColorSampleBinding
+import dev.kdrag0n.android12ext.databinding.FragmentQuantizerBinding
 import dev.kdrag0n.android12ext.ui.BaseFragment
 
 @AndroidEntryPoint
-class QuantizerFragment : BaseFragment() {
+class QuantizerFragment : BaseFragment(R.layout.fragment_quantizer) {
     private val viewModel: QuantizerViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        //setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_quantizer, container, false)
-    }
+    private val binding by viewBinding(FragmentQuantizerBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.wallpaperDrawable.observe(viewLifecycleOwner) {
-            view.findViewById<ImageView>(R.id.wallpaper_view).load(it)
+            binding.wallpaperView.load(it)
         }
 
         viewModel.wallpaperColors.observe(viewLifecycleOwner) {
-            setWallpaperColor(view, R.id.color_sample1, it, 0)
-            setWallpaperColor(view, R.id.color_sample2, it, 1)
-            setWallpaperColor(view, R.id.color_sample3, it, 2)
-            setWallpaperColor(view, R.id.color_sample4, it, 3)
-            setWallpaperColor(view, R.id.color_sample5, it, 4)
+            setWallpaperColor(binding.colorSample1, it, 0)
+            setWallpaperColor(binding.colorSample2, it, 1)
+            setWallpaperColor(binding.colorSample3, it, 2)
+            setWallpaperColor(binding.colorSample4, it, 3)
+            setWallpaperColor(binding.colorSample5, it, 4)
         }
     }
 
-    private fun setWallpaperColor(view: View, @IdRes sampleId: Int, colors: List<Int>, index: Int) {
-        val colorView = view.findViewById<View>(sampleId)
+    private fun setWallpaperColor(binding: ColorSampleBinding, colors: List<Int>, index: Int) {
+        val colorView = binding.root
         if (colors.size < index + 1) {
             colorView.visibility = View.GONE
             return

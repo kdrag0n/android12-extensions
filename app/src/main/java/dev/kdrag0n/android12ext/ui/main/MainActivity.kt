@@ -13,6 +13,7 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import dagger.hilt.android.AndroidEntryPoint
 import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
+import dev.kdrag0n.android12ext.databinding.ActivityMainBinding
 import dev.kdrag0n.android12ext.ui.settings.appearance.ColorDialogViewModel
 import dev.kdrag0n.android12ext.ui.utils.NoSwipeBehavior
 
@@ -25,6 +26,8 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener {
     private val colorDialogViewModel: ColorDialogViewModel by viewModels()
     private lateinit var navController: NavController
 
+    private lateinit var binding: ActivityMainBinding
+
     private var xposedDialog: AlertDialog? = null
     private var rootDialog: AlertDialog? = null
     private var reloadSnackbar: Snackbar? = null
@@ -33,7 +36,8 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener {
         super.onCreate(savedInstanceState)
         window.setDecorFitsSystemWindows(false)
 
-        setContentView(R.layout.content_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -99,7 +103,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener {
 
             if (shouldReload) {
                 reloadSnackbar = Snackbar.make(
-                    findViewById(android.R.id.content),
+                    binding.root,
                     R.string.applying_changes,
                     // We take care of showing and dismissing it
                     BaseTransientBottomBar.LENGTH_INDEFINITE
