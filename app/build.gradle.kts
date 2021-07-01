@@ -82,5 +82,4 @@ dependencies {
     implementation("com.github.Zhuinden:fragmentviewbindingdelegate-kt:1.0.0")
 
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
-    debugImplementation("com.github.haroldadmin:WhatTheStack:0.3.0")
 }
