@@ -56,34 +56,7 @@ class AboutFragment : BaseToolbarFragment() {
             withAboutVersionShownName(true)
 
             // Handle button presses
-            LibsConfiguration.listener = object : LibsConfiguration.LibsListener {
-                override fun onExtraClicked(v: View, specialButton: Libs.SpecialButton): Boolean {
-                    return when (specialButton) {
-                        Libs.SpecialButton.SPECIAL1 -> {
-                            openUri(getString(R.string.about_uri_donate))
-                            true
-                        }
-                        Libs.SpecialButton.SPECIAL2 -> {
-                            openUri(EMAIL_URI)
-                            true
-                        }
-                        Libs.SpecialButton.SPECIAL3 -> {
-                            openUri(getString(R.string.about_uri_source_code))
-                            true
-                        }
-                        else -> false
-                    }
-                }
-
-                override fun onIconClicked(v: View) = Unit
-                override fun onIconLongClicked(v: View) = false
-                override fun onLibraryAuthorClicked(v: View, library: Library) = false
-                override fun onLibraryAuthorLongClicked(v: View, library: Library) = false
-                override fun onLibraryBottomClicked(v: View, library: Library) = false
-                override fun onLibraryBottomLongClicked(v: View, library: Library) = false
-                override fun onLibraryContentClicked(v: View, library: Library) = false
-                override fun onLibraryContentLongClicked(v: View, library: Library) = false
-            }
+            withListener(LibsListener())
         }
         arguments = Bundle().apply {
             putSerializable("data", libsBuilder)
@@ -102,5 +75,37 @@ class AboutFragment : BaseToolbarFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         libsFragment.onDestroyView()
+        LibsConfiguration.listener = null
+    }
+
+    private class LibsListener : LibsConfiguration.LibsListener {
+        override fun onExtraClicked(v: View, specialButton: Libs.SpecialButton): Boolean {
+            return v.context.run {
+                when (specialButton) {
+                    Libs.SpecialButton.SPECIAL1 -> {
+                        openUri(getString(R.string.about_uri_donate))
+                        true
+                    }
+                    Libs.SpecialButton.SPECIAL2 -> {
+                        openUri(EMAIL_URI)
+                        true
+                    }
+                    Libs.SpecialButton.SPECIAL3 -> {
+                        openUri(getString(R.string.about_uri_source_code))
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
+
+        override fun onIconClicked(v: View) = Unit
+        override fun onIconLongClicked(v: View) = false
+        override fun onLibraryAuthorClicked(v: View, library: Library) = false
+        override fun onLibraryAuthorLongClicked(v: View, library: Library) = false
+        override fun onLibraryBottomClicked(v: View, library: Library) = false
+        override fun onLibraryBottomLongClicked(v: View, library: Library) = false
+        override fun onLibraryContentClicked(v: View, library: Library) = false
+        override fun onLibraryContentLongClicked(v: View, library: Library) = false
     }
 }
