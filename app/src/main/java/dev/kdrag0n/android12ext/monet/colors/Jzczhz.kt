@@ -6,9 +6,9 @@ import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLchC
 import dev.kdrag0n.android12ext.monet.colors.Lch.Companion.calcLchH
 
 data class Jzczhz(
-    override val L: Float,
-    override val C: Float,
-    override val h: Float,
+    override val L: Double,
+    override val C: Double,
+    override val h: Double,
 ) : Lch {
     override fun toLinearSrgb() = toJzazbz().toLinearSrgb()
 

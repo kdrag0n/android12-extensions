@@ -3,9 +3,9 @@ package dev.kdrag0n.android12ext.monet.colors
 import kotlin.math.pow
 
 data class LinearSrgb(
-    val r: Float,
-    val g: Float,
-    val b: Float,
+    val r: Double,
+    val g: Double,
+    val b: Double,
 ) : Color {
     override fun toLinearSrgb() = this
 
@@ -19,17 +19,17 @@ data class LinearSrgb(
 
     companion object {
         // Linear -> sRGB
-        private fun f(x: Float) = if (x >= 0.0031308f) {
-            1.055f * x.pow(1.0f / 2.4f) - 0.055f
+        private fun f(x: Double) = if (x >= 0.0031308) {
+            1.055 * x.pow(1.0 / 2.4) - 0.055
         } else {
-            12.92f * x
+            12.92 * x
         }
 
         // sRGB -> linear
-        private fun fInv(x: Float) = if (x >= 0.04045f) {
-            ((x + 0.055f) / 1.055f).pow(2.4f)
+        private fun fInv(x: Double) = if (x >= 0.04045) {
+            ((x + 0.055) / 1.055).pow(2.4)
         } else {
-            x / 12.92f
+            x / 12.92
         }
 
         fun Srgb.toLinearSrgb(): LinearSrgb {

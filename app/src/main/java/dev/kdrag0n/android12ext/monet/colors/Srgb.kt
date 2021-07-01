@@ -4,15 +4,15 @@ import kotlin.math.roundToInt
 import dev.kdrag0n.android12ext.monet.colors.LinearSrgb.Companion.toLinearSrgb as realToLinearSrgb
 
 data class Srgb(
-    val r: Float,
-    val g: Float,
-    val b: Float,
+    val r: Double,
+    val g: Double,
+    val b: Double,
 ) : Color {
     // Convenient constructors for quantized values
     constructor(r: Int, g: Int, b: Int) : this(
-        r.toFloat() / 255.0f,
-        g.toFloat() / 255.0f,
-        b.toFloat() / 255.0f,
+        r.toDouble() / 255.0,
+        g.toDouble() / 255.0,
+        b.toDouble() / 255.0,
     )
     constructor(color: Int) : this(
         android.graphics.Color.red(color),
@@ -32,6 +32,6 @@ data class Srgb(
 
     companion object {
         // Clamp out-of-bounds values
-        private fun quantize8(n: Float) = (n * 255.0f).roundToInt().coerceIn(0, 255)
+        private fun quantize8(n: Double) = (n * 255.0).roundToInt().coerceIn(0, 255)
     }
 }

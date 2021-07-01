@@ -9,11 +9,11 @@ import kotlin.math.pow
 class JzazbzCentroid : CentroidProvider {
     override fun getCentroid(color: Int): FloatArray {
         val jzazbz = Srgb(color).toLinearSrgb().toCieXyz().toJzazbz()
-        return floatArrayOf(jzazbz.L, jzazbz.a, jzazbz.b)
+        return floatArrayOf(jzazbz.L.toFloat(), jzazbz.a.toFloat(), jzazbz.b.toFloat())
     }
 
     override fun getColor(color: FloatArray): Int {
-        val jzazbz = Jzazbz(color[0], color[1], color[2])
+        val jzazbz = Jzazbz(color[0].toDouble(), color[1].toDouble(), color[2].toDouble())
         return jzazbz.toLinearSrgb().toSrgb().quantize8()
     }
 
