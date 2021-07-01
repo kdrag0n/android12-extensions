@@ -117,8 +117,8 @@
         Enable and customize hidden features on preview versions of Android 12.
         <br />
         <br />
-        Made with ❤️ by <a href="https://kdrag0n.dev/">kdrag0n</a>. Please consider <a href="https://kdrag0n.dev/donate">donating to support development</a> if you found this helpful!
+        Made with ❤️ by <a href="https://kdrag0n.dev/?utm_medium=app&amp;utm_source=android12ext">kdrag0n</a>. Please consider <a href="https://kdrag0n.dev/donate?utm_medium=app&amp;utm_source=android12ext">donating to support development</a> if you found this helpful!
     ]]></string>
-    <string name="about_uri_donate">https://kdrag0n.dev/donate</string>
+    <string name="about_uri_donate">https://kdrag0n.dev/donate?utm_medium=app&amp;utm_source=android12ext</string>
     <string name="about_uri_source_code">https://github.com/kdrag0n/android12-extensions</string>
 </resources>
