@@ -6,7 +6,6 @@ import android.graphics.Color
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import de.Maxr1998.modernpreferences.PreferencesAdapter
@@ -17,6 +16,7 @@ import de.Maxr1998.modernpreferences.helpers.seekBar
 import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.CallService
+import dev.kdrag0n.android12ext.core.OverlayManager
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.core.data.hasSystemUiGoogle
 import dev.kdrag0n.android12ext.monet.theme.ReferenceGenerator
@@ -33,6 +33,7 @@ class AppearanceSettingsViewModel @Inject constructor(
     @ApplicationContext context: Context,
     private val settingsRepo: SettingsRepository,
     private val refGen: ReferenceGenerator,
+    private val overlayManager: OverlayManager,
 ) : BaseSettingsViewModel() {
     val openColorPicker = MutableLiveData<Int?>(null)
     private lateinit var colorPref: ColorSwatchPreference
@@ -113,7 +114,9 @@ class AppearanceSettingsViewModel @Inject constructor(
                 default = false,
             ) {
                 onClick {
-                    updateCircleOverlay()
+                    viewModelScope.launch {
+                        overlayManager.updateCircleOverlay()
+                    }
                     false
                 }
             }
@@ -162,20 +165,6 @@ class AppearanceSettingsViewModel @Inject constructor(
         }
     }
     override val prefAdapter = PreferencesAdapter(prefScreen)
-
-    private fun updateCircleOverlay() {
-        val action = if (settingsRepo.prefs.getBoolean("aosp_circle_icons2_enabled", false)) {
-            "enable"
-        } else {
-            "disable"
-        }
-
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                Shell.su("cmd overlay $action com.android.theme.icon.circle").submit()
-            }
-        }
-    }
 
     val selectedColor = MutableLiveData<Int>()
     private val selectedColorObserver = Observer<Int> { color ->

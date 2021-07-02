@@ -53,6 +53,17 @@
             android:directBootAware="true"
             tools:ignore="ExportedContentProvider" />
 
+        <receiver
+            android:name=".core.BootReceiver"
+            android:exported="true"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
         <service android:name=".core.CallService"
             android:exported="false" />
 
