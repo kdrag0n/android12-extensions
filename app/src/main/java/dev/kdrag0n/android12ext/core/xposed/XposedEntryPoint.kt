@@ -10,6 +10,7 @@ import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.core.BroadcastManager
 import kotlin.system.exitProcess
 
@@ -24,6 +25,13 @@ class XposedEntryPoint : IXposedHookLoadPackage {
     }
 
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
+        // Don't hook system_sever unless it's for debugging.
+        // Users should never need it, and it makes reloads much more disruptive.
+        // XposedHook isn't very reliable in system_server, so check it here instead.
+        if (!BuildConfig.DEBUG && lpparam.packageName == "android") {
+            return
+        }
+
         val contextHook = object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 // Make sure we don't initialize twice
