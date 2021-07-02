@@ -121,4 +121,12 @@
     ]]></string>
     <string name="about_uri_donate">https://kdrag0n.dev/donate?utm_medium=app&amp;utm_source=android12ext</string>
     <string name="about_uri_source_code">https://github.com/kdrag0n/android12-extensions</string>
+
+    <!-- Xposed -->
+    <string-array name="xposed_scopes">
+        <item>com.android.systemui</item>
+        <item>com.android.settings</item>
+        <item>com.android.launcher3</item>
+        <item>com.google.android.apps.nexuslauncher</item>
+    </string-array>
 </resources>
