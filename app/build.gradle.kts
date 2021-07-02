@@ -38,6 +38,13 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    packagingOptions {
+        // Module info for kotlin-reflect - leaks info
+        exclude("/META-INF/*.kotlin_module")
+        exclude("/META-INF/*.version")
+        // Builtin info for kotlin-reflect
+        exclude("/kotlin/**")
+    }
 }
 
 kapt {
