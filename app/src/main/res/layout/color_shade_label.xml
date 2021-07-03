@@ -4,4 +4,4 @@
     android:layout_height="@dimen/color_sample"
     android:layout_margin="@dimen/color_sample_margin"
     android:gravity="center"
-    android:textColor="@color/palette_text_fg" />
+    android:textColor="@color/palette_fg" />

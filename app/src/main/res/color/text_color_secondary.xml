@@ -14,9 +14,10 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<!-- Please see primary_text_material_dark.xml -->
+<!-- Please see secondary_text_material_light.xml -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_enabled="false"
-        android:color="@android:color/system_neutral1_500"/>
-    <item android:color="@android:color/system_neutral1_50"/>
+        android:alpha="?android:attr/disabledAlpha"
+        android:color="@color/ui_fg_secondary"/>
+    <item android:color="@color/ui_fg_secondary"/>
 </selector>
