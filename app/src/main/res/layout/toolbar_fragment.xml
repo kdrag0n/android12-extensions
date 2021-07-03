@@ -13,7 +13,6 @@
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/silk_toolbar_expanded_height"
-        android:theme="@style/Theme.App.AppBarOverlay"
         android:fitsSystemWindows="true"
         android:background="@android:color/transparent"
         app:elevation="0dp">
@@ -24,7 +23,7 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:contentScrim="?attr/colorPrimaryVariant"
+            app:contentScrim="?attr/colorSurface"
             app:statusBarScrim="@android:color/transparent"
             app:titleCollapseMode="fade"
             app:scrimAnimationDuration="50"

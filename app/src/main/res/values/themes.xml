@@ -1,45 +1,41 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Theme.App" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="android:colorBackground">@android:color/system_neutral1_50</item>
-        <item name="colorBackgroundFloating">@android:color/system_neutral1_50</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:colorBackground">@android:color/system_neutral1_50</item>
+        <item name="colorSurface">@android:color/system_neutral1_100</item>
 
         <item name="colorPrimary">@android:color/system_accent1_600</item>
-        <item name="colorPrimaryVariant">@android:color/system_accent1_600</item>
         <item name="colorOnPrimary">@android:color/system_neutral1_900</item>
 
         <item name="colorSecondary">@android:color/system_accent1_600</item>
-        <item name="colorSecondaryVariant">@android:color/system_accent1_600</item>
         <item name="colorOnSecondary">@android:color/system_neutral2_700</item>
 
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-
-        <item name="android:textColor">@color/text_color_primary_device_default_light</item>
         <item name="android:textColorPrimary">@color/text_color_primary_device_default_light</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_device_default_light</item>
-
-        <item name="android:fontFamily">@font/inter</item>
-        <item name="textAppearanceListItem">@style/TextAppearance.App.ListItem.Title</item>
     </style>
 
     <style name="Theme.App.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <item name="colorBackgroundFloating">?android:attr/colorBackground</item>
+
+        <item name="colorPrimaryVariant">?attr/colorPrimary</item>
+        <item name="colorSecondaryVariant">?attr/colorPrimary</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="textAppearanceListItem">@style/TextAppearance.App.ListItem.Title</item>
+        <item name="android:fontFamily">@font/inter</item>
     </style>
 
     <style name="Theme.App.Palette" parent="Theme.App.NoActionBar">
         <item name="android:windowLayoutInDisplayCutoutMode">always</item>
         <item name="android:fontFamily">@font/inter_medium</item>
         <item name="android:fontFeatureSettings">cv03, cv04</item>
-    </style>
-
-    <style name="Theme.App.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="colorPrimary">@android:color/system_neutral1_50</item>
-        <item name="colorPrimaryVariant">@android:color/system_neutral1_100</item>
-        <item name="colorOnPrimary">@android:color/system_neutral1_900</item>
-        <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
     </style>
 
     <style name="TextAppearance.App.CollapsingToolbar.Expanded" parent="TextAppearance.Design.CollapsingToolbar.Expanded">
