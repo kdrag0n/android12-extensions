@@ -6,21 +6,17 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Handler
 import android.os.HandlerThread
+import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.kdrag0n.android12ext.BuildConfig
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@Reusable
 class BroadcastManager @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
-    private val pingLock = Mutex()
-
     fun broadcastReload() {
         context.sendBroadcast(Intent(RELOAD_ACTION))
     }
@@ -28,31 +24,28 @@ class BroadcastManager @Inject constructor(
     suspend fun pingSysUi(): Boolean {
         Timber.i("Pinging System UI")
 
-        // Without a lock, multiple pings at the same time could break
-        pingLock.withLock {
-            // Register pong receiver first to avoid race
-            var pongReceived = false
-            val pongReceiver = object : BroadcastReceiver() {
-                override fun onReceive(context: Context, intent: Intent) {
-                    Timber.d("Received pong broadcast")
-                    pongReceived = true
-                }
+        // Register pong receiver first to avoid race
+        var pongReceived = false
+        val pongReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                Timber.d("Received pong broadcast")
+                pongReceived = true
             }
+        }
 
-            Timber.d("Registering pong receiver")
-            context.registerReceiver(pongReceiver, IntentFilter(PONG_ACTION), SYSUI_PERMISSION, null)
-            try {
-                Timber.d("Sending ping broadcast")
-                context.sendBroadcast(Intent(PING_ACTION), SYSUI_PERMISSION)
+        Timber.d("Registering pong receiver")
+        context.registerReceiver(pongReceiver, IntentFilter(PONG_ACTION), SYSUI_PERMISSION, null)
+        try {
+            Timber.d("Sending ping broadcast")
+            context.sendBroadcast(Intent(PING_ACTION), SYSUI_PERMISSION)
 
-                // Simple, naïve timeout because we don't need to return ASAP
-                delay(PING_TIMEOUT)
-                Timber.d("System UI ping result = $pongReceived")
-                return pongReceived
-            } finally {
-                Timber.d("Unregistering pong receiver")
-                context.unregisterReceiver(pongReceiver)
-            }
+            // Simple, naïve timeout because we don't need to return ASAP
+            delay(PING_TIMEOUT)
+            Timber.d("System UI ping result = $pongReceived")
+            return pongReceived
+        } finally {
+            Timber.d("Unregistering pong receiver")
+            context.unregisterReceiver(pongReceiver)
         }
     }
 

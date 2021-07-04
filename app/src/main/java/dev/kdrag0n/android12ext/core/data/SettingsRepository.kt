@@ -2,14 +2,14 @@ package dev.kdrag0n.android12ext.core.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.helpers.screen
 import dev.kdrag0n.android12ext.core.xposed.XposedPreferenceProvider
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@Reusable
 class SettingsRepository @Inject constructor(
     @ApplicationContext context: Context,
 ) {

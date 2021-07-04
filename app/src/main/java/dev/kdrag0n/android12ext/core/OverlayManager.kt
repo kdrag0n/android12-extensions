@@ -2,15 +2,15 @@ package dev.kdrag0n.android12ext.core
 
 import android.content.Context
 import com.topjohnwu.superuser.Shell
+import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.core.data.hasSystemUiGoogle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@Reusable
 class OverlayManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val settingsRepo: SettingsRepository,

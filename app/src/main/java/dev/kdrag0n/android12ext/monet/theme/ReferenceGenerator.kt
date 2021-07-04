@@ -1,15 +1,15 @@
 package dev.kdrag0n.android12ext.monet.theme
 
 import android.content.Context
+import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.kdrag0n.android12ext.monet.colors.Oklab.Companion.toOklab
 import dev.kdrag0n.android12ext.monet.colors.Oklch.Companion.toOklch
 import dev.kdrag0n.android12ext.monet.colors.Srgb
 import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@Reusable
 class ReferenceGenerator @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
