@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Handler
+import android.os.HandlerThread
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.kdrag0n.android12ext.BuildConfig
 import kotlinx.coroutines.delay
@@ -63,7 +65,12 @@ class BroadcastManager @Inject constructor(
         }
 
         Timber.d("Registering ping receiver")
-        context.registerReceiver(pingReceiver, IntentFilter(PING_ACTION), MANAGER_PERMISSION, null)
+        // Create a new thread to avoid slow responses (that trigger the client's timeout)
+        // when the UI thread is busy reloading resources for a configuration change
+        val thread = HandlerThread(PING_THREAD_NAME)
+        thread.start()
+        val handler = Handler(thread.looper)
+        context.registerReceiver(pingReceiver, IntentFilter(PING_ACTION), MANAGER_PERMISSION, handler)
     }
 
     companion object {
@@ -75,8 +82,9 @@ class BroadcastManager @Inject constructor(
         const val RELOAD_WARNING_DURATION = 1500
         const val RELOAD_RESTART_DELAY = 1000L
 
+        private const val PING_THREAD_NAME = "remote-ping"
         private const val PING_ACTION = "${BuildConfig.APPLICATION_ID}.REMOTE_PING"
         private const val PONG_ACTION = "${BuildConfig.APPLICATION_ID}.REMOTE_PONG"
-        private const val PING_TIMEOUT = 1000L
+        private const val PING_TIMEOUT = 50L
     }
 }
