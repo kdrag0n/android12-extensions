@@ -77,6 +77,6 @@ class BroadcastManager @Inject constructor(
 
         private const val PING_ACTION = "${BuildConfig.APPLICATION_ID}.REMOTE_PING"
         private const val PONG_ACTION = "${BuildConfig.APPLICATION_ID}.REMOTE_PONG"
-        private const val PING_TIMEOUT = 300L
+        private const val PING_TIMEOUT = 1000L
     }
 }
