@@ -25,6 +25,16 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="Theme.App.Splash" parent="Theme.SplashScreen">
+        <item name="postSplashScreenTheme">@style/Theme.App</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="windowSplashScreenBackground">@color/ui_bg</item>
+
+        <item name="android:windowLightStatusBar">@bool/ui_light_status_bar</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
     <style name="Theme.App.Palette">
         <item name="android:windowLayoutInDisplayCutoutMode">always</item>
         <item name="android:fontFamily">@font/inter_medium</item>
