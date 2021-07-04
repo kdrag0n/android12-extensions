@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:contentScrim="?attr/colorSurface"
+            app:contentScrim="?attr/colorPrimarySurface"
             app:statusBarScrim="@android:color/transparent"
             app:titleCollapseMode="fade"
             app:scrimAnimationDuration="50"
