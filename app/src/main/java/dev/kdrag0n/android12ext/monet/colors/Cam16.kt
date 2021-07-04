@@ -3,14 +3,14 @@ package dev.kdrag0n.android12ext.monet.colors
 import dev.kdrag0n.android12ext.monet.colors.google.Cam
 
 data class Cam16(
-    override val L: Double,
-    override val C: Double,
-    override val h: Double,
+    override val L: Float,
+    override val C: Float,
+    override val h: Float,
 ) : Lch {
     override fun toLinearSrgb() = toSrgb().toLinearSrgb()
 
     fun toSrgb(): Srgb {
-        val cam = Cam.fromJch(L.toFloat(), C.toFloat(), h.toFloat())
+        val cam = Cam.fromJch(L, C, h)
         return Srgb(cam.viewedInSrgb())
     }
 
@@ -18,9 +18,9 @@ data class Cam16(
         fun Srgb.toCam16(): Cam16 {
             val cam = Cam.fromInt(quantize8())
             return Cam16(
-                L = cam.j.toDouble(),
-                C = cam.chroma.toDouble(),
-                h = cam.hue.toDouble(),
+                L = cam.j,
+                C = cam.chroma,
+                h = cam.hue,
             )
         }
     }
