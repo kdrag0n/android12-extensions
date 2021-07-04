@@ -9,10 +9,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import de.Maxr1998.modernpreferences.PreferencesAdapter
-import de.Maxr1998.modernpreferences.helpers.categoryHeader
-import de.Maxr1998.modernpreferences.helpers.onClick
-import de.Maxr1998.modernpreferences.helpers.pref
-import de.Maxr1998.modernpreferences.helpers.seekBar
+import de.Maxr1998.modernpreferences.helpers.*
 import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.CallService
@@ -127,8 +124,12 @@ class AppearanceSettingsViewModel @Inject constructor(
             categoryHeader("debug_header") {
                 title = "Debug"
             }
+            switch("generate_palette_dynamic") {
+                title = "Generate dynamic palette"
+            }
             pref("render_palettes") {
                 title = "Render palettes"
+                dependency = "generate_palette_dynamic"
                 onClick {
                     renderPalettes.value = Unit
                     false
@@ -182,7 +183,7 @@ class AppearanceSettingsViewModel @Inject constructor(
 
             colorPref.requestRebind()
 
-            if (valueChanged) {
+            if (valueChanged && settingsRepo.prefs.getBoolean("generate_palette_dynamic", false)) {
                 openPalette.value = Unit
             }
         }

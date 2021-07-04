@@ -31,7 +31,10 @@ class MainViewModel @Inject constructor(
     // Needs to be separate from registerOnSharedPreferenceChangeListener in order to hold a strong reference
     private val prefChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
         // This key is applied separately
-        if (key == "aosp_circle_icons2_enabled" || key == "monet_custom_color_value") {
+        // TODO: simplify
+        if (key == "aosp_circle_icons2_enabled" || key == "generate_palette_dynamic" ||
+                (key == "monet_custom_color_value" &&
+                        settingsRepo.prefs.getBoolean("generate_palette_dynamic", false))) {
             return@OnSharedPreferenceChangeListener
         }
 

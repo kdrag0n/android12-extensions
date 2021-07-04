@@ -26,8 +26,10 @@ class PaletteFragment : BaseFragment(R.layout.fragment_palette) {
 
         view.setBackgroundResource(R.color.palette_bg)
 
-        val seedTint = ColorStateList.valueOf(viewModel.seedColor)
-        binding.shadeLabels.colorSampleSeed.root.backgroundTintList = seedTint
+        if (viewModel.seedColor != 0) {
+            val seedTint = ColorStateList.valueOf(viewModel.seedColor)
+            binding.shadeLabels.colorSampleSeed.root.backgroundTintList = seedTint
+        }
 
         binding.shadeLabels.apply {
             bind(colorShade0,       0)

@@ -21,8 +21,6 @@ class SettingsViewModel @Inject constructor(
     settingsRepo: SettingsRepository,
     private val broadcastManager: BroadcastManager,
 ) : BaseSettingsViewModel() {
-    override val navDest = MutableLiveData(R.id.action_settings_root_to_appearance)
-
     private val prefScreen = settingsRepo.prefScreen {
         Preference.Config.summaryMaxLines = 5
 
