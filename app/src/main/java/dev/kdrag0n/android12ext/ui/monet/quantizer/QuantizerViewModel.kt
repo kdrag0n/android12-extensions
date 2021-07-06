@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.kdrag0n.android12ext.monet.extraction.allColors
 import dev.kdrag0n.android12ext.monet.extraction.mainColors
 import javax.inject.Inject
 
@@ -23,8 +24,10 @@ class QuantizerViewModel @Inject constructor(
     val wallpaperColors = MutableLiveData<List<Int>>()
 
     private fun updateWallpaper() {
-        val colorInts = wallpaperManager.getWallpaperColors(WallpaperManager.FLAG_SYSTEM)!!.mainColors
-            .map { it.toArgb() }
+        val colorInts = wallpaperManager.getWallpaperColors(WallpaperManager.FLAG_SYSTEM)!!.allColors
+            .entries
+            .sortedByDescending { it.value }
+            .map { it.key }
 
         wallpaperDrawable.value = wallpaperManager.drawable
         wallpaperColors.value = colorInts
