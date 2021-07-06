@@ -72,7 +72,14 @@ class DynamicColorScheme(
         val L = target.L
         // Allow colorless gray and low-chroma colors by clamping.
         // To preserve chroma ratios, scale chroma by the reference (A-1 / N-1).
-        val C = target.C * (seed.C.coerceIn(0.0f, reference.C) / reference.C)
+        val scaleC = if (reference.C == 0.0f) {
+            // Zero reference C won't have chroma anyway, so use 0 to avoid a divide-by-zero
+            0.0f
+        } else {
+            // Non-zero reference C = possible chroma scale
+            (seed.C.coerceIn(0.0f, reference.C) / reference.C)
+        }
+        val C = target.C * scaleC
         // Use the seed color's hue, since it's the most prominent feature of the theme.
         val h = seed.h
 
