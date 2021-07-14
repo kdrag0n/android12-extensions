@@ -31,13 +31,13 @@ float subProgress(float start, float end, float progress) {
 }
 
 vec4 main(vec2 p) {
-    float fadeIn = subProgress(0., 0.1, in_progress);
-    float scaleIn = subProgress(0., 0.45, in_progress);
-    float fadeOutRipple = subProgress(0.5, 1., in_progress);
-    vec2 center = mix(in_touch, in_origin, scaleIn);
+    float fadeIn = subProgress(0., 0.13, in_progress);
+    float scaleIn = subProgress(0., 1.0, in_progress);
+    float fadeOutRipple = subProgress(0.4, 1., in_progress);
+    vec2 center = mix(in_touch, in_origin, saturate(in_progress * 2.0));
     vec2 uv = p * in_resolutionScale;
     float fade = min(fadeIn, 1. - fadeOutRipple);
-    float waveAlpha = softCircle(p, center, in_maxRadius * scaleIn, 0.2) * fade * in_color.a;
+    float waveAlpha = softCircle(p, center, in_maxRadius * scaleIn, 1.) * fade * in_color.a;
     vec4 waveColor = vec4(in_color.rgb * waveAlpha, waveAlpha);
     float mask = in_hasMask == 1. ? sample(in_shader, p).a > 0. ? 1. : 0. : 1.;
     return waveColor * mask;
