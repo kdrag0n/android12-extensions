@@ -17,7 +17,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.core.ripple.RIPPLE_SHADER_FLUENT
 import dev.kdrag0n.android12ext.core.ripple.RIPPLE_SHADER_NO_SPARKLES
 import dev.kdrag0n.android12ext.core.xposed.hookMethod
-import dev.kdrag0n.android12ext.monet.extraction.JzazbzCentroid
+import dev.kdrag0n.android12ext.monet.extraction.JzazbzPointProvider
 import java.util.function.Consumer
 
 class FrameworkHooks(
@@ -185,25 +185,25 @@ class FrameworkHooks(
     }
 
     fun applyQuantizerColorspace() {
-        val centroidProvider = JzazbzCentroid()
+        val centroidProvider = JzazbzPointProvider()
 
-        lpparam.hookMethod(CENTROID_CLASS, object : XC_MethodReplacement() {
+        lpparam.hookMethod(LAB_POINT_CLASS, object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam) =
-                centroidProvider.getCentroid(param.args[0] as Int)
-        }, "getCentroid", Int::class.java)
+                centroidProvider.fromInt(param.args[0] as Int)
+        }, "fromInt", Int::class.java)
 
-        lpparam.hookMethod(CENTROID_CLASS, object : XC_MethodReplacement() {
+        lpparam.hookMethod(LAB_POINT_CLASS, object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam) =
-                centroidProvider.getColor(param.args[0] as FloatArray)
-        }, "getColor", FloatArray::class.java)
+                centroidProvider.toInt(param.args[0] as FloatArray)
+        }, "toInt", FloatArray::class.java)
 
-        lpparam.hookMethod(CENTROID_CLASS, object : XC_MethodReplacement() {
+        lpparam.hookMethod(LAB_POINT_CLASS, object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam) =
                 centroidProvider.distance(param.args[0] as FloatArray, param.args[1] as FloatArray)
         }, "distance", FloatArray::class.java, FloatArray::class.java)
     }
 
     companion object {
-        private const val CENTROID_CLASS = "com.android.internal.graphics.palette.LABCentroid"
+        private const val LAB_POINT_CLASS = "com.android.internal.graphics.palette.LABPointProvider"
     }
 }
