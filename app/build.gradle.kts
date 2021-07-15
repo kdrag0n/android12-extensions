@@ -7,13 +7,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion = "android-S"
+    compileSdkVersion(31)
     buildToolsVersion = "30.0.3"
 
     defaultConfig {
         applicationId = "dev.kdrag0n.android12ext"
         minSdkVersion(30)
-        targetSdkVersion(30)
+        targetSdkVersion(31)
         versionCode = 50101
         versionName = "5.1.1"
 
