@@ -50,13 +50,11 @@ class SystemUIHooks(
     ) {
         val clazz = if (isGoogle) THEME_CLASS_GOOGLE else THEME_CLASS_AOSP
 
-        lpparam.hookMethod(clazz, object : XC_MethodReplacement() {
-            override fun replaceHookedMethod(param: MethodHookParam) = colorOverride
-        }, "getNeutralColor", WallpaperColors::class.java)
-
-        lpparam.hookMethod(clazz, object : XC_MethodReplacement() {
-            override fun replaceHookedMethod(param: MethodHookParam) = colorOverride
-        }, "getAccentColor", WallpaperColors::class.java)
+        lpparam.hookMethod(clazz, object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam) {
+                param.args[0] = colorOverride
+            }
+        }, "getOverlay", Int::class.java, Int::class.java)
     }
 
     fun applyThemeOverlayController(
