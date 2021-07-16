@@ -1,6 +1,8 @@
 package dev.kdrag0n.android12ext.ui.monet.quantizer
 
 import android.content.res.ColorStateList
+import android.graphics.PointF
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.*
 import androidx.core.graphics.drawable.toBitmap
@@ -28,6 +30,19 @@ class QuantizerFragment : BaseFragment(R.layout.fragment_quantizer) {
                 setImage(ImageSource.bitmap(it.toBitmap()))
                 setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP)
                 maxScale = 5.0f
+
+                setOnStateChangedListener(object : SubsamplingScaleImageView.OnStateChangedListener {
+                    override fun onCenterChanged(newCenter: PointF, origin: Int) = updateRect()
+                    override fun onScaleChanged(newScale: Float, origin: Int) = updateRect()
+
+                    private fun updateRect() {
+                        post {
+                            val rect = Rect(0, 0, 0, 0)
+                            visibleFileRect(rect)
+                            viewModel.imageRect.value = rect
+                        }
+                    }
+                })
             }
         }
 
@@ -44,7 +59,6 @@ class QuantizerFragment : BaseFragment(R.layout.fragment_quantizer) {
             }
 
             binding.loadingProgress.visibility = View.GONE
-            binding.wallpaperView.visibility = View.VISIBLE
 
             setWallpaperColor(binding.colorSample1, it, 0)
             setWallpaperColor(binding.colorSample2, it, 1)
