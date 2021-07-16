@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
 import androidx.core.content.getSystemService
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -38,15 +39,16 @@ class QuantizerViewModel @Inject constructor(
         // Quantization may take a while, so show progress first
         wallpaperColors.value = null
         withContext(Dispatchers.IO) {
+            // Pre-render bitmap to avoid distorting benchmark
+            val bitmap = drawable.toBitmap()
+
             val before = System.currentTimeMillis()
-            val colors = WallpaperColors.fromDrawable(drawable)
+            val colors = WallpaperColors.fromBitmap(bitmap)
             val after = System.currentTimeMillis()
             Timber.i("Quantized wallpaper in ${after - before} ms")
 
-            val colorInts = colors.allColors
-                .entries
-                .sortedByDescending { it.value }
-                .map { it.key }
+            val colorInts = colors.mainColors
+                .map { it.toArgb() }
 
             wallpaperColors.postValue(colorInts)
         }
