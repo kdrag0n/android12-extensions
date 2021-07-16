@@ -3,6 +3,7 @@ package dev.kdrag0n.android12ext.ui.monet.quantizer
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,11 +25,33 @@ class QuantizerFragment : BaseFragment(R.layout.fragment_quantizer) {
         }
 
         viewModel.wallpaperColors.observe(viewLifecycleOwner) {
+            if (it == null) {
+                binding.loadingProgress.visibility = View.VISIBLE
+                binding.colorSamplesRow1.forEach { view ->
+                    view.visibility = View.GONE
+                }
+                binding.colorSamplesRow2.forEach { view ->
+                    view.visibility = View.GONE
+                }
+                return@observe
+            }
+
+            binding.loadingProgress.visibility = View.GONE
+
             setWallpaperColor(binding.colorSample1, it, 0)
             setWallpaperColor(binding.colorSample2, it, 1)
             setWallpaperColor(binding.colorSample3, it, 2)
             setWallpaperColor(binding.colorSample4, it, 3)
             setWallpaperColor(binding.colorSample5, it, 4)
+            setWallpaperColor(binding.colorSample6, it, 5)
+            setWallpaperColor(binding.colorSample7, it, 6)
+            setWallpaperColor(binding.colorSample8, it, 7)
+            setWallpaperColor(binding.colorSample9, it, 8)
+            setWallpaperColor(binding.colorSample10, it, 9)
+            setWallpaperColor(binding.colorSample11, it, 10)
+            setWallpaperColor(binding.colorSample12, it, 11)
+            setWallpaperColor(binding.colorSample13, it, 12)
+            setWallpaperColor(binding.colorSample14, it, 13)
         }
     }
 

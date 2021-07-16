@@ -30,29 +30,87 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <include
-                android:id="@+id/color_sample1"
-                layout="@layout/color_sample" />
+            <LinearLayout
+                android:id="@+id/color_samples_row1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <include
-                android:id="@+id/color_sample2"
-                layout="@layout/color_sample" />
+                <include
+                    android:id="@+id/color_sample1"
+                    layout="@layout/color_sample" />
 
-            <include
-                android:id="@+id/color_sample3"
-                layout="@layout/color_sample" />
+                <include
+                    android:id="@+id/color_sample2"
+                    layout="@layout/color_sample" />
 
-            <include
-                android:id="@+id/color_sample4"
-                layout="@layout/color_sample" />
+                <include
+                    android:id="@+id/color_sample3"
+                    layout="@layout/color_sample" />
 
-            <include
-                android:id="@+id/color_sample5"
-                layout="@layout/color_sample" />
+                <include
+                    android:id="@+id/color_sample4"
+                    layout="@layout/color_sample" />
+
+                <include
+                    android:id="@+id/color_sample5"
+                    layout="@layout/color_sample" />
+
+                <include
+                    android:id="@+id/color_sample6"
+                    layout="@layout/color_sample" />
+
+                <include
+                    android:id="@+id/color_sample7"
+                    layout="@layout/color_sample" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/color_samples_row2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include
+                    android:id="@+id/color_sample8"
+                    layout="@layout/color_sample" />
+
+                <include
+                    android:id="@+id/color_sample9"
+                    layout="@layout/color_sample" />
+
+                <include
+                    android:id="@+id/color_sample10"
+                    layout="@layout/color_sample" />
+
+                <include
+                    android:id="@+id/color_sample11"
+                    layout="@layout/color_sample" />
+
+                <include
+                    android:id="@+id/color_sample12"
+                    layout="@layout/color_sample" />
+
+                <include
+                    android:id="@+id/color_sample13"
+                    layout="@layout/color_sample" />
+
+                <include
+                    android:id="@+id/color_sample14"
+                    layout="@layout/color_sample" />
+
+            </LinearLayout>
 
         </LinearLayout>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/loading_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
 
     </com.google.android.material.card.MaterialCardView>
 
