@@ -33,8 +33,9 @@
 
             <LinearLayout
                 android:id="@+id/color_samples_row1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
 
                 <include
                     android:id="@+id/color_sample1"
@@ -68,8 +69,9 @@
 
             <LinearLayout
                 android:id="@+id/color_samples_row2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
 
                 <include
                     android:id="@+id/color_sample8"
