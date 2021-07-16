@@ -1,11 +1,11 @@
 package dev.kdrag0n.android12ext.ui.monet.quantizer
 
+import android.annotation.SuppressLint
 import android.app.WallpaperColors
 import android.app.WallpaperManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Rect
-import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
 import androidx.core.content.getSystemService
@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.kdrag0n.android12ext.monet.extraction.mainColors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -28,17 +29,30 @@ class QuantizerViewModel @Inject constructor(
     @ApplicationContext context: Context
 ) : ViewModel() {
     private val wallpaperManager = context.getSystemService<WallpaperManager>()!!
+    private val colorSchemeClass = context.createPackageContext(
+        "com.android.systemui",
+        Context.CONTEXT_INCLUDE_CODE or Context.CONTEXT_IGNORE_SECURITY,
+    ).classLoader.let { loader ->
+        try {
+            loader.loadClass("com.google.material.monet.ColorScheme")
+        } catch (e: ClassNotFoundException) {
+            null
+        }
+    }
 
-    val wallpaperDrawable = MutableLiveData<Drawable>()
+    val wallpaperBitmap = MutableLiveData<Bitmap>()
     val wallpaperColors = MutableLiveData<List<Int>?>(null)
     val imageRect = MutableLiveData<Rect?>(null)
 
+    // Only for debugging purposes
+    @SuppressLint("MissingPermission")
     private suspend fun updateWallpaper(rect: Rect? = null) {
         val drawable = wallpaperManager.drawable
 
         // Show the wallpaper first if not a rect update
         if (rect == null) {
-            wallpaperDrawable.value = drawable
+            // Make a copy of the bitmap because SubsamplingScaleImageView assumes ownership and recycles it
+            wallpaperBitmap.value = Bitmap.createBitmap(drawable.toBitmap())
         }
 
         // Quantization may take a while, so show progress first
@@ -58,8 +72,17 @@ class QuantizerViewModel @Inject constructor(
             val after = System.currentTimeMillis()
             Timber.i("Quantized wallpaper in ${after - before} ms. rect=$rect - width=${bitmap.width} height=${bitmap.height}")
 
-            val colorInts = colors.mainColors
-                .map { it.toArgb() }
+            val colorInts = if (colorSchemeClass != null) {
+                val companion = colorSchemeClass.getDeclaredField("Companion").get(null)
+                val seedColors = companion::class.java
+                    .getDeclaredMethod("getSeedColors", WallpaperColors::class.java)
+                    .invoke(companion, colors) as List<Int>
+
+                seedColors.map { it }
+            } else {
+                // Not exactly the same, but it's close enough for AOSP
+                colors.mainColors.map { it.toArgb() }
+            }
 
             wallpaperColors.postValue(colorInts)
         }

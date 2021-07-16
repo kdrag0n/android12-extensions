@@ -5,7 +5,6 @@ import android.graphics.PointF
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.*
-import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
 import com.davemorrissey.labs.subscaleview.ImageSource
@@ -25,9 +24,9 @@ class QuantizerFragment : BaseFragment(R.layout.fragment_quantizer) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.wallpaperDrawable.observe(viewLifecycleOwner) {
+        viewModel.wallpaperBitmap.observe(viewLifecycleOwner) {
             binding.wallpaperView.apply {
-                setImage(ImageSource.bitmap(it.toBitmap()))
+                setImage(ImageSource.bitmap(it))
                 setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP)
                 maxScale = 5.0f
 
