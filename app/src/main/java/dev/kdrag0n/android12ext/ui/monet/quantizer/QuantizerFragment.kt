@@ -37,6 +37,7 @@ class QuantizerFragment : BaseFragment(R.layout.fragment_quantizer) {
             }
 
             binding.loadingProgress.visibility = View.GONE
+            binding.wallpaperView.visibility = View.VISIBLE
 
             setWallpaperColor(binding.colorSample1, it, 0)
             setWallpaperColor(binding.colorSample2, it, 1)
