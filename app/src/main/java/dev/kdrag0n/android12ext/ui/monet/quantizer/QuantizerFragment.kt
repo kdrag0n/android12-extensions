@@ -3,8 +3,11 @@ package dev.kdrag0n.android12ext.ui.monet.quantizer
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.*
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
+import com.davemorrissey.labs.subscaleview.ImageSource
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dev.kdrag0n.android12ext.R
@@ -21,7 +24,11 @@ class QuantizerFragment : BaseFragment(R.layout.fragment_quantizer) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.wallpaperDrawable.observe(viewLifecycleOwner) {
-            binding.wallpaperView.setImageDrawable(it)
+            binding.wallpaperView.apply {
+                setImage(ImageSource.bitmap(it.toBitmap()))
+                setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP)
+                maxScale = 5.0f
+            }
         }
 
         viewModel.wallpaperColors.observe(viewLifecycleOwner) {
