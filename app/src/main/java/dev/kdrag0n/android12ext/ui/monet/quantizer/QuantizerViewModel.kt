@@ -17,6 +17,7 @@ import dev.kdrag0n.android12ext.monet.extraction.mainColors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,17 +31,23 @@ class QuantizerViewModel @Inject constructor(
 
     private suspend fun updateWallpaper() {
         val drawable = wallpaperManager.drawable
+
         // Show the wallpaper first
         wallpaperDrawable.value = drawable
 
         // Quantization may take a while, so show progress first
         wallpaperColors.value = null
         withContext(Dispatchers.IO) {
+            val before = System.currentTimeMillis()
             val colors = WallpaperColors.fromDrawable(drawable)
+            val after = System.currentTimeMillis()
+            Timber.i("Quantized wallpaper in ${after - before} ms")
+
             val colorInts = colors.allColors
                 .entries
                 .sortedByDescending { it.value }
                 .map { it.key }
+
             wallpaperColors.postValue(colorInts)
         }
     }
