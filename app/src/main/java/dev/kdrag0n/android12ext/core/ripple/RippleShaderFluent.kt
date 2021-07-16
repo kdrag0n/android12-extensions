@@ -66,7 +66,7 @@ vec4 main(vec2 pos) {
     // The wave also fades out with hold time.
     float waveFade = saturate(1.0 - in_turbulencePhase / 20.0);
     // Calculate wave color, excluding fade
-    float waveAlpha = softWave(pos, in_touch, in_maxRadius, waveProgress, waveBlur);
+    float waveAlpha = softWave(pos, in_touch, in_maxRadius / 2.3, waveProgress, waveBlur);
 
     // Dither with triangular white noise. Unfortunately, we can't use blue noise
     // because RuntimeShader doesn't allow us to add custom textures.
