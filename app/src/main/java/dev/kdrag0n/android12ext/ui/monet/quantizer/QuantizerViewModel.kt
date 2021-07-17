@@ -20,6 +20,8 @@ import dev.kdrag0n.android12ext.monet.extraction.mainColors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -45,9 +47,11 @@ class QuantizerViewModel @Inject constructor(
     val wallpaperColors = MutableLiveData<List<Int>?>(null)
     val imageRect = MutableLiveData<Rect?>(null)
 
+    private val quantizerLock = Mutex()
+
     // Only for debugging purposes
     @SuppressLint("MissingPermission")
-    private suspend fun updateWallpaper(rect: Rect? = null) {
+    private suspend fun updateWallpaper(rect: Rect? = null) = quantizerLock.withLock {
         val drawable = wallpaperManager.drawable
 
         // Show the wallpaper first if not a rect update
