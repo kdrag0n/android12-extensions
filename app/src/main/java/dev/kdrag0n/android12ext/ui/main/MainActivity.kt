@@ -81,19 +81,21 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener {
             rootDialog = null
 
             if (!isRooted) {
-                val managerIntent = packageManager.getLaunchIntentForPackage(MAGISK_MANAGER_PACKAGE)!!
+                val managerIntent = packageManager.getLaunchIntentForPackage(MAGISK_MANAGER_PACKAGE)
 
                 rootDialog = MaterialAlertDialogBuilder(this).run {
                     setTitle(R.string.error_missing_root)
                     setMessage(R.string.error_missing_root_desc)
                     setCancelable(BuildConfig.DEBUG)
-                    // Empty callback because we override it later
-                    setPositiveButton(R.string.allow) { _, _ -> }
+                    if (managerIntent != null) {
+                        // Empty callback because we override it later
+                        setPositiveButton(R.string.allow) { _, _ -> }
+                    }
                     show()
                 }.apply {
                     // Override button callback to stop it from dismissing the dialog
                     getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                        startActivity(managerIntent)
+                        startActivity(managerIntent!!)
                     }
                 }
             }
