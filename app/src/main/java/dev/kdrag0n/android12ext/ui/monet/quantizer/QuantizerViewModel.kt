@@ -53,7 +53,8 @@ class QuantizerViewModel @Inject constructor(
         // Show the wallpaper first if not a rect update
         if (rect == null) {
             // Make a copy of the bitmap because SubsamplingScaleImageView assumes ownership and recycles it
-            wallpaperBitmap.value = Bitmap.createBitmap(drawable.toBitmap())
+            val orig = drawable.toBitmap()
+            wallpaperBitmap.value = orig.copy(orig.config, false)
         }
 
         // Quantization may take a while, so show progress first
