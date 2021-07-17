@@ -14,8 +14,8 @@ android {
         applicationId = "dev.kdrag0n.android12ext"
         minSdkVersion(30)
         targetSdkVersion(31)
-        versionCode = 50101
-        versionName = "5.1.1"
+        versionCode = 60000
+        versionName = "6.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
