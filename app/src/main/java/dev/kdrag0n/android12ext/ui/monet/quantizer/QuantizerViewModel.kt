@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.math.sqrt
 
 @HiltViewModel
 class QuantizerViewModel @Inject constructor(
@@ -60,10 +61,22 @@ class QuantizerViewModel @Inject constructor(
         withContext(Dispatchers.IO) {
             // Pre-render bitmap to avoid distorting benchmark
             val bitmap = drawable.toBitmap().let {
-                if (rect == null) {
+                val bitmap = if (rect == null) {
                     it
                 } else {
                     Bitmap.createBitmap(it, rect.left, rect.top, rect.width(), rect.height())
+                }
+
+                // Scale with the same logic as WallpaperColors
+                val requestedArea = it.width * it.height
+                if (requestedArea > MAX_WALLPAPER_EXTRACTION_AREA) {
+                    val scale = sqrt(MAX_WALLPAPER_EXTRACTION_AREA.toDouble() / requestedArea)
+                    val newWidth = (it.width * scale).toInt().coerceAtLeast(1)
+                    val newHeight = (it.height * scale).toInt().coerceAtLeast(1)
+
+                    Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, false)
+                } else {
+                    bitmap
                 }
             }
 
@@ -125,5 +138,6 @@ class QuantizerViewModel @Inject constructor(
 
     companion object {
         private const val UPDATE_RECT_DEBOUNCE_DELAY = 250L
+        private const val MAX_WALLPAPER_EXTRACTION_AREA = 12544
     }
 }
