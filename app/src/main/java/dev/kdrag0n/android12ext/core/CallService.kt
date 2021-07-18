@@ -31,7 +31,7 @@ class CallService : Service() {
         // Notification
         val notification = Notification.Builder(this, "test").run {
             val pendingIntent = Intent(this@CallService, MainActivity::class.java).let {
-                PendingIntent.getActivity(this@CallService, 100, it, 0)
+                PendingIntent.getActivity(this@CallService, 100, it, PendingIntent.FLAG_IMMUTABLE)
             }
 
             setContentIntent(pendingIntent)
