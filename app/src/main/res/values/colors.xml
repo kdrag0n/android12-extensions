@@ -10,8 +10,8 @@
     <color name="ui_accent">@android:color/system_accent1_600</color>
 
     <!-- Launcher icon -->
-    <color name="launcher_fg">@android:color/system_accent1_600</color>
-    <color name="launcher_bg">@android:color/system_accent2_50</color>
+    <color name="launcher_fg">@android:color/system_neutral2_700</color>
+    <color name="launcher_bg">@android:color/system_accent1_100</color>
 
     <!-- Rendered palettes -->
     <color name="palette_bg">#fdfdfd</color>
