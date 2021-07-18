@@ -25,7 +25,8 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:allowBackup="true"
-        android:forceQueryable="true">
+        android:forceQueryable="true"
+        tools:ignore="AllowBackup">
 
         <activity
             android:name=".ui.main.MainActivity"
