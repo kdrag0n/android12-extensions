@@ -112,10 +112,6 @@ class XposedHook(
         launcherHooks.applyFeatureFlags()
     }
 
-    private fun applySystemServer() {
-        frameworkHooks.applyMedianCutQuantizer()
-    }
-
     private fun applyFramework() {
         // Ripple style
         when (prefs.getString("ripple_style", null)) {
