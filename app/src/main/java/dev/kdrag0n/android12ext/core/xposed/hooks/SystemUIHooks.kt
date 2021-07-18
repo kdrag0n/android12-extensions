@@ -60,14 +60,13 @@ class SystemUIHooks(
     fun applyThemeOverlayController(
         isGoogle: Boolean,
         chromaMultiplier: Float,
-        multiColor: Boolean,
         accurateShades: Boolean,
         colorOverride: Int?,
     ) {
         val controller = ThemeOverlayController(
+            context,
             MaterialYouTargets(chromaMultiplier),
             chromaMultiplier,
-            multiColor,
             accurateShades,
         )
         val clazz = if (isGoogle) THEME_CLASS_GOOGLE else THEME_CLASS_AOSP
@@ -98,12 +97,15 @@ class SystemUIHooks(
             // System UI has permission to draw the wallpaper
             @SuppressLint("MissingPermission")
             override fun beforeHookedMethod(param: MethodHookParam) {
-                if (wallpaperManager.wallpaperInfo == null) {
-                    // Static wallpaper: use custom quantizer
-                    Timber.i("Extracting colors using custom quantizer")
-                    val colors = WallpaperColors.fromDrawable(wallpaperManager.drawable)
-                    XposedHelpers.setObjectField(param.thisObject, "mSystemColors", colors)
+                if (wallpaperManager.wallpaperInfo != null) {
+                    // Live wallpapers can't be quantized here
+                    return
                 }
+
+                // Static wallpaper: use custom quantizer
+                Timber.i("Extracting colors using custom quantizer")
+                val colors = WallpaperColors.fromDrawable(wallpaperManager.drawable)
+                XposedHelpers.setObjectField(param.thisObject, "mCurrentColors", colors)
             }
         }, "reevaluateSystemTheme", Boolean::class.java)
     }

@@ -1,6 +1,7 @@
 package dev.kdrag0n.android12ext.monet.overlay
 
 import android.app.WallpaperColors
+import android.content.Context
 import android.graphics.Color
 import dev.kdrag0n.android12ext.monet.colors.Srgb
 import dev.kdrag0n.android12ext.monet.theme.ColorScheme
@@ -8,22 +9,15 @@ import dev.kdrag0n.android12ext.monet.theme.DynamicColorScheme
 import timber.log.Timber
 
 class ThemeOverlayController(
+    private val context: Context,
     private val targetColors: ColorScheme,
     private val chromaMultiplier: Float,
-    private val multiColor: Boolean,
     private val accurateShades: Boolean,
 ) {
     private lateinit var colorScheme: ColorScheme
 
-    fun getNeutralColor(colors: WallpaperColors) = colors.primaryColor.toArgb()
-    fun getAccentColor(colors: WallpaperColors) = if (multiColor) {
-        // Not all colors will always be present
-        (colors.secondaryColor
-            ?: colors.tertiaryColor
-            ?: colors.primaryColor).toArgb()
-    } else {
-        getNeutralColor(colors)
-    }
+    fun getNeutralColor(colors: WallpaperColors) = colors.getSeedColor(context)
+    fun getAccentColor(colors: WallpaperColors) = getNeutralColor(colors)
 
     // com.android.systemui.theme.ThemeOverlayController#getOverlay(int, int)
     fun getOverlay(primaryColor: Int, isAccent: Int): Any {
