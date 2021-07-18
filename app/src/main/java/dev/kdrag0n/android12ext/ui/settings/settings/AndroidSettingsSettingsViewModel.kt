@@ -20,12 +20,6 @@ class AndroidSettingsSettingsViewModel @Inject constructor(
 ) : BaseSettingsViewModel() {
     private val prefScreen = settingsRepo.prefScreen {
         featureSwitch(
-            key = "settings_shared_axis",
-            title = R.string.android_settings_shared_axis,
-            summary = R.string.android_settings_shared_axis_desc,
-            icon = R.drawable.ic_fluent_slide_transition_24_regular,
-        )
-        featureSwitch(
             key = "settings_battery_slots",
             title = R.string.android_settings_battery_slots,
             summary = R.string.android_settings_battery_slots_desc,

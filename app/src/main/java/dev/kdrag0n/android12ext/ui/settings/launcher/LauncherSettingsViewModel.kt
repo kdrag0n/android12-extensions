@@ -16,12 +16,6 @@ class LauncherSettingsViewModel @Inject constructor(
 ) : BaseSettingsViewModel() {
     private val prefScreen = settingsRepo.prefScreen {
         featureSwitch(
-            key = "launcher_themed_icons",
-            title = R.string.launcher_themed_icons,
-            summary = R.string.launcher_themed_icons_desc,
-            icon = R.drawable.ic_fluent_icons_24_regular,
-        )
-        featureSwitch(
             key = "launcher_device_search",
             title = R.string.launcher_device_search,
             summary = R.string.launcher_device_search_desc,

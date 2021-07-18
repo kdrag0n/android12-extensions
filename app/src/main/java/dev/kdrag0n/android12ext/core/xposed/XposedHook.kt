@@ -106,7 +106,6 @@ class XposedHook(
     }
 
     private fun applyLauncher() {
-        launcherHooks.flagValues["ENABLE_THEMED_ICONS"] = isFeatureEnabled("launcher_themed_icons")
         launcherHooks.flagValues["ENABLE_DEVICE_SEARCH"] = isFeatureEnabled("launcher_device_search")
 
         launcherHooks.flagValues["PROTOTYPE_APP_CLOSE"] = isFeatureEnabled("launcher_animations")
@@ -137,8 +136,6 @@ class XposedHook(
     }
 
     private fun applySettings() {
-        settingsHooks.applySharedAxisTransition(isFeatureEnabled("settings_shared_axis"))
-
         if (context.hasSystemUiGoogle()) {
             settingsHooks.applyBatterySlots(isFeatureEnabled("settings_battery_slots"))
         }
