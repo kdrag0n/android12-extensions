@@ -84,6 +84,8 @@
     <string name="appearance_monet_custom_color_value">Theme color</string>
     <string name="appearance_monet_palette">Show color palette</string>
     <string name="appearance_monet_palette_desc">All 65 Material You colors</string>
+    <string name="appearance_monet_quantizer">Show wallpaper colors</string>
+    <string name="appearance_monet_quantizer_desc">Up to 14 colors extracted from wallpaper</string>
     <string name="category_aosp">AOSP</string>
     <string name="appearance_aosp_circle_icons">Circular icons</string>
     <string name="appearance_aosp_circle_icons_desc">Circle shape for app icons</string>
@@ -96,9 +98,8 @@
     <string name="monet_palette_neutral1">N-1</string>
     <string name="monet_palette_neutral2">N-2</string>
 
-    <!-- Debug -->
-    <string name="monet_quantizer">Color extraction</string>
-    <string name="appearance_monet_quantizer">Test color extraction</string>
+    <!-- Quantizer -->
+    <string name="monet_quantizer">Wallpaper colors</string>
 
     <!-- Errors -->
     <string name="error_xposed_module_missing">Xposed module is not enabled</string>

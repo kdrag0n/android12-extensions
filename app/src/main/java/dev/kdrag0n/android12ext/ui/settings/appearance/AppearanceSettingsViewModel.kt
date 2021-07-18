@@ -98,6 +98,14 @@ class AppearanceSettingsViewModel @Inject constructor(
                 false
             }
         }
+        navPref(
+            key = "monet_quantizer",
+            title = R.string.appearance_monet_quantizer,
+            summary = R.string.appearance_monet_quantizer_desc,
+            icon = R.drawable.ic_fluent_wallpaper_24_regular,
+            action = R.id.action_settings_appearance_to_quantizer,
+            vm = this@AppearanceSettingsViewModel,
+        )
 
         if (!hasSystemUiGoogle) {
             categoryHeader("category_aosp") {
@@ -142,13 +150,6 @@ class AppearanceSettingsViewModel @Inject constructor(
                     false
                 }
             }
-            navPref(
-                key = "monet_quantizer",
-                title = R.string.appearance_monet_quantizer,
-                icon = R.drawable.ic_fluent_wallpaper_24_regular,
-                action = R.id.action_settings_appearance_to_quantizer,
-                vm = this@AppearanceSettingsViewModel,
-            )
             pref("benchmark_monet") {
                 title = "Benchmark color generation"
                 onClick {
