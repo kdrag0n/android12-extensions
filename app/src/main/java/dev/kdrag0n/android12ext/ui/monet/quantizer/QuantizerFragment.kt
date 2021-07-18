@@ -1,10 +1,15 @@
 package dev.kdrag0n.android12ext.ui.monet.quantizer
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.PointF
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.*
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
 import com.davemorrissey.labs.subscaleview.ImageSource
@@ -20,6 +25,10 @@ import dev.kdrag0n.android12ext.ui.BaseFragment
 class QuantizerFragment : BaseFragment(R.layout.fragment_quantizer) {
     private val viewModel: QuantizerViewModel by viewModels()
     private val binding by viewBinding(FragmentQuantizerBinding::bind)
+
+    val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        viewModel.reloadWallpaper()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -87,6 +96,15 @@ class QuantizerFragment : BaseFragment(R.layout.fragment_quantizer) {
 
         val color = ColorStateList.valueOf(colors[index])
         colorView.backgroundTintList = color
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        // Required to get wallpaper
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

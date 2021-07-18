@@ -1,7 +1,6 @@
 package dev.kdrag0n.android12ext.ui.monet.quantizer
 
 import android.annotation.SuppressLint
-import android.app.WallpaperColors
 import android.app.WallpaperManager
 import android.content.Context
 import android.graphics.Bitmap
@@ -49,10 +48,14 @@ class QuantizerViewModel @Inject constructor(
 
     private val quantizerLock = Mutex()
 
-    // Only for debugging purposes
+    // Permissions are handled by the fragment
     @SuppressLint("MissingPermission")
     private suspend fun updateWallpaper(rect: Rect? = null) = quantizerLock.withLock {
-        val drawable = wallpaperManager.drawable
+        val drawable = try {
+            wallpaperManager.drawable
+        } catch (e: SecurityException) {
+            return@withLock
+        }
 
         // Show the wallpaper first if not a rect update
         if (rect == null) {
@@ -106,6 +109,12 @@ class QuantizerViewModel @Inject constructor(
         }
     }
 
+    fun reloadWallpaper() {
+        viewModelScope.launch {
+            updateWallpaper()
+        }
+    }
+
     private val colorsChangedListener = WallpaperManager.OnColorsChangedListener { _, which ->
         if (which != WallpaperManager.FLAG_SYSTEM) {
             return@OnColorsChangedListener
@@ -115,7 +124,6 @@ class QuantizerViewModel @Inject constructor(
             updateWallpaper()
         }
     }
-
 
     private val rectObserver = Observer<Rect?> {
         viewModelScope.launch {
