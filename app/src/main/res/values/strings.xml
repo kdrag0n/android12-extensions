@@ -53,6 +53,8 @@
     <string name="launcher_themed_icons_desc">Use Material You colors for supported Google app icons (home screen only)</string>
     <string name="launcher_device_search">New search interface</string>
     <string name="launcher_device_search_desc">Material You search UI in the app drawer</string>
+    <string name="launcher_animations">New animations</string>
+    <string name="launcher_animations_desc">Tweaks to app open and close animations</string>
     <string name="launcher_info">The Xposed module must be enabled for Pixel Launcher in order for these settings to work.</string>
 
     <!-- Tweaks -->

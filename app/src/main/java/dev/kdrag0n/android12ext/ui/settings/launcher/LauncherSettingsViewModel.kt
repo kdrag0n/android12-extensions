@@ -27,6 +27,12 @@ class LauncherSettingsViewModel @Inject constructor(
             summary = R.string.launcher_device_search_desc,
             icon = R.drawable.ic_fluent_search_24_regular,
         )
+        featureSwitch(
+            key = "launcher_animations",
+            title = R.string.launcher_animations,
+            summary = R.string.launcher_animations_desc,
+            icon = R.drawable.ic_fluent_open_24_regular,
+        )
 
         pref("launcher_info") {
             iconRes = R.drawable.ic_fluent_info_24_regular
