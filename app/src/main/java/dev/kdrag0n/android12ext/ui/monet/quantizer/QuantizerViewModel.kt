@@ -1,6 +1,7 @@
 package dev.kdrag0n.android12ext.ui.monet.quantizer
 
 import android.annotation.SuppressLint
+import android.app.WallpaperColors
 import android.app.WallpaperManager
 import android.content.Context
 import android.graphics.Bitmap
