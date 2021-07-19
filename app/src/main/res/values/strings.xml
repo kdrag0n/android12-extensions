@@ -102,6 +102,7 @@
 
     <!-- Quantizer -->
     <string name="monet_quantizer">Wallpaper colors</string>
+    <string name="monet_quantizer_color_copied">Copied to clipboard: %1$s</string>
 
     <!-- Errors -->
     <string name="error_xposed_module_missing">Xposed module is not enabled</string>
