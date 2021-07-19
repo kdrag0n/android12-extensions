@@ -42,6 +42,7 @@ class XposedHook(
     private val frameworkHooks = FrameworkHooks(lpparam)
     private val launcherHooks = LauncherHooks(lpparam)
     private val playGamesHooks = PlayGamesHooks()
+    private val themePickerHooks = ThemePickerHooks(lpparam)
 
     init {
         CustomApplication.commonInit()
@@ -50,6 +51,9 @@ class XposedHook(
     private fun isFeatureEnabled(feature: String, default: Boolean = true): Boolean {
         return prefs.getBoolean("${feature}_enabled", default)
     }
+
+    private fun getChromaMultiplier(): Float =
+        prefs.getInt("custom_monet_chroma_multiplier", 50).toFloat() / 50
 
     private fun applySysUi() {
         broadcastManager.listenForPings()
@@ -76,7 +80,7 @@ class XposedHook(
         ) {
             sysuiHooks.applyThemeOverlayController(
                 isGoogle = hasSystemUiGoogle,
-                chromaMultiplier = prefs.getInt("custom_monet_chroma_multiplier", 50).toFloat() / 50,
+                chromaMultiplier = getChromaMultiplier(),
                 accurateShades = isFeatureEnabled("custom_monet_accurate_shades"),
                 colorOverride = colorOverride,
             )
@@ -141,6 +145,15 @@ class XposedHook(
         }
     }
 
+    private fun applyThemePicker() {
+        if (isFeatureEnabled("custom_monet", false)) {
+            themePickerHooks.applyColorScheme(
+                chromaMultiplier = getChromaMultiplier(),
+                accurateShades = isFeatureEnabled("custom_monet_accurate_shades"),
+            )
+        }
+    }
+
     fun applyAll() {
         // Global kill-switch
         if (!isFeatureEnabled("global")) {
@@ -161,6 +174,8 @@ class XposedHook(
             "com.android.settings" -> applySettings()
             // Launcher
             "com.android.launcher3", "com.google.android.apps.nexuslauncher" -> applyLauncher()
+            // Wallpaper & style
+            "com.google.android.apps.wallpaper" -> applyThemePicker()
         }
 
         // All apps
