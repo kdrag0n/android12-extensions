@@ -1,6 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    val kotlinVersion by rootProject.extra { "1.5.20" }
+    val kotlinVersion by rootProject.extra { "1.5.21" }
 
     repositories {
         mavenCentral()
@@ -14,7 +14,7 @@ buildscript {
         // TODO: Remove once we update to AGP 7.0
         classpath("com.android.tools:r8:2.2.77")
 
-        classpath("com.android.tools.build:gradle:4.2.1")
+        classpath("com.android.tools.build:gradle:4.2.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath("com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:8.9.0")
         classpath("com.google.dagger:hilt-android-gradle-plugin:2.37")
