@@ -9,7 +9,7 @@ import timber.log.Timber
 class DynamicColorScheme(
     targets: ColorScheme,
     seedColor: Color,
-    chromaFactor: Float = 1.0f,
+    chromaFactor: Double = 1.0,
     private val accurateShades: Boolean = true,
 ) : ColorScheme() {
     private val seedNeutral = seedColor.toLinearSrgb().toOklab().toOklch().let { lch ->
@@ -72,12 +72,12 @@ class DynamicColorScheme(
         val L = target.L
         // Allow colorless gray and low-chroma colors by clamping.
         // To preserve chroma ratios, scale chroma by the reference (A-1 / N-1).
-        val scaleC = if (reference.C == 0.0f) {
+        val scaleC = if (reference.C == 0.0) {
             // Zero reference C won't have chroma anyway, so use 0 to avoid a divide-by-zero
-            0.0f
+            0.0
         } else {
             // Non-zero reference C = possible chroma scale
-            (seed.C.coerceIn(0.0f, reference.C) / reference.C)
+            (seed.C.coerceIn(0.0, reference.C) / reference.C)
         }
         val C = target.C * scaleC
         // Use the seed color's hue, since it's the most prominent feature of the theme.
@@ -91,13 +91,13 @@ class DynamicColorScheme(
                 // Prefer chroma
                 OklabGamut.ClipMethod.ADAPTIVE_TOWARDS_LCUSP
             },
-            alpha = 5.0f,
+            alpha = 5.0,
         )
     }
 
     companion object {
         // Hue shift for the tertiary accent color (accent3), in degrees.
         // 60 degrees = shifting by a secondary color
-        private const val ACCENT3_HUE_SHIFT_DEGREES = 60.0f
+        private const val ACCENT3_HUE_SHIFT_DEGREES = 60.0
     }
 }

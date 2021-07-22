@@ -1,22 +1,20 @@
 package dev.kdrag0n.android12ext.monet.colors
 
-import dev.kdrag0n.android12ext.monet.toDegrees
-import dev.kdrag0n.android12ext.monet.toRadians
 import kotlin.math.*
 
 interface Lch : Color {
-    val L: Float
-    val C: Float
-    val h: Float
+    val L: Double
+    val C: Double
+    val h: Double
 
     companion object {
         internal fun Lab.calcLchC() = sqrt(a*a + b*b)
-        internal fun Lab.calcLchH(): Float {
-            val hDeg = atan2(b, a).toDegrees()
+        internal fun Lab.calcLchH(): Double {
+            val hDeg = Math.toDegrees(atan2(b, a))
             return if (hDeg < 0) hDeg + 360 else hDeg
         }
 
-        internal fun Lch.calcLabA() = C * cos(h.toRadians())
-        internal fun Lch.calcLabB() = C * sin(h.toRadians())
+        internal fun Lch.calcLabA() = C * cos(Math.toRadians(h))
+        internal fun Lch.calcLabB() = C * sin(Math.toRadians(h))
     }
 }

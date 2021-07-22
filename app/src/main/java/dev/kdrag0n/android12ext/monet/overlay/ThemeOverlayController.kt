@@ -11,10 +11,10 @@ import timber.log.Timber
 class ThemeOverlayController(
     private val context: Context,
     private val targetColors: ColorScheme,
-    private val chromaMultiplier: Float,
+    private val chromaMultiplier: Double,
     private val accurateShades: Boolean,
 ) {
-    private lateinit var colorScheme: ColorScheme
+    private lateinit var colorScheme: DynamicColorScheme
 
     fun getNeutralColor(colors: WallpaperColors) = colors.getSeedColor(context)
     fun getAccentColor(colors: WallpaperColors) = getNeutralColor(colors)

@@ -3,41 +3,41 @@ package dev.kdrag0n.android12ext.monet.colors
 import kotlin.math.pow
 
 data class Ipt(
-    val I: Float,
-    val P: Float,
-    val T: Float,
+    val I: Double,
+    val P: Double,
+    val T: Double,
 ) : Lab {
-    override val L: Float get() = I
-    override val a: Float get() = T
-    override val b: Float get() = P
+    override val L: Double get() = I
+    override val a: Double get() = T
+    override val b: Double get() = P
 
     override fun toLinearSrgb() = toCieXyz().toLinearSrgb()
 
     fun toCieXyz(): CieXyz {
-        val l = fInv(1.8501f * I - 1.1383f * P + 0.2385f * T)
-        val m = fInv(0.3668f * I + 0.6439f * P - 0.0107f * T)
-        val s = fInv(1.0889f * T)
+        val l = fInv(1.8501 * I - 1.1383 * P + 0.2385 * T)
+        val m = fInv(0.3668 * I + 0.6439 * P - 0.0107 * T)
+        val s = fInv(1.0889 * T)
 
         return CieXyz(
-            x = l + 0.0976f * m + 0.2052f * s,
-            y = l - 0.1139f * m + 0.1332f * s,
-            z = l + 0.0326f * m - 0.6769f * s,
+            x = l + 0.0976 * m + 0.2052 * s,
+            y = l - 0.1139 * m + 0.1332 * s,
+            z = l + 0.0326 * m - 0.6769 * s,
         )
     }
 
     companion object {
-        private fun f(x: Float) = x.pow(0.43f)
-        private fun fInv(x: Float) = x.pow(1.0f / 0.43f)
+        private fun f(x: Double) = x.pow(0.43)
+        private fun fInv(x: Double) = x.pow(1.0 / 0.43)
 
         fun CieXyz.toIpt(): Ipt {
-            val l2 = f(+0.4002f * x + 0.7075f * y - 0.0807f * z)
-            val m2 = f(-0.2280f * x + 1.1500f * y + 0.0612f * z)
-            val s2 = f(0.9184f * z)
+            val l2 = f(+0.4002 * x + 0.7075 * y - 0.0807 * z)
+            val m2 = f(-0.2280 * x + 1.1500 * y + 0.0612 * z)
+            val s2 = f(0.9184 * z)
 
             return Ipt(
-                I = 0.4000f * l2 + 0.4000f * m2 + 0.2000f * s2,
-                P = 4.4550f * l2 - 4.8510f * m2 + 0.3960f * s2,
-                T = 0.8056f * l2 + 0.3572f * m2 - 1.1628f * s2,
+                I = 0.4000 * l2 + 0.4000 * m2 + 0.2000 * s2,
+                P = 4.4550 * l2 - 4.8510 * m2 + 0.3960 * s2,
+                T = 0.8056 * l2 + 0.3572 * m2 - 1.1628 * s2,
             )
         }
     }

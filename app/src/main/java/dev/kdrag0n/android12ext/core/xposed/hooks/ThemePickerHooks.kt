@@ -14,7 +14,7 @@ class ThemePickerHooks(
 ) {
     private val lastCamColor = AtomicInteger()
 
-    fun applyColorScheme(chromaMultiplier: Float, accurateShades: Boolean) {
+    fun applyColorScheme(chromaMultiplier: Double, accurateShades: Boolean) {
         val hook = object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
                 lastCamColor.set(param.args[0] as Int)
