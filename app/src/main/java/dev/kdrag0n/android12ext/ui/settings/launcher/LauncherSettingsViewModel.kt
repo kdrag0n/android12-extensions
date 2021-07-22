@@ -27,6 +27,13 @@ class LauncherSettingsViewModel @Inject constructor(
             summary = R.string.launcher_animations_desc,
             icon = R.drawable.ic_fluent_open_24_regular,
         )
+        featureSwitch(
+            key = "launcher_live_space",
+            title = R.string.launcher_live_space,
+            summary = R.string.launcher_live_space_desc,
+            icon = R.drawable.ic_fluent_calendar_day_24_regular,
+            default = false,
+        )
 
         pref("launcher_info") {
             iconRes = R.drawable.ic_fluent_info_24_regular
