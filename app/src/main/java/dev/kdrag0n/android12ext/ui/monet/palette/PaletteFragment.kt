@@ -29,6 +29,8 @@ class PaletteFragment : BaseFragment(R.layout.fragment_palette) {
         if (viewModel.seedColor != 0) {
             val seedTint = ColorStateList.valueOf(viewModel.seedColor)
             binding.shadeLabels.colorSampleSeed.root.backgroundTintList = seedTint
+        } else {
+            binding.shadeLabels.colorSampleSeed.root.visibility = View.INVISIBLE
         }
 
         binding.shadeLabels.apply {
