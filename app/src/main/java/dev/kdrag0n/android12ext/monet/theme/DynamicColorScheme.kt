@@ -19,7 +19,7 @@ class DynamicColorScheme(
 
     init {
         val seedRgb8 = seedColor.toLinearSrgb().toSrgb().quantize8()
-        Timber.i("Seed color: ${String.format("%06x", seedRgb8)} => $seedNeutral")
+        Timber.i("Seed color: %06x => $seedNeutral", seedRgb8)
     }
 
     // Main accent color. Generally, this is close to the seed color.
@@ -62,7 +62,7 @@ class DynamicColorScheme(
             val newSrgb = newLch.toLinearSrgb().toSrgb()
 
             val newRgb8 = newSrgb.quantize8()
-            Timber.d("Transform: [$shade] $target => $newLch => ${String.format("%06x", newRgb8)}")
+            Timber.d("Transform: [$shade] $target => $newLch => %06x", newRgb8)
             shade to newSrgb
         }.toMap()
     }
