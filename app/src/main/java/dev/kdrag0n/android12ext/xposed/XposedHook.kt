@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.core.xposed
+package dev.kdrag0n.android12ext.xposed
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,7 +7,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.CustomApplication
 import dev.kdrag0n.android12ext.core.BroadcastManager
 import dev.kdrag0n.android12ext.core.data.hasSystemUiGoogle
-import dev.kdrag0n.android12ext.core.xposed.hooks.*
+import dev.kdrag0n.android12ext.xposed.hooks.*
 import timber.log.Timber
 
 private val FEATURE_FLAGS = mapOf(

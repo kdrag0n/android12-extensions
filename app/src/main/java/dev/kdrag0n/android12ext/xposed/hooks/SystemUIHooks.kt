@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.core.xposed.hooks
+package dev.kdrag0n.android12ext.xposed.hooks
 
 import android.annotation.SuppressLint
 import android.app.WallpaperColors
@@ -9,7 +9,7 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import dev.kdrag0n.android12ext.core.xposed.hookMethod
+import dev.kdrag0n.android12ext.xposed.hookMethod
 import dev.kdrag0n.android12ext.monet.overlay.ThemeOverlayController
 import dev.kdrag0n.android12ext.monet.theme.MaterialYouTargets
 import timber.log.Timber

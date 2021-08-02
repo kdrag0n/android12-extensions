@@ -48,4 +48,4 @@
 }
 
 # Xposed entry point, referenced in manifest
--keep class dev.kdrag0n.android12ext.core.xposed.XposedEntryPoint
+-keep class dev.kdrag0n.android12ext.xposed.XposedEntryPoint

@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.core.xposed.hooks
+package dev.kdrag0n.android12ext.xposed.hooks
 
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers

@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.core.xposed.hooks
+package dev.kdrag0n.android12ext.xposed.hooks
 
 import android.animation.Animator
 import android.content.Context
@@ -16,7 +16,7 @@ import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.core.ripple.RIPPLE_SHADER_FLUENT
 import dev.kdrag0n.android12ext.core.ripple.RIPPLE_SHADER_NO_SPARKLES
-import dev.kdrag0n.android12ext.core.xposed.hookMethod
+import dev.kdrag0n.android12ext.xposed.hookMethod
 import dev.kdrag0n.android12ext.monet.extraction.JzazbzPointProvider
 import java.util.function.Consumer
 

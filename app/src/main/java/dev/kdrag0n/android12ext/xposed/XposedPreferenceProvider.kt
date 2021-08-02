@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.core.xposed
+package dev.kdrag0n.android12ext.xposed
 
 import com.crossbowffs.remotepreferences.RemotePreferenceFile
 import com.crossbowffs.remotepreferences.RemotePreferenceProvider

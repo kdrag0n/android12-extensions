@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.core.xposed
+package dev.kdrag0n.android12ext.xposed
 
 import android.annotation.SuppressLint
 import android.content.Context

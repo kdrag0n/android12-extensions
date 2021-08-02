@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.core.xposed.hooks
+package dev.kdrag0n.android12ext.xposed.hooks
 
 import android.os.Build
 

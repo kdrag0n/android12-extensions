@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import dagger.Reusable
 import de.Maxr1998.modernpreferences.PreferenceScreen
 import de.Maxr1998.modernpreferences.helpers.screen
-import dev.kdrag0n.android12ext.core.xposed.XposedPreferenceProvider
+import dev.kdrag0n.android12ext.xposed.XposedPreferenceProvider
 import javax.inject.Inject
 
 @Reusable
