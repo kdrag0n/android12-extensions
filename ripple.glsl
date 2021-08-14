@@ -45,25 +45,35 @@ float subProgress(float start, float end, float progress) {
     return saturate((progress - start) / (end - start));
 }
 
+// Animation curve
+const float PI = 3.141592653589793;
+float easeOutSine(float x) {
+    return sin((x * PI) / 2.0);
+}
+
 vec4 main(vec2 pos) {
-    // Fade the entire ripple in and out, including base highlight
-    float fadeIn = subProgress(0.0, 0.1, in_progress);
-    float fadeOut = subProgress(0.5, 1.0, in_progress);
-    float fade = min(fadeIn, 1.0 - fadeOut);
+    // Curve the linear animation progress for responsiveness
+    float progress = easeOutSine(in_progress);
+
+    // Show highlight immediately instead of fading in for instant feedback
+    // Fade the entire ripple out, including base highlight
+    float fadeOut = subProgress(0.5, 1.0, progress);
+    float fade = 1.0 - fadeOut;
 
     // Turbulence phase = time. Unlike progress, it continues moving when the
     // ripple is held between enter and exit animations, so we can use it to
     // make a hold animation.
 
     // Hold time increases the radius slightly to progress the animation.
-    float waveProgress = in_progress + in_turbulencePhase / 60.0;
+    float timeOffsetMs = 0.0;
+    float waveProgress = progress + timeOffsetMs / 60.0;
     // Blur radius decreases as the animation progresses, but increases with hold time
     // as part of gradually spreading out.
-    float waveBlur = 1.3 - waveProgress + (in_turbulencePhase / 15.0);
+    float waveBlur = 1.3 - waveProgress + (timeOffsetMs / 15.0);
     // The wave also fades out with hold time.
-    float waveFade = saturate(1.0 - in_turbulencePhase / 20.0);
+    float waveFade = saturate(1.0 - timeOffsetMs / 20.0);
     // Calculate wave color, excluding fade
-    float waveAlpha = softWave(pos, in_touch, in_maxRadius, waveProgress, waveBlur);
+    float waveAlpha = softWave(pos, in_touch, in_maxRadius / 2.3, waveProgress, waveBlur);
 
     // Dither with triangular white noise. Unfortunately, we can't use blue noise
     // because RuntimeShader doesn't allow us to add custom textures.
