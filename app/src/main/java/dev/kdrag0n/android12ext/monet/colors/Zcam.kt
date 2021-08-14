@@ -136,11 +136,13 @@ data class Zcam(
             const val SURROUND_DIM = 0.59
             const val SURROUND_AVERAGE = 0.69
 
+            const val SRGB_WHITE_LUMINANCE = 200.0 // cd/m^2
+
             val DEFAULT = ViewingConditions(
                 surroundFactor = SURROUND_AVERAGE,
                 L_a = 40.0,
                 Y_b = 20.0,
-                referenceWhite = Illuminants.D65 * 200.0,
+                referenceWhite = Illuminants.D65 * SRGB_WHITE_LUMINANCE,
             )
         }
     }
@@ -192,7 +194,7 @@ data class Zcam(
             2700.0 * Iz.pow((1.6 * cond.surroundFactor) / cond.backgroundFactor.pow(0.12)) *
                     (cond.surroundFactor.pow(2.2) * cond.backgroundFactor.pow(0.5) * cond.luminanceAdaptationFactor.pow(0.2))
 
-        fun CieXyz.toZcam(cond: ViewingConditions): Zcam {
+        fun CieXyz.toZcam(cond: ViewingConditions = ViewingConditions.DEFAULT): Zcam {
             /* Step 2 */
             // Achromatic response
             val (Iz, az, bz) = xyzToIzazbz()

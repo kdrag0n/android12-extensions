@@ -29,7 +29,8 @@ class ReferenceGenerator @Inject constructor(
             ids.map { (shade, resId) ->
                 val hex = context.getColor(resId)
                 val srgb = Srgb(hex)
-                val zcam = (srgb.toLinearSrgb().toCieXyz() * 200.0).toZcam(Zcam.ViewingConditions.DEFAULT)
+                val absXyz = srgb.toLinearSrgb().toCieXyz() * Zcam.ViewingConditions.SRGB_WHITE_LUMINANCE
+                val zcam = absXyz.toZcam()
 
                 Timber.i("$group $shade = $zcam")
 

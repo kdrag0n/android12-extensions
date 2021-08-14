@@ -12,7 +12,7 @@ class ZcamDynamicColorScheme(
     chromaFactor: Double = 1.0,
     private val accurateShades: Boolean = true,
 ) : ColorScheme() {
-    private val seedNeutral = (seedColor.toLinearSrgb().toCieXyz() * 200.0).toZcam(Zcam.ViewingConditions.DEFAULT).let { lch ->
+    private val seedNeutral = seedColor.toLinearSrgb().toCieXyz().toAbs().toZcam().let { lch ->
         lch.copy(chroma = lch.chroma * chromaFactor)
     }
     private val seedAccent = seedNeutral
@@ -55,9 +55,9 @@ class ZcamDynamicColorScheme(
     ): ColorSwatch {
         return swatch.map { (shade, color) ->
             val target = color as? Zcam
-                ?: (color.toLinearSrgb().toCieXyz() * 200.0).toZcam(Zcam.ViewingConditions.DEFAULT)
+                ?: color.toLinearSrgb().toCieXyz().toAbs().toZcam()
             val reference = referenceSwatch[shade]!! as? Zcam
-                ?: (color.toLinearSrgb().toCieXyz() * 200.0).toZcam(Zcam.ViewingConditions.DEFAULT)
+                ?: color.toLinearSrgb().toCieXyz().toAbs().toZcam()
             val newLch = transformColor(target, seed, reference)
             val newSrgb = newLch.toLinearSrgb().toSrgb()
 
@@ -77,7 +77,7 @@ class ZcamDynamicColorScheme(
             0.0
         } else {
             // Non-zero reference chroma = possible chroma scale
-            (seed.chroma.coerceIn(0.0, reference.chroma) / reference.chroma)
+            seed.chroma.coerceIn(0.0, reference.chroma) / reference.chroma
         }
         val chroma = target.chroma * scaleC
         // Use the seed color's hue, since it's the most prominent feature of the theme.
@@ -126,11 +126,14 @@ class ZcamDynamicColorScheme(
 
         private const val EPSILON = 0.0001
 
+        private fun CieXyz.toAbs() = this * Zcam.ViewingConditions.SRGB_WHITE_LUMINANCE
+        private fun CieXyz.toRel() = this / Zcam.ViewingConditions.SRGB_WHITE_LUMINANCE
+
         private fun LinearSrgb.isInGamut() = !r.isNaN() && !g.isNaN() && !b.isNaN() &&
                 r in 0.0..1.0 && g in 0.0..1.0 && b in 0.0..1.0
 
         private fun zcamJchToLinearSrgb(lightness: Double, chroma: Double, hue: Double) =
-            (Zcam(
+            Zcam(
                 lightness = lightness,
                 chroma = chroma,
                 hueAngle = hue,
@@ -138,6 +141,6 @@ class ZcamDynamicColorScheme(
             ).toCieXyz(
                 luminanceSource = Zcam.LuminanceSource.LIGHTNESS,
                 chromaSource = Zcam.ChromaSource.CHROMA,
-            ) / 200.0).toLinearSrgb()
+            ).toRel().toLinearSrgb()
     }
 }
