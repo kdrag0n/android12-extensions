@@ -1,6 +1,6 @@
 package dev.kdrag0n.android12ext.monet.colors
 
-import dev.kdrag0n.android12ext.monet.cube
+import dev.kdrag0n.android12ext.monet.util.cube
 
 data class Oklab(
     override val L: Double,

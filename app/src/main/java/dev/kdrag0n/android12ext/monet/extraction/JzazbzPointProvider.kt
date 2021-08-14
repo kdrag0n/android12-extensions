@@ -4,7 +4,7 @@ import dev.kdrag0n.android12ext.monet.colors.CieXyz.Companion.toCieXyz
 import dev.kdrag0n.android12ext.monet.colors.Jzazbz
 import dev.kdrag0n.android12ext.monet.colors.Jzazbz.Companion.toJzazbz
 import dev.kdrag0n.android12ext.monet.colors.Srgb
-import dev.kdrag0n.android12ext.monet.square
+import dev.kdrag0n.android12ext.monet.util.square
 
 class JzazbzPointProvider : PointProvider {
     override fun fromInt(color: Int): FloatArray {

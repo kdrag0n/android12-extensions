@@ -3,9 +3,12 @@ package dev.kdrag0n.android12ext.monet.theme
 import android.content.Context
 import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.kdrag0n.android12ext.monet.colors.CieXyz.Companion.toCieXyz
 import dev.kdrag0n.android12ext.monet.colors.Oklab.Companion.toOklab
 import dev.kdrag0n.android12ext.monet.colors.Oklch.Companion.toOklch
 import dev.kdrag0n.android12ext.monet.colors.Srgb
+import dev.kdrag0n.android12ext.monet.colors.Zcam
+import dev.kdrag0n.android12ext.monet.colors.Zcam.Companion.toZcam
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -26,9 +29,9 @@ class ReferenceGenerator @Inject constructor(
             ids.map { (shade, resId) ->
                 val hex = context.getColor(resId)
                 val srgb = Srgb(hex)
-                val oklch = srgb.toLinearSrgb().toOklab().toOklch()
+                val zcam = (srgb.toLinearSrgb().toCieXyz() * 200.0).toZcam(Zcam.ViewingConditions.DEFAULT)
 
-                Timber.i("$group $shade = $oklch")
+                Timber.i("$group $shade = $zcam")
 
                 // Remove alpha channel
                 val hexRgb = hex and 0xffffff

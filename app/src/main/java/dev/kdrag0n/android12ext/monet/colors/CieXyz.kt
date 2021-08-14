@@ -13,6 +13,9 @@ data class CieXyz(
         )
     }
 
+    operator fun times(m: Double) = CieXyz(x*m, y*m, z*m)
+    operator fun div(m: Double) = CieXyz(x/m, y/m, z/m)
+
     companion object {
         fun LinearSrgb.toCieXyz(): CieXyz {
             return CieXyz(

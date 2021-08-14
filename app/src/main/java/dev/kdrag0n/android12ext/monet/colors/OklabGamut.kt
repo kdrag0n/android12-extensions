@@ -1,8 +1,8 @@
 package dev.kdrag0n.android12ext.monet.colors
 
 import dev.kdrag0n.android12ext.monet.colors.Oklab.Companion.toOklab
-import dev.kdrag0n.android12ext.monet.cube
-import dev.kdrag0n.android12ext.monet.square
+import dev.kdrag0n.android12ext.monet.util.cube
+import dev.kdrag0n.android12ext.monet.util.square
 import kotlin.math.*
 
 /**
