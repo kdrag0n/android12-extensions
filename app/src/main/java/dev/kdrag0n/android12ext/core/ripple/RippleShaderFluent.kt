@@ -77,9 +77,35 @@ float easeInOutCirc(float x) {
         : (sqrt(1.0 - pow(-2.0 * x + 2.0, 2.0)) + 1.0) / 2.0;
 }
 
+const float CUBIC_ERROR_BOUND = 0.001;
+float _evaluateCubic(float a, float b, float m) {
+    return 3.0 * a * (1.0 - m) * (1.0 - m) * m +
+           3.0 * b * (1.0 - m) *             m * m +
+                                             m * m * m;
+}
+
+float cubicBezier(float t, float a, float b, float c, float d) {
+    float start = 0.0;
+    float end = 1.0;
+    for (int i = 0; i < 50; i++) {
+        float midpoint = (start + end) / 2.0;
+        float estimate = _evaluateCubic(a, c, midpoint);
+        if (abs(t - estimate) < CUBIC_ERROR_BOUND) {
+            return _evaluateCubic(b, d, midpoint);
+        }
+        if (estimate < t) {
+            start = midpoint;
+        } else {
+            end = midpoint;
+        }
+    }
+
+    return 0.0;
+}
+
 vec4 main(vec2 pos) {
     // Curve the linear animation progress for responsiveness
-    float progress = easeOutSine(in_progress);
+    float progress = cubicBezier(in_progress, 0.4, 0.0, 0.2, 1.0);
 
     // Show highlight immediately instead of fading in for instant feedback
     // Fade the entire ripple out, including base highlight
