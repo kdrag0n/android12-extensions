@@ -48,10 +48,33 @@ float subProgress(float start, float end, float progress) {
     return saturate((progress - start) / (end - start));
 }
 
-// Animation curve
+// Animation curves
 const float PI = 3.141592653589793;
 float easeOutSine(float x) {
     return sin((x * PI) / 2.0);
+}
+float easeOutCubic(float x) {
+    return 1.0 - pow(1.0 - x, 3.0);
+}
+float easeOutQuint(float x) {
+    return 1.0 - pow(1.0 - x, 5.0);
+}
+float easeOutCirc(float x) {
+    return sqrt(1.0 - pow(x - 1.0, 2.0));
+}
+float easeOutQuad(float x) {
+    return 1.0 - (1.0 - x) * (1.0 - x);
+}
+float easeInOutSine(float x) {
+    return -(cos(PI * x) - 1.0) / 2.0;
+}
+float easeInOutCubic(float x) {
+    return x < 0.5 ? 4.0 * x * x * x : 1.0 - pow(-2.0 * x + 2.0, 3.0) / 2.0;
+}
+float easeInOutCirc(float x) {
+    return x < 0.5
+        ? (1.0 - sqrt(1.0 - pow(2.0 * x, 2.0))) / 2.0
+        : (sqrt(1.0 - pow(-2.0 * x + 2.0, 2.0)) + 1.0) / 2.0;
 }
 
 vec4 main(vec2 pos) {
