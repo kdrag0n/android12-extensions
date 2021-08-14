@@ -70,7 +70,7 @@ class FrameworkHooks(
         applyRippleShader(RIPPLE_SHADER_FLUENT)
 
         // Reduce duration of enter animation
-        val fastOutSlowIn = PathInterpolator(0.4f, 0.0f, 0.2f, 1.0f)
+        // Change expand curve to linear
         val linearInterpolator = LinearInterpolator()
         val hookStart = object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam) {
@@ -79,7 +79,7 @@ class FrameworkHooks(
                 expand.addListener(onEnd = {
                     XposedHelpers.callMethod(param.thisObject, "onAnimationEnd", it)
                 })
-                expand.interpolator = fastOutSlowIn
+                expand.interpolator = linearInterpolator
                 expand.start()
 
                 val loop = param.args[1] as Animator
@@ -105,8 +105,6 @@ class FrameworkHooks(
         )
 
         // Remove start delay and increase duration to compensate
-        // Change curve from linear to ease-out
-        val easeOut = PathInterpolator(0.0f, 0.0f, 0.58f, 1.0f)
         val hookExit = object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam) {
                 val canvas = param.args[0]
@@ -125,7 +123,7 @@ class FrameworkHooks(
                 })
 
                 XposedHelpers.callMethod(exit, "setTarget", canvas)
-                exit.interpolator = easeOut
+                exit.interpolator = linearInterpolator
                 exit.start()
             }
         }
