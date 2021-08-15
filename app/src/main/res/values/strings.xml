@@ -57,7 +57,7 @@
     <string name="launcher_animations_desc">Tweaks to app open and close animations</string>
     <string name="launcher_keyguard_anim">New unlock animation</string>
     <string name="launcher_keyguard_anim_desc">Depth animation when unlocking device on the launcher</string>
-    <string name="launcher_live_space">New Live Space</string>
+    <string name="launcher_live_space">Minimal Live Space</string>
     <string name="launcher_live_space_desc">Small, left-aligned Live Space (breaks weather)</string>
     <string name="launcher_info">The Xposed module must be enabled for Pixel Launcher in order for these settings to work.</string>
 
