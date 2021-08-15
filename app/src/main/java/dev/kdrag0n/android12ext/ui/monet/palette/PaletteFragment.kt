@@ -81,7 +81,7 @@ class PaletteFragment : BaseFragment(R.layout.fragment_palette) {
     }
 
     companion object {
-        private fun ColorSwatchShadeLabelsBinding.bind(binding: ColorShadeLabelBinding, shade: Int) {
+        private fun bind(binding: ColorShadeLabelBinding, shade: Int) {
             binding.root.text = shade.toString()
         }
 
