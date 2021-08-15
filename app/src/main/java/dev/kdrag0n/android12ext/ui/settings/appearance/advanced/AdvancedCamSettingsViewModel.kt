@@ -8,7 +8,6 @@ import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.featureSwitch
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 @HiltViewModel
 class AdvancedCamSettingsViewModel @Inject constructor(
@@ -33,8 +32,7 @@ class AdvancedCamSettingsViewModel @Inject constructor(
             max = SettingsRepository.WHITE_LUMINANCE_USER_MAX
             step = SettingsRepository.WHITE_LUMINANCE_USER_STEP
             formatter = { value ->
-                (SettingsRepository.WHITE_LUMINANCE_MAX - SettingsRepository.parseWhiteLuminanceUser(value))
-                    .roundToInt().toString()
+                value.toString()
             }
         }
     }
