@@ -8,6 +8,7 @@ import dev.kdrag0n.android12ext.monet.colors.Oklab.Companion.toOklab
 import dev.kdrag0n.android12ext.monet.colors.Oklch.Companion.toOklch
 import dev.kdrag0n.android12ext.monet.colors.Srgb
 import dev.kdrag0n.android12ext.monet.colors.Zcam
+import dev.kdrag0n.android12ext.monet.colors.Zcam.Companion.toAbs
 import dev.kdrag0n.android12ext.monet.colors.Zcam.Companion.toZcam
 import timber.log.Timber
 import javax.inject.Inject
@@ -29,8 +30,7 @@ class ReferenceGenerator @Inject constructor(
             ids.map { (shade, resId) ->
                 val hex = context.getColor(resId)
                 val srgb = Srgb(hex)
-                val absXyz = srgb.toLinearSrgb().toCieXyz() * Zcam.ViewingConditions.SRGB_WHITE_LUMINANCE
-                val zcam = absXyz.toZcam()
+                val zcam = srgb.toLinearSrgb().toCieXyz().toAbs().toZcam()
 
                 Timber.i("$group $shade = $zcam")
 
