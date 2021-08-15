@@ -51,10 +51,12 @@
     <!-- Launcher -->
     <string name="launcher_themed_icons">Themed icons</string>
     <string name="launcher_themed_icons_desc">Use Material You colors for supported Google app icons (home screen only)</string>
-    <string name="launcher_device_search">New search interface</string>
-    <string name="launcher_device_search_desc">Material You search UI in the app drawer</string>
+    <string name="launcher_device_search">On-device search</string>
+    <string name="launcher_device_search_desc">Device-wide search with Material You UI in the app drawer</string>
     <string name="launcher_animations">New app animations</string>
     <string name="launcher_animations_desc">Tweaks to app open and close animations</string>
+    <string name="launcher_keyguard_anim">New unlock animation</string>
+    <string name="launcher_keyguard_anim_desc">Depth animation when unlocking device on the launcher</string>
     <string name="launcher_live_space">New Live Space</string>
     <string name="launcher_live_space_desc">Small, left-aligned Live Space (breaks weather)</string>
     <string name="launcher_info">The Xposed module must be enabled for Pixel Launcher in order for these settings to work.</string>
@@ -135,8 +137,6 @@
     ]]></string>
     <string name="about_uri_donate">https://kdrag0n.dev/donate?utm_medium=app&amp;utm_source=android12ext</string>
     <string name="about_uri_source_code">https://github.com/kdrag0n/android12-extensions</string>
-    <string name="launcher_keyguard_anim">New unlock animation</string>
-    <string name="launcher_keyguard_anim_desc">Depth animation when unlocking device on the launcher</string>
 
     <!-- Xposed -->
     <string-array name="xposed_scopes">
