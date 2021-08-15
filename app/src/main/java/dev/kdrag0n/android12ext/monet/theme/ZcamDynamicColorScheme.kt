@@ -2,6 +2,8 @@ package dev.kdrag0n.android12ext.monet.theme
 
 import dev.kdrag0n.android12ext.monet.colors.*
 import dev.kdrag0n.android12ext.monet.colors.CieXyz.Companion.toCieXyz
+import dev.kdrag0n.android12ext.monet.colors.Zcam.Companion.toAbs
+import dev.kdrag0n.android12ext.monet.colors.Zcam.Companion.toRel
 import dev.kdrag0n.android12ext.monet.colors.Zcam.Companion.toZcam
 import timber.log.Timber
 import kotlin.math.abs
@@ -98,9 +100,6 @@ class ZcamDynamicColorScheme(
         private const val ACCENT3_HUE_SHIFT_DEGREES = 60.0
 
         private const val EPSILON = 0.0001
-
-        private fun CieXyz.toAbs() = this * Zcam.ViewingConditions.SRGB_WHITE_LUMINANCE
-        private fun CieXyz.toRel() = this / Zcam.ViewingConditions.SRGB_WHITE_LUMINANCE
 
         private fun LinearSrgb.isInGamut() = !r.isNaN() && !g.isNaN() && !b.isNaN() &&
                 r in 0.0..1.0 && g in 0.0..1.0 && b in 0.0..1.0

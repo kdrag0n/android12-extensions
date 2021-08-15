@@ -147,7 +147,7 @@ data class Zcam(
                     L = 50.0,
                     a = 0.0,
                     b = 0.0,
-                ).toCieXyz().y * SRGB_WHITE_LUMINANCE,
+                ).toCieXyz().toAbs().y,
                 referenceWhite = Illuminants.D65 * SRGB_WHITE_LUMINANCE,
             )
         }
@@ -255,5 +255,9 @@ data class Zcam(
                 viewingConditions = cond,
             )
         }
+
+        // TODO: move this somewhere else
+        fun CieXyz.toAbs() = this * ViewingConditions.SRGB_WHITE_LUMINANCE
+        fun CieXyz.toRel() = this / ViewingConditions.SRGB_WHITE_LUMINANCE
     }
 }
