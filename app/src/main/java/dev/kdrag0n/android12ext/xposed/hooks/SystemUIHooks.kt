@@ -11,7 +11,6 @@ import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.xposed.hookMethod
 import dev.kdrag0n.android12ext.monet.overlay.ThemeOverlayController
-import dev.kdrag0n.android12ext.monet.theme.MaterialYouTargets
 import timber.log.Timber
 
 class SystemUIHooks(
@@ -59,16 +58,10 @@ class SystemUIHooks(
 
     fun applyThemeOverlayController(
         isGoogle: Boolean,
-        chromaMultiplier: Double,
-        accurateShades: Boolean,
+        colorSchemeFactory: ColorSchemeFactory,
         colorOverride: Int?,
     ) {
-        val controller = ThemeOverlayController(
-            context,
-            MaterialYouTargets(chromaMultiplier),
-            chromaMultiplier,
-            accurateShades,
-        )
+        val controller = ThemeOverlayController(context, colorSchemeFactory)
         val clazz = if (isGoogle) THEME_CLASS_GOOGLE else THEME_CLASS_AOSP
         val wallpaperManager = context.getSystemService<WallpaperManager>()!!
 
@@ -129,8 +122,6 @@ class SystemUIHooks(
 
     companion object {
         private const val FEATURE_FLAGS_CLASS = "com.android.systemui.statusbar.FeatureFlags"
-        private const val GAME_ENTRY_CLASS = "com.google.android.systemui.gamedashboard.EntryPointController"
-        private const val PRIVACY_CLASS = "com.android.systemui.privacy.PrivacyItemController"
 
         private const val THEME_CLASS_AOSP = "com.android.systemui.theme.ThemeOverlayController"
         private const val THEME_CLASS_GOOGLE = "com.google.android.systemui.theme.ThemeOverlayControllerGoogle"

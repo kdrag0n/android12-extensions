@@ -5,8 +5,6 @@ import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.xposed.hookMethod
 import dev.kdrag0n.android12ext.monet.colors.Srgb
-import dev.kdrag0n.android12ext.monet.theme.DynamicColorScheme
-import dev.kdrag0n.android12ext.monet.theme.MaterialYouTargets
 import java.util.concurrent.atomic.AtomicInteger
 
 class ThemePickerHooks(
@@ -14,7 +12,7 @@ class ThemePickerHooks(
 ) {
     private val lastCamColor = AtomicInteger()
 
-    fun applyColorScheme(chromaMultiplier: Double, accurateShades: Boolean) {
+    fun applyColorScheme(colorSchemeFactory: ColorSchemeFactory) {
         val hook = object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
                 lastCamColor.set(param.args[0] as Int)
@@ -30,12 +28,7 @@ class ThemePickerHooks(
         val hook2 = object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam): IntArray {
                 val chroma = param.args[1] as Float
-                val theme = DynamicColorScheme(
-                    targets = MaterialYouTargets(chromaMultiplier),
-                    seedColor = Srgb(lastCamColor.get()),
-                    chromaFactor = chromaMultiplier,
-                    accurateShades = accurateShades,
-                )
+                val theme = colorSchemeFactory.getColor(Srgb(lastCamColor.get()))
 
                 val swatch = when {
                     chroma >= 48.0f -> theme.accent1

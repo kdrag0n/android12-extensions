@@ -7,9 +7,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.monet.colors.Srgb
-import dev.kdrag0n.android12ext.monet.theme.DynamicColorScheme
-import dev.kdrag0n.android12ext.monet.theme.MaterialYouTargets
 import dev.kdrag0n.android12ext.monet.theme.SystemColorScheme
+import dev.kdrag0n.android12ext.xposed.hooks.ColorSchemeFactory
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,10 +26,8 @@ class PaletteViewModel @Inject constructor(
     }
 
     private val scheme = if (isDynamic) {
-        DynamicColorScheme(
-            targets = MaterialYouTargets(),
-            seedColor = Srgb(seedColor),
-        )
+        ColorSchemeFactory.getFactory(settingsRepo.prefs)
+            .getColor(Srgb(seedColor))
     } else {
         SystemColorScheme(context)
     }

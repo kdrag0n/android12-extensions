@@ -14,9 +14,10 @@ class ZcamDynamicColorScheme(
     targets: ColorScheme,
     seedColor: Color,
     chromaFactor: Double = 1.0,
+    private val cond: Zcam.ViewingConditions,
     private val accurateShades: Boolean = true,
 ) : ColorScheme() {
-    private val seedNeutral = seedColor.toLinearSrgb().toCieXyz().toAbs().toZcam().let { lch ->
+    private val seedNeutral = seedColor.toLinearSrgb().toCieXyz().toAbs(cond).toZcam(cond).let { lch ->
         lch.copy(chroma = lch.chroma * chromaFactor)
     }
     private val seedAccent = seedNeutral
@@ -59,9 +60,9 @@ class ZcamDynamicColorScheme(
     ): ColorSwatch {
         return swatch.map { (shade, color) ->
             val target = color as? Zcam
-                ?: color.toLinearSrgb().toCieXyz().toAbs().toZcam()
+                ?: color.toLinearSrgb().toCieXyz().toAbs(cond).toZcam(cond)
             val reference = referenceSwatch[shade]!! as? Zcam
-                ?: color.toLinearSrgb().toCieXyz().toAbs().toZcam()
+                ?: color.toLinearSrgb().toCieXyz().toAbs(cond).toZcam(cond)
             val newLch = transformColor(target, seed, reference)
             val newSrgb = newLch.toLinearSrgb().toSrgb()
 
@@ -104,16 +105,20 @@ class ZcamDynamicColorScheme(
         private fun LinearSrgb.isInGamut() = !r.isNaN() && !g.isNaN() && !b.isNaN() &&
                 r in 0.0..1.0 && g in 0.0..1.0 && b in 0.0..1.0
 
-        private fun zcamJchToLinearSrgb(lightness: Double, chroma: Double, hue: Double) =
-            Zcam(
-                lightness = lightness,
-                chroma = chroma,
-                hueAngle = hue,
-                viewingConditions = Zcam.ViewingConditions.DEFAULT,
-            ).toCieXyz(
-                luminanceSource = Zcam.LuminanceSource.LIGHTNESS,
-                chromaSource = Zcam.ChromaSource.CHROMA,
-            ).toRel().toLinearSrgb()
+        private fun zcamJchToLinearSrgb(
+            lightness: Double,
+            chroma: Double,
+            hue: Double,
+            cond: Zcam.ViewingConditions,
+        ) = Zcam(
+            lightness = lightness,
+            chroma = chroma,
+            hueAngle = hue,
+            viewingConditions = cond,
+        ).toCieXyz(
+            luminanceSource = Zcam.LuminanceSource.LIGHTNESS,
+            chromaSource = Zcam.ChromaSource.CHROMA,
+        ).toRel(cond).toLinearSrgb()
 
         private fun evalLine(x: Double, slope: Double, intercept: Double) =
             slope * x + intercept

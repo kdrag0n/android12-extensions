@@ -4,12 +4,10 @@ import android.content.Context
 import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.kdrag0n.android12ext.monet.colors.CieXyz.Companion.toCieXyz
-import dev.kdrag0n.android12ext.monet.colors.Oklab.Companion.toOklab
-import dev.kdrag0n.android12ext.monet.colors.Oklch.Companion.toOklch
 import dev.kdrag0n.android12ext.monet.colors.Srgb
-import dev.kdrag0n.android12ext.monet.colors.Zcam
 import dev.kdrag0n.android12ext.monet.colors.Zcam.Companion.toAbs
 import dev.kdrag0n.android12ext.monet.colors.Zcam.Companion.toZcam
+import dev.kdrag0n.android12ext.xposed.hooks.ColorSchemeFactory
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -22,6 +20,8 @@ class ReferenceGenerator @Inject constructor(
     }
 
     fun generateTable() {
+        val cond = ColorSchemeFactory.createZcamViewingConditions(SRGB_WHITE_LUMINANCE)
+
         emitCodeLine("    object NewColors : ColorScheme() {")
 
         COLOR_MAPS.map { (group, ids) ->
@@ -30,7 +30,7 @@ class ReferenceGenerator @Inject constructor(
             ids.map { (shade, resId) ->
                 val hex = context.getColor(resId)
                 val srgb = Srgb(hex)
-                val zcam = srgb.toLinearSrgb().toCieXyz().toAbs().toZcam()
+                val zcam = srgb.toLinearSrgb().toCieXyz().toAbs(cond).toZcam(cond)
 
                 Timber.i("$group $shade = $zcam")
 
@@ -47,6 +47,8 @@ class ReferenceGenerator @Inject constructor(
     }
 
     companion object {
+        private const val SRGB_WHITE_LUMINANCE = 200.0 // cd/m^2
+
         val COLOR_MAPS = mapOf(
             "accent1" to SystemColorScheme.ACCENT1_RES,
             "accent2" to SystemColorScheme.ACCENT2_RES,

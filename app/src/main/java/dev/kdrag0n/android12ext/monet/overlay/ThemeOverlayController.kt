@@ -4,30 +4,20 @@ import android.app.WallpaperColors
 import android.content.Context
 import android.graphics.Color
 import dev.kdrag0n.android12ext.monet.colors.Srgb
-import dev.kdrag0n.android12ext.monet.theme.ColorScheme
-import dev.kdrag0n.android12ext.monet.theme.DynamicColorScheme
+import dev.kdrag0n.android12ext.xposed.hooks.ColorSchemeFactory
 import timber.log.Timber
 
 class ThemeOverlayController(
     private val context: Context,
-    private val targetColors: ColorScheme,
-    private val chromaMultiplier: Double,
-    private val accurateShades: Boolean,
+    private val colorSchemeFactory: ColorSchemeFactory,
 ) {
-    private lateinit var colorScheme: DynamicColorScheme
-
     fun getNeutralColor(colors: WallpaperColors) = colors.getSeedColor(context)
     fun getAccentColor(colors: WallpaperColors) = getNeutralColor(colors)
 
     // com.android.systemui.theme.ThemeOverlayController#getOverlay(int, int)
     fun getOverlay(primaryColor: Int, isAccent: Int): Any {
         // Generate color scheme
-        colorScheme = DynamicColorScheme(
-            targetColors,
-            Srgb(primaryColor),
-            chromaMultiplier,
-            accurateShades,
-        )
+        val colorScheme = colorSchemeFactory.getColor(Srgb(primaryColor))
 
         val groupKey = when (isAccent) {
             1 -> "accent"

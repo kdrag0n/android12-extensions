@@ -52,9 +52,6 @@ class XposedHook(
         return prefs.getBoolean("${feature}_enabled", default)
     }
 
-    private fun getChromaMultiplier() =
-        prefs.getInt("custom_monet_chroma_multiplier", 50).toDouble() / 50
-
     private fun applySysUi() {
         broadcastManager.listenForPings()
         val hasSystemUiGoogle = context.hasSystemUiGoogle()
@@ -80,8 +77,7 @@ class XposedHook(
         ) {
             sysuiHooks.applyThemeOverlayController(
                 isGoogle = hasSystemUiGoogle,
-                chromaMultiplier = getChromaMultiplier(),
-                accurateShades = isFeatureEnabled("custom_monet_accurate_shades"),
+                colorSchemeFactory = ColorSchemeFactory.getFactory(prefs),
                 colorOverride = colorOverride,
             )
         } else if (colorOverride != null) {
@@ -150,8 +146,7 @@ class XposedHook(
     private fun applyThemePicker() {
         if (isFeatureEnabled("custom_monet", false)) {
             themePickerHooks.applyColorScheme(
-                chromaMultiplier = getChromaMultiplier(),
-                accurateShades = isFeatureEnabled("custom_monet_accurate_shades"),
+                colorSchemeFactory = ColorSchemeFactory.getFactory(prefs),
             )
         }
     }

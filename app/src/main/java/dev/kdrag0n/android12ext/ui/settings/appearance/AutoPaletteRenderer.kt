@@ -9,9 +9,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.monet.colors.Srgb
-import dev.kdrag0n.android12ext.monet.theme.DynamicColorScheme
-import dev.kdrag0n.android12ext.monet.theme.MaterialYouTargets
 import dev.kdrag0n.android12ext.ui.monet.palette.PaletteActivity
+import dev.kdrag0n.android12ext.xposed.hooks.ColorSchemeFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -86,16 +85,13 @@ class AutoPaletteRenderer(
             "pure-blue" to -16776961,
         )
 
-        private fun doBenchmarkRound(): Double {
+        private fun doBenchmarkRound(factory: ColorSchemeFactory): Double {
             var count = 0
             val before = System.nanoTime()
 
             (1..10000).forEach { _ ->
                 COLORS.values.forEach { color ->
-                    val colors = DynamicColorScheme(
-                        targets = MaterialYouTargets(),
-                        seedColor = Srgb(color),
-                    )
+                    val colors = factory.getColor(Srgb(color))
                     colors.accentColors
                     colors.neutralColors
                     count++
@@ -109,11 +105,19 @@ class AutoPaletteRenderer(
         // Needs to work on release builds for performance reasons
         @SuppressLint("LogNotTimber")
         fun runBenchmark() {
+            val factory = ColorSchemeFactory.getFactory(
+                useZcam = false,
+                chromaFactor = 1.0,
+                accurateShades = true,
+                whiteLuminance = 200.0,
+                useLinearLightness = false,
+            )
+
             Log.i(TAG, "Warming up")
-            doBenchmarkRound()
+            doBenchmarkRound(factory)
 
             Log.i(TAG, "Benchmarking")
-            val timePerScheme = doBenchmarkRound()
+            val timePerScheme = doBenchmarkRound(factory)
             Log.i(TAG, "Done in $timePerScheme ms/color")
         }
     }
