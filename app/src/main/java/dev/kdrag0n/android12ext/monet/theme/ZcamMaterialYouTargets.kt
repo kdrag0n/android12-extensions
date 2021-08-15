@@ -1,7 +1,9 @@
 package dev.kdrag0n.android12ext.monet.theme
 
+import dev.kdrag0n.android12ext.monet.colors.CieLab
 import dev.kdrag0n.android12ext.monet.colors.Color
 import dev.kdrag0n.android12ext.monet.colors.Zcam
+import dev.kdrag0n.android12ext.monet.colors.Zcam.Companion.toZcam
 
 /*
  * Default target colors, conforming to Material You standards.
@@ -14,20 +16,20 @@ class ZcamMaterialYouTargets(
     companion object {
         // Lightness from AOSP defaults
         private val LIGHTNESS_MAP = mapOf(
-            0    to 100.00000296754273,
-            10   to 98.60403974009428,
-            50   to 94.72386350388908,
-            100  to 89.69628870011267,
-            200  to 79.3326296037671,
-            300  to 68.938947819272,
-            400  to 58.15091644790415,
-            500  to 46.991689840263206,
-            600  to 37.24709908558773,
-            700  to 26.96785892507836,
-            800  to 17.67571012446932,
-            900  to 9.36696155986009,
-            1000 to 0.0,
-        )
+            0    to 100.0,
+            10   to  99.0,
+            50   to  95.0,
+            100  to  90.0,
+            200  to  80.0,
+            300  to  70.0,
+            400  to  60.0,
+            500  to  49.6,
+            600  to  40.0,
+            700  to  30.0,
+            800  to  20.0,
+            900  to  10.0,
+            1000 to   0.0,
+        ).map { it.key to cielabL(it.value) }.toMap()
 
         // Accent chroma from Pixel defaults
         // We use the most chromatic color as the reference
@@ -42,6 +44,12 @@ class ZcamMaterialYouTargets(
         // N-2 > N-1
         private const val NEUTRAL1_CHROMA = ACCENT1_CHROMA / 12
         private const val NEUTRAL2_CHROMA = NEUTRAL1_CHROMA * 2
+
+        private fun cielabL(l: Double) = CieLab(
+            L = l,
+            a = 0.0,
+            b = 0.0,
+        ).toCieXyz().toZcam().lightness
     }
 
     override val neutral1 = shadesWithChroma(NEUTRAL1_CHROMA)
