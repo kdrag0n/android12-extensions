@@ -83,40 +83,7 @@ class ZcamDynamicColorScheme(
         // Use the seed color's hue, since it's the most prominent feature of the theme.
         val hueAngle = seed.hueAngle
 
-        val initialResult = zcamJchToLinearSrgb(lightness, chroma, hueAngle)
-        return when {
-            initialResult.isInGamut() -> initialResult
-            lightness <= EPSILON -> LinearSrgb(0.0, 0.0, 0.0)
-            lightness >= 100.0 - EPSILON -> LinearSrgb(1.0, 1.0, 1.0)
-            else -> {
-                var lo = 0.0
-                var hi = chroma
-
-                var newLinearSrgb = initialResult
-                while (abs(hi - lo) > EPSILON) {
-                    val mid = (lo + hi) / 2
-
-                    newLinearSrgb = zcamJchToLinearSrgb(lightness, mid, hueAngle)
-
-                    //Timber.i("Search for Cz: ($lo, $hi)=>$mid  inGamut=${newLinearSrgb.isInGamut()}")
-
-                    if (!newLinearSrgb.isInGamut()) {
-                        hi = mid
-                    } else {
-                        val mid2 = mid + EPSILON
-
-                        val newLinearSrgb2 = zcamJchToLinearSrgb(lightness, mid2, hueAngle)
-                        if (newLinearSrgb2.isInGamut()) {
-                            lo = mid
-                        } else {
-                            break
-                        }
-                    }
-                }
-
-                newLinearSrgb
-            }
-        }
+        return clipZcamJchToLinearSrgb(lightness, chroma, hueAngle)
     }
 
     companion object {
@@ -142,5 +109,45 @@ class ZcamDynamicColorScheme(
                 luminanceSource = Zcam.LuminanceSource.LIGHTNESS,
                 chromaSource = Zcam.ChromaSource.CHROMA,
             ).toRel().toLinearSrgb()
+
+        // TODO: split this into a dedicated file
+        private fun clipZcamJchToLinearSrgb(lightness: Double, chroma: Double, hueAngle: Double): LinearSrgb {
+            val initialResult = zcamJchToLinearSrgb(lightness, chroma, hueAngle)
+
+            return when {
+                initialResult.isInGamut() -> initialResult
+                // Avoid searching black and white for performance
+                lightness <= EPSILON -> LinearSrgb(0.0, 0.0, 0.0)
+                lightness >= 100.0 - EPSILON -> LinearSrgb(1.0, 1.0, 1.0)
+                else -> {
+                    var lo = 0.0
+                    var hi = chroma
+
+                    var newLinearSrgb = initialResult
+                    while (abs(hi - lo) > EPSILON) {
+                        val mid = (lo + hi) / 2
+
+                        newLinearSrgb = zcamJchToLinearSrgb(lightness, mid, hueAngle)
+
+                        //Timber.i("Search for Cz: ($lo, $hi)=>$mid  inGamut=${newLinearSrgb.isInGamut()}")
+
+                        if (!newLinearSrgb.isInGamut()) {
+                            hi = mid
+                        } else {
+                            val mid2 = mid + EPSILON
+
+                            val newLinearSrgb2 = zcamJchToLinearSrgb(lightness, mid2, hueAngle)
+                            if (newLinearSrgb2.isInGamut()) {
+                                lo = mid
+                            } else {
+                                break
+                            }
+                        }
+                    }
+
+                    newLinearSrgb
+                }
+            }
+        }
     }
 }
