@@ -95,6 +95,104 @@ class ZcamDynamicColorScheme(
         }
     }
 
+    private fun zcamJchToLinearSrgb(
+        lightness: Double,
+        chroma: Double,
+        hue: Double,
+    ) = Zcam(
+        lightness = lightness,
+        chroma = chroma,
+        hueAngle = hue,
+        viewingConditions = cond,
+    ).toCieXyz(
+        luminanceSource = Zcam.LuminanceSource.LIGHTNESS,
+        chromaSource = Zcam.ChromaSource.CHROMA,
+    ).toRel(cond).toLinearSrgb()
+
+    private fun evalLine(x: Double, slope: Double, intercept: Double) =
+        slope * x + intercept
+
+    // TODO: split this into a dedicated file
+    private fun clipZcamJchToLinearSrgb(
+        lightness: Double,
+        chroma: Double,
+        hue: Double,
+        // Target point *within* gamut
+        l0: Double,
+        c0: Double,
+    ): LinearSrgb {
+        val initialResult = zcamJchToLinearSrgb(lightness, chroma, hue)
+
+        return when {
+            initialResult.isInGamut() -> initialResult
+            // Avoid searching black and white for performance
+            lightness <= EPSILON -> LinearSrgb(0.0, 0.0, 0.0)
+            lightness >= 100.0 - EPSILON -> LinearSrgb(1.0, 1.0, 1.0)
+
+            // Clip with gamut intersection
+            else -> {
+                // Create a line - x=C, y=L - intersecting a hue plane
+                val l1 = lightness
+                val c1 = chroma
+                val slope = (l1 - l0) / (c1 - c0)
+                val intercept = l0 - slope * c0
+
+                var lo = 0.0
+                var hi = chroma
+
+                var newLinearSrgb = initialResult
+                while (abs(hi - lo) > EPSILON) {
+                    val midC = (lo + hi) / 2
+                    val midL = evalLine(midC, slope, intercept)
+
+                    newLinearSrgb = zcamJchToLinearSrgb(midL, midC, hue)
+
+                    //Timber.i("Search for Cz: ($lo, $hi)=>$mid  inGamut=${newLinearSrgb.isInGamut()}")
+
+                    if (!newLinearSrgb.isInGamut()) {
+                        hi = midC
+                    } else {
+                        val midC2 = midC + EPSILON
+                        val midL2 = evalLine(midC2, slope, intercept)
+
+                        val ptOutside = zcamJchToLinearSrgb(midL2, midC2, hue)
+                        if (ptOutside.isInGamut()) {
+                            lo = midC
+                        } else {
+                            break
+                        }
+                    }
+                }
+
+                newLinearSrgb
+            }
+        }
+    }
+
+    private fun clipZcamJchToLinearSrgbLightness(
+        lightness: Double,
+        chroma: Double,
+        hue: Double,
+    ) = clipZcamJchToLinearSrgb(lightness, chroma, hue, lightness, 0.0)
+
+    private fun clipZcamJchToLinearSrgbAdaptive(
+        lightness: Double,
+        chroma: Double,
+        hue: Double,
+        alpha: Double,
+    ): LinearSrgb {
+        // Scale values for adaptive L
+        val L = lightness / 100.0
+        val C = chroma / 100.0
+
+        val Ld = L - 0.5
+        val e1 = 0.5 + abs(Ld) + alpha * C
+        val l0 = 0.5*(1.0 + sign(Ld) *(e1 - sqrt(e1*e1 - 2.0 *abs(Ld))))
+
+        val adaptiveL0 = l0 * 100.0
+        return clipZcamJchToLinearSrgb(lightness, chroma, hue, adaptiveL0, 0.0)
+    }
+
     companion object {
         // Hue shift for the tertiary accent color (accent3), in degrees.
         // 60 degrees = shifting by a secondary color
@@ -104,104 +202,5 @@ class ZcamDynamicColorScheme(
 
         private fun LinearSrgb.isInGamut() = !r.isNaN() && !g.isNaN() && !b.isNaN() &&
                 r in 0.0..1.0 && g in 0.0..1.0 && b in 0.0..1.0
-
-        private fun zcamJchToLinearSrgb(
-            lightness: Double,
-            chroma: Double,
-            hue: Double,
-            cond: Zcam.ViewingConditions,
-        ) = Zcam(
-            lightness = lightness,
-            chroma = chroma,
-            hueAngle = hue,
-            viewingConditions = cond,
-        ).toCieXyz(
-            luminanceSource = Zcam.LuminanceSource.LIGHTNESS,
-            chromaSource = Zcam.ChromaSource.CHROMA,
-        ).toRel(cond).toLinearSrgb()
-
-        private fun evalLine(x: Double, slope: Double, intercept: Double) =
-            slope * x + intercept
-
-        // TODO: split this into a dedicated file
-        private fun clipZcamJchToLinearSrgb(
-            lightness: Double,
-            chroma: Double,
-            hue: Double,
-            // Target point *within* gamut
-            l0: Double,
-            c0: Double,
-        ): LinearSrgb {
-            val initialResult = zcamJchToLinearSrgb(lightness, chroma, hue)
-
-            return when {
-                initialResult.isInGamut() -> initialResult
-                // Avoid searching black and white for performance
-                lightness <= EPSILON -> LinearSrgb(0.0, 0.0, 0.0)
-                lightness >= 100.0 - EPSILON -> LinearSrgb(1.0, 1.0, 1.0)
-
-                // Clip with gamut intersection
-                else -> {
-                    // Create a line - x=C, y=L - intersecting a hue plane
-                    val l1 = lightness
-                    val c1 = chroma
-                    val slope = (l1 - l0) / (c1 - c0)
-                    val intercept = l0 - slope * c0
-
-                    var lo = 0.0
-                    var hi = chroma
-
-                    var newLinearSrgb = initialResult
-                    while (abs(hi - lo) > EPSILON) {
-                        val midC = (lo + hi) / 2
-                        val midL = evalLine(midC, slope, intercept)
-
-                        newLinearSrgb = zcamJchToLinearSrgb(midL, midC, hue)
-
-                        //Timber.i("Search for Cz: ($lo, $hi)=>$mid  inGamut=${newLinearSrgb.isInGamut()}")
-
-                        if (!newLinearSrgb.isInGamut()) {
-                            hi = midC
-                        } else {
-                            val midC2 = midC + EPSILON
-                            val midL2 = evalLine(midC2, slope, intercept)
-
-                            val ptOutside = zcamJchToLinearSrgb(midL2, midC2, hue)
-                            if (ptOutside.isInGamut()) {
-                                lo = midC
-                            } else {
-                                break
-                            }
-                        }
-                    }
-
-                    newLinearSrgb
-                }
-            }
-        }
-
-        private fun clipZcamJchToLinearSrgbLightness(
-            lightness: Double,
-            chroma: Double,
-            hue: Double,
-        ) = clipZcamJchToLinearSrgb(lightness, chroma, hue, lightness, 0.0)
-
-        private fun clipZcamJchToLinearSrgbAdaptive(
-            lightness: Double,
-            chroma: Double,
-            hue: Double,
-            alpha: Double,
-        ): LinearSrgb {
-            // Scale values for adaptive L
-            val L = lightness / 100.0
-            val C = chroma / 100.0
-
-            val Ld = L - 0.5
-            val e1 = 0.5 + abs(Ld) + alpha * C
-            val l0 = 0.5*(1.0 + sign(Ld) *(e1 - sqrt(e1*e1 - 2.0 *abs(Ld))))
-
-            val adaptiveL0 = l0 * 100.0
-            return clipZcamJchToLinearSrgb(lightness, chroma, hue, adaptiveL0, 0.0)
-        }
     }
 }
