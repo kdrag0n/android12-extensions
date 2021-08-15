@@ -106,12 +106,16 @@ class XposedHook(
     }
 
     private fun applyLauncher() {
-        launcherHooks.flagValues["ENABLE_DEVICE_SEARCH"] = isFeatureEnabled("launcher_device_search")
+        launcherHooks.flagValues.apply {
+            this["ENABLE_DEVICE_SEARCH"] = isFeatureEnabled("launcher_device_search")
 
-        launcherHooks.flagValues["PROTOTYPE_APP_CLOSE"] = isFeatureEnabled("launcher_animations")
-        launcherHooks.flagValues["ENABLE_SCRIM_FOR_APP_LAUNCH"] = isFeatureEnabled("launcher_animations")
+            this["PROTOTYPE_APP_CLOSE"] = isFeatureEnabled("launcher_animations")
+            this["ENABLE_SCRIM_FOR_APP_LAUNCH"] = isFeatureEnabled("launcher_animations")
 
-        launcherHooks.flagValues["ENABLE_SMARTSPACE_ENHANCED"] = isFeatureEnabled("launcher_live_space", false)
+            this["ENABLE_SMARTSPACE_ENHANCED"] = isFeatureEnabled("launcher_live_space", false)
+
+            this["KEYGUARD_ANIMATION"] = isFeatureEnabled("launcher_keyguard_anim")
+        }
 
         launcherHooks.applyFeatureFlags()
     }
