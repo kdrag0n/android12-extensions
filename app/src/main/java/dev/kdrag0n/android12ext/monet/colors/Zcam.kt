@@ -140,8 +140,14 @@ data class Zcam(
 
             val DEFAULT = ViewingConditions(
                 surroundFactor = SURROUND_AVERAGE,
-                L_a = 40.0,
-                Y_b = 20.0,
+                // sRGB
+                L_a = 0.4 * SRGB_WHITE_LUMINANCE,
+                // Gray world
+                Y_b = CieLab(
+                    L = 50.0,
+                    a = 0.0,
+                    b = 0.0,
+                ).toCieXyz().y * SRGB_WHITE_LUMINANCE,
                 referenceWhite = Illuminants.D65 * SRGB_WHITE_LUMINANCE,
             )
         }
