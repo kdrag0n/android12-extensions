@@ -53,6 +53,8 @@ class ZcamMaterialYouTargets(
             0x062e6f,
             0x041e49,
         )
+
+        private const val ACCENT1_REF_CHROMA_FACTOR = 1.25
     }
 
     override val neutral1: ColorSwatch
@@ -76,14 +78,13 @@ class ZcamMaterialYouTargets(
         // A-1 chroma = avg(default Pixel Blue shades 100-900)
         // Excluding very bright variants (10, 50) to avoid light bias
         // A-1 > A-3 > A-2
-        val accent1Chroma = calcAccent1Chroma()
+        val accent1Chroma = calcAccent1Chroma() * ACCENT1_REF_CHROMA_FACTOR
         val accent2Chroma = accent1Chroma / 3
         val accent3Chroma = accent2Chroma * 2
 
-        // Neutral chroma derived from Google's CAM16 implementation
-        // N-2 > N-1
-        val neutral1Chroma = accent1Chroma / 12
-        val neutral2Chroma = neutral1Chroma * 2
+        // Custom neutral chroma
+        val neutral1Chroma = accent1Chroma / 7
+        val neutral2Chroma = accent1Chroma / 5
 
         neutral1 = shadesWithChroma(neutral1Chroma, lightnessMap)
         neutral2 = shadesWithChroma(neutral2Chroma, lightnessMap)
