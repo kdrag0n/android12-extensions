@@ -8,14 +8,13 @@ import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.LinearInterpolator
-import android.view.animation.PathInterpolator
 import androidx.core.animation.addListener
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import dev.kdrag0n.android12ext.core.ripple.RIPPLE_SHADER_FLUENT
-import dev.kdrag0n.android12ext.core.ripple.RIPPLE_SHADER_NO_SPARKLES
+import dev.kdrag0n.android12ext.xposed.ripple.RIPPLE_SHADER_FLUENT
+import dev.kdrag0n.android12ext.xposed.ripple.RIPPLE_SHADER_NO_SPARKLES
 import dev.kdrag0n.android12ext.xposed.hookMethod
 import dev.kdrag0n.android12ext.monet.extraction.JzazbzPointProvider
 import java.util.function.Consumer

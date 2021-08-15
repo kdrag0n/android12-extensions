@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.core.ripple
+package dev.kdrag0n.android12ext.xposed.ripple
 
 const val RIPPLE_SHADER_NO_SPARKLES = """
 uniform vec2 in_origin;
