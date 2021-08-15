@@ -1,6 +1,7 @@
 package dev.kdrag0n.android12ext.xposed.hooks
 
 import android.content.SharedPreferences
+import dev.kdrag0n.android12ext.core.data.SettingsRepository
 import dev.kdrag0n.android12ext.monet.colors.CieLab
 import dev.kdrag0n.android12ext.monet.colors.Color
 import dev.kdrag0n.android12ext.monet.colors.Illuminants
@@ -47,10 +48,10 @@ interface ColorSchemeFactory {
         }
 
         fun getFactory(prefs: SharedPreferences) = getFactory(
-            useZcam = prefs.getBoolean("custom_monet_zcam_enabled", true),
+            useZcam = prefs.getBoolean("custom_monet_zcam_enabled", false),
             chromaFactor = prefs.getInt("custom_monet_chroma_multiplier", 50).toDouble() / 50,
             accurateShades = prefs.getBoolean("custom_monet_accurate_shades_enabled", true),
-            whiteLuminance = prefs.getInt("custom_monet_white_zcam_luminance_user", 10).toDouble() / 10, // TODO
+            whiteLuminance = SettingsRepository.getWhiteLuminance(prefs),
             useLinearLightness = prefs.getBoolean("custom_monet_zcam_linear_lightness_enabled", false),
         )
 
