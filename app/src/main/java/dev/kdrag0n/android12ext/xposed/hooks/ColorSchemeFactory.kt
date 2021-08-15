@@ -48,7 +48,7 @@ interface ColorSchemeFactory {
         }
 
         fun getFactory(prefs: SharedPreferences) = getFactory(
-            useZcam = prefs.getBoolean("custom_monet_zcam_enabled", false),
+            useZcam = prefs.getBoolean("custom_monet_zcam_enabled", true),
             chromaFactor = prefs.getInt("custom_monet_chroma_multiplier", 50).toDouble() / 50,
             accurateShades = prefs.getBoolean("custom_monet_accurate_shades_enabled", true),
             whiteLuminance = SettingsRepository.getWhiteLuminance(prefs),

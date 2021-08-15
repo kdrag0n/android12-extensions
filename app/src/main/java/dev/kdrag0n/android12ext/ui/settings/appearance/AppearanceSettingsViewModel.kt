@@ -53,7 +53,6 @@ class AppearanceSettingsViewModel @Inject constructor(
             title = R.string.appearance_custom_monet_zcam,
             summary = R.string.appearance_custom_monet_zcam_desc,
             icon = R.drawable.ic_fluent_premium_24_regular,
-            default = false,
             dependency = "custom_monet_enabled",
         )
         featureSwitch(
