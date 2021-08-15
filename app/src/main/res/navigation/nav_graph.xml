@@ -53,11 +53,19 @@
         android:name="dev.kdrag0n.android12ext.ui.settings.appearance.AppearanceSettingsFragment"
         android:label="@string/settings_appearance"
         tools:layout="@layout/content_settings">
+        <action android:id="@+id/action_settings_appearance_to_advanced"
+            app:destination="@id/appearance_advanced_settings" />
         <action android:id="@+id/action_settings_appearance_to_quantizer"
             app:destination="@id/monet_quantizer" />
         <action android:id="@+id/action_settings_appearance_to_palette"
             app:destination="@id/monet_palette" />
     </fragment>
+
+    <fragment
+        android:id="@+id/appearance_advanced_settings"
+        android:name="dev.kdrag0n.android12ext.ui.settings.appearance.advanced.AdvancedCamSettingsFragment"
+        android:label="@string/appearance_advanced"
+        tools:layout="@layout/content_settings" />
 
     <fragment
         android:id="@+id/monet_quantizer"

@@ -55,6 +55,8 @@
     <string name="launcher_device_search_desc">Material You search UI in the app drawer</string>
     <string name="launcher_animations">New animations</string>
     <string name="launcher_animations_desc">Tweaks to app open and close animations</string>
+    <string name="launcher_live_space">New Live Space</string>
+    <string name="launcher_live_space_desc">Small, left-aligned Live Space (breaks weather)</string>
     <string name="launcher_info">The Xposed module must be enabled for Pixel Launcher in order for these settings to work.</string>
 
     <!-- Tweaks -->
@@ -78,8 +80,9 @@
     <string name="appearance_custom_monet_accurate_shades">Accurate shades</string>
     <string name="appearance_custom_monet_accurate_shades_desc">More accurate color shades at the cost of duller colors</string>
     <string name="appearance_custom_monet_chroma_multiplier">Colorfulness</string>
-    <string name="appearance_custom_monet_multi_color">Multiple colors</string>
-    <string name="appearance_custom_monet_multi_color_desc">Use multiple colors from the wallpaper for theming</string>
+    <string name="appearance_custom_monet_zcam">New color model</string>
+    <string name="appearance_custom_monet_zcam_desc">Stronger accent colors, less saturated backgrounds, more flexibility (experimental)</string>
+    <string name="appearance_custom_monet_zcam_advanced">Advanced color model settings</string>
     <string name="category_colors">Colors</string>
     <string name="appearance_monet_custom_color">Use custom color</string>
     <string name="appearance_monet_custom_color_desc">Select theme color instead of extracting colors from wallpaper</string>
@@ -91,6 +94,13 @@
     <string name="category_aosp">AOSP</string>
     <string name="appearance_aosp_circle_icons">Circular icons</string>
     <string name="appearance_aosp_circle_icons_desc">Circle shape for app icons</string>
+
+    <!-- Appearance advanced CAM settings -->
+    <string name="appearance_advanced">Advanced color</string>
+    <string name="appearance_advanced_linear_lightness">Custom brightness scale</string>
+    <string name="appearance_advanced_linear_lightness_desc">Use the new color model’s brightness scale instead of Google’s. This makes the “Theme brightness” option more effective.</string>
+    <string name="appearance_advanced_white_luminance">Theme brightness</string>
+    <string name="appearance_advanced_white_luminance_desc">If custom brightness is disabled, this will only affect colorfulness: increasing brightness will make lighter colors stronger and darker colors more subtle, and vice versa.</string>
 
     <!-- Palette -->
     <string name="monet_palette">Color palette</string>
@@ -125,8 +135,6 @@
     ]]></string>
     <string name="about_uri_donate">https://kdrag0n.dev/donate?utm_medium=app&amp;utm_source=android12ext</string>
     <string name="about_uri_source_code">https://github.com/kdrag0n/android12-extensions</string>
-    <string name="launcher_live_space">New Live Space</string>
-    <string name="launcher_live_space_desc">Small, left-aligned Live Space (breaks weather)</string>
 
     <!-- Xposed -->
     <string-array name="xposed_scopes">
