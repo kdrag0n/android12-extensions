@@ -28,6 +28,12 @@ class LauncherSettingsViewModel @Inject constructor(
             icon = R.drawable.ic_fluent_open_24_regular,
         )
         featureSwitch(
+            key = "launcher_keyguard_anim",
+            title = R.string.launcher_keyguard_anim,
+            summary = R.string.launcher_keyguard_anim_desc,
+            icon = R.drawable.ic_fluent_lock_open_24_regular,
+        )
+        featureSwitch(
             key = "launcher_live_space",
             title = R.string.launcher_live_space,
             summary = R.string.launcher_live_space_desc,
