@@ -82,6 +82,8 @@ dependencies {
     implementation("com.github.topjohnwu.libsu:core:3.1.2")
     implementation("com.github.Zhuinden:fragmentviewbindingdelegate-kt:1.0.0")
     implementation("com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
 }
