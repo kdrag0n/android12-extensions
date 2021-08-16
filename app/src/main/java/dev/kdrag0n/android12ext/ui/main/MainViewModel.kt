@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.kdrag0n.android12ext.core.BroadcastManager
-import dev.kdrag0n.android12ext.core.data.SettingsRepository
+import dev.kdrag0n.android12ext.data.SettingsRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject

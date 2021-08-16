@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import dagger.hilt.android.AndroidEntryPoint
 import dev.kdrag0n.android12ext.R
-import dev.kdrag0n.android12ext.core.data.SettingsRepository
+import dev.kdrag0n.android12ext.data.SettingsRepository
 import dev.kdrag0n.android12ext.ui.monet.palette.PaletteActivity
 import dev.kdrag0n.android12ext.ui.observeNav
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsFragment

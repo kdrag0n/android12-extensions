@@ -14,8 +14,8 @@ import dev.kdrag0n.android12ext.BuildConfig
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.CallService
 import dev.kdrag0n.android12ext.core.OverlayManager
-import dev.kdrag0n.android12ext.core.data.SettingsRepository
-import dev.kdrag0n.android12ext.core.data.hasSystemUiGoogle
+import dev.kdrag0n.android12ext.data.SettingsRepository
+import dev.kdrag0n.android12ext.data.hasSystemUiGoogle
 import dev.kdrag0n.android12ext.monet.theme.ReferenceGenerator
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.featureSwitch

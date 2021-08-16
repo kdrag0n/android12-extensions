@@ -6,7 +6,7 @@ import de.Maxr1998.modernpreferences.helpers.pref
 import de.Maxr1998.modernpreferences.helpers.singleChoice
 import de.Maxr1998.modernpreferences.preferences.choice.SelectionItem
 import dev.kdrag0n.android12ext.R
-import dev.kdrag0n.android12ext.core.data.SettingsRepository
+import dev.kdrag0n.android12ext.data.SettingsRepository
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.featureSwitch
 import dev.kdrag0n.android12ext.ui.utils.setInteractive

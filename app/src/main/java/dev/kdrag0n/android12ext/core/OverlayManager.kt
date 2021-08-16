@@ -4,8 +4,8 @@ import android.content.Context
 import com.topjohnwu.superuser.Shell
 import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.kdrag0n.android12ext.core.data.SettingsRepository
-import dev.kdrag0n.android12ext.core.data.hasSystemUiGoogle
+import dev.kdrag0n.android12ext.data.SettingsRepository
+import dev.kdrag0n.android12ext.data.hasSystemUiGoogle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

@@ -7,7 +7,7 @@ import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import dev.kdrag0n.android12ext.core.data.SettingsRepository
+import dev.kdrag0n.android12ext.data.SettingsRepository
 import dev.kdrag0n.android12ext.monet.colors.Srgb
 import dev.kdrag0n.android12ext.ui.monet.palette.PaletteActivity
 import dev.kdrag0n.android12ext.xposed.hooks.ColorSchemeFactory

@@ -1,7 +1,6 @@
 package dev.kdrag0n.android12ext.ui.settings.root
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import de.Maxr1998.modernpreferences.Preference
@@ -9,8 +8,8 @@ import de.Maxr1998.modernpreferences.PreferencesAdapter
 import de.Maxr1998.modernpreferences.helpers.*
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.*
-import dev.kdrag0n.android12ext.core.data.SettingsRepository
-import dev.kdrag0n.android12ext.core.data.hasPixelLauncher
+import dev.kdrag0n.android12ext.data.SettingsRepository
+import dev.kdrag0n.android12ext.data.hasPixelLauncher
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.navPref
 import javax.inject.Inject

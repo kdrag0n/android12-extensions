@@ -1,7 +1,7 @@
 package dev.kdrag0n.android12ext.xposed.hooks
 
 import android.content.SharedPreferences
-import dev.kdrag0n.android12ext.core.data.SettingsRepository
+import dev.kdrag0n.android12ext.data.SettingsRepository
 import dev.kdrag0n.android12ext.monet.colors.CieLab
 import dev.kdrag0n.android12ext.monet.colors.Color
 import dev.kdrag0n.android12ext.monet.colors.Illuminants

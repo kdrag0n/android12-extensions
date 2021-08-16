@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.core.data
+package dev.kdrag0n.android12ext.data
 
 import android.app.Application
 import android.content.Context
