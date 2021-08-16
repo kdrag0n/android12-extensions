@@ -12,6 +12,7 @@ import dev.kdrag0n.android12ext.data.SettingsRepository
 import dev.kdrag0n.android12ext.data.hasPixelLauncher
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.navPref
+import dev.kdrag0n.android12ext.ui.utils.telemetryPrefs
 import javax.inject.Inject
 
 @HiltViewModel
@@ -80,6 +81,8 @@ class SettingsViewModel @Inject constructor(
             vm = this@SettingsViewModel,
             dependency = "global_enabled",
         )
+
+        telemetryPrefs(this@SettingsViewModel, settingsRepo)
     }
     override val prefAdapter = PreferencesAdapter(prefScreen)
 

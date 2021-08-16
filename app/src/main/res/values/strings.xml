@@ -103,6 +103,9 @@
     <string name="appearance_advanced_linear_lightness_desc">Use the new color model’s brightness scale instead of Google’s. This makes the “Theme brightness” option more effective.</string>
     <string name="appearance_advanced_white_luminance">Theme brightness</string>
     <string name="appearance_advanced_white_luminance_desc">If custom brightness is disabled, this will only affect colorfulness: increasing brightness will make lighter colors stronger and darker colors more subtle, and vice versa.</string>
+    <string name="appearance_advanced_telemetry">Analytics</string>
+    <string name="appearance_advanced_send_settings_report">Send settings to developer</string>
+    <string name="appearance_advanced_send_settings_report_desc">Anonymously send your Android 12 Extensions settings to the developer and help improve it for everyone!</string>
 
     <!-- Palette -->
     <string name="monet_palette">Color palette</string>
@@ -137,6 +140,8 @@
     ]]></string>
     <string name="about_uri_donate">https://kdrag0n.dev/donate?utm_medium=app&amp;utm_source=android12ext</string>
     <string name="about_uri_source_code">https://github.com/kdrag0n/android12-extensions</string>
+    <string name="telemetry_settings_report_success">Thank you for contributing!</string>
+    <string name="telemetry_settings_report_error">Failed to send settings</string>
 
     <!-- Xposed -->
     <string-array name="xposed_scopes">

@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dev.chrisbanes.insetter.applyInsetter
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.databinding.ContentSettingsBinding
@@ -39,6 +39,15 @@ abstract class BaseSettingsFragment : BaseToolbarFragment() {
                 type(navigationBars = true) {
                     padding()
                 }
+            }
+        }
+
+        viewModel.settingsReportStatus.observe(viewLifecycleOwner) { success ->
+            if (success != null) {
+                viewModel.settingsReportStatus.value = null
+
+                val msg = if (success) R.string.telemetry_settings_report_success else R.string.telemetry_settings_report_error
+                Toast.makeText(context ?: return@observe, msg, Toast.LENGTH_SHORT).show()
             }
         }
     }
