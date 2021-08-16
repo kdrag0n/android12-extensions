@@ -19,7 +19,7 @@ class AdvancedCamSettingsViewModel @Inject constructor(
             key = "custom_monet_zcam_linear_lightness",
             title = R.string.appearance_advanced_linear_lightness,
             summary = R.string.appearance_advanced_linear_lightness_desc,
-            icon = R.drawable.ic_fluent_search_24_regular,
+            icon = R.drawable.ic_fluent_weather_haze_24_regular,
             default = false,
             dependency = "custom_monet_enabled",
         )
