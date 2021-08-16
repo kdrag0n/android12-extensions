@@ -54,7 +54,7 @@ class ZcamMaterialYouTargets(
             0x041e49,
         )
 
-        private const val ACCENT1_REF_CHROMA_FACTOR = 1.25
+        private const val ACCENT1_REF_CHROMA_FACTOR = 1.2
     }
 
     override val neutral1: ColorSwatch
@@ -83,7 +83,7 @@ class ZcamMaterialYouTargets(
         val accent3Chroma = accent2Chroma * 2
 
         // Custom neutral chroma
-        val neutral1Chroma = accent1Chroma / 7
+        val neutral1Chroma = accent1Chroma / 8
         val neutral2Chroma = accent1Chroma / 5
 
         neutral1 = shadesWithChroma(neutral1Chroma, lightnessMap)
