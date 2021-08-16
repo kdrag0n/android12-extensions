@@ -20,6 +20,7 @@ class AdvancedCamSettingsViewModel @Inject constructor(
             summary = R.string.appearance_advanced_linear_lightness_desc,
             icon = R.drawable.ic_fluent_search_24_regular,
             default = false,
+            dependency = "custom_monet_enabled",
         )
         seekBar("custom_monet_zcam_white_luminance_user") {
             titleRes = R.string.appearance_advanced_white_luminance
