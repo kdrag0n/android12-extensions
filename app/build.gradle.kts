@@ -84,6 +84,8 @@ dependencies {
     implementation("com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("com.squareup.moshi:moshi:1.12.0")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.12.0")
 
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
 }
