@@ -4,19 +4,13 @@ import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
-import androidx.lifecycle.viewModelScope
 import de.Maxr1998.modernpreferences.Preference
 import de.Maxr1998.modernpreferences.PreferenceScreen
-import de.Maxr1998.modernpreferences.helpers.categoryHeader
 import de.Maxr1998.modernpreferences.helpers.onClick
 import de.Maxr1998.modernpreferences.helpers.pref
 import de.Maxr1998.modernpreferences.helpers.switch
 import de.Maxr1998.modernpreferences.preferences.SwitchPreference
-import dev.kdrag0n.android12ext.R
-import dev.kdrag0n.android12ext.data.SettingsRepository
 import dev.kdrag0n.android12ext.ui.NavViewModel
-import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
-import kotlinx.coroutines.launch
 
 fun Preference.setInteractive(interactive: Boolean) {
     if (!interactive) {
@@ -73,26 +67,6 @@ fun PreferenceScreen.Appendable.navPref(
 
         onClick {
             vm.navDest.value = action
-            false
-        }
-    }
-}
-
-fun PreferenceScreen.Appendable.telemetryPrefs(
-    viewModel: BaseSettingsViewModel,
-    settingsRepo: SettingsRepository,
-) {
-    categoryHeader("telemetry") {
-        titleRes = R.string.appearance_advanced_telemetry
-    }
-    pref("send_settings_report") {
-        titleRes = R.string.appearance_advanced_send_settings_report
-        summaryRes = R.string.appearance_advanced_send_settings_report_desc
-        onClick {
-            viewModel.viewModelScope.launch {
-                val resp = settingsRepo.reportSettings()
-                viewModel.settingsReportStatus.value = resp.getOrNull()?.isSuccessful ?: false
-            }
             false
         }
     }

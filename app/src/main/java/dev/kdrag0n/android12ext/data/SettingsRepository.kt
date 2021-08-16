@@ -39,6 +39,12 @@ class SettingsRepository @Inject constructor(
         ))
     }
 
+    suspend fun tryReportSettings() {
+        if (prefs.getBoolean("telemetry_send_settings_report_enabled", false)) {
+            reportSettings()
+        }
+    }
+
     companion object {
         private const val WHITE_LUMINANCE_MIN = 1.0
         private const val WHITE_LUMINANCE_MAX = 10000.0

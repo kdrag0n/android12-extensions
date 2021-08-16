@@ -48,6 +48,8 @@ class MainViewModel @Inject constructor(
             // First debounce: show warning
             if (prefChangeCount == startCount) {
                 showReloadWarning.value = true
+                settingsRepo.tryReportSettings()
+
                 delay(BroadcastManager.RELOAD_WARNING_DURATION.toLong())
 
                 // Second debounce: make sure warning is still shown *and* no pref changes were made

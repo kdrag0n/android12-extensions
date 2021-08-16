@@ -1,6 +1,9 @@
 package dev.kdrag0n.android12ext.ui.settings.root
 
 import android.content.Context
+import androidx.core.content.edit
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import de.Maxr1998.modernpreferences.Preference
@@ -11,14 +14,15 @@ import dev.kdrag0n.android12ext.core.*
 import dev.kdrag0n.android12ext.data.SettingsRepository
 import dev.kdrag0n.android12ext.data.hasPixelLauncher
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
+import dev.kdrag0n.android12ext.ui.utils.featureSwitch
 import dev.kdrag0n.android12ext.ui.utils.navPref
-import dev.kdrag0n.android12ext.ui.utils.telemetryPrefs
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     @ApplicationContext context: Context,
-    settingsRepo: SettingsRepository,
+    private val settingsRepo: SettingsRepository,
     private val broadcastManager: BroadcastManager,
 ) : BaseSettingsViewModel() {
     private val prefScreen = settingsRepo.prefScreen {
@@ -82,9 +86,35 @@ class SettingsViewModel @Inject constructor(
             dependency = "global_enabled",
         )
 
-        telemetryPrefs(this@SettingsViewModel, settingsRepo)
+        categoryHeader("telemetry") {
+            titleRes = R.string.appearance_advanced_telemetry
+        }
+        featureSwitch(
+            key = "telemetry_send_settings_report",
+            title = R.string.appearance_advanced_send_settings_report,
+            summary = R.string.appearance_advanced_send_settings_report_desc,
+            icon = R.drawable.ic_fluent_data_area_24_regular,
+            default = false,
+        )
     }
     override val prefAdapter = PreferencesAdapter(prefScreen)
+
+    val showTelemetryPrompt = MutableLiveData(!settingsRepo.prefs.getBoolean("telemetry_prompt_shown", false))
+
+    fun setTelemetryConsent(sendReports: Boolean) {
+        showTelemetryPrompt.value = false
+        settingsRepo.prefs.edit {
+            putBoolean("telemetry_prompt_shown", true)
+            putBoolean("telemetry_send_settings_report_enabled", sendReports)
+        }
+
+        // Now send an initial report
+        if (sendReports) {
+            viewModelScope.launch {
+                settingsRepo.reportSettings()
+            }
+        }
+    }
 
     fun reload() {
         broadcastManager.broadcastReload()

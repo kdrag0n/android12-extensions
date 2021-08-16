@@ -7,7 +7,6 @@ import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.data.SettingsRepository
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.featureSwitch
-import dev.kdrag0n.android12ext.ui.utils.telemetryPrefs
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,8 +36,6 @@ class AdvancedCamSettingsViewModel @Inject constructor(
                 value.toString()
             }
         }
-
-        telemetryPrefs(this@AdvancedCamSettingsViewModel, settingsRepo)
     }
     override val prefAdapter = PreferencesAdapter(prefScreen)
 }
