@@ -56,7 +56,7 @@ interface ColorSchemeFactory {
         )
 
         fun createZcamViewingConditions(whiteLuminance: Double) = Zcam.ViewingConditions(
-            surroundFactor = Zcam.ViewingConditions.SURROUND_AVERAGE,
+            F_s = Zcam.ViewingConditions.SURROUND_AVERAGE,
             // sRGB
             L_a = 0.4 * whiteLuminance,
             // Gray world
