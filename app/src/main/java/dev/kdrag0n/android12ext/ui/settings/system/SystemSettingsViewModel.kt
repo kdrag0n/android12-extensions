@@ -52,6 +52,12 @@ class SystemSettingsViewModel @Inject constructor(
             summary = R.string.system_internet_ui_desc,
             icon = R.drawable.ic_fluent_globe_24_regular,
         )
+        featureSwitch(
+            key = "combined_signal",
+            title = R.string.system_combined_signal,
+            summary = R.string.system_combined_signal_desc,
+            icon = R.drawable.ic_fluent_wifi_1_24_regular,
+        )
 
         pref("system_info") {
             iconRes = R.drawable.ic_fluent_info_24_regular

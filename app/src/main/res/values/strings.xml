@@ -39,6 +39,8 @@
     <string name="system_charging_ripple_desc">Ripple animation when starting to charge</string>
     <string name="system_internet_ui">Unified internet settings</string>
     <string name="system_internet_ui_desc">Manage Wi-Fi and cellular in one place</string>
+    <string name="system_combined_signal">Unified signal icons</string>
+    <string name="system_combined_signal_desc">Only show current Wi-Fi or cellular signal in status bar</string>
     <string name="system_info">You can also disable features that are enabled by default.</string>
 
     <!-- Android Settings -->
