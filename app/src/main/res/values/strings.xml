@@ -128,7 +128,6 @@
     <string name="error_xposed_manager_not_installed_desc">To enable all features:\n\t1. Install the “Riru” module from Magisk Manager\n\t2. Install the “Riru - LSPosed” module from Magisk Manager\n\t3. Restart your device\n\t4. Open this app for more instructions</string>
     <string name="error_missing_root">No root access</string>
     <string name="error_missing_root_desc">Root access is necessary in order for this app to manage overlays and work properly.</string>
-    <string name="allow">Allow</string>
 
     <!-- About -->
     <string name="donate">Donate</string>
@@ -140,8 +139,8 @@
         <br />
         Made with ❤️ by <a href="https://kdrag0n.dev/?utm_medium=app&amp;utm_source=android12ext">kdrag0n</a>. Please consider <a href="https://kdrag0n.dev/donate?utm_medium=app&amp;utm_source=android12ext">donating to support development</a> if you found this helpful!
     ]]></string>
-    <string name="about_uri_donate">https://kdrag0n.dev/donate?utm_medium=app&amp;utm_source=android12ext</string>
-    <string name="about_uri_source_code">https://github.com/kdrag0n/android12-extensions</string>
+    <string name="about_uri_donate" translatable="false">https://kdrag0n.dev/donate?utm_medium=app&amp;utm_source=android12ext</string>
+    <string name="about_uri_source_code" translatable="false">https://github.com/kdrag0n/android12-extensions</string>
 
     <!-- Telemetry prompt -->
     <string name="telemetry_prompt_send_settings_report">Send settings to developer?</string>
@@ -150,7 +149,7 @@
     <string name="deny">Deny</string>
 
     <!-- Xposed -->
-    <string-array name="xposed_scopes">
+    <string-array name="xposed_scopes" translatable="false">
         <item>com.android.systemui</item>
         <item>com.android.settings</item>
         <item>com.android.launcher3</item>
