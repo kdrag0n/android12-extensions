@@ -93,7 +93,7 @@ class SettingsViewModel @Inject constructor(
             key = "telemetry_send_settings_report",
             title = R.string.appearance_advanced_send_settings_report,
             summary = R.string.appearance_advanced_send_settings_report_desc,
-            icon = R.drawable.ic_fluent_data_area_24_regular,
+            icon = R.drawable.ic_fluent_emoji_24_regular,
             default = false,
         )
     }
