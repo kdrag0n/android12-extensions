@@ -29,6 +29,9 @@ private val FEATURE_FLAGS = mapOf(
 
     // Beta 2
     "isPMLiteEnabled" to "global",
+
+    // Beta 4
+    "isCombinedStatusBarSignalIconsEnabled" to "combined_signal",
 )
 
 class XposedHook(
