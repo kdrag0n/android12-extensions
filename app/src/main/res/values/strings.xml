@@ -23,6 +23,7 @@
     <string name="settings_tweaks_desc">Per-app interface changes</string>
     <string name="settings_appearance">Appearance</string>
     <string name="settings_appearance_desc">Unofficial theme and color changes</string>
+    <string name="action_report_settings">Send settings</string>
 
     <!-- System -->
     <string name="system_monet">Monet</string>
