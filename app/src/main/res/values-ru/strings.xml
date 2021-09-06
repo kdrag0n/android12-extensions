@@ -116,8 +116,8 @@
 
     <!-- Errors -->
     <string name="error_xposed_module_missing">Модуль Xposed не включен</string>
-    <string name="error_xposed_module_missing_desc">Чтобы это приложение работало, вам необходимо включить включенный модуль Xposed для приложения «Интерфейс системы» в LSPposed Manager и перезагрузить устройство.\n\nПримечание: «Интерфейс системы (System UI)» НЕ то же самое, что «Системная структура (System Framework)». </string>
-    <string name="error_xposed_manager_not_installed">LSPposed Manager не установлен</string>
+    <string name="error_xposed_module_missing_desc">Чтобы это приложение работало, вам необходимо включить включенный модуль Xposed для приложения «Интерфейс системы» в LSPosed Manager и перезагрузить устройство.\n\nПримечание: «Интерфейс системы (System UI)» НЕ то же самое, что «Системная структура (System Framework)». </string>
+    <string name="error_xposed_manager_not_installed">LSPosed Manager не установлен</string>
     <string name="error_xposed_manager_not_installed_desc">Чтобы включить все функции:\n\t1. Установите модуль "Riru" из Magisk Manager\n\t2. Установите модуль "Riru - LSPosed" из Magisk Manager\n\t3. Перезагрузите ваше устройство\n\t4. Откройте это приложение для получения дополнительных инструкций</string>
     <string name="error_missing_root">Нет root доступа</string>
     <string name="error_missing_root_desc">Доступ с правами root необходим для того, чтобы это приложение могло управлять оверлеями и работать должным образом.</string>
