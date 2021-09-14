@@ -45,7 +45,7 @@ class XposedHook(
     private val frameworkHooks = FrameworkHooks(lpparam)
     private val launcherHooks = LauncherHooks(lpparam)
     private val playGamesHooks = PlayGamesHooks()
-    private val themePickerHooks = ThemePickerHooks(lpparam)
+    private val colorSchemeHooks = ColorSchemeHooks(lpparam)
 
     init {
         CustomApplication.commonInit()
@@ -121,6 +121,8 @@ class XposedHook(
         }
 
         launcherHooks.applyFeatureFlags()
+
+        applyColorScheme(shadesOfName = "a")
     }
 
     private fun applyFramework() {
@@ -150,10 +152,11 @@ class XposedHook(
         }
     }
 
-    private fun applyThemePicker() {
+    private fun applyColorScheme(shadesOfName: String) {
         if (isFeatureEnabled("custom_monet", false)) {
-            themePickerHooks.applyColorScheme(
+            colorSchemeHooks.applyColorScheme(
                 colorSchemeFactory = ColorSchemeFactory.getFactory(prefs),
+                shadesOfName = shadesOfName,
             )
         }
     }
@@ -179,7 +182,7 @@ class XposedHook(
             // Launcher
             "com.android.launcher3", "com.google.android.apps.nexuslauncher" -> applyLauncher()
             // Wallpaper & style
-            "com.google.android.apps.wallpaper" -> applyThemePicker()
+            "com.google.android.apps.wallpaper" -> applyColorScheme(shadesOfName = "of")
         }
 
         // All apps

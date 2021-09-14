@@ -7,12 +7,12 @@ import dev.kdrag0n.android12ext.xposed.hookMethod
 import dev.kdrag0n.android12ext.monet.colors.Srgb
 import java.util.concurrent.atomic.AtomicInteger
 
-class ThemePickerHooks(
+class ColorSchemeHooks(
     private val lpparam: XC_LoadPackage.LoadPackageParam,
 ) {
     private val lastCamColor = AtomicInteger()
 
-    fun applyColorScheme(colorSchemeFactory: ColorSchemeFactory) {
+    fun applyColorScheme(colorSchemeFactory: ColorSchemeFactory, shadesOfName: String) {
         val hook = object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
                 lastCamColor.set(param.args[0] as Int)
@@ -48,7 +48,7 @@ class ThemePickerHooks(
         lpparam.hookMethod(
             "com.google.material.monet.Shades",
             hook2,
-            "of",
+            shadesOfName,
             Float::class.java,
             Float::class.java,
         )
