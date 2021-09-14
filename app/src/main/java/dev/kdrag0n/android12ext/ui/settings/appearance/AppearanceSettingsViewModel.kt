@@ -49,13 +49,6 @@ class AppearanceSettingsViewModel @Inject constructor(
             enabled = hasSystemUiGoogle,
         )
         featureSwitch(
-            key = "custom_monet_zcam",
-            title = R.string.appearance_custom_monet_zcam,
-            summary = R.string.appearance_custom_monet_zcam_desc,
-            icon = R.drawable.ic_fluent_premium_24_regular,
-            dependency = "custom_monet_enabled",
-        )
-        featureSwitch(
             key = "custom_monet_accurate_shades",
             title = R.string.appearance_custom_monet_accurate_shades,
             summary = R.string.appearance_custom_monet_accurate_shades_desc,

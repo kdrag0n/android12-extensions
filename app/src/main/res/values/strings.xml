@@ -85,8 +85,6 @@
     <string name="appearance_custom_monet_accurate_shades">Accurate shades</string>
     <string name="appearance_custom_monet_accurate_shades_desc">More accurate color shades at the cost of duller colors</string>
     <string name="appearance_custom_monet_chroma_multiplier">Colorfulness</string>
-    <string name="appearance_custom_monet_zcam">New color model</string>
-    <string name="appearance_custom_monet_zcam_desc">Stronger accent colors, less saturated backgrounds, more flexibility (experimental)</string>
     <string name="appearance_custom_monet_zcam_advanced">Advanced color model settings</string>
     <string name="category_colors">Colors</string>
     <string name="appearance_monet_custom_color">Use custom color</string>

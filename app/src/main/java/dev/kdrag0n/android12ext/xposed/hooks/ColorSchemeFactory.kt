@@ -13,42 +13,29 @@ interface ColorSchemeFactory {
 
     companion object {
         fun getFactory(
-            useZcam: Boolean,
             // For all models
             chromaFactor: Double,
             accurateShades: Boolean,
             // ZCAM only
             whiteLuminance: Double,
             useLinearLightness: Boolean,
-        ) = if (useZcam) {
-            val cond = createZcamViewingConditions(whiteLuminance)
+        ) = object : ColorSchemeFactory {
+            private val cond = createZcamViewingConditions(whiteLuminance)
 
-            object : ColorSchemeFactory {
-                override fun getColor(color: Color) = ZcamDynamicColorScheme(
-                    targets = ZcamMaterialYouTargets(
-                        chromaFactor = chromaFactor,
-                        useLinearLightness = useLinearLightness,
-                        cond = cond,
-                    ),
-                    seedColor = color,
+            override fun getColor(color: Color) = DynamicColorScheme(
+                targets = MaterialYouTargets(
                     chromaFactor = chromaFactor,
+                    useLinearLightness = useLinearLightness,
                     cond = cond,
-                    accurateShades = accurateShades,
-                )
-            }
-        } else {
-            object : ColorSchemeFactory {
-                override fun getColor(color: Color) = DynamicColorScheme(
-                    targets = MaterialYouTargets(chromaFactor),
-                    seedColor = color,
-                    chromaFactor = chromaFactor,
-                    accurateShades = accurateShades,
-                )
-            }
+                ),
+                seedColor = color,
+                chromaFactor = chromaFactor,
+                cond = cond,
+                accurateShades = accurateShades,
+            )
         }
 
         fun getFactory(prefs: SharedPreferences) = getFactory(
-            useZcam = prefs.getBoolean("custom_monet_zcam_enabled", true),
             chromaFactor = prefs.getInt("custom_monet_chroma_multiplier", 50).toDouble() / 50,
             accurateShades = prefs.getBoolean("custom_monet_accurate_shades_enabled", true),
             whiteLuminance = SettingsRepository.getWhiteLuminance(prefs),
