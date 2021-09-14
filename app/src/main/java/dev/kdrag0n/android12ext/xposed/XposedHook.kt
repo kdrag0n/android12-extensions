@@ -115,7 +115,7 @@ class XposedHook(
             this["PROTOTYPE_APP_CLOSE"] = isFeatureEnabled("launcher_animations")
             this["ENABLE_SCRIM_FOR_APP_LAUNCH"] = isFeatureEnabled("launcher_animations")
 
-            this["ENABLE_SMARTSPACE_ENHANCED"] = isFeatureEnabled("launcher_live_space", false)
+            this["ENABLE_SMARTSPACE_ENHANCED"] = isFeatureEnabled("launcher_live_space")
 
             this["KEYGUARD_ANIMATION"] = isFeatureEnabled("launcher_keyguard_anim")
         }

@@ -38,7 +38,6 @@ class LauncherSettingsViewModel @Inject constructor(
             title = R.string.launcher_live_space,
             summary = R.string.launcher_live_space_desc,
             icon = R.drawable.ic_fluent_calendar_day_24_regular,
-            default = false,
         )
 
         pref("launcher_info") {
