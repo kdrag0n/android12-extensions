@@ -62,6 +62,8 @@
     <string name="launcher_keyguard_anim_desc">Depth animation when unlocking device on the launcher</string>
     <string name="launcher_live_space">New Live Space</string>
     <string name="launcher_live_space_desc">New Live Space UI on home screen</string>
+    <string name="launcher_local_color_popups">Multi-color menus</string>
+    <string name="launcher_local_color_popups_desc">Popup menu items follow the wallpaper color underneath them</string>
     <string name="launcher_info">The Xposed module must be enabled for Pixel Launcher in order for these settings to work.</string>
 
     <!-- Tweaks -->

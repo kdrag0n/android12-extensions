@@ -118,6 +118,8 @@ class XposedHook(
             this["ENABLE_SMARTSPACE_ENHANCED"] = isFeatureEnabled("launcher_live_space")
 
             this["KEYGUARD_ANIMATION"] = isFeatureEnabled("launcher_keyguard_anim")
+
+            this["ENABLE_LOCAL_COLOR_POPUPS"] = isFeatureEnabled("launcher_local_color_popups")
         }
 
         launcherHooks.applyFeatureFlags()
