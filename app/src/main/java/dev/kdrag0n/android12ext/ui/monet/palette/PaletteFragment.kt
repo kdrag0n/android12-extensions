@@ -3,18 +3,17 @@ package dev.kdrag0n.android12ext.ui.monet.palette
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.*
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.fragment.app.viewModels
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.databinding.ColorSampleLargeBinding
 import dev.kdrag0n.android12ext.databinding.ColorShadeLabelBinding
-import dev.kdrag0n.android12ext.databinding.ColorSwatchShadeLabelsBinding
 import dev.kdrag0n.android12ext.databinding.FragmentPaletteBinding
-import dev.kdrag0n.android12ext.monet.theme.ColorSwatch
 import dev.kdrag0n.android12ext.ui.BaseFragment
+import dev.kdrag0n.colorkt.conversion.ConversionGraph.convert
+import dev.kdrag0n.colorkt.rgb.Srgb
+import dev.kdrag0n.monet.theme.ColorSwatch
 
 @AndroidEntryPoint
 class PaletteFragment : BaseFragment(R.layout.fragment_palette) {
@@ -87,7 +86,7 @@ class PaletteFragment : BaseFragment(R.layout.fragment_palette) {
 
         private fun ColorSwatch.bind(binding: ColorSampleLargeBinding, shade: Int) {
             val color = this[shade]!!
-            val tint = ColorStateList.valueOf(color.toLinearSrgb().toSrgb().quantize8())
+            val tint = ColorStateList.valueOf(color.convert<Srgb>().toRgb8())
             binding.root.backgroundTintList = tint
         }
     }

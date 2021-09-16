@@ -1,12 +1,13 @@
-package dev.kdrag0n.android12ext.monet.theme
+package dev.kdrag0n.monet.theme
 
-import dev.kdrag0n.android12ext.monet.colors.CieLab
-import dev.kdrag0n.android12ext.monet.colors.CieXyz.Companion.toCieXyz
-import dev.kdrag0n.android12ext.monet.colors.Color
-import dev.kdrag0n.android12ext.monet.colors.Srgb
-import dev.kdrag0n.android12ext.monet.colors.Zcam
-import dev.kdrag0n.android12ext.monet.colors.Zcam.Companion.toAbs
-import dev.kdrag0n.android12ext.monet.colors.Zcam.Companion.toZcam
+import dev.kdrag0n.colorkt.Color
+import dev.kdrag0n.colorkt.cam.Zcam
+import dev.kdrag0n.colorkt.cam.Zcam.Companion.toZcam
+import dev.kdrag0n.colorkt.rgb.LinearSrgb.Companion.toLinear
+import dev.kdrag0n.colorkt.rgb.Srgb
+import dev.kdrag0n.colorkt.tristimulus.CieXyz.Companion.toXyz
+import dev.kdrag0n.colorkt.tristimulus.CieXyzAbs.Companion.toAbs
+import dev.kdrag0n.colorkt.ucs.lab.CieLab
 
 /*
  * Default target colors, conforming to Material You standards.
@@ -35,6 +36,7 @@ class MaterialYouTargets(
             700  to  30.0,
             800  to  20.0,
             900  to  10.0,
+            950  to   5.0,
             1000 to   0.0,
         )
 
@@ -100,10 +102,10 @@ class MaterialYouTargets(
         L = l,
         a = 0.0,
         b = 0.0,
-    ).toCieXyz().toAbs(cond).toZcam(cond).lightness
+    ).toXyz().toAbs(cond.referenceWhite.y).toZcam(cond, include2D = false).lightness
 
     private fun calcAccent1Chroma() = REF_ACCENT1_COLORS
-        .map { Srgb(it).toLinearSrgb().toCieXyz().toAbs(cond).toZcam(cond).chroma }
+        .map { Srgb(it).toLinear().toXyz().toAbs(cond.referenceWhite.y).toZcam(cond, include2D = false).chroma }
         .average()
 
     private fun shadesWithChroma(
@@ -117,7 +119,7 @@ class MaterialYouTargets(
             it.key to Zcam(
                 lightness = it.value,
                 chroma = chromaAdj,
-                hueAngle = 0.0,
+                hue = 0.0,
                 viewingConditions = cond,
             )
         }.toMap()

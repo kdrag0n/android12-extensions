@@ -16,7 +16,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.xposed.ripple.RIPPLE_SHADER_FLUENT
 import dev.kdrag0n.android12ext.xposed.ripple.RIPPLE_SHADER_NO_SPARKLES
 import dev.kdrag0n.android12ext.xposed.hookMethod
-import dev.kdrag0n.android12ext.monet.extraction.JzazbzPointProvider
 import java.util.function.Consumer
 
 class FrameworkHooks(
@@ -179,25 +178,6 @@ class FrameworkHooks(
             Context::class.java,
             String::class.java,
         )
-    }
-
-    fun applyQuantizerColorspace() {
-        val centroidProvider = JzazbzPointProvider()
-
-        lpparam.hookMethod(LAB_POINT_CLASS, object : XC_MethodReplacement() {
-            override fun replaceHookedMethod(param: MethodHookParam) =
-                centroidProvider.fromInt(param.args[0] as Int)
-        }, "fromInt", Int::class.java)
-
-        lpparam.hookMethod(LAB_POINT_CLASS, object : XC_MethodReplacement() {
-            override fun replaceHookedMethod(param: MethodHookParam) =
-                centroidProvider.toInt(param.args[0] as FloatArray)
-        }, "toInt", FloatArray::class.java)
-
-        lpparam.hookMethod(LAB_POINT_CLASS, object : XC_MethodReplacement() {
-            override fun replaceHookedMethod(param: MethodHookParam) =
-                centroidProvider.distance(param.args[0] as FloatArray, param.args[1] as FloatArray)
-        }, "distance", FloatArray::class.java, FloatArray::class.java)
     }
 
     companion object {

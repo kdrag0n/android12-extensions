@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.kdrag0n.android12ext.data.SettingsRepository
-import dev.kdrag0n.android12ext.monet.colors.Srgb
 import dev.kdrag0n.android12ext.monet.theme.SystemColorScheme
 import dev.kdrag0n.android12ext.xposed.hooks.ColorSchemeFactory
+import dev.kdrag0n.colorkt.rgb.Srgb
 import javax.inject.Inject
 
 @HiltViewModel

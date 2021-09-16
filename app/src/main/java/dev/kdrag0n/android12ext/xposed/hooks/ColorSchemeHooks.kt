@@ -4,7 +4,8 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.xposed.hookMethod
-import dev.kdrag0n.android12ext.monet.colors.Srgb
+import dev.kdrag0n.colorkt.conversion.ConversionGraph.convert
+import dev.kdrag0n.colorkt.rgb.Srgb
 import java.util.concurrent.atomic.AtomicInteger
 
 class ColorSchemeHooks(
@@ -41,7 +42,7 @@ class ColorSchemeHooks(
 
                 return swatch.entries
                     .sortedBy { it.key }
-                    .map { it.value.toLinearSrgb().toSrgb().quantize8() or (0xff shl 24) }
+                    .map { it.value.convert<Srgb>().toRgb8() or (0xff shl 24) }
                     .toIntArray()
             }
         }

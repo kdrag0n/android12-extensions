@@ -87,5 +87,7 @@ dependencies {
     implementation("com.squareup.moshi:moshi:1.12.0")
     kapt("com.squareup.moshi:moshi-kotlin-codegen:1.12.0")
 
+    implementation("dev.kdrag0n:colorkt:1.0.3")
+
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
 }

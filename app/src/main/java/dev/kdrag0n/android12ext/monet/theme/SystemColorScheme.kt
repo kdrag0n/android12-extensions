@@ -2,7 +2,8 @@ package dev.kdrag0n.android12ext.monet.theme
 
 import android.content.Context
 import androidx.annotation.RequiresApi
-import dev.kdrag0n.android12ext.monet.colors.Srgb
+import dev.kdrag0n.colorkt.rgb.Srgb
+import dev.kdrag0n.monet.theme.ColorScheme
 
 @RequiresApi(31)
 class SystemColorScheme(private val context: Context) : ColorScheme() {

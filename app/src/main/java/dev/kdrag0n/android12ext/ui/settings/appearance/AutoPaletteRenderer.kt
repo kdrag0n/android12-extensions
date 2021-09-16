@@ -8,9 +8,9 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import dev.kdrag0n.android12ext.data.SettingsRepository
-import dev.kdrag0n.android12ext.monet.colors.Srgb
 import dev.kdrag0n.android12ext.ui.monet.palette.PaletteActivity
 import dev.kdrag0n.android12ext.xposed.hooks.ColorSchemeFactory
+import dev.kdrag0n.colorkt.rgb.Srgb
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -106,7 +106,6 @@ class AutoPaletteRenderer(
         @SuppressLint("LogNotTimber")
         fun runBenchmark() {
             val factory = ColorSchemeFactory.getFactory(
-                useZcam = false,
                 chromaFactor = 1.0,
                 accurateShades = true,
                 whiteLuminance = 200.0,

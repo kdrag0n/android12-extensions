@@ -3,9 +3,10 @@ package dev.kdrag0n.android12ext.monet.overlay
 import android.app.WallpaperColors
 import android.content.Context
 import androidx.annotation.ColorInt
-import dev.kdrag0n.android12ext.monet.colors.Color
-import dev.kdrag0n.android12ext.monet.colors.Srgb
 import dev.kdrag0n.android12ext.xposed.hooks.ColorSchemeFactory
+import dev.kdrag0n.colorkt.Color
+import dev.kdrag0n.colorkt.conversion.ConversionGraph.convert
+import dev.kdrag0n.colorkt.rgb.Srgb
 import timber.log.Timber
 
 class ThemeOverlayController(
@@ -31,9 +32,8 @@ class ThemeOverlayController(
                 val group = "$groupKey${listEntry.index + 1}"
 
                 listEntry.value.forEach { (shade, color) ->
-                    val colorSrgb = color as? Srgb
-                        ?: color.toLinearSrgb().toSrgb()
-                    Timber.d("Color $group $shade = ${String.format("%06x", colorSrgb.quantize8())}")
+                    val colorSrgb = color.convert<Srgb>()
+                    Timber.d("Color $group $shade = ${String.format("%06x", colorSrgb.toRgb8())}")
 
                     setColor("system_${group}_$shade", colorSrgb)
                 }
@@ -60,7 +60,7 @@ class ThemeOverlayController(
             setResourceValue("android:color/$name", FabricatedOverlay.DATA_TYPE_COLOR, color)
 
         private fun FabricatedOverlay.Builder.setColor(name: String, color: Color): FabricatedOverlay.Builder {
-            val rgb = color.toLinearSrgb().toSrgb().quantize8()
+            val rgb = color.convert<Srgb>().toRgb8()
             val argb = rgb or (0xff shl 24)
             return setColor(name, argb)
         }

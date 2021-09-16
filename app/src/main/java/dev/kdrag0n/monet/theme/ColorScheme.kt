@@ -1,6 +1,6 @@
-package dev.kdrag0n.android12ext.monet.theme
+package dev.kdrag0n.monet.theme
 
-import dev.kdrag0n.android12ext.monet.colors.Color
+import dev.kdrag0n.colorkt.Color
 
 typealias ColorSwatch = Map<Int, Color>
 

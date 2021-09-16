@@ -2,11 +2,14 @@ package dev.kdrag0n.android12ext.xposed.hooks
 
 import android.content.SharedPreferences
 import dev.kdrag0n.android12ext.data.SettingsRepository
-import dev.kdrag0n.android12ext.monet.colors.CieLab
-import dev.kdrag0n.android12ext.monet.colors.Color
-import dev.kdrag0n.android12ext.monet.colors.Illuminants
-import dev.kdrag0n.android12ext.monet.colors.Zcam
-import dev.kdrag0n.android12ext.monet.theme.*
+import dev.kdrag0n.colorkt.Color
+import dev.kdrag0n.colorkt.cam.Zcam
+import dev.kdrag0n.colorkt.data.Illuminants
+import dev.kdrag0n.colorkt.tristimulus.CieXyzAbs.Companion.toAbs
+import dev.kdrag0n.colorkt.ucs.lab.CieLab
+import dev.kdrag0n.monet.theme.ColorScheme
+import dev.kdrag0n.monet.theme.DynamicColorScheme
+import dev.kdrag0n.monet.theme.MaterialYouTargets
 
 interface ColorSchemeFactory {
     fun getColor(color: Color): ColorScheme
@@ -43,17 +46,16 @@ interface ColorSchemeFactory {
         )
 
         fun createZcamViewingConditions(whiteLuminance: Double) = Zcam.ViewingConditions(
-            F_s = Zcam.ViewingConditions.SURROUND_AVERAGE,
+            surroundFactor = Zcam.ViewingConditions.SURROUND_AVERAGE,
             // sRGB
-            L_a = 0.4 * whiteLuminance,
+            adaptingLuminance = 0.4 * whiteLuminance,
             // Gray world
-            Y_b = CieLab(
+            backgroundLuminance = CieLab(
                 L = 50.0,
                 a = 0.0,
                 b = 0.0,
-            ).toCieXyz().y * whiteLuminance,
-            referenceWhite = Illuminants.D65 * whiteLuminance,
-            whiteLuminance = whiteLuminance,
+            ).toXyz().y * whiteLuminance,
+            referenceWhite = Illuminants.D65.toAbs(whiteLuminance),
         )
     }
 }

@@ -1,7 +1,7 @@
 package dev.kdrag0n.android12ext.monet.theme.reference
 
-import dev.kdrag0n.android12ext.monet.colors.Srgb
-import dev.kdrag0n.android12ext.monet.theme.ColorScheme
+import dev.kdrag0n.colorkt.rgb.Srgb
+import dev.kdrag0n.monet.theme.ColorScheme
 
 object Beta2Colors {
     object PixelDefault : ColorScheme() {
