@@ -86,7 +86,8 @@ class PaletteFragment : BaseFragment(R.layout.fragment_palette) {
 
         private fun ColorSwatch.bind(binding: ColorSampleLargeBinding, shade: Int) {
             val color = this[shade]!!
-            val tint = ColorStateList.valueOf(color.convert<Srgb>().toRgb8())
+            val argb = (0xff shl 24) or color.convert<Srgb>().toRgb8()
+            val tint = ColorStateList.valueOf(argb)
             binding.root.backgroundTintList = tint
         }
     }
