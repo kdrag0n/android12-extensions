@@ -32,7 +32,7 @@ class AppearanceSettingsViewModel @Inject constructor(
     private val refGen: ReferenceGenerator,
     private val overlayManager: OverlayManager,
 ) : BaseSettingsViewModel() {
-    val openColorPicker = MutableLiveData<Int?>(null)
+    val openColorPicker = MutableLiveData<Pair<Int, Int>>(null)
     private lateinit var colorPref: ColorSwatchPreference
 
     val openPalette = MutableLiveData<Unit?>(null)
@@ -91,7 +91,27 @@ class AppearanceSettingsViewModel @Inject constructor(
             dependency = "monet_custom_color_enabled"
 
             onClick {
-                openColorPicker.value = settingsRepo.prefs.getInt("monet_custom_color_value", -1)
+                val prevColor = settingsRepo.prefs.getInt("monet_custom_color_value", -1)
+                openColorPicker.value = COLOR_DIALOG_ID to prevColor
+                false
+            }
+            colorPref = this
+        }
+        featureSwitch(
+            key = "monet_custom_color3",
+            title = R.string.appearance_monet_custom_color3,
+            summary = R.string.appearance_monet_custom_color3_desc,
+            icon = R.drawable.ic_fluent_color_background_24_regular,
+            dependency = "custom_monet_enabled",
+            default = false,
+        )
+        colorPref("monet_custom_color3_value") {
+            titleRes = R.string.appearance_monet_custom_color3_value
+            dependency = "monet_custom_color3_enabled"
+
+            onClick {
+                val prevColor = settingsRepo.prefs.getInt("monet_custom_color3_value", -1)
+                openColorPicker.value = COLOR3_DIALOG_ID to prevColor
                 false
             }
             colorPref = this
@@ -175,14 +195,20 @@ class AppearanceSettingsViewModel @Inject constructor(
     }
     override val prefAdapter = PreferencesAdapter(prefScreen)
 
-    val selectedColor = MutableLiveData<Int>()
-    private val selectedColorObserver = Observer<Int> { color ->
+    val selectedColor = MutableLiveData<Pair<Int, Int>>()
+    private val selectedColorObserver = Observer<Pair<Int, Int>> { (dialogId, color) ->
         viewModelScope.launch {
+            val prefKey = when (dialogId) {
+                COLOR_DIALOG_ID -> "monet_custom_color_value"
+                COLOR3_DIALOG_ID -> "monet_custom_color3_value"
+                else -> error("Invalid color dialog ID: $dialogId")
+            }
+
             val valueChanged = withContext(Dispatchers.IO) {
-                val oldValue = settingsRepo.prefs.getInt("monet_custom_color_value", Color.BLUE)
+                val oldValue = settingsRepo.prefs.getInt(prefKey, Color.BLUE)
 
                 settingsRepo.prefs.edit().run {
-                    putInt("monet_custom_color_value", color)
+                    putInt(prefKey, color)
                     commit()
                 }
 
@@ -203,5 +229,10 @@ class AppearanceSettingsViewModel @Inject constructor(
 
     override fun onCleared() {
         selectedColor.removeObserver(selectedColorObserver)
+    }
+
+    companion object {
+        private const val COLOR_DIALOG_ID = 1
+        private const val COLOR3_DIALOG_ID = 2
     }
 }

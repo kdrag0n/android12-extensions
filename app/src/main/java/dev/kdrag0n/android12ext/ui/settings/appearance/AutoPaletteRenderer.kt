@@ -110,6 +110,8 @@ class AutoPaletteRenderer(
                 accurateShades = true,
                 whiteLuminance = 200.0,
                 useLinearLightness = false,
+                useComplementColor = false,
+                complementColorHex = 0,
             )
 
             Log.i(TAG, "Warming up")

@@ -92,6 +92,9 @@
     <string name="appearance_monet_custom_color">Use custom color</string>
     <string name="appearance_monet_custom_color_desc">Select theme color instead of extracting colors from wallpaper</string>
     <string name="appearance_monet_custom_color_value">Theme color</string>
+    <string name="appearance_monet_custom_color3">Custom complement color</string>
+    <string name="appearance_monet_custom_color3_desc">Select complementary color instead of deriving from main theme color</string>
+    <string name="appearance_monet_custom_color3_value">Complementary color</string>
     <string name="appearance_monet_palette">Show color palette</string>
     <string name="appearance_monet_palette_desc">All 65 Material You colors</string>
     <string name="appearance_monet_quantizer">Show wallpaper colors</string>

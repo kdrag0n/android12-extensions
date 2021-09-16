@@ -7,5 +7,5 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ColorDialogViewModel @Inject constructor() : ViewModel() {
-    val selectedColor = MutableLiveData<Int>()
+    val selectedColor = MutableLiveData<Pair<Int, Int>>()
 }

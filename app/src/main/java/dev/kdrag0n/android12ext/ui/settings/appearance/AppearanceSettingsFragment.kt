@@ -31,12 +31,14 @@ class AppearanceSettingsFragment : BaseSettingsFragment() {
 
         paletteRenderer = AutoPaletteRenderer(this, settingsRepo)
 
-        viewModel.openColorPicker.observe(viewLifecycleOwner) { color ->
-            if (color != null) {
+        viewModel.openColorPicker.observe(viewLifecycleOwner) { event ->
+            if (event != null) {
                 viewModel.openColorPicker.value = null
 
+                val (dialogId, color) = event
                 ColorPickerDialog.newBuilder().run {
                     setColor(color)
+                    setDialogId(dialogId)
                     setDialogTitle(R.string.appearance_monet_custom_color_value)
                     show(activity)
                 }

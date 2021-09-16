@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener {
 
     override fun onDialogDismissed(dialogId: Int) = Unit
     override fun onColorSelected(dialogId: Int, color: Int) {
-        colorDialogViewModel.selectedColor.value = color
+        colorDialogViewModel.selectedColor.value = dialogId to color
     }
 
     override fun onSupportNavigateUp(): Boolean {

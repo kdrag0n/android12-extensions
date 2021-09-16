@@ -17,11 +17,17 @@ class DynamicColorScheme(
     chromaFactor: Double = 1.0,
     private val cond: Zcam.ViewingConditions,
     private val accurateShades: Boolean = true,
+    complementColor: Color? = null,
 ) : ColorScheme() {
     private val seedNeutral = seedColor.convert<CieXyz>().toAbs(cond.referenceWhite.y).toZcam(cond, include2D = false).let { lch ->
         lch.copy(chroma = lch.chroma * chromaFactor)
     }
     private val seedAccent = seedNeutral
+    private val seedAccent3 = seedAccent.copy(hue = complementColor?.convert<CieXyz>()
+        ?.toAbs(cond.referenceWhite.y)
+        ?.toZcam(cond, include2D = false)?.hue
+        ?: seedAccent.hue + ACCENT3_HUE_SHIFT_DEGREES
+    )
 
     init {
         Timber.i("Seed color: ${seedColor.convert<Srgb>().toHex()} => $seedNeutral")
@@ -32,11 +38,7 @@ class DynamicColorScheme(
     // Secondary accent color. Darker shades of accent1.
     override val accent2 = transformSwatch(targets.accent2, seedAccent, targets.accent1)
     // Tertiary accent color. Seed color shifted to the next secondary color via hue offset.
-    override val accent3 = transformSwatch(
-        swatch = targets.accent3,
-        seed = seedAccent.copy(hue = seedAccent.hue + ACCENT3_HUE_SHIFT_DEGREES),
-        referenceSwatch = targets.accent1
-    )
+    override val accent3 = transformSwatch(targets.accent3, seedAccent3, targets.accent1)
 
     // Main background color. Tinted with the seed color.
     override val neutral1 = transformSwatch(targets.neutral1, seedNeutral, targets.neutral1)
