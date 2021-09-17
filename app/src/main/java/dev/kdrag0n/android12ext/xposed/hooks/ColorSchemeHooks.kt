@@ -41,6 +41,7 @@ class ColorSchemeHooks(
                 }
 
                 return swatch.entries
+                    .filter { it.key in GOOGLE_SHADES }
                     .sortedBy { it.key }
                     .map { it.value.convert<Srgb>().toRgb8() or (0xff shl 24) }
                     .toIntArray()
@@ -53,5 +54,9 @@ class ColorSchemeHooks(
             Float::class.java,
             Float::class.java,
         )
+    }
+
+    companion object {
+        private val GOOGLE_SHADES = setOf(10, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000)
     }
 }
