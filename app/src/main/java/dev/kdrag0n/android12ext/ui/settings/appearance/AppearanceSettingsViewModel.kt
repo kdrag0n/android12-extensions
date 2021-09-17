@@ -62,7 +62,7 @@ class AppearanceSettingsViewModel @Inject constructor(
 
             min = 0
             default = 50
-            max = 100
+            max = 150
             step = 10
             formatter = { value ->
                 String.format("%.01fx", value.toFloat() / 50)
