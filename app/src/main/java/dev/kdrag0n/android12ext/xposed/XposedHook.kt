@@ -32,6 +32,9 @@ private val FEATURE_FLAGS = mapOf(
 
     // Beta 4
     "isCombinedStatusBarSignalIconsEnabled" to "combined_signal",
+
+    // Beta 5
+    "isProviderModelSettingEnabled" to "internet_ui",
 )
 
 class XposedHook(
