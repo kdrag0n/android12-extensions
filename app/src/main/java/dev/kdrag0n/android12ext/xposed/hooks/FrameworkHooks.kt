@@ -19,6 +19,7 @@ import dev.kdrag0n.android12ext.xposed.deoptimizeMethod
 import dev.kdrag0n.android12ext.xposed.ripple.RIPPLE_SHADER_FLUENT
 import dev.kdrag0n.android12ext.xposed.ripple.RIPPLE_SHADER_NO_SPARKLES
 import dev.kdrag0n.android12ext.xposed.hookMethod
+import timber.log.Timber
 import java.util.function.Consumer
 
 @SuppressLint("PrivateApi")
@@ -40,8 +41,15 @@ class FrameworkHooks(
         // De-optimize the RippleShader constructor first. Otherwise, both superclass constructors
         // get inlined and the hook doesn't work.
         // More info: https://github.com/LSPosed/LSPosed/issues/1123
-        deoptimizeMethod(Class.forName("android.graphics.drawable.RippleShader")
-            .getDeclaredConstructor())
+        try {
+            deoptimizeMethod(
+                Class.forName("android.graphics.drawable.RippleShader")
+                    .getDeclaredConstructor()
+            )
+        } catch (e: NoSuchMethodException) {
+            // Older versions of LSPosed don't have this
+            Timber.e(e, "Failed to de-optimize RippleShader constructor")
+        }
 
         // Now hook the super constructor that accepts the shader as an argument
         val cons = Class.forName("android.graphics.RuntimeShader")
