@@ -1,6 +1,7 @@
 package dev.kdrag0n.android12ext.xposed.hooks
 
 import android.animation.Animator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.RippleDrawable
@@ -11,13 +12,16 @@ import android.view.animation.LinearInterpolator
 import androidx.core.animation.addListener
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
+import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import dev.kdrag0n.android12ext.xposed.deoptimizeMethod
 import dev.kdrag0n.android12ext.xposed.ripple.RIPPLE_SHADER_FLUENT
 import dev.kdrag0n.android12ext.xposed.ripple.RIPPLE_SHADER_NO_SPARKLES
 import dev.kdrag0n.android12ext.xposed.hookMethod
 import java.util.function.Consumer
 
+@SuppressLint("PrivateApi")
 class FrameworkHooks(
     private val lpparam: XC_LoadPackage.LoadPackageParam,
 ) {
@@ -32,13 +36,17 @@ class FrameworkHooks(
                 param.args[0] = shader
             }
         }
-        XposedHelpers.findAndHookConstructor(
-            "android.graphics.RuntimeShader",
-            lpparam.classLoader,
-            String::class.java,
-            Boolean::class.java,
-            hook,
-        )
+
+        // De-optimize the RippleShader constructor first. Otherwise, both superclass constructors
+        // get inlined and the hook doesn't work.
+        // More info: https://github.com/LSPosed/LSPosed/issues/1123
+        deoptimizeMethod(Class.forName("android.graphics.drawable.RippleShader")
+            .getDeclaredConstructor())
+
+        // Now hook the super constructor that accepts the shader as an argument
+        val cons = Class.forName("android.graphics.RuntimeShader")
+            .getDeclaredConstructor(String::class.java, Boolean::class.java)
+        XposedBridge.hookMethod(cons, hook)
     }
 
     fun applyNoSparklesRipple() {

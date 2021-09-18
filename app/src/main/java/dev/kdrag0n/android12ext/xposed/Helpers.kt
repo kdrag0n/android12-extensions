@@ -6,6 +6,7 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import java.lang.reflect.Member
 
 fun XC_LoadPackage.LoadPackageParam.hookMethod(
     className: String,
@@ -40,4 +41,11 @@ fun Context.setOverlayEnabled(lpparam: XC_LoadPackage.LoadPackageParam, overlay:
 
     val oms = getSystemService("overlay")
     XposedHelpers.callMethod(oms, "commit", tx)
+}
+
+// Use reflection to call XposedBridge#deoptimizeMethod(Member) because it's not part of the
+// original Xposed API
+fun deoptimizeMethod(member: Member) {
+    XposedBridge::class.java.getDeclaredMethod("deoptimizeMethod", Member::class.java)
+        .invoke(null, member)
 }
