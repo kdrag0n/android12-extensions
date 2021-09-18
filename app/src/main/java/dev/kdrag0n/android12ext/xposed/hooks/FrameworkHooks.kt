@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.ColorSpace
 import android.graphics.drawable.RippleDrawable
 import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
@@ -46,6 +47,20 @@ class FrameworkHooks(
                 Class.forName("android.graphics.drawable.RippleShader")
                     .getDeclaredConstructor()
             )
+
+            // In some cases, we also need to de-optimize createAnimationProperties or the entire
+            // constructor gets inlined.
+            val createAnimationProperties = Class.forName("android.graphics.drawable.RippleDrawable")
+                .getDeclaredMethod(
+                    "createAnimationProperties",
+                    Float::class.java,
+                    Float::class.java,
+                    Float::class.java,
+                    Float::class.java,
+                    Float::class.java,
+                    Float::class.java,
+                )
+            deoptimizeMethod(createAnimationProperties)
         } catch (e: NoSuchMethodException) {
             // Older versions of LSPosed don't have this
             Timber.e(e, "Failed to de-optimize RippleShader constructor")
