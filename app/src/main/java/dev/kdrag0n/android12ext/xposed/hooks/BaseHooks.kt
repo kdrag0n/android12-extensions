@@ -3,7 +3,9 @@ package dev.kdrag0n.android12ext.xposed.hooks
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
+import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import dev.kdrag0n.android12ext.utils.getClass
 import dev.kdrag0n.android12ext.utils.hookMethods
 import java.lang.reflect.Member
 
@@ -109,11 +111,11 @@ abstract class BaseHooks(
         className: String,
         vararg args: Class<*>,
         crossinline block: XC_MethodHook.MethodHookParam.() -> Unit,
-    ) = hookBefore(Class.forName(className).getDeclaredConstructor(*args), block)
+    ) = hookBefore(lpparam.getClass(className).getDeclaredConstructor(*args), block)
 
     protected inline fun hookAfterCons(
         className: String,
         vararg args: Class<*>,
         crossinline block: XC_MethodHook.MethodHookParam.() -> Unit,
-    ) = hookAfter(Class.forName(className).getDeclaredConstructor(*args), block)
+    ) = hookAfter(lpparam.getClass(className).getDeclaredConstructor(*args), block)
 }

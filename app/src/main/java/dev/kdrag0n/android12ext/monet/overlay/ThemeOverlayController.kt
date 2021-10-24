@@ -3,7 +3,7 @@ package dev.kdrag0n.android12ext.monet.overlay
 import android.app.WallpaperColors
 import android.content.Context
 import androidx.annotation.ColorInt
-import dev.kdrag0n.android12ext.xposed.hooks.ColorSchemeFactory
+import dev.kdrag0n.android12ext.monet.theme.ColorSchemeFactory
 import dev.kdrag0n.colorkt.Color
 import dev.kdrag0n.colorkt.conversion.ConversionGraph.convert
 import dev.kdrag0n.colorkt.rgb.Srgb

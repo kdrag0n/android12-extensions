@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.kdrag0n.android12ext.monet.extraction.mainColors
+import dev.kdrag0n.android12ext.monet.overlay.getColorInts
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -28,20 +28,11 @@ import javax.inject.Inject
 import kotlin.math.sqrt
 
 @HiltViewModel
+@Suppress("StaticFieldLeak") // Application scope
 class QuantizerViewModel @Inject constructor(
-    @ApplicationContext context: Context
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val wallpaperManager = context.getSystemService<WallpaperManager>()!!
-    private val colorSchemeClass = context.createPackageContext(
-        "com.android.systemui",
-        Context.CONTEXT_INCLUDE_CODE or Context.CONTEXT_IGNORE_SECURITY,
-    ).classLoader.let { loader ->
-        try {
-            loader.loadClass("com.google.material.monet.ColorScheme")
-        } catch (e: ClassNotFoundException) {
-            null
-        }
-    }
 
     val wallpaperBitmap = MutableLiveData<Bitmap>()
     val wallpaperColors = MutableLiveData<List<Int>?>(null)
@@ -94,18 +85,7 @@ class QuantizerViewModel @Inject constructor(
             val after = System.currentTimeMillis()
             Timber.i("Quantized wallpaper in ${after - before} ms. rect=$rect - width=${bitmap.width} height=${bitmap.height}")
 
-            val colorInts = if (colorSchemeClass != null) {
-                val companion = colorSchemeClass.getDeclaredField("Companion").get(null)
-                val seedColors = companion::class.java
-                    .getDeclaredMethod("getSeedColors", WallpaperColors::class.java)
-                    .invoke(companion, colors) as List<Int>
-
-                seedColors.map { it }
-            } else {
-                // Not exactly the same, but it's close enough for AOSP
-                colors.mainColors.map { it.toArgb() }
-            }
-
+            val colorInts = colors.getColorInts(context)
             wallpaperColors.postValue(colorInts)
         }
     }

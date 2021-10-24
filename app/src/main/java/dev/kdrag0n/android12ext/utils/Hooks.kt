@@ -12,7 +12,7 @@ fun XC_LoadPackage.LoadPackageParam.hookMethod(
     methodName: String,
     vararg argTypes: Class<*>
 ) {
-    XposedHelpers.findClass(className, classLoader)
+    getClass(className)
         .getDeclaredMethod(methodName, *argTypes)
         .let { method ->
             XposedBridge.hookMethod(method, hook)
@@ -24,7 +24,7 @@ fun XC_LoadPackage.LoadPackageParam.hookMethods(
     hook: XC_MethodHook,
     methodName: String,
 ) {
-    XposedHelpers.findClass(className, classLoader)
+    getClass(className)
         .declaredMethods
         .filter { it.name == methodName }
         .forEach { method ->
@@ -39,6 +39,9 @@ fun XC_LoadPackage.LoadPackageParam.hookMethods(
 ) {
     hookMethods(clazz.java.name, hook, methodName)
 }
+
+fun XC_LoadPackage.LoadPackageParam.getClass(className: String) =
+    XposedHelpers.findClass(className, classLoader)
 
 private class DebugStackException(message: String) : RuntimeException(message)
 fun dumpStack(message: String) = DebugStackException(message).printStackTrace()

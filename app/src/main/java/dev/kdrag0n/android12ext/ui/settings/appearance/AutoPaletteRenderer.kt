@@ -9,7 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import dev.kdrag0n.android12ext.data.SettingsRepository
 import dev.kdrag0n.android12ext.ui.monet.palette.PaletteActivity
-import dev.kdrag0n.android12ext.xposed.hooks.ColorSchemeFactory
+import dev.kdrag0n.android12ext.monet.theme.ColorSchemeFactory
 import dev.kdrag0n.colorkt.rgb.Srgb
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

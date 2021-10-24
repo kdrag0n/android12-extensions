@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
-import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import dev.kdrag0n.android12ext.utils.call
+import dev.kdrag0n.android12ext.utils.callStatic
+import dev.kdrag0n.android12ext.utils.getClass
 import java.lang.reflect.Member
 
 fun XC_LoadPackage.LoadPackageParam.hookMethod(
@@ -14,7 +16,7 @@ fun XC_LoadPackage.LoadPackageParam.hookMethod(
     methodName: String,
     vararg argTypes: Class<*>
 ) {
-    XposedHelpers.findClass(className, classLoader)
+    getClass(className)
         .getDeclaredMethod(methodName, *argTypes)
         .let { method ->
             XposedBridge.hookMethod(method, hook)
@@ -24,23 +26,15 @@ fun XC_LoadPackage.LoadPackageParam.hookMethod(
 // OverlayManagerService has no public constant
 @SuppressLint("WrongConstant")
 fun Context.setOverlayEnabled(lpparam: XC_LoadPackage.LoadPackageParam, overlay: String, enabled: Boolean) {
-    val classOverlayIdentifier = XposedHelpers.findClass("android.content.om.OverlayIdentifier", lpparam.classLoader)
-    val overlayId = XposedHelpers.callStaticMethod(classOverlayIdentifier, "fromString", overlay)
+    val classOverlayIdentifier = lpparam.getClass("android.content.om.OverlayIdentifier")
+    val overlayId = classOverlayIdentifier.callStatic("fromString", overlay)!!
 
-    val txBuilder = XposedHelpers.newInstance(
-        XposedHelpers.findClass("android.content.om.OverlayManagerTransaction\$Builder", lpparam.classLoader),
-    )
-    XposedHelpers.callMethod(
-        txBuilder,
-        "setEnabled",
-        overlayId,
-        enabled,
-        0,
-    )
-    val tx = XposedHelpers.callMethod(txBuilder, "build")
+    val txBuilder = lpparam.getClass("android.content.om.OverlayManagerTransaction\$Builder").newInstance()
+    txBuilder.call("setEnabled", overlayId, enabled, 0)
+    val tx = txBuilder.call("build")!!
 
     val oms = getSystemService("overlay")
-    XposedHelpers.callMethod(oms, "commit", tx)
+    oms.call("commit", tx)
 }
 
 // Use reflection to call XposedBridge#deoptimizeMethod(Member) because it's not part of the

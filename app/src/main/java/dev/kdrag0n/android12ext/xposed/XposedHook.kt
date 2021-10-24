@@ -7,34 +7,18 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.kdrag0n.android12ext.CustomApplication
 import dev.kdrag0n.android12ext.core.BroadcastManager
 import dev.kdrag0n.android12ext.data.hasSystemUiGoogle
+import dev.kdrag0n.android12ext.monet.theme.ColorSchemeFactory
 import dev.kdrag0n.android12ext.xposed.hooks.*
 import timber.log.Timber
 
 private val FEATURE_FLAGS = mapOf(
-    // DP2
-    "isKeyguardLayoutEnabled" to "lockscreen",
     "isMonetEnabled" to "monet",
-    //"isNewNotifPipelineEnabled" to "notification_shade", // crashes on DP2, does nothing on DP3
-    //"isNewNotifPipelineRenderingEnabled" to "notification_shade", // breaks notifications
     "isToastStyleEnabled" to "toast",
     "useNewLockscreenAnimations" to "lockscreen",
-
-    // DP3
-    "isAlarmTileAvailable" to "global", // optional QS tile, no reason to keep disabled
-    "isChargingRippleEnabled" to "charging_ripple", // only affects keyguard, so assign to lock screen
-    "isQuickAccessWalletEnabled" to "global", // optional QS tile, no reason to keep disabled
-    //"isTwoColumnNotificationShadeEnabled" to "notification_shade", // landscape tablets only
-
-    // Beta 1 has no new flags and isNewNotifPipelineRenderingEnabled is still unstable.
-
-    // Beta 2
-    "isPMLiteEnabled" to "global",
-
-    // Beta 4
-    "isCombinedStatusBarSignalIconsEnabled" to "combined_signal",
-
-    // Beta 5
+    "isKeyguardLayoutEnabled" to "lockscreen",
+    "isChargingRippleEnabled" to "charging_ripple",
     "isProviderModelSettingEnabled" to "internet_ui",
+    "isCombinedStatusBarSignalIconsEnabled" to "combined_signal",
 )
 
 class XposedHook(
@@ -47,7 +31,6 @@ class XposedHook(
     private val settingsHooks = SettingsHooks(lpparam)
     private val frameworkHooks = FrameworkHooks(lpparam)
     private val launcherHooks = LauncherHooks(lpparam)
-    private val playGamesHooks = PlayGamesHooks()
     private val colorSchemeHooks = ColorSchemeHooks(lpparam)
 
     init {
@@ -95,9 +78,6 @@ class XposedHook(
             disableMonetOverlays()
         }
 
-        // Unlock sensor privacy toggles
-        sysuiHooks.applySensorPrivacyToggles()
-
         // Rounded screenshots
         sysuiHooks.applyRoundedScreenshots(isFeatureEnabled("rounded_screenshots", false))
     }
@@ -114,19 +94,15 @@ class XposedHook(
     private fun applyLauncher() {
         launcherHooks.flagValues.apply {
             this["ENABLE_DEVICE_SEARCH"] = isFeatureEnabled("launcher_device_search")
-
             this["PROTOTYPE_APP_CLOSE"] = isFeatureEnabled("launcher_animations")
             this["ENABLE_SCRIM_FOR_APP_LAUNCH"] = isFeatureEnabled("launcher_animations")
-
             this["ENABLE_SMARTSPACE_ENHANCED"] = isFeatureEnabled("launcher_live_space")
-
             this["KEYGUARD_ANIMATION"] = isFeatureEnabled("launcher_keyguard_anim")
-
             this["ENABLE_LOCAL_COLOR_POPUPS"] = isFeatureEnabled("launcher_local_color_popups")
         }
-
         launcherHooks.applyFeatureFlags()
 
+        // Obfuscated
         applyColorScheme(shadesOfName = "a")
     }
 
@@ -145,10 +121,6 @@ class XposedHook(
         if (isFeatureEnabled("haptic_touch", false)) {
             frameworkHooks.applyHapticTouch()
         }
-    }
-
-    private fun applyPlayGames() {
-        playGamesHooks.applyPreviewSdk()
     }
 
     private fun applySettings() {
@@ -180,8 +152,6 @@ class XposedHook(
         when (lpparam.packageName) {
             // System UI
             "com.android.systemui" -> applySysUi()
-            // Play Games
-            "com.google.android.play.games" -> applyPlayGames()
             // Settings
             "com.android.settings" -> applySettings()
             // Launcher

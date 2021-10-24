@@ -1,5 +1,7 @@
 package dev.kdrag0n.android12ext.utils
 
+import java.lang.reflect.Field
+
 private fun getMethod(clazz: Class<*>, methodName: String, vararg args: Any) =
     clazz.getDeclaredMethod(methodName, *args.map {
         when (it) {
@@ -22,7 +24,7 @@ fun Any.call(methodName: String, vararg args: Any): Any? =
         it.invoke(this, *args)
     }
 
-fun Class<*>.call(methodName: String, vararg args: Any): Any? =
+fun Class<*>.callStatic(methodName: String, vararg args: Any): Any? =
     getMethod(this, methodName, *args).let {
         it.isAccessible = true
         it.invoke(null, *args)
@@ -31,12 +33,28 @@ fun Class<*>.call(methodName: String, vararg args: Any): Any? =
 @JvmName("callTyped")
 inline fun <reified T> Any.call(methodName: String, vararg args: Any?): T = call(methodName, args) as T
 
-inline fun <reified T> Any.get(fieldName: String): T = this::class.java.getDeclaredField(fieldName).get(this) as T
+fun Class<*>.getRawField(name: String): Field = try {
+    // Prefer local/private fields
+    getDeclaredField(name)
+} catch (e: NoSuchFieldException) {
+    // For superclass fields
+    getField(name)
+}
 
-fun Any.set(fieldName: String, value: Any?) = this::class.java.getDeclaredField(fieldName).set(this, value)
-fun Any.setInt(fieldName: String, value: Int) = this::class.java.getDeclaredField(fieldName).setInt(this, value)
-fun Any.setBool(fieldName: String, value: Boolean) = this::class.java.getDeclaredField(fieldName).setBoolean(this, value)
+fun Any.getField(name: String): Field = this::class.java.getRawField(name).also {
+    it.isAccessible = true
+}
 
-fun Class<*>.set(fieldName: String, value: Any?) = getDeclaredField(fieldName).set(null, value)
-fun Class<*>.setInt(fieldName: String, value: Int) = getDeclaredField(fieldName).setInt(null, value)
-fun Class<*>.setBool(fieldName: String, value: Boolean) = getDeclaredField(fieldName).setBoolean(null, value)
+private fun Class<*>.getPrivField(name: String) = getRawField(name).also {
+    it.isAccessible = true
+}
+
+inline fun <reified T> Any.get(fieldName: String): T = getField(fieldName).get(this) as T
+
+fun Any.set(fieldName: String, value: Any?) = getField(fieldName).set(this, value)
+fun Any.setInt(fieldName: String, value: Int) = getField(fieldName).setInt(this, value)
+fun Any.setBool(fieldName: String, value: Boolean) = getField(fieldName).setBoolean(this, value)
+
+fun Class<*>.set(fieldName: String, value: Any?) = getPrivField(fieldName).set(null, value)
+fun Class<*>.setInt(fieldName: String, value: Int) = getPrivField(fieldName).setInt(null, value)
+fun Class<*>.setBool(fieldName: String, value: Boolean) = getPrivField(fieldName).setBoolean(null, value)

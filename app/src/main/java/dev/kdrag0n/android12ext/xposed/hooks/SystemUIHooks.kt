@@ -2,45 +2,27 @@ package dev.kdrag0n.android12ext.xposed.hooks
 
 import android.annotation.SuppressLint
 import android.app.WallpaperColors
-import android.app.WallpaperManager
 import android.content.Context
-import androidx.core.content.getSystemService
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import dev.kdrag0n.android12ext.xposed.hookMethod
 import dev.kdrag0n.android12ext.monet.overlay.ThemeOverlayController
-import timber.log.Timber
+import dev.kdrag0n.android12ext.monet.theme.ColorSchemeFactory
+import dev.kdrag0n.android12ext.utils.getClass
+import dev.kdrag0n.android12ext.utils.setBool
 
+@SuppressLint("PrivateApi")
 class SystemUIHooks(
     private val context: Context,
-    private val lpparam: XC_LoadPackage.LoadPackageParam,
-) {
+    lpparam: XC_LoadPackage.LoadPackageParam,
+) : BaseHooks(lpparam) {
     fun applyFeatureFlag(flag: String, enabled: Boolean) {
-        val hook = object : XC_MethodReplacement() {
-            override fun replaceHookedMethod(param: MethodHookParam) = enabled
-        }
-
-        try {
-            lpparam.hookMethod(FEATURE_FLAGS_CLASS, hook, flag)
-        } catch (e: NoSuchMethodException) {
-            Timber.w("Feature flag does not exist: $flag")
-        }
+        hookReturn(FEATURE_FLAGS_CLASS, flag, enabled)
     }
 
     fun applyRoundedScreenshots(enabled: Boolean) {
-        val clazz = XposedHelpers.findClass("com.android.systemui.ScreenDecorations", lpparam.classLoader)
-
-        clazz.getDeclaredField("DEBUG_SCREENSHOT_ROUNDED_CORNERS").let {
-            it.isAccessible = true
-            it.setBoolean(null, enabled)
-        }
-
-        clazz.getDeclaredField("DEBUG_COLOR").let {
-            it.isAccessible = true
-            it.setBoolean(null, false)
-        }
+        val clazz = lpparam.getClass("com.android.systemui.ScreenDecorations")
+        clazz.setBool("DEBUG_SCREENSHOT_ROUNDED_CORNERS", enabled)
+        clazz.setBool("DEBUG_COLOR", false)
     }
 
     fun applyMonetColor(
@@ -48,12 +30,9 @@ class SystemUIHooks(
         colorOverride: Int,
     ) {
         val clazz = if (isGoogle) THEME_CLASS_GOOGLE else THEME_CLASS_AOSP
-
-        lpparam.hookMethod(clazz, object : XC_MethodHook() {
-            override fun beforeHookedMethod(param: MethodHookParam) {
-                param.args[0] = colorOverride
-            }
-        }, "getOverlay", Int::class.java, Int::class.java)
+        hookBefore(clazz, "getOverlay") {
+            args[0] = colorOverride
+        }
     }
 
     fun applyThemeOverlayController(
@@ -63,61 +42,20 @@ class SystemUIHooks(
     ) {
         val controller = ThemeOverlayController(context, colorSchemeFactory)
         val clazz = if (isGoogle) THEME_CLASS_GOOGLE else THEME_CLASS_AOSP
-        val wallpaperManager = context.getSystemService<WallpaperManager>()!!
 
-        lpparam.hookMethod(clazz, object : XC_MethodReplacement() {
-            override fun replaceHookedMethod(param: MethodHookParam): Any {
-                return controller.getOverlay(param.args[0] as Int, param.args[1] as Int)
-            }
-        }, "getOverlay", Int::class.java, Int::class.java)
-
-        lpparam.hookMethod(clazz, object : XC_MethodReplacement() {
-            override fun replaceHookedMethod(param: MethodHookParam): Any {
-                return colorOverride
-                    ?: controller.getNeutralColor(param.args[0] as WallpaperColors)
-            }
-        }, "getNeutralColor", WallpaperColors::class.java)
-
-        lpparam.hookMethod(clazz, object : XC_MethodReplacement() {
-            override fun replaceHookedMethod(param: MethodHookParam): Any {
-                return colorOverride
-                    ?: controller.getAccentColor(param.args[0] as WallpaperColors)
-            }
-        }, "getAccentColor", WallpaperColors::class.java)
-
-        // Quantization tweaks
-        lpparam.hookMethod(THEME_CLASS_AOSP, object : XC_MethodHook() {
-            // System UI has permission to draw the wallpaper
-            @SuppressLint("MissingPermission")
-            override fun beforeHookedMethod(param: MethodHookParam) {
-                if (wallpaperManager.wallpaperInfo != null) {
-                    // Live wallpapers can't be quantized here
-                    return
-                }
-
-                // Static wallpaper: use custom quantizer
-                Timber.i("Extracting colors using custom quantizer")
-                val colors = WallpaperColors.fromDrawable(wallpaperManager.drawable)
-                XposedHelpers.setObjectField(param.thisObject, "mCurrentColors", colors)
-            }
-        }, "reevaluateSystemTheme", Boolean::class.java)
-    }
-
-    fun applySensorPrivacyToggles() {
-        val hook = object : XC_MethodReplacement() {
-            override fun replaceHookedMethod(param: MethodHookParam) = true
+        hookReplace(clazz, "getOverlay") {
+            controller.getOverlay(args[0] as Int, args[1] as Int)
         }
 
-        lpparam.hookMethod(
-            "com.android.systemui.qs.tiles.MicrophoneToggleTile",
-            hook,
-            "isAvailable",
-        )
-        lpparam.hookMethod(
-            "com.android.systemui.qs.tiles.CameraToggleTile",
-            hook,
-            "isAvailable",
-        )
+        hookReplace<WallpaperColors>("getNeutralColor") {
+            colorOverride
+                ?: controller.getNeutralColor(args[0] as WallpaperColors)
+        }
+
+        hookReplace<WallpaperColors>("getAccentColor") {
+            colorOverride
+                ?: controller.getAccentColor(args[0] as WallpaperColors)
+        }
     }
 
     companion object {

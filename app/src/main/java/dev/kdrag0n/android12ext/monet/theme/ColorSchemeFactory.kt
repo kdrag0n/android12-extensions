@@ -1,4 +1,4 @@
-package dev.kdrag0n.android12ext.xposed.hooks
+package dev.kdrag0n.android12ext.monet.theme
 
 import android.content.SharedPreferences
 import dev.kdrag0n.android12ext.data.SettingsRepository

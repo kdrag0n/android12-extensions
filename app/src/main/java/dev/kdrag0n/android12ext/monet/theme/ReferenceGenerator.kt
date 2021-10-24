@@ -3,7 +3,6 @@ package dev.kdrag0n.android12ext.monet.theme
 import android.content.Context
 import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.kdrag0n.android12ext.xposed.hooks.ColorSchemeFactory
 import dev.kdrag0n.colorkt.cam.Zcam.Companion.toZcam
 import dev.kdrag0n.colorkt.rgb.LinearSrgb.Companion.toLinear
 import dev.kdrag0n.colorkt.rgb.Srgb

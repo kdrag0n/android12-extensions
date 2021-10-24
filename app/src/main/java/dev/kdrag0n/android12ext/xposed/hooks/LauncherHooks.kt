@@ -1,31 +1,20 @@
 package dev.kdrag0n.android12ext.xposed.hooks
 
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import dev.kdrag0n.android12ext.utils.setBool
 import timber.log.Timber
 
 class LauncherHooks(
-    private val lpparam: XC_LoadPackage.LoadPackageParam,
-) {
+    lpparam: XC_LoadPackage.LoadPackageParam,
+) : BaseHooks(lpparam) {
     val flagValues = mutableMapOf<String, Boolean>()
 
     fun applyFeatureFlags() {
-        val hook = object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                val key = param.args[0] as String
-                Timber.i("Hooking launcher flag: $key")
-                XposedHelpers.setBooleanField(param.thisObject, VALUE_FIELD, flagValues[key] ?: return)
-            }
+        hookAfterCons(BOOLEAN_FLAG_CLASS, String::class.java, Boolean::class.java) {
+            val key = args[0] as String
+            Timber.i("Hooking launcher flag: $key")
+            thisObject.setBool(VALUE_FIELD, flagValues[key] ?: return@hookAfterCons)
         }
-
-        XposedHelpers.findAndHookConstructor(
-            BOOLEAN_FLAG_CLASS,
-            lpparam.classLoader,
-            String::class.java,
-            Boolean::class.java,
-            hook,
-        )
     }
 
     companion object {
