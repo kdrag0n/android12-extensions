@@ -80,9 +80,15 @@ float easeInOutCirc(float x) {
         : (sqrt(1.0 - pow(-2.0 * x + 2.0, 2.0)) + 1.0) / 2.0;
 }
 
+// Input progress that results in 0.5 after the ease-out sine curve
+const float MID_PROGRESS = 1.0 / 3.0;
+
 vec4 main(vec2 pos) {
+    // Piecewise progress to map 0.5 in to 0.5 out after easeOutSine
+    float progress = (in_progress <= 0.5) ? in_progress / 0.5 * MID_PROGRESS
+                     : MID_PROGRESS + (1.0 - MID_PROGRESS) * (in_progress - 0.5) / 0.5;
     // Curve the linear animation progress for responsiveness
-    float progress = easeOutSine(in_progress);
+    progress = easeOutSine(progress);
 
     // Show highlight immediately instead of fading in for instant feedback
     // Fade the entire ripple out, including base highlight
