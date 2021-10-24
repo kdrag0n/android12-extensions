@@ -72,7 +72,6 @@ class AppearanceSettingsViewModel @Inject constructor(
             key = "custom_monet_zcam_advanced",
             title = R.string.appearance_custom_monet_zcam_advanced,
             action = R.id.action_settings_appearance_to_advanced,
-            dependency = "custom_monet_zcam_enabled",
             vm = this@AppearanceSettingsViewModel
         )
 
