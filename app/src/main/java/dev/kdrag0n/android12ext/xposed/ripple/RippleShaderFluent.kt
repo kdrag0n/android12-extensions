@@ -40,8 +40,11 @@ float gaussian_pdf(float stddev, float x) {
 float softWave(vec2 uv, vec2 center, float maxRadius, float radius, float blur) {
     // Distance from the center of the circle (touch point), normalized to [0, 1]  radius)
     float dNorm = distance(uv, center) / maxRadius;
-    // Apply Gaussian blur with dynamic standard deviation, and scale to reduce lightness
-    return gaussian_pdf(0.05 + 0.15 * blur, radius - dNorm) * 0.4;
+    // Position on the Gaussian PDF, clamped to 0 to fill the area of the circle
+    float x = min(0.0, radius - dNorm);
+
+    // Apply Gaussian blur with dynamic stddev and scale to reduce lightness
+    return gaussian_pdf(0.05 + 0.15 * blur, x) * 0.4;
 }
 
 float subProgress(float start, float end, float progress) {
@@ -85,10 +88,6 @@ vec4 main(vec2 pos) {
     // Fade the entire ripple out, including base highlight
     float fadeOut = subProgress(0.5, 1.0, progress);
     float fade = 1.0 - fadeOut;
-
-    // Turbulence phase = time. Unlike progress, it continues moving when the
-    // ripple is held between enter and exit animations, so we can use it to
-    // make a hold animation.
 
     // Hold time increases the radius slightly to progress the animation.
     float timeOffsetMs = 0.0;
