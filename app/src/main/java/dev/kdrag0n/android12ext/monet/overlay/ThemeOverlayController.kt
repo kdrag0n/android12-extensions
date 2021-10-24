@@ -1,7 +1,5 @@
 package dev.kdrag0n.android12ext.monet.overlay
 
-import android.app.WallpaperColors
-import android.content.Context
 import androidx.annotation.ColorInt
 import dev.kdrag0n.android12ext.monet.theme.ColorSchemeFactory
 import dev.kdrag0n.colorkt.Color
@@ -10,12 +8,8 @@ import dev.kdrag0n.colorkt.rgb.Srgb
 import timber.log.Timber
 
 class ThemeOverlayController(
-    private val context: Context,
     private val colorSchemeFactory: ColorSchemeFactory,
 ) {
-    fun getNeutralColor(colors: WallpaperColors) = colors.getSeedColor(context)
-    fun getAccentColor(colors: WallpaperColors) = getNeutralColor(colors)
-
     // com.android.systemui.theme.ThemeOverlayController#getOverlay(int, int)
     fun getOverlay(primaryColor: Int, type: Int): Any {
         // Generate color scheme

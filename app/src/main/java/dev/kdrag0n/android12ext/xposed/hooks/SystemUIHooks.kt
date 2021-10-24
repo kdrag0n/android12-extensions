@@ -40,21 +40,11 @@ class SystemUIHooks(
         colorSchemeFactory: ColorSchemeFactory,
         colorOverride: Int?,
     ) {
-        val controller = ThemeOverlayController(context, colorSchemeFactory)
+        val controller = ThemeOverlayController(colorSchemeFactory)
         val clazz = if (isGoogle) THEME_CLASS_GOOGLE else THEME_CLASS_AOSP
 
         hookReplace(clazz, "getOverlay") {
-            controller.getOverlay(args[0] as Int, args[1] as Int)
-        }
-
-        hookReplace<WallpaperColors>("getNeutralColor") {
-            colorOverride
-                ?: controller.getNeutralColor(args[0] as WallpaperColors)
-        }
-
-        hookReplace<WallpaperColors>("getAccentColor") {
-            colorOverride
-                ?: controller.getAccentColor(args[0] as WallpaperColors)
+            controller.getOverlay(colorOverride ?: args[0] as Int, args[1] as Int)
         }
     }
 

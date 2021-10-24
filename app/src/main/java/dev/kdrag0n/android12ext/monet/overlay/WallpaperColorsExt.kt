@@ -23,6 +23,3 @@ fun WallpaperColors.getColorInts(context: Context): List<Int> {
         mainColors.map { it.toArgb() }
     }
 }
-
-fun WallpaperColors.getSeedColor(context: Context) = getColorInts(context).firstOrNull()
-    ?: Color.BLUE
