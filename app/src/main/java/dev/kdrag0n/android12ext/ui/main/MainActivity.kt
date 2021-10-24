@@ -18,7 +18,6 @@ import dev.kdrag0n.android12ext.databinding.ActivityMainBinding
 import dev.kdrag0n.android12ext.ui.settings.appearance.ColorDialogViewModel
 import dev.kdrag0n.android12ext.ui.utils.NoSwipeBehavior
 
-private const val XPOSED_MANAGER_PACKAGE = "org.lsposed.manager"
 private const val MAGISK_MANAGER_PACKAGE = "com.topjohnwu.magisk"
 
 @AndroidEntryPoint
@@ -49,29 +48,11 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener {
             xposedDialog = null
 
             if (!isHooked) {
-                val managerIntent = packageManager.getLaunchIntentForPackage(XPOSED_MANAGER_PACKAGE)
-
-                if (managerIntent == null) {
-                    xposedDialog = MaterialAlertDialogBuilder(this).run {
-                        setTitle(R.string.error_xposed_manager_not_installed)
-                        setMessage(R.string.error_xposed_manager_not_installed_desc)
-                        setCancelable(BuildConfig.DEBUG)
-                        show()
-                    }
-                } else {
-                    xposedDialog = MaterialAlertDialogBuilder(this).run {
-                        setTitle(R.string.error_xposed_module_missing)
-                        setMessage(R.string.error_xposed_module_missing_desc)
-                        setCancelable(BuildConfig.DEBUG)
-                        // Empty callback because we override it later
-                        setPositiveButton(R.string.enable) { _, _ -> }
-                        show()
-                    }.apply {
-                        // Override button callback to stop it from dismissing the dialog
-                        getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                            startActivity(managerIntent)
-                        }
-                    }
+                xposedDialog = MaterialAlertDialogBuilder(this).run {
+                    setTitle(R.string.error_xposed_module_missing)
+                    setMessage(R.string.error_xposed_module_missing_desc)
+                    setCancelable(BuildConfig.DEBUG)
+                    show()
                 }
             }
         }
