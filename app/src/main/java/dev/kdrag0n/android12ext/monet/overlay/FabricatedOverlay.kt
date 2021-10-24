@@ -1,6 +1,6 @@
 package dev.kdrag0n.android12ext.monet.overlay
 
-import de.robv.android.xposed.XposedHelpers
+import dev.kdrag0n.android12ext.utils.call
 
 class FabricatedOverlay {
     // Replicate framework structure
@@ -9,26 +9,19 @@ class FabricatedOverlay {
         name: String,
         targetPackage: String,
     ) {
-        private val clazz = XposedHelpers.findClass("android.content.om.FabricatedOverlay\$Builder", null)
-        private val obj = XposedHelpers.findConstructorExact(
-            clazz,
+        private val clazz = Class.forName("android.content.om.FabricatedOverlay\$Builder")
+        private val obj = clazz.getDeclaredConstructor(
             String::class.java,
             String::class.java,
             String::class.java,
         ).newInstance(owningPackage, name, targetPackage)
 
         fun setResourceValue(resourceName: String, dataType: Int, value: Int) = apply {
-            XposedHelpers.callMethod(
-                obj,
-                "setResourceValue",
-                resourceName,
-                dataType,
-                value,
-            )
+            obj.call("setResourceValue", resourceName, dataType, value)
         }
 
         fun build(): Any {
-            return XposedHelpers.callMethod(obj, "build")
+            return obj.call("build")!!
         }
     }
 
