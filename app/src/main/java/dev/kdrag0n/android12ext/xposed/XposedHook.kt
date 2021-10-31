@@ -50,9 +50,6 @@ class XposedHook(
             sysuiHooks.applyFeatureFlag(flag, isFeatureEnabled(prefKey))
         }
 
-        // Fix weather on Beta 2
-        sysuiHooks.applyFeatureFlag("isSmartspaceEnabled", false)
-
         // Get color override, applied below
         val colorOverride = if (isFeatureEnabled("monet_custom_color", false)) {
             prefs.getInt("monet_custom_color_value", Color.BLUE)
