@@ -30,8 +30,7 @@ fun Class<*>.callStatic(methodName: String, vararg args: Any): Any? =
         it.invoke(null, *args)
     }
 
-@JvmName("callTyped")
-inline fun <reified T> Any.call(methodName: String, vararg args: Any?): T = call(methodName, args) as T
+inline fun <reified T> Any.callTyped(methodName: String, vararg args: Any): T = call(methodName, *args) as T
 
 fun Class<*>.getRawField(name: String): Field = try {
     // Prefer local/private fields

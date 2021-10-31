@@ -2,9 +2,8 @@ package dev.kdrag0n.android12ext.monet.overlay
 
 import android.app.WallpaperColors
 import android.content.Context
-import android.graphics.Color
 import dev.kdrag0n.android12ext.monet.extraction.mainColors
-import dev.kdrag0n.android12ext.utils.call
+import dev.kdrag0n.android12ext.utils.callTyped
 
 fun WallpaperColors.getColorInts(context: Context): List<Int> {
     val sysuiContext = context.createPackageContext(
@@ -15,7 +14,7 @@ fun WallpaperColors.getColorInts(context: Context): List<Int> {
     return try {
         val clazz = sysuiContext.classLoader.loadClass("com.google.material.monet.ColorScheme")
         val companion = clazz.getDeclaredField("Companion").get(null)
-        val seedColors = companion!!.call<List<Int>>("getSeedColors", this)
+        val seedColors = companion!!.callTyped<List<Int>>("getSeedColors", this)
 
         seedColors.map { it }
     } catch (e: ClassNotFoundException) {
