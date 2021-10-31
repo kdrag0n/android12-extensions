@@ -21,13 +21,14 @@ private val FEATURE_FLAGS = mapOf(
     "isCombinedStatusBarSignalIconsEnabled" to "combined_signal",
 )
 
+// We're stuck with manual dependency injection here unless we bootstrap Dagger in the Xposed entry point
 class XposedHook(
     private val context: Context,
     private val lpparam: XC_LoadPackage.LoadPackageParam,
     private val prefs: SharedPreferences,
     private val broadcastManager: BroadcastManager,
 ) {
-    private val sysuiHooks = SystemUIHooks(context, lpparam)
+    private val sysuiHooks = SystemUIHooks(lpparam)
     private val settingsHooks = SettingsHooks(lpparam)
     private val frameworkHooks = FrameworkHooks(lpparam)
     private val launcherHooks = LauncherHooks(lpparam)
@@ -43,7 +44,6 @@ class XposedHook(
 
     private fun applySysUi() {
         broadcastManager.listenForPings()
-        val hasSystemUiGoogle = context.hasSystemUiGoogle()
 
         // Enable feature flags
         FEATURE_FLAGS.forEach { (flag, prefKey) ->
@@ -60,18 +60,13 @@ class XposedHook(
             null
         }
 
-        // Custom Monet engine, forced on AOSP
-        if (isFeatureEnabled("custom_monet", false) ||
-            (isFeatureEnabled("monet") && !hasSystemUiGoogle)
-        ) {
-            sysuiHooks.applyThemeOverlayController(
-                isGoogle = hasSystemUiGoogle,
-                colorSchemeFactory = ColorSchemeFactory.getFactory(prefs),
-                colorOverride = colorOverride,
-            )
-        } else if (colorOverride != null) {
-            sysuiHooks.applyMonetColor(hasSystemUiGoogle, colorOverride)
-        }
+        // Custom Monet engine
+        sysuiHooks.applyThemeOverlayController(
+            colorSchemeFactory = if (isFeatureEnabled("custom_monet", false)) {
+                ColorSchemeFactory.getFactory(prefs)
+            } else null,
+            colorOverride = colorOverride,
+        )
 
         // Disable Monet, if necessary
         if (!isFeatureEnabled("monet")) {
