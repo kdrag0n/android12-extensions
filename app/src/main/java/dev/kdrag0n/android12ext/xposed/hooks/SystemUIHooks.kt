@@ -46,6 +46,22 @@ class SystemUIHooks(
         }
     }
 
+    fun applyNetworkQsTiles() {
+        val cons = lpparam.getClass("com.android.systemui.qs.customize.TileQueryHelper\$TileCollector")
+            .declaredConstructors[0]
+        hookBefore(cons) {
+            val tilesToAdd = args[0] as MutableList<Any>
+            val host = args[1]
+
+            listOf("wifi", "cell").forEach { spec ->
+                val tile = host.call("createTile", spec)
+                    ?: return@forEach
+                tile.call("setTileSpec", spec)
+                tilesToAdd += tile
+            }
+        }
+    }
+
     companion object {
         private const val FEATURE_FLAGS_CLASS = "com.android.systemui.statusbar.FeatureFlags"
         private const val THEME_CLASS_AOSP = "com.android.systemui.theme.ThemeOverlayController"

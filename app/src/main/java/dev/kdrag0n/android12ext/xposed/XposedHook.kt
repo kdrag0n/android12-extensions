@@ -50,6 +50,11 @@ class XposedHook(
             sysuiHooks.applyFeatureFlag(flag, isFeatureEnabled(prefKey))
         }
 
+        // Dedicated network QS tiles
+        if (!isFeatureEnabled("internet_ui")) {
+            sysuiHooks.applyNetworkQsTiles()
+        }
+
         // Get color override, applied below
         val colorOverride = if (isFeatureEnabled("monet_custom_color", false)) {
             prefs.getInt("monet_custom_color_value", Color.BLUE)
