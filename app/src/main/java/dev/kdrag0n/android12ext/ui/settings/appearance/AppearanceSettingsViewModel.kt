@@ -39,14 +39,12 @@ class AppearanceSettingsViewModel @Inject constructor(
     val renderPalettes = MutableLiveData<Unit?>(null)
 
     private val prefScreen = settingsRepo.prefScreen {
-        val hasSystemUiGoogle = context.hasSystemUiGoogle()
         featureSwitch(
             key = "custom_monet",
             title = R.string.appearance_custom_monet,
-            summary = if (hasSystemUiGoogle) R.string.appearance_custom_monet_desc else R.string.appearance_custom_monet_desc_forced,
+            summary = R.string.appearance_custom_monet_desc,
             icon = R.drawable.ic_fluent_paint_brush_24_regular,
-            default = !hasSystemUiGoogle,
-            enabled = hasSystemUiGoogle,
+            default = false,
         )
         featureSwitch(
             key = "custom_monet_accurate_shades",
@@ -133,7 +131,7 @@ class AppearanceSettingsViewModel @Inject constructor(
             vm = this@AppearanceSettingsViewModel,
         )
 
-        if (!hasSystemUiGoogle) {
+        if (!context.hasSystemUiGoogle()) {
             categoryHeader("category_aosp") {
                 titleRes = R.string.category_aosp
             }

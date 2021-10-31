@@ -83,7 +83,6 @@
     <!-- Appearance -->
     <string name="appearance_custom_monet">Custom theme engine</string>
     <string name="appearance_custom_monet_desc">Generate wallpaper-based themes with a custom engine</string>
-    <string name="appearance_custom_monet_desc_forced">Generate wallpaper-based themes with a custom engine. Required on AOSP because there is no other engine.</string>
     <string name="appearance_custom_monet_accurate_shades">Accurate shades</string>
     <string name="appearance_custom_monet_accurate_shades_desc">More accurate color shades at the cost of duller colors</string>
     <string name="appearance_custom_monet_chroma_multiplier">Colorfulness</string>
