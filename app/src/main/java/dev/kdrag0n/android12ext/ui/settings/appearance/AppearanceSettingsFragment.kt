@@ -65,5 +65,18 @@ class AppearanceSettingsFragment : BaseSettingsFragment() {
         colorDialogViewModel.selectedColor.observe(viewLifecycleOwner) { color ->
             viewModel.selectedColor.value = color
         }
+
+        viewModel.shareText.observe(viewLifecycleOwner) { text ->
+            if (text != null) {
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, text)
+                    type = "text/plain"
+                }
+
+                requireContext().startActivity(Intent.createChooser(intent, null))
+                viewModel.shareText.value = null
+            }
+        }
     }
 }

@@ -38,6 +38,8 @@ class AppearanceSettingsViewModel @Inject constructor(
     val openPalette = MutableLiveData<Unit?>(null)
     val renderPalettes = MutableLiveData<Unit?>(null)
 
+    val shareText = MutableLiveData<String?>(null)
+
     private val prefScreen = settingsRepo.prefScreen {
         featureSwitch(
             key = "custom_monet",
@@ -167,10 +169,17 @@ class AppearanceSettingsViewModel @Inject constructor(
                     false
                 }
             }
-            pref("gen_ref") {
+            pref("generate_reference") {
                 title = "Generate reference color table"
                 onClick {
                     refGen.generateTable()
+                    false
+                }
+            }
+            pref("generate_xml") {
+                title = "Generate XML colors"
+                onClick {
+                    shareText.value = refGen.generateDynamicXml()
                     false
                 }
             }
