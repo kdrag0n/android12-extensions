@@ -1,8 +1,7 @@
 #!/system/bin/sh
 
-# Stable Android 12 or Pixel 6 branch
-build_id="$(getprop ro.build.id)"
-if [[ "$build_id" != "SP1A."* ]] && [[ "$build_id" != "SD1A."* ]]; then
+# Stable Android 12
+if [[ "$(getprop ro.build.version.release)" != "12" ]]; then
     ui_print "This module is ONLY for Android 12."
 
     # Abort install and clean up
