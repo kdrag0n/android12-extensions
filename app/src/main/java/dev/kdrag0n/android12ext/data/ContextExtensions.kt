@@ -22,12 +22,13 @@ object DeviceContextModule {
         app.createDeviceProtectedStorageContext()
 }
 
-fun Context.hasSystemUiGoogle(): Boolean {
-    val apkPath = packageManager.getPackageInfo("com.android.systemui", PackageManager.GET_META_DATA)
+private fun isGoogleVariant(context: Context, pkg: String) =
+    "Google" in context.packageManager.getPackageInfo(pkg, PackageManager.GET_META_DATA)
         .applicationInfo.sourceDir
 
-    return "SystemUIGoogle" in apkPath
-}
+fun Context.hasSystemUiGoogle() = isGoogleVariant(this, "com.android.systemui")
+
+fun Context.hasSettingsGoogle() = isGoogleVariant(this, "com.android.settings")
 
 fun Context.hasPixelLauncher(): Boolean {
     return try {

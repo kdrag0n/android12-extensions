@@ -13,6 +13,7 @@ import dev.kdrag0n.android12ext.R
 import dev.kdrag0n.android12ext.core.*
 import dev.kdrag0n.android12ext.data.SettingsRepository
 import dev.kdrag0n.android12ext.data.hasPixelLauncher
+import dev.kdrag0n.android12ext.data.hasSettingsGoogle
 import dev.kdrag0n.android12ext.ui.settings.BaseSettingsViewModel
 import dev.kdrag0n.android12ext.ui.utils.featureSwitch
 import dev.kdrag0n.android12ext.ui.utils.navPref
@@ -47,15 +48,17 @@ class SettingsViewModel @Inject constructor(
             vm = this@SettingsViewModel,
             dependency = "global_enabled",
         )
-        navPref(
-            key = "settings_android_settings",
-            title = R.string.settings_android_settings,
-            summary = R.string.settings_android_settings_desc,
-            icon = R.drawable.ic_fluent_settings_24_regular,
-            action = R.id.action_settings_root_to_android_settings,
-            vm = this@SettingsViewModel,
-            dependency = "global_enabled",
-        )
+        if (context.hasSettingsGoogle()) {
+            navPref(
+                key = "settings_android_settings",
+                title = R.string.settings_android_settings,
+                summary = R.string.settings_android_settings_desc,
+                icon = R.drawable.ic_fluent_settings_24_regular,
+                action = R.id.action_settings_root_to_android_settings,
+                vm = this@SettingsViewModel,
+                dependency = "global_enabled",
+            )
+        }
         if (context.hasPixelLauncher()) {
             navPref(
                 key = "settings_launcher",
