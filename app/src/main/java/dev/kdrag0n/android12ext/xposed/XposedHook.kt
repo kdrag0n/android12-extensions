@@ -64,7 +64,7 @@ class XposedHook(
 
         // Custom Monet engine
         sysuiHooks.applyThemeOverlayController(
-            colorSchemeFactory = if (isFeatureEnabled("custom_monet", false)) {
+            colorSchemeFactory = if (isFeatureEnabled("custom_monet")) {
                 ColorSchemeFactory.getFactory(prefs)
             } else null,
             colorOverride = colorOverride,
@@ -127,7 +127,7 @@ class XposedHook(
     }
 
     private fun applyColorScheme(shadesOfName: String) {
-        if (isFeatureEnabled("custom_monet", false)) {
+        if (isFeatureEnabled("custom_monet")) {
             colorSchemeHooks.applyColorScheme(
                 colorSchemeFactory = ColorSchemeFactory.getFactory(prefs),
                 shadesOfName = shadesOfName,

@@ -46,7 +46,6 @@ class AppearanceSettingsViewModel @Inject constructor(
             title = R.string.appearance_custom_monet,
             summary = R.string.appearance_custom_monet_desc,
             icon = R.drawable.ic_fluent_paint_brush_24_regular,
-            default = false,
         )
         featureSwitch(
             key = "custom_monet_accurate_shades",
